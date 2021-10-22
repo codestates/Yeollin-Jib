@@ -1,7 +1,7 @@
 import React from "react";
 
-function PostPage() {
+function MainPage() {
   return <div></div>;
 }
 
-export default PostPage;
+export default MainPage;
