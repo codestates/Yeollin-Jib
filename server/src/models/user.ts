@@ -1,12 +1,22 @@
-import { BelongsToManyAddAssociationMixin, BelongsToManyGetAssociationsMixin, BelongsToManyRemoveAssociationMixin, DataTypes, Model } from "sequelize";
+import {
+  BelongsToManyAddAssociationMixin,
+  BelongsToManyGetAssociationsMixin,
+  BelongsToManyRemoveAssociationMixin,
+  DataTypes,
+  Model,
+} from "sequelize";
 import { sequelize } from "./sequelize";
 import { dbType } from "./index";
 
 class user extends Model {
-  public id!: number;
+  public dataValues!: { id: any; email: any; nickname: any };
+  public readonly id!: number;
   public nickname!: string;
-  public userId!: string;
+  public email!: string;
   public password!: string;
+  public userArea!: string;
+  public imagePath!: string;
+  public salt!: string;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }
@@ -16,8 +26,9 @@ user.init(
     nickname: {
       type: DataTypes.STRING(20), // 20글자 이하
       allowNull: false, // 필수
+      unique: true, // 고유한 값
     },
-    userId: {
+    email: {
       type: DataTypes.STRING(20),
       allowNull: false,
       unique: true, // 고유한 값
@@ -32,9 +43,10 @@ user.init(
     },
     imagePath: {
       type: DataTypes.STRING,
+      allowNull: true,
     },
     loginType: {
-      type: DataTypes.STRING(100),
+      type: DataTypes.STRING,
     },
   },
 
@@ -44,7 +56,10 @@ user.init(
     tableName: "user",
     charset: "utf8",
     collate: "utf8_general_ci", // 한글이 저장
-  },
+    freezeTableName: true,
+    timestamps: true,
+    updatedAt: "updateTimestamp",
+  }
 );
 
 export const associate = (db: dbType) => {};
