@@ -2,50 +2,35 @@ import { BelongsToManyAddAssociationMixin, BelongsToManyGetAssociationsMixin, Be
 import { sequelize } from "./sequelize";
 import { dbType } from "./index";
 
-class user extends Model {
+class inquire extends Model {
   public readonly id!: number;
-  public nickname!: string;
+  public title!: string;
+  public contents!: string;
   public email!: string;
-  public password!: string;
-  public userArea!: string;
-  public imagePath!: string;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }
 
-user.init(
+inquire.init(
   {
-    nickname: {
-      type: DataTypes.STRING(20), // 20글자 이하
-      allowNull: false, // 필수
-      unique: true, // 고유한 값
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    contents: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     email: {
-      type: DataTypes.STRING(20),
-      allowNull: false,
-      unique: true, // 고유한 값
-    },
-    password: {
-      type: DataTypes.STRING(100), // 100글자 이하
-      allowNull: false,
-    },
-    userArea: {
-      type: DataTypes.STRING(100),
-      allowNull: false,
-    },
-    imagePath: {
       type: DataTypes.STRING,
-      allowNull: true,
-    },
-    loginType: {
-      type: DataTypes.STRING,
+      allowNull: false,
     },
   },
 
   {
     sequelize,
-    modelName: "user",
-    tableName: "user",
+    modelName: "inquire",
+    tableName: "inquire",
     charset: "utf8",
     collate: "utf8_general_ci", // 한글이 저장
     freezeTableName: true,
@@ -56,4 +41,4 @@ user.init(
 
 export const associate = (db: dbType) => {};
 
-export default user;
+export default inquire;

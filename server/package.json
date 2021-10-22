@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "tsc && node index.js",
+    "start": "tsc && node ./dist/index.js",
     "dev": "npm run build:live",
     "build": "tsc -p .",
     "build:live": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts"
@@ -45,7 +45,6 @@
   "devDependencies": {
     "nodemon": "^2.0.6",
     "sequelize-cli": "^6.2.0",
-    "sequelize-typescript-migration": "^0.0.1-beta.3",
     "ts-node": "^9.1.1"
   }
 }

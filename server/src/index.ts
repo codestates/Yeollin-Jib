@@ -3,6 +3,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import "dotenv/config";
 import router from "./routers";
+import { sequelize } from "./models";
 
 const app: Application = express();
 
@@ -29,4 +30,13 @@ app.get("/", (req: Request, res: Response, next: NextFunction) => {
 
 app.listen(PORT, async () => {
   console.log(`Server Listening on ${PORT}`);
+  //sequelize-db 연결 테스트
+  await sequelize
+    .authenticate()
+    .then(async () => {
+      console.log("connection success");
+    })
+    .catch((e) => {
+      console.log("TT : ", e);
+    });
 });
