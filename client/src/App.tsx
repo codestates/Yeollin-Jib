@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import MobileBar from "./components/MobileBar/MobileBar";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import CreatePostPage from "./pages/MainPage/CreatePostPage/CreatePostPage";
@@ -13,6 +14,7 @@ function App() {
   return (
     <BrowserRouter>
       <Switch>
+        <Route path="/mobile" component={MobileBar} />
         <Route path="/" component={LandingPage} />
         <Route path="/login" component={LoginPage} />
         <Route path="/signup" component={SignUpPage} />
