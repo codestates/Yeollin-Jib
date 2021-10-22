@@ -9,14 +9,20 @@ import { sequelize } from "./sequelize";
 import { dbType } from "./index";
 
 class user extends Model {
+<<<<<<< HEAD
   public dataValues!: { id: any; email: any; nickname: any };
+=======
+>>>>>>> 502d6b24db0970a493de3ff1bf7a571d1b529e21
   public readonly id!: number;
   public nickname!: string;
   public email!: string;
   public password!: string;
   public userArea!: string;
   public imagePath!: string;
+<<<<<<< HEAD
   public salt!: string;
+=======
+>>>>>>> 502d6b24db0970a493de3ff1bf7a571d1b529e21
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }
@@ -59,7 +65,11 @@ user.init(
     freezeTableName: true,
     timestamps: true,
     updatedAt: "updateTimestamp",
+<<<<<<< HEAD
   }
+=======
+  },
+>>>>>>> 502d6b24db0970a493de3ff1bf7a571d1b529e21
 );
 
 export const associate = (db: dbType) => {};
