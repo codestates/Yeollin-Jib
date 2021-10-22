@@ -1,11 +1,12 @@
-import express, { Request, Response, NextFunction } from "express";
+import express, { Request, Response, NextFunction, Application } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import "dotenv/config";
+import router from "./routers";
 
-const app = express();
+const app: Application = express();
 
-const PORT: number = parseInt(process.env.PORT as string, 10) || 5000;
+const PORT: number = parseInt(process.env.PORT as string, 10) || 4000;
 const HOST: string = process.env.HOST || "localhost";
 
 app.use(express.json());
@@ -17,10 +18,12 @@ const options: cors.CorsOptions = {
   credentials: true,
   methods: "GET,PUT,PATCH,POST,DELETE",
 };
+
 app.use(cors(options));
 app.use(express.static("public"));
+app.use(router);
 
-app.get("/", (req: Request, res: Response) => {
+app.get("/", (req: Request, res: Response, next: NextFunction) => {
   res.status(200).send("Hello world");
 });
 
