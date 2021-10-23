@@ -20,6 +20,15 @@ export const Body = styled.div`
   min-height: 90vh;
   background: linear-gradient(0deg, #fbfafc, #fbfafc);
   display: flex;
+  justify-content: center;
+`;
+
+export const MainArea = styled.main`
+  width: 78.75rem;
+  background: linear-gradient(0deg, #fbfafc, #fbfafc);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const FooterContainer = styled.div`
