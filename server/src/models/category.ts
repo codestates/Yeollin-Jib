@@ -1,0 +1,34 @@
+import { BelongsToManyAddAssociationMixin, BelongsToManyGetAssociationsMixin, BelongsToManyRemoveAssociationMixin, DataTypes, Model } from "sequelize";
+import { sequelize } from "./sequelize";
+import { dbType } from "./index";
+
+class category extends Model {
+  public readonly id!: number;
+  public category!: number;
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
+}
+
+category.init(
+  {
+    category: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+  },
+
+  {
+    sequelize,
+    modelName: "category",
+    tableName: "category",
+    charset: "utf8",
+    collate: "utf8_general_ci", // 한글이 저장
+    freezeTableName: true,
+    timestamps: true,
+    updatedAt: "updateTimestamp",
+  },
+);
+
+export const associate = (db: dbType) => {};
+
+export default category;
