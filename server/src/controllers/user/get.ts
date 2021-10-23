@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+
 import user from "../../models/user";
 
 const get = async (req: Request, res: Response) => {
@@ -7,7 +8,6 @@ const get = async (req: Request, res: Response) => {
     const findUser = await user.findOne({
       where: { id: userId },
     });
-
     if (!findUser) {
       return res.status(404).json({ message: "해당 유저를 찾을 수 없습니다." });
     } else {
@@ -26,3 +26,4 @@ const get = async (req: Request, res: Response) => {
   }
 };
 export default get;
+

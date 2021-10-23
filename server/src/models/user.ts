@@ -43,9 +43,13 @@ user.init(
       type: DataTypes.STRING(100), // 100글자 이하
       allowNull: false,
     },
+    salt: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     userArea: {
       type: DataTypes.STRING(100),
-      allowNull: false,
+      allowNull: true,
     },
     imagePath: {
       type: DataTypes.STRING,
