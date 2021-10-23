@@ -24,9 +24,7 @@ const login = async (req: Request, res: Response) => {
     const dbPassword = findUser.password;
     const salt = findUser.salt;
 
-    const hashedPassword = crypto
-      .pbkdf2Sync(password, salt, 108236, 64, "sha512")
-      .toString("base64");
+    const hashedPassword = crypto.pbkdf2Sync(password, salt, 256, 64, "sha512").toString("base64");
 
     if (hashedPassword !== dbPassword) {
       return res.status(403).json({ message: "잘못된 비밀번호입니다." });
