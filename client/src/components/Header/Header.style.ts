@@ -49,7 +49,8 @@ export const SearchBar = styled.div`
   align-items: center;
   input {
     width: 100%;
-    height: 2.188rem;
+    height: 2.313rem;
+    box-sizing: border-box;
     outline: none;
     border: none;
     padding: 0 0 0 0.938rem;
@@ -62,8 +63,9 @@ export const SearchBar = styled.div`
 `;
 
 export const SearchSelect = styled.select`
-  height: 2.313rem;
   width: 6.25rem;
+  height: 2.313rem;
+  box-sizing: border-box;
   outline: none;
   border: none;
   border-radius: 0.313rem 0 0 0.313rem;
@@ -109,6 +111,7 @@ export const LoginLogoutBtn = styled.button`
   border-radius: 0.313rem;
   font-size: 0.875rem;
   font-weight: 100;
+  box-sizing: border-box;
   color: #ffffff;
   background: #2d2d2d;
   font-family: "Gmarket Sans TTF";
@@ -124,6 +127,7 @@ export const SignupUserInfoBtn = styled.button`
   border-radius: 0.313rem;
   font-size: 0.875rem;
   font-weight: 100;
+  box-sizing: border-box;
   color: #2d2d2d;
   background: linear-gradient(0deg, #fdfbfe, #fdfbfe), #fbfbfb;
   font-family: "Gmarket Sans TTF";
