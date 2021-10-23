@@ -32,7 +32,7 @@ post.init(
     },
     imagePath: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     address: {
       type: DataTypes.STRING,

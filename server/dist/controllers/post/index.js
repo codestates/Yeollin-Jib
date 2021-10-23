@@ -1,0 +1,24 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.delete_ = exports.put_image = exports.put = exports.category = exports.get_id = exports.get_user = exports.get = exports.post_image = exports.ost = void 0;
+const post_1 = __importDefault(require("./post"));
+exports.ost = post_1.default;
+const post_image_1 = __importDefault(require("./post_image"));
+exports.post_image = post_image_1.default;
+const get_1 = __importDefault(require("./get"));
+exports.get = get_1.default;
+const get_user_1 = __importDefault(require("./get_user"));
+exports.get_user = get_user_1.default;
+const get_id_1 = __importDefault(require("./get_id"));
+exports.get_id = get_id_1.default;
+const category_1 = __importDefault(require("./category"));
+exports.category = category_1.default;
+const put_1 = __importDefault(require("./put"));
+exports.put = put_1.default;
+const put_image_1 = __importDefault(require("./put_image"));
+exports.put_image = put_image_1.default;
+const delete_1 = __importDefault(require("./delete_"));
+exports.delete_ = delete_1.default;
