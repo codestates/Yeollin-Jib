@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from "express";
 import * as dotenv from "dotenv";
 import user from "../models/user";
 import refreshToken from "./refreshToken";
-import { any } from "sequelize/types/lib/operators";
 dotenv.config();
 const jwt = require("jsonwebtoken");
 
