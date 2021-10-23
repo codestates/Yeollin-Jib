@@ -9,5 +9,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const logout = (req, res) => __awaiter(void 0, void 0, void 0, function* () { });
+const logout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("!!!!!!!", req);
+    try {
+        const { authorization } = req.headers;
+        if (!authorization) {
+            return res.status(401).json({ message: `이미 로그아웃 되었습니다.` });
+        }
+        res.clearCookie("refreshToken");
+        return res.status(200).json({ message: `로그아웃 되었습니다.` });
+    }
+    catch (err) {
+        return res
+            .status(500)
+            .json({ message: `서버에러`, error: err, location: "logout.ts" });
+    }
+});
 exports.default = logout;

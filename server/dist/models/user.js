@@ -8,9 +8,10 @@ class user extends sequelize_1.Model {
 user.init({
     nickname: {
         type: sequelize_1.DataTypes.STRING(20),
-        allowNull: false, // 필수
+        allowNull: false,
+        unique: true, // 고유한 값
     },
-    userId: {
+    email: {
         type: sequelize_1.DataTypes.STRING(20),
         allowNull: false,
         unique: true, // 고유한 값
@@ -19,22 +20,30 @@ user.init({
         type: sequelize_1.DataTypes.STRING(100),
         allowNull: false,
     },
+    salt: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: false,
+    },
     userArea: {
         type: sequelize_1.DataTypes.STRING(100),
-        allowNull: false,
+        allowNull: true,
     },
     imagePath: {
         type: sequelize_1.DataTypes.STRING,
+        allowNull: true,
     },
     loginType: {
-        type: sequelize_1.DataTypes.STRING(100),
+        type: sequelize_1.DataTypes.STRING,
     },
 }, {
     sequelize: sequelize_2.sequelize,
     modelName: "user",
     tableName: "user",
     charset: "utf8",
-    collate: "utf8_general_ci", // 한글이 저장
+    collate: "utf8_general_ci",
+    freezeTableName: true,
+    timestamps: true,
+    updatedAt: "updateTimestamp",
 });
 const associate = (db) => { };
 exports.associate = associate;

@@ -8,6 +8,28 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const nick_name = (req, res) => __awaiter(void 0, void 0, void 0, function* () { });
+const user_1 = __importDefault(require("../../models/user"));
+const nick_name = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { nickname } = req.query;
+        console.log("nickname ==========================", nickname);
+        // 로그인된 아이디 정보 찾기
+        const userByNick = yield user_1.default.findOne({ where: { nickname: nickname } });
+        console.log("nickname_result ==========================", userByNick);
+        // nickname 중복코드
+        if (userByNick) {
+            return res.status(200).json({ message: `닉네임이 중복됩니다.` });
+        }
+        return res.status(200).json({ message: `닉네임이 중복되지 않습니다.` });
+    }
+    catch (err) {
+        return res
+            .status(500)
+            .json({ message: `서버에러`, error: err, location: "nickname.ts" });
+    }
+});
 exports.default = nick_name;

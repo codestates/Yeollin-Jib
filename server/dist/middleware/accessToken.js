@@ -37,39 +37,43 @@ const refreshToken_1 = __importDefault(require("./refreshToken"));
 dotenv.config();
 const jwt = require("jsonwebtoken");
 const accessToken = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const authHeader = req.headers.authorization;
-    console.log("token===============", req.headers);
-    if (!authHeader) {
-        return res
-            .status(400)
-            .json({ data: null, message: "access token 존재하지 않습니다." });
-    }
-    else {
-        const token = authHeader.split(" ")[1];
-        const data = jwt.verify(token, process.env.ACCESS_SECRET, (err, decode) => __awaiter(void 0, void 0, void 0, function* () {
-            if (err) {
-                return refreshToken_1.default;
-            }
-        }));
+    try {
+        const { authorization } = req.headers;
+        console.log("token===============", req.headers);
+        if (!authorization) {
+            return res
+                .status(400)
+                .json({ data: null, message: "access token 존재하지 않습니다." });
+        }
+        const token = authorization.split(" ")[1];
+        const data = yield jwt
+            .verify(token, process.env.ACCESS_SECRET)
+            .catch(() => {
+            return refreshToken_1.default;
+        });
         const userInfo = yield user_1.default.findOne({
             where: { id: data.id },
         });
         console.log("userInfo===============", userInfo);
         if (!userInfo) {
-            return res.status(401).json({
-                data: null,
-                message: "access token 일치하는 유저가 없습니다.",
-            });
+            return res
+                .status(401)
+                .json({ message: "access token 일치하는 유저가 없습니다." });
         }
-        else {
-            //console.log(userInfo.dataValues);
-            delete userInfo.dataValues.password;
-            res
-                .status(200)
-                .json({ data: { userInfo: userInfo.dataValues }, message: "ok" });
-            // res.userId = userInfo.dataValues.id; // req.customData
-            next();
-        }
+        delete userInfo.dataValues.password;
+        res.status(200).json({
+            data: {
+                userId: userInfo.dataValues.id,
+                userInfo: userInfo.dataValues,
+            },
+            message: "ok",
+        });
+        next();
+    }
+    catch (err) {
+        return res
+            .status(500)
+            .json({ message: `서버에러`, error: err, location: "accessToken.ts" });
     }
 });
 exports.default = accessToken;
