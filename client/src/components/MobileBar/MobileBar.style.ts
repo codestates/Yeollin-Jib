@@ -5,6 +5,8 @@ export const BarWrapper = styled.div`
   box-sizing: border-box;
   display: flex;
   justify-content: right;
+  align-items: center;
+  background-color: #fdfbfe;
 
   a {
     text-decoration: none;
@@ -12,13 +14,15 @@ export const BarWrapper = styled.div`
 `;
 
 export const Bar = styled.div`
-  width: 90px;
-  height: 94vh;
   text-align: right;
   border-left: 1px solid #e0dde1;
-  padding: 20px;
+  width: 100px;
+  padding: 33px 24px 0 24px;
+  height: 100vh;
 
   img {
+    /* width: 1.5rem; */
+    width: 1rem;
     margin-bottom: 10px;
     cursor: pointer;
   }
@@ -30,7 +34,7 @@ export const MenuWrapper = styled.div`
 `;
 
 export const Menu = styled.span`
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 100;
   color: #2d2d2d;
 

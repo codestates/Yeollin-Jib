@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   HeaderItemContainer,
   Logo,
@@ -10,10 +11,19 @@ import {
   SearchSelect,
   LoginLogoutBtn,
   SignupUserInfoBtn,
+  HamburgerContainer,
 } from "./Header.style";
+import {
+  BarWrapper,
+  Bar,
+  MenuWrapper,
+  Menu,
+} from "../MobileBar/MobileBar.style";
 
 function Header() {
   const ArrSearch: string[] = ["전체", "지역"];
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const isLogin = true;
   return (
     <HeaderItemContainer>
       <Logo>
@@ -35,10 +45,57 @@ function Header() {
         <input />
       </SearchBar>
       <MenuBtn>
-        <HamburgerBtn src="./images/hamburger.svg" alt="Hamburger" />
+        <HamburgerBtn
+          src="./images/hamburger.svg"
+          alt="Hamburger"
+          onClick={() => setIsOpen(!isOpen)}
+        />
         <LoginLogoutBtn>{"로그인"}</LoginLogoutBtn>
         <SignupUserInfoBtn>{"회원가입"}</SignupUserInfoBtn>
       </MenuBtn>
+      {isOpen ? (
+        <HamburgerContainer>
+          <BarWrapper>
+            <Bar>
+              <img
+                src="./images/closeMenu.svg"
+                alt="close"
+                onClick={() => setIsOpen(!isOpen)}
+              />
+              {isLogin ? (
+                <>
+                  <MenuWrapper>
+                    <Link to="/main">
+                      <Menu>홈</Menu>
+                    </Link>
+                  </MenuWrapper>
+                  <MenuWrapper>
+                    <Link to="/profile">
+                      <Menu>내 정보</Menu>
+                    </Link>
+                  </MenuWrapper>
+                  <MenuWrapper>
+                    <Menu>로그아웃</Menu>
+                  </MenuWrapper>
+                </>
+              ) : (
+                <>
+                  <MenuWrapper>
+                    <Link to="/login">
+                      <Menu>로그인</Menu>
+                    </Link>
+                  </MenuWrapper>
+                  <MenuWrapper>
+                    <Link to="/signup">
+                      <Menu>회원가입</Menu>
+                    </Link>
+                  </MenuWrapper>
+                </>
+              )}
+            </Bar>
+          </BarWrapper>
+        </HamburgerContainer>
+      ) : null}
     </HeaderItemContainer>
   );
 }

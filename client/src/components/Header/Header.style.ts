@@ -98,6 +98,7 @@ export const MenuBtn = styled.div`
 
 export const HamburgerBtn = styled.img`
   display: none;
+  cursor: pointer;
   @media screen and (max-width: 37.5rem) {
     width: 1.5rem;
     display: unset;
@@ -136,5 +137,16 @@ export const SignupUserInfoBtn = styled.button`
   margin-left: 0.563rem;
   @media screen and (max-width: 37.5rem) {
     display: none;
+  }
+`;
+
+export const HamburgerContainer = styled.div`
+  display: none;
+  @media screen and (max-width: 37.5rem) {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 100%;
+    transform: translateX(-100%);
   }
 `;
