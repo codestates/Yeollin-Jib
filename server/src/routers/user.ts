@@ -9,9 +9,9 @@ userRouter.post("/signup", usercontroller.signup);
 //회원가입 프로필 사진
 userRouter.post("/image", accessToken, usercontroller.post_image);
 //로그인
-userRouter.post("/login", accessToken, usercontroller.login);
+userRouter.post("/login", usercontroller.login);
 //로그아웃
-userRouter.post("/logout", accessToken, usercontroller.logout);
+userRouter.post("/logout", usercontroller.logout);
 
 //유저정보요청
 userRouter.get("/", accessToken, usercontroller.get);

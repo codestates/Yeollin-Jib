@@ -11,9 +11,7 @@ const signup = async (req: Request, res: Response) => {
       });
     }
     const salt = crypto.randomBytes(64).toString("hex");
-    const encryptedPassword = crypto
-      .pbkdf2Sync(password, salt, 256, 64, "sha512")
-      .toString("base64");
+    const encryptedPassword = crypto.pbkdf2Sync(password, salt, 256, 64, "sha512").toString("base64");
 
     // user 생성
     const newUser = await user.create({
@@ -28,11 +26,8 @@ const signup = async (req: Request, res: Response) => {
       message: "회원가입이 완료되었습니다",
     });
   } catch (err) {
-
-    return res
-      .status(500)
-      .json({ message: `서버에러`, error: err, location: "signup.ts" });
-
+    console.log(err);
+    return res.status(501).json({ message: "서버 에러 입니다." });
   }
 };
 export default signup;
