@@ -32,9 +32,7 @@ const get = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         // 401 유효하지 않은 토큰
     }
     catch (err) {
-        return res
-            .status(500)
-            .json({ message: `서버에러`, error: err, location: "get.ts" });
+        return res.status(501).json({ message: "서버에러 입니다." });
     }
 });
 exports.default = get;

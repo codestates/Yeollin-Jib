@@ -57,11 +57,7 @@ const login = async (req: Request, res: Response) => {
         httpOnly: true,
       });
   } catch (err) {
-    return res.status(500).json({
-      message: `서버에러`,
-      error: err,
-      location: "login.ts",
-    });
+    return res.status(501).json({ message: "서버에러 입니다." });
   }
 };
 

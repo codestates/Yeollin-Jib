@@ -27,23 +27,23 @@ const userRouter = express_1.default.Router();
 const usercontroller = __importStar(require("../controllers/user/index"));
 const accessToken_1 = __importDefault(require("../middleware/accessToken"));
 //회원가입
-userRouter.post("/user", usercontroller.signup);
+userRouter.post("/signup", usercontroller.signup);
 //회원가입 프로필 사진
-userRouter.post("/user/image", accessToken_1.default, usercontroller.post_image);
+userRouter.post("/image", accessToken_1.default, usercontroller.post_image);
 //로그인
-userRouter.post("/user/login", usercontroller.login);
+userRouter.post("/login", usercontroller.login);
 //로그아웃
-userRouter.post("/user/logout", accessToken_1.default, usercontroller.logout);
+userRouter.post("/logout", usercontroller.logout);
 //유저정보요청
-userRouter.get("/user", accessToken_1.default, usercontroller.get);
+userRouter.get("/", accessToken_1.default, usercontroller.get);
 //닉네임중복
-userRouter.get("/user/nickname", accessToken_1.default, usercontroller.nick_name);
+userRouter.get("/nickname", accessToken_1.default, usercontroller.nick_name);
 //이메일중복
-userRouter.get("/user/email", accessToken_1.default, usercontroller.email);
+userRouter.get("/email", accessToken_1.default, usercontroller.email);
 //유저프로필변경
-userRouter.put("/user", accessToken_1.default, usercontroller.put);
+userRouter.put("/", accessToken_1.default, usercontroller.put);
 //유저프로필사진변경
-userRouter.put("/user/image", accessToken_1.default, usercontroller.put_image);
+userRouter.put("/image", accessToken_1.default, usercontroller.put_image);
 //회원탈퇴
-userRouter.delete("/user", accessToken_1.default, usercontroller.delete_);
+userRouter.delete("/", accessToken_1.default, usercontroller.delete_);
 exports.default = userRouter;

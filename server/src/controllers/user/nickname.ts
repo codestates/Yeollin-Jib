@@ -14,9 +14,7 @@ const nick_name = async (req: Request, res: Response) => {
     }
     return res.status(200).json({ message: `닉네임이 중복되지 않습니다.` });
   } catch (err) {
-    return res
-      .status(500)
-      .json({ message: `서버에러`, error: err, location: "nickname.ts" });
+    return res.status(501).json({ message: "서버에러 입니다." });
   }
 };
 export default nick_name;

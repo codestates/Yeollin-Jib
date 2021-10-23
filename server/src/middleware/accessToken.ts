@@ -42,9 +42,7 @@ const accessToken = async (req: Request, res: Response, next: NextFunction) => {
     });
     next();
   } catch (err) {
-    return res
-      .status(500)
-      .json({ message: `서버에러`, error: err, location: "accessToken.ts" });
+    return res.status(501).json({ message: "서버에러 입니다." });
   }
 };
 export default accessToken;

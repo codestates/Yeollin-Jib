@@ -34,9 +34,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const crypto = __importStar(require("crypto"));
 const user_1 = __importDefault(require("../../models/user"));
 const jwt = require("jsonwebtoken");
-const dotenv = __importStar(require("dotenv"));
-const refreshToken_1 = __importDefault(require("../../middleware/refreshToken"));
-dotenv.config();
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { email, password } = req.body;
@@ -68,22 +65,25 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             updatedAt: findUser.updatedAt,
         };
         const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET, {
-            expiresIn: "1d",
+            expiresIn: "12h",
+        });
+        const refreshToken = jwt.sign(payload, process.env.REFRESH_SECRET, {
+            expiresIn: "50d",
         });
         return res
             .status(200)
             .json({
-            data: { accessToken, id: findUser.id },
+            accessToken,
+            id: findUser.id,
             message: "로그인에 성공하였습니다.",
         })
-            .cookie("refreshToken", refreshToken_1.default);
+            .cookie("refreshToken", refreshToken, {
+            // secure: true,
+            httpOnly: true,
+        });
     }
     catch (err) {
-        return res.status(500).json({
-            message: `서버에러`,
-            error: err,
-            location: "login.ts",
-        });
+        return res.status(501).json({ message: "서버에러 입니다." });
     }
 });
 exports.default = login;

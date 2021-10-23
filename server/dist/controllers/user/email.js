@@ -27,9 +27,7 @@ const email = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         return res.status(200).json({ message: `이메일이 중복되지 않습니다.` });
     }
     catch (err) {
-        return res
-            .status(500)
-            .json({ message: `서버에러`, error: err, location: "email.ts" });
+        return res.status(501).json({ message: "서버에러 입니다." });
     }
 });
 exports.default = email;
