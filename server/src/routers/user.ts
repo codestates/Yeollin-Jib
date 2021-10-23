@@ -4,7 +4,7 @@ import * as usercontroller from "../controllers/user/index";
 import accessToken from "../middleware/accessToken";
 
 //회원가입
-userRouter.post("/user", usercontroller.post);
+userRouter.post("/user", usercontroller.signup);
 //회원가입 프로필 사진
 userRouter.post("/user/image", accessToken, usercontroller.post_image);
 //로그인
