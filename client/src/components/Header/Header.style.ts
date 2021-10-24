@@ -59,6 +59,9 @@ export const SearchBar = styled.div`
     border-bottom: 0.063rem solid #e0dde1;
     border-top: 0.063rem solid #e0dde1;
     border-right: 0.063rem solid #e0dde1;
+    font-family: "Gmarket Sans TTF";
+    font-weight: 400;
+    color: #2d2d2d;
   }
 `;
 
@@ -75,6 +78,8 @@ export const SearchSelect = styled.select`
   border-top: 0.063rem solid #e0dde1;
   border-left: 0.063rem solid #e0dde1;
   font-family: "Gmarket Sans TTF";
+  font-weight: 400;
+  color: #2d2d2d;
   @media screen and (max-width: 37.5rem) {
     padding: 0 1.125rem 0 0.563rem;
     transition: 0.5s all;
@@ -98,6 +103,7 @@ export const MenuBtn = styled.div`
 
 export const HamburgerBtn = styled.img`
   display: none;
+  cursor: pointer;
   @media screen and (max-width: 37.5rem) {
     width: 1.5rem;
     display: unset;
@@ -136,5 +142,70 @@ export const SignupUserInfoBtn = styled.button`
   margin-left: 0.563rem;
   @media screen and (max-width: 37.5rem) {
     display: none;
+  }
+`;
+
+export const HamburgerContainer = styled.div`
+  display: none;
+  @media screen and (max-width: 37.5rem) {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 100%;
+    transform: translateX(-100%);
+    animation-name: SlideIn;
+    animation-duration: 0.5s;
+    animation-direction: alternate;
+
+    @keyframes SlideIn {
+      from {
+        left: 130%;
+      }
+      to {
+        left: 100%;
+      }
+    }
+  }
+`;
+
+export const BarWrapper = styled.div`
+  font-family: "Gmarket Sans TTF";
+  box-sizing: border-box;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  background-color: #fdfbfe;
+
+  a {
+    text-decoration: none;
+  }
+`;
+
+export const Bar = styled.div`
+  text-align: right;
+  border-left: 1px solid #e0dde1;
+  width: 100px;
+  padding: 33px 24px 0 24px;
+  height: 100vh;
+
+  img {
+    width: 1rem;
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+`;
+
+export const MenuWrapper = styled.div`
+  cursor: pointer;
+  margin-top: 30px;
+`;
+
+export const Menu = styled.span`
+  font-size: 0.9rem;
+  font-weight: 100;
+  color: #2d2d2d;
+
+  :hover {
+    border-bottom: 5px solid #fede8a;
   }
 `;
