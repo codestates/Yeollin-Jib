@@ -23,7 +23,7 @@ import { setLogOut } from "../../reducers/authReducer";
 
 function Header() {
   const dispatch = useDispatch();
-  
+
   const ArrSearch: string[] = ["전체", "지역"];
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const isLogin = useSelector((state: RootState) => state.authReducer.isLogin);
@@ -55,11 +55,13 @@ function Header() {
           onClick={() => setIsOpen(!isOpen)}
         />
         <Link to={isLogin ? "/login" : "/login"}>
-          {isLogin ? 
-          <LoginLogoutBtn onClick={()=>dispatch(setLogOut())}>로그아웃</LoginLogoutBtn>
-          :
-          <LoginLogoutBtn>로그인</LoginLogoutBtn>
-          }
+          {isLogin ? (
+            <LoginLogoutBtn onClick={() => dispatch(setLogOut())}>
+              로그아웃
+            </LoginLogoutBtn>
+          ) : (
+            <LoginLogoutBtn>로그인</LoginLogoutBtn>
+          )}
         </Link>
         <Link to={isLogin ? "/profile" : "/signup"}>
           <SignupUserInfoBtn>
@@ -89,7 +91,9 @@ function Header() {
               </MenuWrapper>
               <MenuWrapper>
                 <Link to={isLogin ? "/login" : ""}>
-                  <Menu onClick={()=>dispatch(setLogOut())}>{isLogin ? "로그아웃" : null}</Menu>
+                  <Menu onClick={() => dispatch(setLogOut())}>
+                    {isLogin ? "로그아웃" : null}
+                  </Menu>
                 </Link>
               </MenuWrapper>
             </Bar>

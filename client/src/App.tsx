@@ -28,10 +28,10 @@ function App() {
         <Body>
           <MainArea>
             <Switch>
-              <Route exact path="/" component={LandingPage} />
+              {/* <Route exact path="/" component={LandingPage} /> */}
+              <Route exact path="/" component={MainPage} />
               <Route path="/login" component={LoginPage} />
               <Route path="/signup" component={SignUpPage} />
-              <Route path="/main" component={MainPage} />
               <Route path="/detail" component={DetailPage} />
               <Route path="/createpost" component={CreatePostPage} />
               <Route path="/editpost" component={EditPostPage} />
