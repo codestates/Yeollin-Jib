@@ -7,7 +7,11 @@ const logger = createLogger();
 
 export const store = configureStore({
   reducer: rootReducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+    serializableCheck: {
+      ignoredActions: [ "persist/PERSIST", "authReducer/setAuth/fulfilled"],
+    },
+  }).concat(logger),
 });
 
 export const persistor = persistStore(store);
