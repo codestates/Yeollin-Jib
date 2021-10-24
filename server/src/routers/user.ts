@@ -16,12 +16,12 @@ userRouter.post("/logout", usercontroller.logout);
 //유저정보요청
 userRouter.get("/", accessToken, usercontroller.get);
 //닉네임중복
-userRouter.get("/nickname", accessToken, usercontroller.nick_name);
+userRouter.get("/nickname", usercontroller.nick_name);
 //이메일중복
-userRouter.get("/email", accessToken, usercontroller.email);
+userRouter.get("/email", usercontroller.email);
 
 //유저프로필변경
-userRouter.put("/", accessToken, usercontroller.put);
+userRouter.patch("/", accessToken, usercontroller.put);
 //유저프로필사진변경
 userRouter.put("/image", accessToken, usercontroller.put_image);
 

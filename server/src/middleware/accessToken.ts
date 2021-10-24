@@ -19,20 +19,18 @@ const accessToken = async (req: Request, res: Response, next: NextFunction) => {
       process.env.ACCESS_SECRET,
       async (err: Error, decode: any) => {
         if (err) {
-          refreshToken;
-        } else {
-          const Info = await user.findOne({
-            where: { id: decode.id },
-          });
-          if (!Info) {
-            return res.status(401).json({
-              message: "access token 일치하는 유저가 없습니다.",
-            });
-          } else {
-            req.body.id = Info.id;
-            next();
-          }
+          refreshToken(req, res, next);
         }
+        const Info = await user.findOne({
+          where: { id: decode.id },
+        });
+        if (!Info) {
+          return res.status(401).json({
+            message: "access token 일치하는 유저가 없습니다.",
+          });
+        }
+        req.body.id = Info.id;
+        next();
       }
     );
   }

@@ -17,6 +17,8 @@ const signup = async (req: Request, res: Response) => {
 
     // user 생성
     const newUser = await user.create({
+      // 로그인 타입 1 이런식으로 넣을건지
+      loginType: false,
       nickname,
       email,
       salt,
