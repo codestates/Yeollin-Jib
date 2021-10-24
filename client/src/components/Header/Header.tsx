@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   HeaderItemContainer,
   Logo,
@@ -14,6 +14,7 @@ import {
 
 function Header() {
   const ArrSearch: string[] = ["전체", "지역"];
+
   return (
     <HeaderItemContainer>
       <Logo>
