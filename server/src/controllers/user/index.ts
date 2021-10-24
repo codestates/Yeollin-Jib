@@ -9,4 +9,15 @@ import put from "./put";
 import put_image from "./put_image";
 import delete_ from "./delete";
 
-export { signup, post_image, login, logout, get, nick_name, email, put, put_image, delete_ };
+export {
+  signup,
+  post_image,
+  login,
+  logout,
+  get,
+  nick_name,
+  email,
+  put,
+  put_image,
+  delete_,
+};

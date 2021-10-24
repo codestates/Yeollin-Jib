@@ -1,8 +1,15 @@
-import { BelongsToManyAddAssociationMixin, BelongsToManyGetAssociationsMixin, BelongsToManyRemoveAssociationMixin, DataTypes, Model } from "sequelize";
+import {
+  BelongsToManyAddAssociationMixin,
+  BelongsToManyGetAssociationsMixin,
+  BelongsToManyRemoveAssociationMixin,
+  DataTypes,
+  Model,
+} from "sequelize";
 import { sequelize } from "./sequelize";
 import { dbType } from "./index";
 
 class user extends Model {
+  public dataValues!: { id: any; email: any; nickname: any };
   public readonly id!: number;
   public nickname!: string;
   public email!: string;
@@ -56,7 +63,7 @@ user.init(
     freezeTableName: true,
     timestamps: true,
     updatedAt: "updateTimestamp",
-  },
+  }
 );
 
 export const associate = (db: dbType) => {};
