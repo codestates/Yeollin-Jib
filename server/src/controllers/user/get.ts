@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
-
+import { post } from "../inquire";
 import user from "../../models/user";
-
 const get = async (req: Request, res: Response) => {
   const { userId } = req.params;
   try {

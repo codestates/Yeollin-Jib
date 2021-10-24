@@ -6,43 +6,35 @@ dotenv.config();
 const jwt = require("jsonwebtoken");
 
 const accessToken = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const { authorization } = req.headers;
-    console.log("token===============", req.headers);
-    if (!authorization) {
-      return res
-        .status(400)
-        .json({ data: null, message: "access token 존재하지 않습니다." });
-    }
-
-    const token = authorization.split(" ")[1];
-    const data = await jwt
-      .verify(token, process.env.ACCESS_SECRET)
-      .catch(() => {
-        return refreshToken;
-      });
-
-    const userInfo: any = await user.findOne({
-      where: { id: data.id },
-    });
-    console.log("userInfo===============", userInfo);
-    if (!userInfo) {
-      return res
-        .status(401)
-        .json({ message: "access token 일치하는 유저가 없습니다." });
-    }
-
-    delete userInfo.dataValues.password;
-    res.status(200).json({
-      data: {
-        userId: userInfo.dataValues.id,
-        userInfo: userInfo.dataValues,
-      },
-      message: "ok",
-    });
-    next();
-  } catch (err) {
-    return res.status(501).json({ message: "서버에러 입니다." });
+  const authHeader = req.headers.authorization;
+  console.log("token===============", req.headers);
+  if (!authHeader) {
+    return res
+      .status(400)
+      .json({ data: null, message: "access token 존재하지 않습니다." });
+  } else {
+    const token = authHeader.split(" ")[1];
+    const data = await jwt.verify(
+      token,
+      process.env.ACCESS_SECRET,
+      async (err: Error, decode: any) => {
+        if (err) {
+          refreshToken;
+        } else {
+          const Info = await user.findOne({
+            where: { id: decode.id },
+          });
+          if (!Info) {
+            return res.status(401).json({
+              message: "access token 일치하는 유저가 없습니다.",
+            });
+          } else {
+            req.body.id = Info.id;
+            next();
+          }
+        }
+      }
+    );
   }
 };
 export default accessToken;

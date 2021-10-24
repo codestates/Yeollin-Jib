@@ -24,11 +24,14 @@ const signup = async (req: Request, res: Response) => {
     });
     const userId = newUser.id;
     return res.status(201).json({
-      data: { userId, nickname, email },
+      userId,
+      nickname,
+      email,
       message: "회원가입이 완료되었습니다",
     });
   } catch (err) {
-    return res.status(501).json({ message: "서버에러 입니다." });
+    console.log(err);
+    return res.status(501).json({ message: "서버 에러 입니다." });
   }
 };
 export default signup;
