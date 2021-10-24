@@ -12,19 +12,18 @@ import {
   LoginLogoutBtn,
   SignupUserInfoBtn,
   HamburgerContainer,
-} from "./Header.style";
-import {
   BarWrapper,
   Bar,
   MenuWrapper,
   Menu,
-} from "../MobileBar/MobileBar.style";
+} from "./Header.style";
 
 function Header() {
   const ArrSearch: string[] = ["전체", "지역"];
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const isLogin = true;
+  const isLogin = false;
   return (
+    // * 상단바
     <HeaderItemContainer>
       <Logo>
         <div>
@@ -50,8 +49,10 @@ function Header() {
           alt="Hamburger"
           onClick={() => setIsOpen(!isOpen)}
         />
-        <LoginLogoutBtn>{"로그인"}</LoginLogoutBtn>
-        <SignupUserInfoBtn>{"회원가입"}</SignupUserInfoBtn>
+        <LoginLogoutBtn>{isLogin ? "로그아웃" : "로그인"}</LoginLogoutBtn>
+        <SignupUserInfoBtn>
+          {isLogin ? "내 정보" : "회원가입"}
+        </SignupUserInfoBtn>
       </MenuBtn>
       {isOpen ? (
         <HamburgerContainer>
@@ -62,36 +63,19 @@ function Header() {
                 alt="close"
                 onClick={() => setIsOpen(!isOpen)}
               />
-              {isLogin ? (
-                <>
-                  <MenuWrapper>
-                    <Link to="/main">
-                      <Menu>홈</Menu>
-                    </Link>
-                  </MenuWrapper>
-                  <MenuWrapper>
-                    <Link to="/profile">
-                      <Menu>내 정보</Menu>
-                    </Link>
-                  </MenuWrapper>
-                  <MenuWrapper>
-                    <Menu>로그아웃</Menu>
-                  </MenuWrapper>
-                </>
-              ) : (
-                <>
-                  <MenuWrapper>
-                    <Link to="/login">
-                      <Menu>로그인</Menu>
-                    </Link>
-                  </MenuWrapper>
-                  <MenuWrapper>
-                    <Link to="/signup">
-                      <Menu>회원가입</Menu>
-                    </Link>
-                  </MenuWrapper>
-                </>
-              )}
+              <MenuWrapper>
+                <Link to={isLogin ? "/main" : "/login"}>
+                  <Menu>{isLogin ? "홈" : "로그인"}</Menu>
+                </Link>
+              </MenuWrapper>
+              <MenuWrapper>
+                <Link to={isLogin ? "/profile" : "/signup"}>
+                  <Menu>{isLogin ? "내 정보" : "회원가입"}</Menu>
+                </Link>
+              </MenuWrapper>
+              <MenuWrapper>
+                <Menu>{isLogin ? "로그아웃" : null}</Menu>
+              </MenuWrapper>
             </Bar>
           </BarWrapper>
         </HamburgerContainer>
