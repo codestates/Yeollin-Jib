@@ -41,7 +41,7 @@ const login = async (req: Request, res: Response) => {
     };
 
     const accessToken = await jwt.sign(payload, process.env.ACCESS_SECRET, {
-      expiresIn: "1s",
+      expiresIn: "12h",
     });
     const refreshToken = await jwt.sign(payload, process.env.REFRESH_SECRET, {
       expiresIn: "50d",

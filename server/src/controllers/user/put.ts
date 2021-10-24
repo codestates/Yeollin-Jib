@@ -10,7 +10,9 @@ const put = async (req: Request, res: Response) => {
       return res.status(403).json({ message: "잘못된 요청입니다." });
     } else {
       const { nickname, password, userArea, imagePath } = req.body;
-      const findUser = await user.findOne({ where: { id: userId } });
+      const findUser: any = await user.findOne({
+        where: { id: userId },
+      });
 
       if (findUser) {
         // 닉네임 변경
