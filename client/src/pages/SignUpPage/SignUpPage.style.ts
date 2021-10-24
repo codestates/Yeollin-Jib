@@ -13,12 +13,12 @@ export const ContentContainer = styled.div`
   justify-content: flex-start;
   align-items: left;
   width: 25rem;
-  height: 30rem;
+  height: 36.6rem;
   background-color: #fdfbfe;
   border: 1px solid #e0dde1;
   border-radius: 0.313rem;
   padding: 2rem;
-  margin-bottom: 120px;
+  margin-bottom: 16px;
   transition: 0.5s all;
 
   a {
@@ -27,9 +27,9 @@ export const ContentContainer = styled.div`
 
   @media screen and (max-width: 37.5rem) {
     border: 1px solid #fbfafc;
-    margin-bottom: 300px;
+    margin-bottom: 108px;
     width: 20rem;
-    height: 28rem;
+    height: 40rem;
     transition: 0.5s all;
     background-color: #fbfafc;
   }
@@ -80,7 +80,6 @@ export const InputField = styled.input`
   color: #2d2d2d;
   height: 2.313rem;
   width: 97%;
-  margin-bottom: 1.4rem;
   transition: 0.5s all;
 
   :focus {
@@ -121,7 +120,7 @@ export const InvalidMessage = styled.div`
   }
 `;
 
-export const LoginBtn = styled.button`
+export const SignupBtn = styled.button`
   outline: none;
   border: 1px solid #2d2d2d;
   background: #2d2d2d;
@@ -147,46 +146,7 @@ export const LoginBtn = styled.button`
   }
 `;
 
-export const SocialLoginBtn = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  outline: none;
-  border: 1px solid #2d2d2d;
-  background: #fdfbfe;
-  border-radius: 0.313rem;
-  padding-left: 0.5rem;
-  font-family: "Gmarket Sans TTF";
-  font-weight: 100;
-  font-size: 1rem;
-  color: #2d2d2d;
-  height: 2.6rem;
-  width: 100%;
-  margin-top: 10px;
-  cursor: pointer;
-  transition: 0.5s all;
-
-  :active {
-    background: #f5f4f5;
-  }
-
-  img {
-    margin-right: 3px;
-    padding-top: 1px;
-  }
-
-  @media screen and (max-width: 37.5rem) {
-    font-size: 0.8rem;
-    transition: 0.5s all;
-
-    img {
-      width: 12px;
-      height: 12px;
-    }
-  }
-`;
-
-export const SignupBtn = styled.div`
+export const LoginBtn = styled.div`
   display: flex;
   justify-content: center;
   font-size: 1rem;
@@ -203,5 +163,36 @@ export const SignupBtn = styled.div`
   @media screen and (max-width: 37.5rem) {
     font-size: 0.8rem;
     transition: 0.5s all;
+  }
+`;
+
+export const MsgContainer = styled.div`
+  display: flex;
+  justify-content: left;
+  font-weight: 100;
+  font-size: 0.8rem;
+  color: #f44336;
+  transition: 0.5s all;
+  height: 16px;
+  margin: 5px 0 11px 0;
+  padding-left: 5px;
+  height: 12px;
+
+  img {
+    width: 13px;
+    margin-right: 3px;
+    padding-top: 2px;
+  }
+
+  @media screen and (max-width: 37.5rem) {
+    font-size: 0.7rem;
+    transition: 0.5s all;
+    height: 10px;
+
+    img {
+      width: 10px;
+      height: 12px;
+      padding-top: 0.3px;
+    }
   }
 `;
