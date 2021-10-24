@@ -74,6 +74,10 @@ export const InputField = styled.input`
   margin-bottom: 1.4rem;
   transition: 0.5s all;
 
+  :focus {
+    border: 1px solid #2d2d2d;
+  }
+
   @media screen and (max-width: 37.5rem) {
     font-size: 0.8rem;
     transition: 0.5s all;
@@ -88,14 +92,11 @@ export const InvalidMessage = styled.div`
   color: #f44336;
   margin: 10px 0 20px 0;
   transition: 0.5s all;
+  height: 16px;
 
   img {
     margin-right: 3px;
     padding-top: 2px;
-  }
-
-  div {
-    height: 16px;
   }
 
   @media screen and (max-width: 37.5rem) {

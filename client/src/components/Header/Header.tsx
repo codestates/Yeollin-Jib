@@ -17,13 +17,18 @@ import {
   MenuWrapper,
   Menu,
 } from "./Header.style";
+import { RootState } from "../../reducers/rootReducer";
+import { useDispatch, useSelector } from "react-redux";
+import { setLogOut } from "../../reducers/authReducer";
 
 function Header() {
+  const dispatch = useDispatch();
+  
   const ArrSearch: string[] = ["전체", "지역"];
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const isLogin = false;
+  const isLogin = useSelector((state: RootState) => state.authReducer.isLogin);
   return (
-    // * 상단바
+    // 상단바
     <HeaderItemContainer>
       <Logo>
         <div>
@@ -49,12 +54,21 @@ function Header() {
           alt="Hamburger"
           onClick={() => setIsOpen(!isOpen)}
         />
-        <LoginLogoutBtn>{isLogin ? "로그아웃" : "로그인"}</LoginLogoutBtn>
-        <SignupUserInfoBtn>
-          {isLogin ? "내 정보" : "회원가입"}
-        </SignupUserInfoBtn>
+        <Link to={isLogin ? "/login" : "/login"}>
+          {isLogin ? 
+          <LoginLogoutBtn onClick={()=>dispatch(setLogOut())}>로그아웃</LoginLogoutBtn>
+          :
+          <LoginLogoutBtn>로그인</LoginLogoutBtn>
+          }
+        </Link>
+        <Link to={isLogin ? "/profile" : "/signup"}>
+          <SignupUserInfoBtn>
+            {isLogin ? "내 정보" : "회원가입"}
+          </SignupUserInfoBtn>
+        </Link>
       </MenuBtn>
       {isOpen ? (
+        // 햄버거 메뉴
         <HamburgerContainer>
           <BarWrapper>
             <Bar>
@@ -74,7 +88,9 @@ function Header() {
                 </Link>
               </MenuWrapper>
               <MenuWrapper>
-                <Menu>{isLogin ? "로그아웃" : null}</Menu>
+                <Link to={isLogin ? "/login" : ""}>
+                  <Menu onClick={()=>dispatch(setLogOut())}>{isLogin ? "로그아웃" : null}</Menu>
+                </Link>
               </MenuWrapper>
             </Bar>
           </BarWrapper>

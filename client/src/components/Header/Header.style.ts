@@ -19,10 +19,10 @@ export const Logo = styled.div`
   div {
     display: flex;
     cursor: pointer;
-    :hover {
-      border-bottom: 0.313rem solid #fede8a;
-      /* transition: 0.2s all; */
-    }
+    //:hover {
+    //  border-bottom: 0.313rem solid #fede8a;
+    //  /* transition: 0.2s all; */
+    //}
   }
 `;
 
