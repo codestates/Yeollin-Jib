@@ -40,7 +40,7 @@ function LoginPage() {
   // 입력받은 이메일과 비밀번호를 dispatch로 setAuth에 넣어 함수 실행
   const handleLoginBtn = (email: string, password: string): void => {
     dispatch(setAuth({ email: email, password: password }));
-    if (isLogin) {
+    if (!isLogin) {
       setIsValid(false);
     }
   };
