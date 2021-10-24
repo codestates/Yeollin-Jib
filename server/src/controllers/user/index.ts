@@ -1,5 +1,4 @@
 import signup from "./signup";
-import post_image from "./post_image";
 import login from "./login";
 import logout from "./logout";
 import get from "./get";
@@ -11,7 +10,6 @@ import delete_ from "./delete";
 
 export {
   signup,
-  post_image,
   login,
   logout,
   get,

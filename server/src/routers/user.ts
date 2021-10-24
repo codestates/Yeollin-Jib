@@ -7,7 +7,7 @@ import { upload } from "../middleware/multer";
 //회원가입
 userRouter.post("/signup", usercontroller.signup);
 //회원가입 프로필 사진
-userRouter.post("/image", accessToken, usercontroller.post_image);
+// userRouter.post("/image", accessToken, usercontroller.post_image);
 //로그인
 userRouter.post("/login", usercontroller.login);
 //로그아웃

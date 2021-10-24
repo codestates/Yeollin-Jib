@@ -45,7 +45,7 @@ const refreshToken = async (
         const accessToken = await jwt.sign(payload, process.env.ACCESS_SECRET, {
           expiresIn: "12h",
         });
-        accessToken(req, res, next);
+
         return res.status(200).json({
           accessToken,
           id: payload.id,
