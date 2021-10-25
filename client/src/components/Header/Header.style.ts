@@ -19,13 +19,6 @@ export const Logo = styled.div`
   div {
     display: flex;
     cursor: pointer;
-<<<<<<< HEAD
-    //:hover {
-    //  border-bottom: 0.313rem solid #fede8a;
-    //  /* transition: 0.2s all; */
-    //}
-=======
->>>>>>> Feature/MainPage
   }
 `;
 

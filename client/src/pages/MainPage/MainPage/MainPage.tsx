@@ -78,9 +78,6 @@ function MainPage() {
         <PostCard></PostCard>
         <PostCard></PostCard>
         <PostCard></PostCard>
-        <PostCard></PostCard>
-        <PostCard></PostCard>
-        <PostCard></PostCard>
       </PostCardArea>
     </MainPageContainer>
   );

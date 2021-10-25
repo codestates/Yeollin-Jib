@@ -10,11 +10,11 @@ interface Index {
 }
 
 export const MainPageContainer = styled.div`
-  height: 100%;
+  min-height: 90vh;
   width: 100%;
   color: #2d2d2d;
   @media screen and (max-width: 37.5rem) {
-    margin: 0 21px 0 21px;
+    margin: 0 1.313rem 0 1.313rem;
   }
 `;
 
@@ -23,9 +23,9 @@ export const CategoryContainer = styled.div`
 `;
 
 export const CategoryMenu = styled.div<ShowCategory>`
-  width: 108px;
+  width: 6.75rem;
   background: ${(props) => (props.isShowCategory ? "#fede8a" : "#E0DDE1")};
-  border-radius: 0px 0px 20px 20px;
+  border-radius: 0px 0px 1.25rem 1.25rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -43,11 +43,12 @@ export const CategoryMenu = styled.div<ShowCategory>`
   }
   span {
     width: 91px;
-    margin-top: 8px;
+    margin: 10px 0 10px 0;
     font-size: 1rem;
     text-align: center;
     @media screen and (max-width: 37.5rem) {
       width: 47px;
+      margin: 6px 0 6px 0;
       font-size: 0.5rem;
     }
   }
@@ -63,7 +64,9 @@ export const CategoryMenuCircle = styled.div<ShowCategory>`
   border-radius: 19px;
   visibility: ${(props) => (props.isShowCategory ? "visible" : "hidden")};
   transition: all 0.3s;
+  margin-top: 10px;
   @media screen and (max-width: 37.5rem) {
+    margin-top: 6px;
     width: ${(props) => (props.isShowCategory ? "20px" : "0px")};
     height: ${(props) => (props.isShowCategory ? "20px" : "0px")};
   }
@@ -90,16 +93,17 @@ export const CategoryItemsBox = styled.div`
 
 export const CategoryItem = styled.div<ShowCategory>`
   width: 129px;
-  height: ${(props) => (props.isShowCategory ? "24px" : "3px")};
+  height: 15px;
   margin-right: 3.556%;
   margin-bottom: 1.727%;
   display: flex;
   justify-content: center;
   align-items: center;
   font-weight: 500;
-  visibility: ${(props) => (props.isShowCategory ? "visible" : "hidden")};
   transition: all 0.3s;
+  visibility: ${(props) => (props.isShowCategory ? "visible" : "hidden")};
   font-weight: ${(props) => (props.isShowCategory ? "500" : "100")};
+  height: ${(props) => (props.isShowCategory ? "14px" : "0px")};
   @media screen and (max-width: 37.5rem) {
     width: 44px;
     margin: 0;
@@ -114,7 +118,6 @@ export const CategoryItem = styled.div<ShowCategory>`
     @media screen and (max-width: 37.5rem) {
       font-size: 0.5rem;
       padding: 0;
-      height: 17px;
       :hover {
         border-bottom: 0.188rem solid #fede8a;
       }

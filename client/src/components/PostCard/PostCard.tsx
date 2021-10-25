@@ -6,19 +6,23 @@ import {
   PostCardTitle,
   PhotoCirclesBox,
   PhotoCircle,
-  PostCardUserInfo,
+  InfoBox,
+  ProfileBox,
+  PostCardUserProfile,
+  ShareDate,
   PostCardAddress,
   PostCardImgBackground,
   CategoryCard,
   PostCardLikeBox,
   PostCardLike,
+  CategoryBox,
 } from "./PostCard.style";
 
 function PostCard() {
   return (
     <PostCardContainer>
       <PostCardImgBox>
-        <PostCardImg src="./images/dummyPost.png" alt="PostImg"></PostCardImg>
+        <PostCardImg src="./images/test.jpeg" alt="PostImg"></PostCardImg>
         <PostCardLikeBox>
           <PostCardLike>
             <path
@@ -36,10 +40,25 @@ function PostCard() {
         </PhotoCirclesBox>
         <PostCardImgBackground />
       </PostCardImgBox>
-      <PostCardTitle>까까까까</PostCardTitle>
-      <PostCardUserInfo></PostCardUserInfo>
-      <PostCardAddress></PostCardAddress>
-      <CategoryCard></CategoryCard>
+      <PostCardTitle>
+        <span>{"나눔해여어어어"}</span>
+      </PostCardTitle>
+      <InfoBox>
+        <ProfileBox>
+          <PostCardUserProfile>
+            <img src="./images/dummyPost.png" alt="UserPhoto" />
+          </PostCardUserProfile>
+          <span className="User_Name">까까마리</span>
+        </ProfileBox>
+        <ShareDate>{"2021.10.26"}</ShareDate>
+      </InfoBox>
+      <PostCardAddress>
+        <img src="./images/mapMark.svg" alt="MapMark" />
+        <span className="Share_Address">{"경기도 용인시 기흥구"}</span>
+      </PostCardAddress>
+      <CategoryBox>
+        <CategoryCard>{"가구/침구류"}</CategoryCard>
+      </CategoryBox>
     </PostCardContainer>
   );
 }

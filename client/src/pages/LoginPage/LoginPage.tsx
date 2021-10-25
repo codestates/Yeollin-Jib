@@ -45,8 +45,8 @@ function LoginPage() {
     if (!isLogin) {
       setTimeout(() => {
         setIsValid(false);
-      }, 100)
-    } 
+      }, 100);
+    }
   };
 
   return (
