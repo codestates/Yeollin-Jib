@@ -10,10 +10,10 @@ export const Logo = styled.div`
   display: flex;
   justify-content: start;
   align-items: center;
-  margin: 0 1.938rem 0 0.563rem;
+  margin: 0.3rem 1.938rem 0 0.563rem;
   @media screen and (max-width: 37.5rem) {
     width: 1.875rem;
-    margin: 0 0.75rem 0 1.375rem;
+    margin: 0.3rem 0.75rem 0 1.375rem;
     transition: 0.5s all;
   }
   div {

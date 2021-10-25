@@ -30,12 +30,14 @@ function Header() {
   return (
     // 상단바
     <HeaderItemContainer>
-      <Logo>
-        <div>
-          <LogoImg src="./images/logo.svg" alt="LogoImg" />
-          <LogoTitle src="./images/logoTitle.svg" alt="LogoTitle" />
-        </div>
-      </Logo>
+      <Link to="/main">
+        <Logo>
+          <div>
+            <LogoImg src="./images/logo.svg" alt="LogoImg" />
+            <LogoTitle src="./images/logoTitle.svg" alt="LogoTitle" />
+          </div>
+        </Logo>
+      </Link>
       <SearchBar>
         <SearchSelect onChange={(e) => {}}>
           {ArrSearch.map((el, idx) => {

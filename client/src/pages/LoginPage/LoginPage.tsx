@@ -14,13 +14,13 @@ import {
 import { RootState } from "../../reducers/rootReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { setAuth } from "../../reducers/authReducer";
-import { Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 function LoginPage() {
   const dispatch = useDispatch();
 
   // 스토어 값 가져오기
-  const isLogin = useSelector((state: RootState) => state.authReducer.isLogin);
+  const { isLogin } = useSelector((state: RootState) => state.authReducer);
 
   // 이메일과 비밀번호 인풋값
   const [email, setEmail] = useState("");
@@ -28,24 +28,21 @@ function LoginPage() {
   const [isValid, setIsValid] = useState(true);
 
   // 이메일 값을 저장
-  const setEmailData = (e: any) => {
+  const setEmailData = (e: any): void => {
     setEmail(e.target.value);
   };
 
   // 비밀번호 값을 저장
-  const setPasswordData = (e: any) => {
+  const setPasswordData = (e: any): void => {
     setPassword(e.target.value);
   };
 
   // 입력받은 이메일과 비밀번호를 dispatch로 setAuth에 넣어 함수 실행
-  const handleLoginBtn = (email: string, password: string) => {
+  const handleLoginBtn = (email: string, password: string): void => {
     dispatch(setAuth({ email: email, password: password }));
-
-    // 요청을 보낸 후(확인을 위해 시간 필요) 로그인이 fals면 InValid 메시지 노출
+    // 로그인이 false면 메시지 노출
     if (!isLogin) {
-      setTimeout(() => {
-        setIsValid(false);
-      }, 100);
+      setIsValid(false);
     }
   };
 
@@ -82,7 +79,9 @@ function LoginPage() {
               <img src="./images/kakaoLogo.svg" alt="kakao" />
               <div>카카오 로그인</div>
             </SocialLoginBtn>
-            <SignupBtn>아직 이메일이 없으신가요? 회원가입 하러가기</SignupBtn>
+            <Link to={"/signup"}>
+              <SignupBtn>아직 이메일이 없으신가요? 회원가입 하러가기</SignupBtn>
+            </Link>
           </ContentContainer>
         </Container>
       )}
