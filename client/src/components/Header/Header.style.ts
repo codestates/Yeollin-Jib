@@ -19,10 +19,6 @@ export const Logo = styled.div`
   div {
     display: flex;
     cursor: pointer;
-    //:hover {
-    //  border-bottom: 0.313rem solid #fede8a;
-    //  /* transition: 0.2s all; */
-    //}
   }
 `;
 
@@ -83,10 +79,7 @@ export const SearchSelect = styled.select`
   @media screen and (max-width: 37.5rem) {
     padding: 0 1.125rem 0 0.563rem;
     transition: 0.5s all;
-  }
-  option {
     font-size: 0.625rem;
-    font-weight: normal;
   }
 `;
 
@@ -123,10 +116,14 @@ export const LoginLogoutBtn = styled.button`
   font-family: "Gmarket Sans TTF";
   border: none;
   cursor: pointer;
+  :active {
+    background: #3f3f3f;
+  }
   @media screen and (max-width: 37.5rem) {
     display: none;
   }
 `;
+
 export const SignupUserInfoBtn = styled.button`
   width: 5rem;
   height: 2.25rem;
@@ -140,6 +137,9 @@ export const SignupUserInfoBtn = styled.button`
   border: 0.063rem solid #2d2d2d;
   cursor: pointer;
   margin-left: 0.563rem;
+  :active {
+    background: #f5f4f5;
+  }
   @media screen and (max-width: 37.5rem) {
     display: none;
   }
