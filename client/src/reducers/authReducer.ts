@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { ILoginstate, ILoginpayLoad, Ilogin } from "../types/types";
+import { ILoginState, ILoginPayLoad, ILogin } from "../types/types";
 
 // axios.post 요청(login)
 export const setAuth = createAsyncThunk(
   "authReducer/setAuth",
-  async ({ email, password }: Ilogin) => {
+  async ({ email, password }: ILogin) => {
     return await axios.post(
       `${process.env.REACT_APP_API_URL}/user/login`,
       { email: email, password: password },
@@ -17,7 +17,7 @@ export const setAuth = createAsyncThunk(
 );
 
 // 초기 상태값
-let initialState: ILoginstate = {
+let initialState: ILoginState = {
   isLogin: false,
   accessToken: "",
 };
@@ -38,7 +38,7 @@ export const authReducer = createSlice({
       state.accessToken = "";
     },
     // fulfilled 상태
-    [setAuth.fulfilled.type]: (state, action: ILoginpayLoad) => {
+    [setAuth.fulfilled.type]: (state, action: ILoginPayLoad) => {
       state.isLogin = true;
       state.accessToken = action.payload.data.accessToken;
     },

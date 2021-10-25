@@ -81,7 +81,6 @@ export const InputField = styled.input`
   height: 2.313rem;
   width: 97%;
   margin-bottom: 1.4rem;
-  transition: 0.5s all;
 
   :focus {
     border: 1px solid #2d2d2d;
@@ -89,7 +88,6 @@ export const InputField = styled.input`
 
   @media screen and (max-width: 37.5rem) {
     font-size: 0.8rem;
-    transition: 0.5s all;
   }
 `;
 
