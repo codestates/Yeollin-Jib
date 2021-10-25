@@ -21,7 +21,12 @@ userRouter.get("/nickname", usercontroller.nick_name);
 userRouter.get("/email", usercontroller.email);
 
 //유저프로필변경
-userRouter.patch("/", accessToken, usercontroller.put);
+userRouter.patch(
+  "/",
+  upload.single("imagePath"),
+  accessToken,
+  usercontroller.put
+);
 //유저프로필사진변경
 userRouter.put("/image", accessToken, usercontroller.put_image);
 
