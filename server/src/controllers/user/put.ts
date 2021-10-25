@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import user from "../../models/user";
 import * as crypto from "crypto";
+import * as fs from "fs";
 
 const put = async (req: Request, res: Response) => {
   const userId = req.body.id;
@@ -10,6 +11,7 @@ const put = async (req: Request, res: Response) => {
       return res.status(403).json({ message: "잘못된 요청입니다." });
     } else {
       const { nickname, password, userArea, imagePath } = req.body;
+      const imagePathReq: any = req.file;
       const findUser: any = await user.findOne({
         where: { id: userId },
       });
@@ -50,8 +52,22 @@ const put = async (req: Request, res: Response) => {
           );
         }
         // 프로필 사진 수정
+        if (imagePathReq) {
+          // 기존 파일 삭제
+          fs.unlink(`${__dirname}/../../../${findUser.imagePath}`, (err) => {
+            if (err) {
+              console.log("기존 파일 삭제 에러 입니다.", err.message);
+            }
+          });
+          // 새 파일 업로드
+          await user.update(
+            { imagePath: `${imagePathReq.path}` },
+            {
+              where: { id: userId },
+            }
+          );
+        }
       }
-
       return res.status(200).json({ message: "정보 수정이 완료되었습니다" });
     }
   } catch (err) {
