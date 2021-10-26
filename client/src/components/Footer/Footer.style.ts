@@ -13,7 +13,12 @@ export const FooterTitle = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 30px;
+  line-height: 22px;
   .contact {
+    box-sizing: border-box;
+    height: 24px;
+    line-height: 22px;
     color: #2d2d2d;
     font-size: 1rem;
     cursor: pointer;
@@ -34,8 +39,10 @@ export const GitHubContainer = styled.div`
     color: #2d2d2d;
     font-size: 1rem;
     cursor: pointer;
+    height: 24px;
     text-decoration: none;
     color: #2d2d2d;
+    box-sizing: border-box;
     :hover {
       border-bottom: 0.313rem solid #fede8a;
     }

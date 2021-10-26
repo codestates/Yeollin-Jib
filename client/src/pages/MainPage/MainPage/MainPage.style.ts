@@ -2,17 +2,15 @@ import styled from "styled-components";
 
 interface ShowCategory {
   isShowCategory: boolean;
+  isTestBoolean?: boolean;
   key?: number;
-}
-
-interface Index {
-  id: string;
 }
 
 export const MainPageContainer = styled.div`
   min-height: 90vh;
   width: 100%;
   color: #2d2d2d;
+  font-family: "Gmarket Sans TTF";
   @media screen and (max-width: 37.5rem) {
     margin: 0 1.313rem 0 1.313rem;
   }
@@ -24,7 +22,8 @@ export const CategoryContainer = styled.div`
 
 export const CategoryMenu = styled.div<ShowCategory>`
   width: 6.75rem;
-  background: ${(props) => (props.isShowCategory ? "#fede8a" : "#E0DDE1")};
+  background: ${(props) => (props.isShowCategory ? "#fede8a" : "#F7F7F8")};
+  border: 1px solid #e0dde1;
   border-radius: 0px 0px 1.25rem 1.25rem;
   display: flex;
   flex-direction: column;
@@ -93,29 +92,33 @@ export const CategoryItemsBox = styled.div`
 
 export const CategoryItem = styled.div<ShowCategory>`
   width: 129px;
-  height: 15px;
   margin-right: 3.556%;
   margin-bottom: 1.727%;
+  margin-top: 1.227%;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-weight: 500;
   transition: all 0.3s;
+  height: ${(props) => (props.isShowCategory ? "22px" : "0px")};
   visibility: ${(props) => (props.isShowCategory ? "visible" : "hidden")};
   font-weight: ${(props) => (props.isShowCategory ? "500" : "100")};
-  height: ${(props) => (props.isShowCategory ? "14px" : "0px")};
+  color: ${(props) => (props.isShowCategory ? "#2d2d2d" : "#FDFBFE")};
   @media screen and (max-width: 37.5rem) {
-    width: 44px;
-    margin: 0;
+    margin-top: 3.727%;
+    width: 50px;
   }
   span {
     font-size: 1rem;
     padding-bottom: 3px;
     cursor: pointer;
+    height: 22px;
+    visibility: ${(props) => (props.isShowCategory ? "visible" : "hidden")};
+    box-sizing: border-box;
     :hover {
       border-bottom: 0.313rem solid #fede8a;
     }
     @media screen and (max-width: 37.5rem) {
+      height: 11px;
       font-size: 0.5rem;
       padding: 0;
       :hover {
