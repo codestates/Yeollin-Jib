@@ -48,6 +48,7 @@ export const PostCardImgBackground = styled.div`
     border-radius: 0.25rem 0.25rem 0px 0px;
     width: 100%;
     height: auto;
+    z-index: 99;
   }
 `;
 
@@ -65,7 +66,6 @@ export const PostCardLikeBox = styled.div`
 
 export const PostCardLike = styled.svg`
   width: 1rem;
-  fill: red;
   margin-top: 0.813rem;
   margin-right: 0.75rem;
 `;

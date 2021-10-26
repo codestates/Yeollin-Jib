@@ -156,7 +156,7 @@ export const HamburgerContainer = styled.div`
     animation-name: SlideIn;
     animation-duration: 0.5s;
     animation-direction: alternate;
-
+    z-index: 2;
     @keyframes SlideIn {
       from {
         left: 130%;
