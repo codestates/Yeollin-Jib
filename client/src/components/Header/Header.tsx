@@ -49,6 +49,7 @@ function Header() {
           })}
         </SearchSelect>
         <input />
+        <img src="./images/searchBtn.svg" alt="search" />
       </SearchBar>
       <MenuBtn>
         <HamburgerBtn
