@@ -44,7 +44,7 @@ export const TitleWrapper = styled.span`
 `;
 
 export const Title = styled.span`
-  font-weight: 400;
+  font-weight: 300;
   font-size: 1.4rem;
   border-bottom: 5px solid #fede8a;
   transition: 0.5s all;
@@ -56,7 +56,7 @@ export const Title = styled.span`
 `;
 
 export const InputTitle = styled.div`
-  font-weight: 200;
+  font-weight: 100;
   font-size: 1rem;
   margin-bottom: 0.5rem;
   transition: 0.5s all;

@@ -1,4 +1,17 @@
 @font-face {
-	font-family: 'Gmarket Sans TTF';
-	src: url('./font/GmarketSansTTF.ttf')format('opentype');
+  font-family: "Gmarket Sans TTF";
+  font-weight: 100;
+  src: url("./font/GmarketSansTTFLight.ttf") format("opentype");
+}
+
+@font-face {
+  font-family: "Gmarket Sans TTF";
+  font-weight: 300;
+  src: url("./font/GmarketSansTTFMedium.ttf") format("opentype");
+}
+
+@font-face {
+  font-family: "Gmarket Sans TTF";
+  font-weight: 500;
+  src: url("./font/GmarketSansTTFBold.ttf") format("opentype");
 }
