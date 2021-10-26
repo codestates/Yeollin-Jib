@@ -60,5 +60,4 @@ const login = async (req: Request, res: Response) => {
     return res.status(501).json({ message: "서버에러 입니다." });
   }
 };
-
 export default login;
