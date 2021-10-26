@@ -27,6 +27,7 @@ export const Body = styled.div`
   background: linear-gradient(0deg, #fbfafc, #fbfafc);
   display: flex;
   justify-content: center;
+  padding: 0 30px 0 30px;
 `;
 
 export const MainArea = styled.main`
