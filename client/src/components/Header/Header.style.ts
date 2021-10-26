@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const HeaderItemContainer = styled.div`
   display: flex;
   width: 78.75rem;
+  padding: 0 30px 0 30px;
 `;
 
 export const Logo = styled.div`
@@ -10,7 +11,7 @@ export const Logo = styled.div`
   display: flex;
   justify-content: start;
   align-items: center;
-  margin: 0.3rem 1.938rem 0 0.563rem;
+  margin: 0.3rem 0 0 0.563rem;
   @media screen and (max-width: 37.5rem) {
     width: 1.875rem;
     margin: 0.3rem 0.75rem 0 1.375rem;
@@ -43,6 +44,7 @@ export const SearchBar = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 0 12% 0 12%;
   input {
     width: 100%;
     height: 2.313rem;
@@ -56,7 +58,7 @@ export const SearchBar = styled.div`
     border-top: 0.063rem solid #e0dde1;
     border-right: 0.063rem solid #e0dde1;
     font-family: "Gmarket Sans TTF";
-    font-weight: 400;
+    font-weight: 100;
     color: #2d2d2d;
   }
 `;
@@ -74,7 +76,7 @@ export const SearchSelect = styled.select`
   border-top: 0.063rem solid #e0dde1;
   border-left: 0.063rem solid #e0dde1;
   font-family: "Gmarket Sans TTF";
-  font-weight: 400;
+  font-weight: 300;
   color: #2d2d2d;
   @media screen and (max-width: 37.5rem) {
     padding: 0 1.125rem 0 0.563rem;
@@ -87,7 +89,6 @@ export const MenuBtn = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-left: 8%;
   @media screen and (max-width: 37.5rem) {
     margin-left: 0;
     transition: 0.5s all;
