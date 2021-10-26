@@ -1,9 +1,9 @@
-export interface ILoginstate {
+export interface ILoginState {
   isLogin: boolean;
   accessToken: string;
 }
 
-export interface ILoginpayLoad {
+export interface ILoginPayLoad {
   payload: {
     data: {
       accessToken: string;
@@ -11,7 +11,8 @@ export interface ILoginpayLoad {
     };
   };
 }
-export interface Ilogin {
+
+export interface ILogin {
   email: string;
   password: string;
 }

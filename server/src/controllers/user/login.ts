@@ -49,6 +49,7 @@ const login = async (req: Request, res: Response) => {
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
     });
+    console.log(req.cookies);
     return res.status(200).json({
       accessToken,
       id: findUser.id,
