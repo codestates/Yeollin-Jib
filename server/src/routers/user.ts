@@ -33,8 +33,6 @@ userRouter.patch(
   accessToken,
   usercontroller.put
 );
-//유저프로필사진변경
-// userRouter.put("/image", accessToken, usercontroller.put_image);
 
 //회원탈퇴
 userRouter.delete("/", accessToken, usercontroller.delete_);
