@@ -9,7 +9,7 @@ import { sequelize } from "./sequelize";
 import { dbType } from "./index";
 import user from "./user";
 
-class Comment extends Model {
+class comment extends Model {
   public readonly id!: number;
   public userId!: BelongsToManyGetAssociationsMixin<user>;
   public postId!: number;
@@ -18,7 +18,7 @@ class Comment extends Model {
   public readonly updatedAt!: Date;
 }
 
-Comment.init(
+comment.init(
   {
     userId: {
       type: DataTypes.INTEGER,
@@ -47,7 +47,7 @@ Comment.init(
 );
 
 export const associate = (db: dbType) => {
-  db.Comment.belongsTo(db.user, { foreignKey: "userId", targetKey: "id" });
+  db.comment.belongsTo(db.user, { foreignKey: "id", targetKey: "id" });
 };
 
-export default Comment;
+export default comment;
