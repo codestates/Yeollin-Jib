@@ -28,7 +28,7 @@ export const ContentContainer = styled.div`
   @media screen and (max-width: 37.5rem) {
     border: 1px solid #fbfafc;
     margin-bottom: 300px;
-    width: 20rem;
+    width: 19rem;
     height: 28rem;
     transition: 0.5s all;
     background-color: #fbfafc;
