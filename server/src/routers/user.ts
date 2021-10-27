@@ -7,7 +7,7 @@ import { upload } from "../middleware/multer";
 //회원가입
 userRouter.post("/signup", usercontroller.signup);
 //회원가입 프로필 사진
-userRouter.post("/image", accessToken, usercontroller.post_image);
+userRouter.post("/image", accessToken, upload.single("file"), usercontroller.post_image);
 //로그인
 userRouter.post("/login", usercontroller.login);
 //로그아웃
@@ -23,7 +23,7 @@ userRouter.get("/email", accessToken, usercontroller.email);
 //유저프로필변경
 userRouter.put("/", accessToken, usercontroller.put);
 //유저프로필사진변경
-userRouter.put("/image", accessToken, usercontroller.put_image);
+userRouter.put("/image", accessToken, upload.single("file"), usercontroller.put_image);
 
 //회원탈퇴
 userRouter.delete("/", accessToken, usercontroller.delete_);

@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from "express";
-import * as dotenv from "dotenv";
+
 import user from "../models/user";
 import refreshToken from "./refreshToken";
+import * as dotenv from "dotenv";
 dotenv.config();
 const jwt = require("jsonwebtoken");
 
@@ -14,7 +15,7 @@ const accessToken = async (req: Request, res: Response, next: NextFunction) => {
     const token = authHeader.split(" ")[1];
     const data = await jwt.verify(token, process.env.ACCESS_SECRET, async (err: Error, decode: any) => {
       if (err) {
-        refreshToken;
+        next(refreshToken);
       } else {
         const Info = await user.findOne({
           where: { id: decode.id },

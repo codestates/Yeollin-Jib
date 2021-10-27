@@ -1,11 +1,10 @@
-import ost from "./post";
-import post_image from "./post_image";
-import get from "./get";
+import post_user from "./post";
+import get_page from "./get_page";
+import get_infinite from "./get_infinite";
 import get_user from "./get_user";
-import get_id from "./get_id";
-import category from "./category";
+import get from "./get";
+import category_find from "./category";
 import put from "./put";
-import put_image from "./put_image";
 import delete_ from "./delete_";
 
-export { ost, post_image, get, get_user, get_id, category, put, put_image, delete_ };
+export { post_user, get_page, get_infinite, get_user, get, category_find, put, delete_ };
