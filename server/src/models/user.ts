@@ -68,8 +68,6 @@ user.init(
   },
 );
 
-export const associate = (db: dbType) => {
-  db.user.hasMany(db.comment, { foreignKey: "id", sourceKey: "id" });
-};
+export const associate = (db: dbType) => {};
 
 export default user;
