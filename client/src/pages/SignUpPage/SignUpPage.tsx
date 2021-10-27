@@ -17,7 +17,7 @@ import {
 } from "./SignUpPage.style";
 import { Link } from "react-router-dom";
 import Inspect from "./Inspect";
-import WarningIcon from "../../icons/WarningIcon";
+import WarningIcon from "../../icons/Icons";
 import axios from "axios";
 
 function SignUpPage() {
