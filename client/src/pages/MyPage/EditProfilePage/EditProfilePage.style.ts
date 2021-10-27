@@ -109,9 +109,15 @@ export const InputContainer = styled.div`
 `;
 
 export const InputTitle = styled.div`
+  display: flex;
+  align-items: center;
   font-family: "Gmarket Sans TTF";
   font-weight: 300;
   font-size: 1rem;
+
+  div {
+    margin-left: 5px;
+  }
 
   @media screen and (max-width: 37.5rem) {
     font-size: 0.9rem;

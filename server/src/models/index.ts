@@ -1,19 +1,29 @@
 import user, { associate as associateUser } from "./user";
-import Comment from "./comment";
+import comment from "./comment";
+import post, { associate as associatepost } from "./post";
+import post_category, { associate as associatepost_category } from "./post_category";
+import category, { associate as associatecategory } from "./category";
+export * from "./sequelize";
 
-Comment.hasMany(user, {
+comment.hasMany(user, {
   sourceKey: "id",
   foreignKey: "id",
   onDelete: "CASCADE",
   onUpdate: "CASCADE",
 });
-Comment.belongsTo(user, { foreignKey: "id", targetKey: "id" });
+comment.belongsTo(user, { foreignKey: "id", targetKey: "id" });
 
-export * from "./sequelize";
 const db = {
   user,
-  Comment,
+  post,
+  post_category,
+  category,
+
+
 };
 export type dbType = typeof db;
 
-associateUser(db);
+associateuser(db);
+associatepost(db);
+associatepost_category(db);
+associatecategory(db);

@@ -19,6 +19,7 @@ import {
   WhiteBtn,
 } from "./EditProfilePage.style";
 import { Link } from "react-router-dom";
+import { PencilIcon, CameraIcon, MapMarkIcon } from "../../../icons/Icons";
 
 function EditProfilePage() {
   return (
@@ -34,6 +35,7 @@ function EditProfilePage() {
         <LeftContainer>
           <FormContainer>
             <InputTitle>
+              <CameraIcon color={"#2d2d2d"} />
               <div>프로필 사진</div>
             </InputTitle>
             <PhotoBox></PhotoBox>
@@ -42,6 +44,7 @@ function EditProfilePage() {
         <RightContainer>
           <FormContainer>
             <InputTitle>
+              <PencilIcon color={"#2d2d2d"} />
               <div>닉네임</div>
             </InputTitle>
             <InputContainer>
@@ -55,6 +58,7 @@ function EditProfilePage() {
           </FormContainer>
           <FormContainer>
             <InputTitle>
+              <MapMarkIcon color={"#2d2d2d"} />
               <div>우리 동네</div>
             </InputTitle>
             <InputContainer>

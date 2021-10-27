@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from "express";
-import * as dotenv from "dotenv";
+
 import user from "../models/user";
 import refreshToken from "./refreshToken";
+import * as dotenv from "dotenv";
 dotenv.config();
 const jwt = require("jsonwebtoken");
 

@@ -9,7 +9,7 @@ const corsOption = {
   Headers: { "content-type": "application/json" },
   origin: true,
   credentials: true,
-  method: ["post", "get", "put", "delete", "options"],
+  method: ["post", "get", "put", "patch", "delete", "options"],
 };
 
 app.use(express.json());
