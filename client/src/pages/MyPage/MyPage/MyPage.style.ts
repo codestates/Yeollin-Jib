@@ -4,6 +4,10 @@ interface ITapProps {
   isClicked: boolean;
 }
 
+interface IContentProps {
+  isColumn: boolean;
+}
+
 export const Container = styled.div`
   box-sizing: border-box;
   display: flex;
@@ -24,7 +28,7 @@ export const SideContainer = styled.div`
   /* position: fixed; */
 
   @media screen and (max-width: 37.5rem) {
-    margin-right: 0;
+    margin: 0;
   }
 `;
 
@@ -290,7 +294,8 @@ export const WhiteBtn = styled.button`
 
 export const ContentContainer = styled.div`
   width: 100%;
-  /* margin-left: 308px; */
+  box-sizing: border-box;
+  /* margin-left: 318px; */
 
   @media screen and (max-width: 37.5rem) {
     width: 320px;
@@ -309,9 +314,13 @@ export const Title = styled.span`
   }
 `;
 
-export const Content = styled.div`
+export const Content = styled.div<IContentProps>`
   display: flex;
-  flex-direction: column;
-  align-items: stretch;
+  flex-direction: ${(props) => (props.isColumn ? "column" : "row")};
   margin-top: 20px;
+
+  @media screen and (max-width: 37.5rem) {
+    margin-top: 0;
+    flex-direction: column;
+  }
 `;

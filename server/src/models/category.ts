@@ -4,15 +4,20 @@ import { dbType } from "./index";
 
 class category extends Model {
   public readonly id!: number;
-  public category!: number;
+  public category1!: number;
+  public category2!: number;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }
 
 category.init(
   {
-    category: {
+    category1: {
       type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    category2: {
+      type: DataTypes.STRING,
       allowNull: false,
     },
   },
@@ -29,6 +34,8 @@ category.init(
   },
 );
 
-export const associate = (db: dbType) => {};
+export const associate = (db: dbType) => {
+  db.category.hasMany(db.post_category, { foreignKey: "categoryId" });
+};
 
 export default category;

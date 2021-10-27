@@ -22,6 +22,10 @@ import {
   Content,
 } from "./MyPage.style";
 import { Link } from "react-router-dom";
+import MyPost from "../../../components/MyPost/MyPost";
+import MyComment from "../../../components/MyComment/MyComment";
+import MyFavoritePost from "../../../components/MyFavoritePost/MyFavoritePost";
+import MyChattingRoom from "../../../components/MyChattingRoom/MyChattingRoom";
 
 function MyPage() {
   // 선택한 탭의 이름을 저장
@@ -59,14 +63,14 @@ function MyPage() {
                 <img src="./images/commentMark.svg" alt="commentMark" />
               </InfoIcon>
               <div className="Info_Text">내가 쓴 댓글</div>
-              <div className="Info_Count">133개</div>
+              <div className="Info_Count">0개</div>
             </UserInfo>
             <UserInfo>
               <InfoIcon>
                 <img src="./images/likeMark.svg" alt="likeMark" />
               </InfoIcon>
               <div className="Info_Text">내가 찜한 게시글</div>
-              <div className="Info_Count">35개</div>
+              <div className="Info_Count">0개</div>
             </UserInfo>
           </InfoContainer>
           <SmallBtnContainer>
@@ -119,7 +123,16 @@ function MyPage() {
       </SideContainer>
       <ContentContainer>
         <Title>{tapName}</Title>
-        <Content></Content>
+        <Content
+          isColumn={
+            tapName === "채팅방" || tapName === "내가 쓴 댓글" ? true : false
+          }
+        >
+          {tapName === "내가 쓴 게시글" ? <MyPost /> : null}
+          {tapName === "내가 쓴 댓글" ? <MyComment /> : null}
+          {tapName === "내가 찜한 게시글" ? <MyFavoritePost /> : null}
+          {tapName === "채팅방" ? <MyChattingRoom /> : null}
+        </Content>
       </ContentContainer>
     </Container>
   );
