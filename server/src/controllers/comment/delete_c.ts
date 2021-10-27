@@ -1,14 +1,13 @@
 import { Request, Response } from "express";
 import user from "../../models/user";
-import Comment from "../../models/comment";
+import comment from "../../models/comment";
 const delete_c = async (req: Request, res: Response) => {
   const { id } = req.params;
-  console.log(req.body);
   const userId = req.body.id;
 
   if (userId) {
     try {
-      const commentInfo: any = await Comment.findOne({
+      const commentInfo: any = await comment.findOne({
         where: { id: id },
       });
       await commentInfo.destroy({});

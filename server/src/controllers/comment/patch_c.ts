@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import user from "../../models/user";
-import Comment from "../../models/comment";
+import comment from "../../models/comment";
 const patch_c = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { contents } = req.body;
@@ -14,13 +14,13 @@ const patch_c = async (req: Request, res: Response) => {
       attributes: ["nickname"],
     });
 
-    const commentInfo: any = await Comment.findOne({
+    const commentInfo: any = await comment.findOne({
       where: {
         id: id,
       },
     });
 
-    await Comment.update(
+    await comment.update(
       {
         contents,
       },
@@ -40,7 +40,6 @@ const patch_c = async (req: Request, res: Response) => {
       contents,
     };
 
-    console.log(commentInfo.PostId);
     return res.status(200).json({
       comment: payload,
       nickname: userload,

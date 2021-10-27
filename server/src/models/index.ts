@@ -1,18 +1,18 @@
 import user, { associate as associateUser } from "./user";
-import Comment from "./comment";
+import comment from "./comment";
 
-Comment.hasMany(user, {
+comment.hasMany(user, {
   sourceKey: "id",
   foreignKey: "id",
   onDelete: "CASCADE",
   onUpdate: "CASCADE",
 });
-Comment.belongsTo(user, { foreignKey: "id", targetKey: "id" });
+comment.belongsTo(user, { foreignKey: "id", targetKey: "id" });
 
 export * from "./sequelize";
 const db = {
   user,
-  Comment,
+  comment,
 };
 export type dbType = typeof db;
 
