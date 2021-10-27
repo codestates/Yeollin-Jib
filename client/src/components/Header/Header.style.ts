@@ -45,6 +45,11 @@ export const SearchBar = styled.div`
   justify-content: center;
   align-items: center;
   margin: 0 12% 0 12%;
+  border: 0.063rem solid #e0dde1;
+  box-sizing: border-box;
+  border-radius: 0.313rem;
+  background: #f7f7f8;
+  height: 2.5rem;
   input {
     width: 100%;
     height: 2.313rem;
@@ -54,12 +59,13 @@ export const SearchBar = styled.div`
     padding: 0 0 0 0.938rem;
     border-radius: 0 0.313rem 0.313rem 0;
     background: #f7f7f8;
-    border-bottom: 0.063rem solid #e0dde1;
-    border-top: 0.063rem solid #e0dde1;
-    border-right: 0.063rem solid #e0dde1;
     font-family: "Gmarket Sans TTF";
     font-weight: 100;
     color: #2d2d2d;
+  }
+  img {
+    cursor: pointer;
+    padding: 0 0.626rem 0 0.626rem;
   }
 `;
 
@@ -72,9 +78,6 @@ export const SearchSelect = styled.select`
   border-radius: 0.313rem 0 0 0.313rem;
   padding: 0 2.125rem 0 0.875rem;
   background: #f7f7f8;
-  border-bottom: 0.063rem solid #e0dde1;
-  border-top: 0.063rem solid #e0dde1;
-  border-left: 0.063rem solid #e0dde1;
   font-family: "Gmarket Sans TTF";
   font-weight: 300;
   color: #2d2d2d;
@@ -176,7 +179,6 @@ export const BarWrapper = styled.div`
   justify-content: right;
   align-items: center;
   background-color: #fdfbfe;
-
   a {
     text-decoration: none;
   }

@@ -1,26 +1,19 @@
 import { Request, Response } from "express";
-import user from "../../models/user";
 import comment from "../../models/comment";
 const get = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const userId = req.body.id;
 
   try {
     await comment
       .findAll({
-        include: [
-          {
-            model: user,
-            attributes: ["nickname"],
-          },
-        ],
         where: {
-          postId: id,
+          userId,
         },
       })
       .then((data: object) => {
         res.status(200).json({
           data,
-          message: "게시물의 전체 댓글이 성공적으로 조회되었습니다.",
+          message: "내가 쓴 댓글이 성공적으로 조회되었습니다.",
         });
       });
   } catch (err) {

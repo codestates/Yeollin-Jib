@@ -41,7 +41,8 @@ comment.init(
 );
 
 export const associate = (db: dbType) => {
-  db.comment.belongsTo(db.user, { foreignKey: "userId", targetKey: "id" });
+
+  db.comment.belongsTo(db.user, { foreignKey: "id", targetKey: "id" });
 };
 
 export default comment;
