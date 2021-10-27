@@ -1,17 +1,24 @@
-import { BelongsToManyAddAssociationMixin, BelongsToManyGetAssociationsMixin, BelongsToManyRemoveAssociationMixin, DataTypes, Model } from "sequelize";
+import {
+  BelongsToManyAddAssociationMixin,
+  BelongsToManyGetAssociationsMixin,
+  BelongsToManyRemoveAssociationMixin,
+  DataTypes,
+  Model,
+} from "sequelize";
 import { sequelize } from "./sequelize";
 import { dbType } from "./index";
+import user from "./user";
 
-class comment extends Model {
+class Comment extends Model {
   public readonly id!: number;
-  public userId!: number;
+  public userId!: BelongsToManyGetAssociationsMixin<user>;
   public postId!: number;
   public contents!: string;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }
 
-comment.init(
+Comment.init(
   {
     userId: {
       type: DataTypes.INTEGER,
@@ -36,9 +43,11 @@ comment.init(
     freezeTableName: true,
     timestamps: true,
     updatedAt: "updateTimestamp",
-  },
+  }
 );
 
-export const associate = (db: dbType) => {};
+export const associate = (db: dbType) => {
+  db.Comment.belongsTo(db.user, { foreignKey: "userId", targetKey: "id" });
+};
 
-export default comment;
+export default Comment;
