@@ -84,17 +84,26 @@ function Header() {
               />
               <MenuWrapper>
                 <Link to={isLogin ? "/main" : "/login"}>
-                  <Menu>{isLogin ? "홈" : "로그인"}</Menu>
+                  <Menu onClick={() => setIsOpen(!isOpen)}>
+                    {isLogin ? "홈" : "로그인"}
+                  </Menu>
                 </Link>
               </MenuWrapper>
               <MenuWrapper>
                 <Link to={isLogin ? "/profile" : "/signup"}>
-                  <Menu>{isLogin ? "내 정보" : "회원가입"}</Menu>
+                  <Menu onClick={() => setIsOpen(!isOpen)}>
+                    {isLogin ? "내 정보" : "회원가입"}
+                  </Menu>
                 </Link>
               </MenuWrapper>
               <MenuWrapper>
                 <Link to={isLogin ? "/login" : ""}>
-                  <Menu onClick={() => dispatch(setLogOut())}>
+                  <Menu
+                    onClick={() => {
+                      dispatch(setLogOut());
+                      setIsOpen(!isOpen);
+                    }}
+                  >
                     {isLogin ? "로그아웃" : null}
                   </Menu>
                 </Link>
