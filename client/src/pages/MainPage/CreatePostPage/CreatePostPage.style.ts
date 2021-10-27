@@ -14,23 +14,28 @@ export const CreatePostContainer = styled.article`
     line-height: 24px;
     color: #2d2d2d;
     border-bottom: 5px solid #fede8a;
+    margin-left: 7px;
   }
 `;
 
 export const TitleDatePickerContainer = styled.div`
   width: 100%;
+  margin-top: 37px;
   display: flex;
-  flex-direction: row;
 `;
 
 export const TitleArea = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 37px;
-  width: 100%;
+  padding-right: 18px;
+  flex: 1;
   .Title_Word {
     display: flex;
     align-items: center;
+    margin-left: 7px;
+  }
+  .Title_Input {
+    display: flex;
   }
   span {
     margin-left: 7px;
@@ -40,11 +45,12 @@ export const TitleArea = styled.div`
 export const DateArea = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 37px;
-  width: 100%;
+  flex: 1;
+  padding-left: 18px;
   .Date_Word {
     display: flex;
     align-items: center;
+    margin-left: 7px;
   }
   .Date_Input {
     display: flex;
@@ -65,7 +71,8 @@ export const InputTitle = styled.input`
   font-size: 1rem;
   color: #2d2d2d;
   height: 2.938rem;
-  width: 96%;
+  width: 100%;
+  padding: 0 17px 0 17px;
   margin-bottom: 1.4rem;
   margin-top: 11px;
   transition: 0.5s all;
@@ -74,16 +81,18 @@ export const InputTitle = styled.input`
   }
 `;
 
-export const DatePiker = styled.input`
+export const DatePicker = styled.input`
   outline: none;
+  font-family: "Gmarket Sans TTF";
+  font-weight: 100;
   background-color: #fdfbfe;
   border: 1px solid #e0dde1;
   border-radius: 0.313rem;
-  font-weight: 100;
   font-size: 1rem;
   color: #2d2d2d;
   height: 2.938rem;
-  width: 96%;
+  width: 100%;
+  padding: 0 17px 0 17px;
   margin-bottom: 1.4rem;
   margin-top: 11px;
   transition: 0.5s all;
@@ -93,10 +102,12 @@ export const DatePiker = styled.input`
 `;
 
 export const PostContentsArea = styled.div`
-  min-height: 9.125rem;
+  width: 100%;
   .Contents_Word {
     display: flex;
+    width: 100%;
     align-items: center;
+    margin-left: 7px;
   }
   span {
     margin-left: 7px;
@@ -109,15 +120,16 @@ export const PostContents = styled.textarea`
   border: 1px solid #e0dde1;
   box-sizing: border-box;
   border-radius: 0.313rem;
+  font-family: "Gmarket Sans TTF";
   font-weight: 100;
   font-size: 1rem;
   color: #2d2d2d;
   width: 100%;
-  padding: 0;
-  min-height: 9.125rem;
+  height: 146px;
+  padding: 15px 17px 15px 17px;
   margin: 11px 0 1.4rem 0;
   transition: 0.5s all;
-  overflow-y: hidden;
+  /* overflow-y: hidden; */
   resize: none;
   :focus {
     border: 1px solid #2d2d2d;
@@ -125,13 +137,14 @@ export const PostContents = styled.textarea`
 `;
 
 export const PostCategoryArea = styled.div`
-  .Check_Category_Word {
+  margin-top: 11px;
+  .Check_Category_Word_Area {
     display: flex;
     width: 100%;
     align-items: center;
-    margin-top: 11px;
+    margin-left: 7px;
   }
-  span {
+  .Category_Word {
     margin-left: 7px;
   }
   .Category_Container {
@@ -142,10 +155,12 @@ export const PostCategoryArea = styled.div`
 
 export const PostCategory = styled.div`
   height: 379px;
+  width: 100%;
   box-sizing: border-box;
-  border-radius: 5px;
   margin-top: 11px;
   display: flex;
+  border-radius: 5px;
+  max-width: 612px;
 `;
 
 export const MainCategoryBox = styled.div`
@@ -158,6 +173,7 @@ export const MainCategoryBox = styled.div`
 `;
 
 interface CategorySelect {
+  id?: string;
   isSelect?: boolean;
 }
 
@@ -165,15 +181,26 @@ export const MainCategoryItem = styled.div<CategorySelect>`
   width: 129px;
   height: 43px;
   background: ${(props) => (props.isSelect ? "#FDFBFE" : "none")};
-  border-top: ${(props) => (props.isSelect ? "1px solid #e0dde1" : "none")};
+  border-top: ${(props) =>
+    props.isSelect === true
+      ? props.id === "1"
+        ? "none"
+        : props.id === "7"
+        ? "none"
+        : "1px solid #e0dde1"
+      : "none"};
   border-bottom: ${(props) => (props.isSelect ? "1px solid #e0dde1" : "none")};
   border-radius: 5px 0px 0px 5px;
-  z-index: 1;
-  box-sizing: content-box;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-family: "Gmarket Sans TTF";
+  font-weight: 100;
+  text-align: center;
+  line-height: 43px;
 `;
 
 export const SubCategoryBox = styled.div`
-  width: 483px;
+  width: 100%;
   height: 379px;
   background: #fdfbfe;
   border: 1px solid #e0dde1;
@@ -181,11 +208,22 @@ export const SubCategoryBox = styled.div`
   border-radius: 0px 5px 5px 0px;
   box-sizing: border-box;
   padding-left: 42px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+  font-family: "Gmarket Sans TTF";
+  font-weight: 100;
 `;
 
 export const SubCategoryItem = styled.div`
   width: 150px;
   height: 25px;
+  line-height: 25px;
+  cursor: pointer;
+  .input {
+    color: #c2bfc3;
+    cursor: pointer;
+  }
 `;
 
 export const UploadPhotoArea = styled.div`
@@ -199,6 +237,7 @@ export const UploadPhotoArea = styled.div`
     display: flex;
     width: 100%;
     align-items: center;
+    margin-left: 7px;
   }
   .Photo_Container {
     position: relative;
@@ -218,6 +257,7 @@ export const AddressArea = styled.div`
     display: flex;
     width: 100%;
     align-items: center;
+    margin-left: 7px;
   }
   .Search_Address_Box {
     display: flex;
@@ -249,6 +289,7 @@ export const InputAddress = styled.input`
   background-color: #fdfbfe;
   border: 1px solid #e0dde1;
   border-radius: 0.313rem;
+  font-family: "Gmarket Sans TTF";
   font-weight: 100;
   font-size: 1rem;
   color: #2d2d2d;
@@ -272,12 +313,12 @@ export const SubmitBtn = styled.button`
   width: 95px;
   height: 47px;
   font-size: 1rem;
+  font-family: "Gmarket Sans TTF";
   font-weight: 100;
   box-sizing: border-box;
   background: #2d2d2d;
   border-radius: 5px;
   border: none;
-  font-family: "Gmarket Sans TTF";
   color: #ffffff;
   cursor: pointer;
   margin-left: 10px;
@@ -290,12 +331,12 @@ export const CancelBtn = styled.button`
   width: 95px;
   height: 47px;
   font-size: 1rem;
+  font-family: "Gmarket Sans TTF";
   font-weight: 100;
   box-sizing: border-box;
   background: linear-gradient(0deg, #fdfbfe, #fdfbfe), #fbfbfb;
   border-radius: 5px;
   border: 0.063rem solid #2d2d2d;
-  font-family: "Gmarket Sans TTF";
   color: #2d2d2d;
   cursor: pointer;
   margin-left: 10px;

@@ -14,7 +14,7 @@ import {
   TitleArea,
   DateArea,
   InputTitle,
-  DatePiker,
+  DatePicker,
   PostContentsArea,
   PostContents,
   PostCategoryArea,
@@ -30,44 +30,78 @@ import {
   SubmitBtn,
   CancelBtn,
 } from "./CreatePostPage.style";
-
+import { initLeftMainCategories, initRightMainCategories } from "../Categories";
 function CreatePostPage() {
-  interface SelectMainCategory {
-    "1": boolean;
-    "2": boolean;
-    "3": boolean;
-    "4": boolean;
-    "5": boolean;
-    "6": boolean;
-    "7": boolean;
-    "8": boolean;
-    "9": boolean;
-    "10": boolean;
-    "11": boolean;
-  }
+  // 게시물 제목 State, Handle
+  const [inputTitle, setInputTitle] = useState<string>("");
 
-  let selectCategoryMain: SelectMainCategory = {
-    "1": true,
-    "2": false,
-    "3": false,
-    "4": false,
-    "5": false,
-    "6": false,
-    "7": true,
-    "8": false,
-    "9": false,
-    "10": false,
-    "11": false,
+  const TitleInputHandle = (value: string) => {
+    setInputTitle(value);
+    console.log(value);
   };
 
-  const mainCategories: string[] = ["1", "2", "3", "4", "5", "6"];
+  // 게시물 마감일자 State, Handle
+  const [inputDate, setInputDate] = useState<string>("");
 
-  const [isSelect, setIsSelect] = useState(selectCategoryMain);
+  const DateInputHandle = (value: string) => {
+    setInputDate(value);
+    console.log(value);
+  };
+
+  // 게시물 내용 State, Handle
+  const [inputContents, setInputContents] = useState<string>("");
+
+  const ContentsInputHandle = (value: string) => {
+    setInputContents(value);
+    console.log(value);
+  };
+
+  // 대분류 왼쪽 테이블 State, Handle
+  const [leftMainCategories, setLeftMainCategories] = useState(
+    initLeftMainCategories
+  );
+
+  const CategoryLeftSelectHandle = (id: string): void => {
+    let newMainCate = [...leftMainCategories];
+    leftMainCategories.forEach((mainCate) => {
+      if (mainCate.isSelect) {
+        mainCate.isSelect = false;
+      }
+      if (id === mainCate.id) {
+        mainCate.isSelect = true;
+      }
+    });
+    setLeftMainCategories(newMainCate);
+  };
+
+  // 대분류 오른쪽 테이블 State, Handle
+  const [rightMainCategories, setRightMainCategories] = useState(
+    initRightMainCategories
+  );
+
+  const CategoryRightSelectHandle = (id: string): void => {
+    let newMainCate = [...rightMainCategories];
+    rightMainCategories.forEach((mainCate) => {
+      if (mainCate.isSelect) {
+        mainCate.isSelect = false;
+      }
+      if (id === mainCate.id) {
+        mainCate.isSelect = true;
+      }
+    });
+    setRightMainCategories(newMainCate);
+  };
+
+  // checkBox
+  const [isSubCategoryCheck, setIsSubCategoryCheck] = useState<string[]>([]);
+
+  const addSubCategoryHandle = () => {};
+
   return (
     <CreatePostContainer>
       <span className="Create_Post_Word">{"게시글 작성"}</span>
 
-      {/* 제목, 마감시간 작성 칸 ---------------------------------------------*/}
+      {/* 제목 작성 칸 ------------------------------------------------------*/}
       <TitleDatePickerContainer>
         <TitleArea>
           <div className="Title_Word">
@@ -75,16 +109,25 @@ function CreatePostPage() {
             <span>{"제목을 작성해 주세요."}</span>
           </div>
           <div className="Title_Input">
-            <InputTitle type={"text"}></InputTitle>
+            <InputTitle
+              value={inputTitle}
+              type={"text"}
+              onChange={(e) => TitleInputHandle(e.target.value)}
+            ></InputTitle>
           </div>
         </TitleArea>
+        {/* 마감시간 작성 칸 ---------------------------------------------------*/}
         <DateArea>
           <div className="Date_Word">
             <ClockIcon color="#2D2D2D" />
             <span>{"마감 시간을 설정해 주세요."}</span>
           </div>
           <div className="Date_Input">
-            <DatePiker type={"text"}></DatePiker>
+            <DatePicker
+              value={inputDate}
+              type={"date"}
+              onChange={(e) => DateInputHandle(e.target.value)}
+            ></DatePicker>
           </div>
         </DateArea>
       </TitleDatePickerContainer>
@@ -95,50 +138,86 @@ function CreatePostPage() {
           <PaperIcon color="#2D2D2D" />
           <span className="">{"설명을 작성해 주세요."}</span>
         </div>
-        <PostContents />
+        <PostContents
+          value={inputContents}
+          onChange={(e) => ContentsInputHandle(e.target.value)}
+        />
       </PostContentsArea>
 
       {/* 품목 선택 칸 ----------------------------------------------------*/}
       <PostCategoryArea>
-        <div className="Check_Category_Word">
+        <div className="Check_Category_Word_Area">
           <CheckBoxIcon color="#2D2D2D" />
-          <span className="">{"품목을 선택해 주세요."}</span>
+          <span className="Category_Word">{"품목을 선택해 주세요."}</span>
         </div>
         <div className="Category_Container">
           <PostCategory>
             <MainCategoryBox>
-              {/* {mainCategories.map((category,idx)=>{
-                return 
-                <MainCategoryItem id={idx} isSelect={isSelect[idx]}]></MainCategoryItem>
-              })} */}
-              <MainCategoryItem
-                id={"1"}
-                isSelect={isSelect[1]}
-              ></MainCategoryItem>
-              <MainCategoryItem isSelect={isSelect[2]}></MainCategoryItem>
-              <MainCategoryItem isSelect={isSelect[3]}></MainCategoryItem>
-              <MainCategoryItem isSelect={isSelect[4]}></MainCategoryItem>
-              <MainCategoryItem isSelect={isSelect[5]}></MainCategoryItem>
-              <MainCategoryItem isSelect={isSelect[6]}></MainCategoryItem>
+              {leftMainCategories.map((category) => {
+                return (
+                  <MainCategoryItem
+                    key={category.name}
+                    id={category.id}
+                    onClick={() => CategoryLeftSelectHandle(category.id)}
+                    isSelect={category.isSelect}
+                  >
+                    <span>{category.name}</span>
+                  </MainCategoryItem>
+                );
+              })}
             </MainCategoryBox>
             <SubCategoryBox>
-              <SubCategoryItem></SubCategoryItem>
+              {leftMainCategories.map((category) => {
+                return category.isSelect
+                  ? category.subCategories.map((subCategory) => {
+                      return (
+                        <>
+                          <SubCategoryItem>
+                            <input type={"checkbox"} />
+                            {subCategory}
+                          </SubCategoryItem>
+                        </>
+                      );
+                    })
+                  : null;
+              })}
             </SubCategoryBox>
           </PostCategory>
           <PostCategory>
             <MainCategoryBox>
-              <MainCategoryItem isSelect={isSelect[7]}></MainCategoryItem>
-              <MainCategoryItem isSelect={isSelect[8]}></MainCategoryItem>
-              <MainCategoryItem isSelect={isSelect[9]}></MainCategoryItem>
-              <MainCategoryItem isSelect={isSelect[10]}></MainCategoryItem>
-              <MainCategoryItem isSelect={isSelect[11]}></MainCategoryItem>
+              {rightMainCategories.map((category) => {
+                return (
+                  <MainCategoryItem
+                    key={category.name}
+                    id={category.id}
+                    onClick={() => CategoryRightSelectHandle(category.id)}
+                    isSelect={category.isSelect}
+                  >
+                    <span>{category.name}</span>
+                  </MainCategoryItem>
+                );
+              })}
             </MainCategoryBox>
             <SubCategoryBox>
-              <SubCategoryItem></SubCategoryItem>
+              {rightMainCategories.map((category) => {
+                return category.isSelect
+                  ? category.subCategories.map((subCategory) => {
+                      return (
+                        <>
+                          <SubCategoryItem>
+                            <input type={"checkbox"} />
+                            {subCategory}
+                          </SubCategoryItem>
+                        </>
+                      );
+                    })
+                  : null;
+              })}
             </SubCategoryBox>
           </PostCategory>
         </div>
       </PostCategoryArea>
+
       {/* 사진 업로드 칸 ----------------------------------------------------*/}
       <UploadPhotoArea>
         <div className="Upload_Word">
