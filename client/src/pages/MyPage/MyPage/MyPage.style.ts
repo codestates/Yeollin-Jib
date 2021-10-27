@@ -46,7 +46,7 @@ export const MyInfoContainer = styled.div`
   transition: 0.5s all;
 
   @media screen and (max-width: 37.5rem) {
-    width: 320px;
+    width: 310px;
     transition: 0.5s all;
     padding: 25px 20px 25px 20px;
     height: 240px;
@@ -298,7 +298,7 @@ export const ContentContainer = styled.div`
   /* margin-left: 318px; */
 
   @media screen and (max-width: 37.5rem) {
-    width: 320px;
+    width: 310px;
   }
 `;
 
