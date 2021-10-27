@@ -14,41 +14,34 @@ class post extends Model {
   public longitude!: number;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
+  dataValues: any;
 }
 
 post.init(
   {
     userId: {
       type: DataTypes.INTEGER,
-      allowNull: false, // 필수
     },
     title: {
       type: DataTypes.STRING,
-      allowNull: false,
     },
     contents: {
       type: DataTypes.STRING,
-      allowNull: false,
     },
     imagePath: {
       type: DataTypes.STRING,
-      allowNull: true,
     },
     address: {
       type: DataTypes.STRING,
-      allowNull: false,
     },
     dueDate: {
       type: DataTypes.STRING,
-      allowNull: false,
     },
     latitude: {
       type: DataTypes.INTEGER,
-      allowNull: false,
     },
     longitude: {
       type: DataTypes.INTEGER,
-      allowNull: false,
     },
   },
 
@@ -64,6 +57,8 @@ post.init(
   },
 );
 
-export const associate = (db: dbType) => {};
+export const associate = (db: dbType) => {
+  db.post.hasMany(db.post_category, { foreignKey: "postId", sourceKey: "id", onDelete: "CASCADE", onUpdate: "CASCADE" });
+};
 
 export default post;

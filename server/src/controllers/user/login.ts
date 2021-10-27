@@ -5,14 +5,13 @@ const jwt = require("jsonwebtoken");
 
 const login = async (req: Request, res: Response) => {
   try {
-    const { email, password } = await req.body;
+    const { email, password } = req.body;
     // 이메일, 비밀번호 중 하나라도 입력하지 않았을 경우
     if (!email || !password) {
       return res.status(417).json({
         message: `필수 항목이 모두 채워지지않았습니다. 다시 한번 확인해주세요.`,
       });
     }
-
     const findUser = await user.findOne({
       where: { email: email },
     });
@@ -21,7 +20,6 @@ const login = async (req: Request, res: Response) => {
     if (!findUser) {
       return res.status(404).json({ message: `회원을 찾을수 없습니다.` });
     }
-
     const dbPassword = findUser.password;
     const salt = findUser.salt;
 
@@ -40,23 +38,25 @@ const login = async (req: Request, res: Response) => {
       updatedAt: findUser.updatedAt,
     };
 
-    const accessToken = await jwt.sign(payload, process.env.ACCESS_SECRET, {
+    const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET, {
       expiresIn: "12h",
     });
-    const refreshToken = await jwt.sign(payload, process.env.REFRESH_SECRET, {
+    const refreshToken = jwt.sign(payload, process.env.REFRESH_SECRET, {
       expiresIn: "50d",
     });
-    res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-    });
-    console.log(req.cookies);
-    return res.status(200).json({
-      accessToken,
-      id: findUser.id,
-      message: "로그인에 성공하였습니다.",
-    });
+
+    return res
+      .status(200)
+      .json({
+        accessToken,
+        id: findUser.id,
+        message: "로그인에 성공하였습니다.",
+      })
+      .cookie("refreshToken", refreshToken, {
+        // secure: true,
+        httpOnly: true,
+      });
   } catch (err) {
-    console.log(err);
     return res.status(501).json({ message: "서버에러 입니다." });
   }
 };
