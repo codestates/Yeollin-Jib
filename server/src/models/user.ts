@@ -1,14 +1,29 @@
-import { BelongsToManyAddAssociationMixin, BelongsToManyGetAssociationsMixin, BelongsToManyRemoveAssociationMixin, DataTypes, Model } from "sequelize";
+import {
+  BelongsToManyAddAssociationMixin,
+  BelongsToManyGetAssociationsMixin,
+  BelongsToManyRemoveAssociationMixin,
+  DataTypes,
+  Model,
+} from "sequelize";
 import { sequelize } from "./sequelize";
 import { dbType } from "./index";
 
 class user extends Model {
+  public dataValues!: {
+    id: number;
+    email: string;
+    nickname: string;
+    userArea: string;
+    imagePath: string;
+    password: string;
+  };
   public readonly id!: number;
   public nickname!: string;
   public email!: string;
   public password!: string;
   public userArea!: string;
   public imagePath!: string;
+  public loginType!: boolean;
   public salt!: string;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -17,17 +32,17 @@ class user extends Model {
 user.init(
   {
     nickname: {
-      type: DataTypes.STRING(20), // 20글자 이하
+      type: DataTypes.STRING,
       allowNull: false, // 필수
       unique: true, // 고유한 값
     },
     email: {
-      type: DataTypes.STRING(20),
+      type: DataTypes.STRING,
       allowNull: false,
       unique: true, // 고유한 값
     },
     password: {
-      type: DataTypes.STRING(100), // 100글자 이하
+      type: DataTypes.STRING,
       allowNull: false,
     },
     salt: {
@@ -35,7 +50,7 @@ user.init(
       allowNull: false,
     },
     userArea: {
-      type: DataTypes.STRING(100),
+      type: DataTypes.STRING,
       allowNull: true,
     },
     imagePath: {
@@ -43,7 +58,7 @@ user.init(
       allowNull: true,
     },
     loginType: {
-      type: DataTypes.STRING,
+      type: DataTypes.BOOLEAN,
     },
   },
 
@@ -56,9 +71,11 @@ user.init(
     freezeTableName: true,
     timestamps: true,
     updatedAt: "updateTimestamp",
-  },
+  }
 );
 
-export const associate = (db: dbType) => {};
+export const associate = (db: dbType) => {
+  db.user.hasMany(db.Comment, { foreignKey: "userId", sourceKey: "id" });
+};
 
 export default user;

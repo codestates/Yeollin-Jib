@@ -11,10 +11,14 @@ const signup = async (req: Request, res: Response) => {
       });
     }
     const salt = crypto.randomBytes(64).toString("hex");
-    const encryptedPassword = crypto.pbkdf2Sync(password, salt, 256, 64, "sha512").toString("base64");
+    const encryptedPassword = crypto
+      .pbkdf2Sync(password, salt, 256, 64, "sha512")
+      .toString("base64");
 
     // user 생성
     const newUser = await user.create({
+      // 일반 회원가입 시 - 로그인 타입 false, 소셜 로그인 시 - true
+      loginType: false,
       nickname,
       email,
       salt,
@@ -22,7 +26,9 @@ const signup = async (req: Request, res: Response) => {
     });
     const userId = newUser.id;
     return res.status(201).json({
-      data: { userId, nickname, email },
+      userId,
+      nickname,
+      email,
       message: "회원가입이 완료되었습니다",
     });
   } catch (err) {

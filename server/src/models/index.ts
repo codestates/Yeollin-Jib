@@ -8,6 +8,7 @@ const db = {
   post,
   post_category,
   category,
+
 };
 export type dbType = typeof db;
 
