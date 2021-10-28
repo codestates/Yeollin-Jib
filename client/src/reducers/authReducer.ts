@@ -19,6 +19,7 @@ export const setAuth = createAsyncThunk(
 // 초기 상태값
 let initialState: ILoginState = {
   isLogin: false,
+  isInValid: false,
   accessToken: "",
 };
 
@@ -35,16 +36,19 @@ export const authReducer = createSlice({
     // pending 상태
     [setAuth.pending.type]: (state) => {
       state.isLogin = false;
+      state.isInValid = false;
       state.accessToken = "";
     },
     // fulfilled 상태
     [setAuth.fulfilled.type]: (state, action: ILoginPayLoad) => {
       state.isLogin = true;
+      state.isInValid = false;
       state.accessToken = action.payload.data.accessToken;
     },
     // rejected 상태
     [setAuth.rejected.type]: (state) => {
       state.isLogin = false;
+      state.isInValid = true;
       state.accessToken = "";
     },
   },
