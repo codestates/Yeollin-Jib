@@ -1,5 +1,6 @@
 export interface ILoginState {
   isLogin: boolean;
+  isInValid: boolean;
   accessToken: string;
 }
 

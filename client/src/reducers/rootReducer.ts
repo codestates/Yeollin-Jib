@@ -6,10 +6,18 @@ import authReducer from "./authReducer";
 const persistConfig = {
   key: "root",
   storage,
+  blacklist: ["authReducer"],
+};
+
+// authReducer에 isInValid를 새로고침시 초기화되도록 블랙리스트로 설정
+const authReducerConfig = {
+  key: "authReducer",
+  storage,
+  blacklist: ["isInValid"],
 };
 
 const rootReducer = combineReducers({
-  authReducer,
+  authReducer: persistReducer(authReducerConfig, authReducer),
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
