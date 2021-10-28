@@ -62,7 +62,7 @@ export const TeamMember = styled.span`
     text-decoration: none;
     color: #2d2d2d;
     :hover {
-      border-bottom: 0.188rem solid #fede8a;
+      border-bottom: 0.313rem solid #fede8a;
     }
   }
 `;

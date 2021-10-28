@@ -22,6 +22,9 @@ export const TitleDatePickerContainer = styled.div`
   width: 100%;
   margin-top: 37px;
   display: flex;
+  @media screen and (max-width: 37.5rem) {
+    flex-direction: column;
+  }
 `;
 
 export const TitleArea = styled.div`
@@ -29,6 +32,7 @@ export const TitleArea = styled.div`
   flex-direction: column;
   padding-right: 18px;
   flex: 1;
+  min-width: fit-content;
   .Title_Word {
     display: flex;
     align-items: center;
@@ -39,6 +43,10 @@ export const TitleArea = styled.div`
   }
   span {
     margin-left: 7px;
+    min-width: fit-content;
+  }
+  @media screen and (max-width: 37.5rem) {
+    padding: 0;
   }
 `;
 
@@ -47,6 +55,7 @@ export const DateArea = styled.div`
   flex-direction: column;
   flex: 1;
   padding-left: 18px;
+  min-width: fit-content;
   .Date_Word {
     display: flex;
     align-items: center;
@@ -58,6 +67,10 @@ export const DateArea = styled.div`
   }
   span {
     margin-left: 7px;
+    min-width: fit-content;
+  }
+  @media screen and (max-width: 37.5rem) {
+    padding: 0;
   }
 `;
 
@@ -148,14 +161,20 @@ export const PostCategoryArea = styled.div`
     margin-left: 7px;
   }
   .Category_Container {
+    width: 100%;
+    min-height: 379px;
     display: flex;
     justify-content: space-between;
+    @media screen and (max-width: 1100px) {
+      flex-direction: column;
+      align-items: center;
+    }
   }
 `;
 
 export const PostCategory = styled.div`
-  height: 379px;
   width: 100%;
+  min-height: 379px;
   box-sizing: border-box;
   margin-top: 11px;
   display: flex;
@@ -165,7 +184,7 @@ export const PostCategory = styled.div`
 
 export const MainCategoryBox = styled.div`
   width: 129px;
-  height: 379px;
+  min-height: 379px;
   background: #f7f7f8;
   border: 1px solid #e0dde1;
   box-sizing: border-box;
@@ -195,13 +214,17 @@ export const MainCategoryItem = styled.div<CategorySelect>`
   cursor: pointer;
   font-family: "Gmarket Sans TTF";
   font-weight: 100;
+  font-size: 1rem;
   text-align: center;
   line-height: 43px;
+  @media screen and (max-width: 37.5rem) {
+    font-size: 14px;
+  }
 `;
 
 export const SubCategoryBox = styled.div`
   width: 100%;
-  height: 379px;
+  min-height: 379px;
   background: #fdfbfe;
   border: 1px solid #e0dde1;
   border-left: none;
@@ -211,24 +234,32 @@ export const SubCategoryBox = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: start;
-  font-family: "Gmarket Sans TTF";
-  font-weight: 100;
 `;
 
-export const SubCategoryItem = styled.div`
+interface SubCategorySelect {
+  key: string;
+  checked: boolean;
+}
+
+export const SubCategoryItem = styled.div<SubCategorySelect>`
   width: 150px;
   height: 25px;
   line-height: 25px;
   cursor: pointer;
-  .input {
-    color: #c2bfc3;
-    cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-family: "Gmarket Sans TTF";
+  font-weight: 100;
+  span {
+    margin-left: 10px;
+  }
+  @media screen and (max-width: 37.5rem) {
+    font-size: 14px;
   }
 `;
 
 export const UploadPhotoArea = styled.div`
   width: 100%;
-  height: 100%;
   margin-top: 50px;
   display: flex;
   justify-content: center;
@@ -307,6 +338,9 @@ export const SubmitArea = styled.div`
   margin: 100px 0 369px 0;
   display: flex;
   justify-content: center;
+  @media screen and (max-width: 37.5rem) {
+    margin: 40px 0 40px 0;
+  }
 `;
 
 export const SubmitBtn = styled.button`
