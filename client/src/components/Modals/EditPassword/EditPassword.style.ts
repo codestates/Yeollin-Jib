@@ -31,13 +31,22 @@ export const ModalContainer = styled.div<IContainerProps>`
   border-radius: 0.313rem;
   padding: 30px;
   margin-bottom: ${(props) => (props.isSubmited ? "265.5px" : "100px")};
+  transition: 0.5s all;
+
+  @media screen and (max-width: 37.5rem) {
+    width: 19rem;
+    height: ${(props) => (props.isSubmited ? "11.2rem" : "21.2rem")};
+    margin-bottom: ${(props) => (props.isSubmited ? "300px" : "140px")};
+    padding: 30px 20px 30px 20px;
+    transition: 0.5s all;
+  }
 `;
 
 export const TitleWrapper = styled.div`
   margin-bottom: 20px;
 
   @media screen and (max-width: 37.5rem) {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
   }
 `;
 
@@ -48,6 +57,11 @@ export const Title = styled.span`
   border-bottom: 5px solid #fede8a;
   transition: 0.5s all;
   margin-bottom: 20px;
+
+  @media screen and (max-width: 37.5rem) {
+    font-size: 1.2rem;
+    transition: 0.5s all;
+  }
 `;
 
 export const InputTitle = styled.div`
@@ -171,8 +185,8 @@ export const BlackBtn = styled.button`
 
   @media screen and (max-width: 37.5rem) {
     font-size: 0.8rem;
-    width: 4.3rem;
-    height: 2.5rem;
+    width: 4rem;
+    height: 2.1rem;
   }
 `;
 
@@ -193,8 +207,8 @@ export const WhiteBtn = styled.button`
 
   @media screen and (max-width: 37.5rem) {
     font-size: 0.8rem;
-    width: 4.3rem;
-    height: 2.5rem;
+    width: 4rem;
+    height: 2.1rem;
   }
 `;
 
@@ -207,5 +221,6 @@ export const CompletedMsg = styled.div`
 
   @media screen and (max-width: 37.5rem) {
     font-size: 0.8rem;
+    margin-bottom: 2rem;
   }
 `;
