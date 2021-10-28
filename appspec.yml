@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ubuntu/im-sprint-practice-deploy
+    destination: /home/ubuntu/Yeollin-Jib
 
 hooks:
   ApplicationStop:
