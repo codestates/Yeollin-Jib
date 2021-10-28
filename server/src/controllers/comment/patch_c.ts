@@ -4,7 +4,7 @@ import comment from "../../models/comment";
 const patch_c = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { contents } = req.body;
-  const userId = req.body.id;
+  const userId = req.cookies.id;
 
   try {
     const userInfo: any = await user.findOne({

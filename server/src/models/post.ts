@@ -1,4 +1,10 @@
-import { BelongsToManyAddAssociationMixin, BelongsToManyGetAssociationsMixin, BelongsToManyRemoveAssociationMixin, DataTypes, Model } from "sequelize";
+import {
+  BelongsToManyAddAssociationMixin,
+  BelongsToManyGetAssociationsMixin,
+  BelongsToManyRemoveAssociationMixin,
+  DataTypes,
+  Model,
+} from "sequelize";
 import { sequelize } from "./sequelize";
 import { dbType } from "./index";
 
@@ -54,11 +60,23 @@ post.init(
     freezeTableName: true,
     timestamps: true,
     updatedAt: "updateTimestamp",
-  },
+  }
 );
 
 export const associate = (db: dbType) => {
-  db.post.hasMany(db.post_category, { foreignKey: "postId", sourceKey: "id", onDelete: "CASCADE", onUpdate: "CASCADE" });
+  db.post.hasMany(db.post_category, {
+    foreignKey: "postId",
+    sourceKey: "id",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  });
+  db.post.hasMany(db.storage, {
+    foreignKeyConstraint: true,
+    foreignKey: "postId",
+    sourceKey: "id",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  });
 };
 
 export default post;

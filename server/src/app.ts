@@ -33,7 +33,7 @@ import inquireRouter from "./routers/inquire";
 
 // routes
 app.use("/user", userRouter);
-app.use("/post/storage", poststorageRouter);
+app.use("/storage", poststorageRouter);
 app.use("/post", postRouter);
 app.use("/comment", commentRouter);
 app.use("/chatting", chattingRouter);
