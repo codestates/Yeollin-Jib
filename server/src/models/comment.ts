@@ -1,4 +1,10 @@
-import { BelongsToManyAddAssociationMixin, BelongsToManyGetAssociationsMixin, BelongsToManyRemoveAssociationMixin, DataTypes, Model } from "sequelize";
+import {
+  BelongsToManyAddAssociationMixin,
+  BelongsToManyGetAssociationsMixin,
+  BelongsToManyRemoveAssociationMixin,
+  DataTypes,
+  Model,
+} from "sequelize";
 import { sequelize } from "./sequelize";
 import { dbType } from "./index";
 import user from "./user";
@@ -37,9 +43,16 @@ comment.init(
     freezeTableName: true,
     timestamps: true,
     updatedAt: "updateTimestamp",
-  },
+  }
 );
 
-export const associate = (db: dbType) => {};
+export const associate = (db: dbType) => {
+  comment.belongsTo(db.user, {
+    foreignKey: "userId",
+    targetKey: "id",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  });
+};
 
 export default comment;

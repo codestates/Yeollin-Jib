@@ -5,15 +5,13 @@ import post_category from "../../models/post_category";
 
 const post_user = async (req: Request, res: Response) => {
   try {
-    const id = req.cookies.id; //유저아이디
-    console.log("----------", id);
+    const id = req.cookies.id;
     const image: any = req.files;
     const images = image.map((value: any) => {
       return String(value.path);
     });
 
     const imagePath = images.join(",");
-    console.log("----------", req.cookies);
 
     const { title, contents, address, dueDate, latitude, longitude, category1, category2 } = req.body;
 
@@ -40,7 +38,9 @@ const post_user = async (req: Request, res: Response) => {
     const gory2 = category2.split(",");
 
     for (let i = 0; i < gory1.length; i++) {
-      const find = await category.findOne({ where: { category1: gory1[i], category2: gory2[i] } });
+      const find = await category.findOne({
+        where: { category1: gory1[i], category2: gory2[i] },
+      });
       console.log("----------", find);
       await post_category.create({ postId: postId, categoryId: find!.id });
     }
