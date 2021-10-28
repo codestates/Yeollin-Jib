@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Container,
   TopContainer,
   Title,
-  EditPassword,
+  EditPasswordContainer,
   MiddleContainer,
   LeftContainer,
   RightContainer,
@@ -20,16 +20,22 @@ import {
 } from "./EditProfilePage.style";
 import { Link } from "react-router-dom";
 import { PencilIcon, CameraIcon, MapMarkIcon } from "../../../icons/Icons";
+import EditPassword from "../../../components/Modals/EditPassword/EditPassword";
 
 function EditProfilePage() {
+  const [isOpened, setIsOpened] = useState<boolean>(false);
+
   return (
     <Container>
       <TopContainer>
         <Title>정보 수정</Title>
-        <EditPassword>
+        <EditPasswordContainer onClick={() => setIsOpened(true)}>
           <img src="./images/editPassword.svg" alt="edit" />
           <div>비밀번호 변경</div>
-        </EditPassword>
+        </EditPasswordContainer>
+        {isOpened ? (
+          <EditPassword setIsOpened={(bool: boolean) => setIsOpened(bool)} />
+        ) : null}
       </TopContainer>
       <MiddleContainer>
         <LeftContainer>
