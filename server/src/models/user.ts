@@ -1,4 +1,10 @@
-import { BelongsToManyAddAssociationMixin, BelongsToManyGetAssociationsMixin, BelongsToManyRemoveAssociationMixin, DataTypes, Model } from "sequelize";
+import {
+  BelongsToManyAddAssociationMixin,
+  BelongsToManyGetAssociationsMixin,
+  BelongsToManyRemoveAssociationMixin,
+  DataTypes,
+  Model,
+} from "sequelize";
 import { sequelize } from "./sequelize";
 import { dbType } from "./index";
 
@@ -65,11 +71,17 @@ user.init(
     freezeTableName: true,
     timestamps: true,
     updatedAt: "updateTimestamp",
-  },
+  }
 );
 
 export const associate = (db: dbType) => {
-  db.user.hasMany(db.comment, { foreignKey: "id", sourceKey: "id" });
+  user.hasMany(db.comment, {
+    foreignKeyConstraint: true,
+    foreignKey: "userId",
+    sourceKey: "id",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  });
 };
 
 export default user;

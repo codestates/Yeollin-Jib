@@ -32,7 +32,7 @@ export const ContentContainer = styled.div`
   @media screen and (max-width: 37.5rem) {
     border: 1px solid #fbfafc;
     margin-bottom: 108px;
-    width: 20rem;
+    width: 19rem;
     height: 40rem;
     transition: 0.5s all;
     background-color: #fbfafc;
@@ -109,7 +109,7 @@ export const SmallInputField = styled.input`
   font-size: 1rem;
   color: #2d2d2d;
   height: 2.313rem;
-  width: 75%;
+  width: 70%;
 
   :focus {
     border: 1px solid #2d2d2d;
@@ -130,7 +130,7 @@ export const ValidationBtn = styled.button`
   font-size: 0.9rem;
   color: white;
   height: 2.6rem;
-  width: 21%;
+  width: 24%;
   margin-left: 0.5rem;
   cursor: pointer;
   transition: 0.5s all;

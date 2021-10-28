@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import PostCard from "../../../components/PostCard/PostCard";
 import {
   MainPageContainer,
@@ -48,7 +49,7 @@ function MainPage() {
           <CategoryMenuCircle isShowCategory={isShowCategory}>
             <img src="./images/categoryMenu.svg" alt="categoryMenu" />
           </CategoryMenuCircle>
-          <span>카테고리</span>
+          <span>{"카테고리"}</span>
         </CategoryMenu>
         <CategoryItemsBox>
           {categoryItems.map((item, idx) => {
@@ -66,12 +67,17 @@ function MainPage() {
       </CategoryContainer>
       <PostBoardTitleContainer>
         <PostBoardTitleBox>
-          <span className="Post_Title">게시판</span>
-          <span className="Post_Count">총 10개</span>
+          <span className="Post_Title">{"게시판"}</span>
+          <span className="Post_Count">{"총 10개"}</span>
         </PostBoardTitleBox>
-        <CreatePostButton>
-          <span>+</span>
-        </CreatePostButton>
+        <Link
+          to={"/createpost"}
+          style={{ textDecoration: "none", color: "#2d2d2d" }}
+        >
+          <CreatePostButton>
+            <span className="Redirect_Createpost">+</span>
+          </CreatePostButton>
+        </Link>
       </PostBoardTitleContainer>
       <PostCardArea>
         <PostCard></PostCard>

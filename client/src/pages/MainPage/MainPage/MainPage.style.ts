@@ -45,6 +45,8 @@ export const CategoryMenu = styled.div<ShowCategory>`
     margin: 10px 0 10px 0;
     font-size: 1rem;
     text-align: center;
+    font-family: "Gmarket Sans TTF";
+    font-weight: 300;
     @media screen and (max-width: 37.5rem) {
       width: 47px;
       margin: 6px 0 6px 0;
@@ -114,15 +116,17 @@ export const CategoryItem = styled.div<ShowCategory>`
     height: 22px;
     visibility: ${(props) => (props.isShowCategory ? "visible" : "hidden")};
     box-sizing: border-box;
+    font-family: "Gmarket Sans TTF";
+    font-weight: 300;
     :hover {
       border-bottom: 0.313rem solid #fede8a;
     }
     @media screen and (max-width: 37.5rem) {
-      height: 11px;
+      height: 13px;
       font-size: 0.5rem;
       padding: 0;
       :hover {
-        border-bottom: 0.188rem solid #fede8a;
+        border-bottom: 0.313rem solid #fede8a;
       }
     }
   }
@@ -147,7 +151,7 @@ export const PostBoardTitleBox = styled.div`
     border-bottom: 0.313rem solid #fede8a;
     margin-left: 4.762%;
     @media screen and (max-width: 37.5rem) {
-      border-bottom: 0.188rem solid #fede8a;
+      border-bottom: 0.313rem solid #fede8a;
       font-size: 20px;
     }
   }
@@ -164,6 +168,7 @@ export const CreatePostButton = styled.div`
   background: #fede8a;
   width: 46px;
   height: 46px;
+  line-height: 46px;
   border-radius: 26px;
   display: flex;
   align-items: center;
@@ -175,14 +180,12 @@ export const CreatePostButton = styled.div`
   @media screen and (max-width: 37.5rem) {
     width: 27px;
     height: 27px;
+    line-height: 27px;
   }
-  span {
-    margin-top: 4px;
+  .Redirect_Createpost {
     font-size: 36px;
-    font-weight: 400;
+    font-weight: 100;
     @media screen and (max-width: 37.5rem) {
-      margin-top: 2px;
-      font-weight: 500;
       font-size: 24px;
     }
   }

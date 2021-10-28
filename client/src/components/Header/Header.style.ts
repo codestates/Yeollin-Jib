@@ -4,6 +4,10 @@ export const HeaderItemContainer = styled.div`
   display: flex;
   width: 78.75rem;
   padding: 0 30px 0 30px;
+
+  @media screen and (max-width: 37.5rem) {
+    padding: 0 5px 0 5px;
+  }
 `;
 
 export const Logo = styled.div`
@@ -44,7 +48,7 @@ export const SearchBar = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 12% 0 12%;
+  margin: 0 4% 0 4%;
   border: 0.063rem solid #e0dde1;
   box-sizing: border-box;
   border-radius: 0.313rem;
@@ -66,6 +70,10 @@ export const SearchBar = styled.div`
   img {
     cursor: pointer;
     padding: 0 0.626rem 0 0.626rem;
+  }
+
+  @media screen and (max-width: 37.5rem) {
+    margin: 0 2% 0 2%;
   }
 `;
 

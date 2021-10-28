@@ -28,6 +28,10 @@ export const Body = styled.div`
   display: flex;
   justify-content: center;
   padding: 0 30px 0 30px;
+
+  @media screen and (max-width: 37.5rem) {
+    padding: 0 5px 0 5px;
+  }
 `;
 
 export const MainArea = styled.main`

@@ -46,10 +46,11 @@ export const MyInfoContainer = styled.div`
   transition: 0.5s all;
 
   @media screen and (max-width: 37.5rem) {
-    width: 320px;
+    width: 310px;
+    height: 190px;
     transition: 0.5s all;
     padding: 25px 20px 25px 20px;
-    height: 240px;
+    margin-bottom: 0;
   }
 `;
 
@@ -156,9 +157,9 @@ export const UserInfo = styled.div`
 `;
 
 export const SmallBtnContainer = styled.div`
-  margin-top: 20px;
+  margin: 10px 0 20px 0;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
 
   @media screen and (min-width: 37.5rem) {
     display: none;
@@ -166,8 +167,8 @@ export const SmallBtnContainer = styled.div`
 `;
 
 export const BlackSmallBtn = styled.button`
-  width: 70px;
-  height: 30px;
+  width: 150px;
+  height: 35px;
   outline: none;
   border: 1px solid #2d2d2d;
   border-radius: 0.313rem;
@@ -184,8 +185,8 @@ export const BlackSmallBtn = styled.button`
 `;
 
 export const WhiteSmallBtn = styled.button`
-  width: 70px;
-  height: 30px;
+  width: 150px;
+  height: 35px;
   outline: none;
   border: 1px solid #2d2d2d;
   border-radius: 0.313rem;
@@ -298,7 +299,7 @@ export const ContentContainer = styled.div`
   /* margin-left: 318px; */
 
   @media screen and (max-width: 37.5rem) {
-    width: 320px;
+    width: 310px;
   }
 `;
 

@@ -9,7 +9,7 @@ export const CardContainer = styled.div`
   border: 0.063rem solid #e0dde1;
   border-radius: 0.313rem;
   width: 100%;
-  height: 8rem;
+  height: 6rem;
   font-family: "Gmarket Sans TTF";
   font-weight: 100;
   font-size: 1rem;
@@ -18,7 +18,7 @@ export const CardContainer = styled.div`
 
   @media screen and (max-width: 37.5rem) {
     width: 100%;
-    height: 6rem;
+    height: 4rem;
     font-size: 0.9rem;
   }
 `;
