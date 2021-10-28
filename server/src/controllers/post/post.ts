@@ -6,35 +6,21 @@ import post_category from "../../models/post_category";
 const post_user = async (req: Request, res: Response) => {
   try {
     const id = req.cookies.id;
-    console.log("----------", id);
     const image: any = req.files;
     const images = image.map((value: any) => {
       return String(value.path);
     });
 
     const imagePath = images.join(",");
-    console.log("----------", req.cookies);
 
-    const {
-      title,
-      contents,
-      address,
-      dueDate,
-      latitude,
-      longitude,
-      category1,
-      category2,
-    } = req.body;
+    const { title, contents, address, dueDate, latitude, longitude, category1, category2 } = req.body;
 
     if (!title) return res.status(400).send({ message: "제목이 없습니다." });
     if (!contents) return res.status(400).send({ message: "내용이 없습니다." });
     if (!address) return res.status(400).send({ message: "주소가 없습니다." });
-    if (!dueDate)
-      return res.status(400).send({ message: "만료기한이 없습니다." });
-    if (!longitude || !latitude)
-      return res.status(400).send({ message: "좌표가 없습니다." });
-    if (!category1 || !category2)
-      return res.status(400).send({ message: "선택한 카테고리가 없습니다." });
+    if (!dueDate) return res.status(400).send({ message: "만료기한이 없습니다." });
+    if (!longitude || !latitude) return res.status(400).send({ message: "좌표가 없습니다." });
+    if (!category1 || !category2) return res.status(400).send({ message: "선택한 카테고리가 없습니다." });
 
     const postCreate = await post.create({
       userId: id,
@@ -59,12 +45,9 @@ const post_user = async (req: Request, res: Response) => {
       await post_category.create({ postId: postId, categoryId: find!.id });
     }
 
-    if (!postCreate)
-      res.status(400).send({ message: "게시글이 생성되지 않았습니다." });
+    if (!postCreate) res.status(400).send({ message: "게시글이 생성되지 않았습니다." });
 
-    res
-      .status(201)
-      .json({ postId: postId, message: "게시글이 생성되었습니다." });
+    res.status(201).json({ postId: postId, message: "게시글이 생성되었습니다." });
   } catch (err) {
     console.log(err);
     return res.status(501).json({ message: "서버 에러 입니다." });
