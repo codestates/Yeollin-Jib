@@ -59,7 +59,7 @@ function SignUpPage() {
     setPassword(e.target.value);
   };
 
-  const checkPasswordAlertData = (
+  const setcheckPasswordData = (
     e: React.ChangeEvent<HTMLInputElement>
   ): void => {
     setCheckPassword(e.target.value);
@@ -182,6 +182,8 @@ function SignUpPage() {
       // result.status가 201로 성공적으로 가입이 되었다면
       if (result.status === 201) {
         setIsSignup(true);
+      } else {
+        setIsCompleted(false);
       }
     }
   };
@@ -246,7 +248,7 @@ function SignUpPage() {
           <InputTitle>비밀번호 확인</InputTitle>
           <InputField
             type="password"
-            onChange={(e) => checkPasswordAlertData(e)}
+            onChange={(e) => setcheckPasswordData(e)}
           />
           <MsgContainer isColor={isrightCheckPassword}>
             {checkPassword !== "" ? (
