@@ -31,23 +31,20 @@ export const ModalContainer = styled.div<IContainerProps>`
   border-radius: 0.313rem;
   padding: 30px;
   margin-bottom: ${(props) => (props.isSubmited ? "265.5px" : "100px")};
-  transition: 0.5s all;
+  transition: 0.5s width, height, padding;
 
   @media screen and (max-width: 37.5rem) {
     width: 19rem;
     height: ${(props) => (props.isSubmited ? "11.2rem" : "21.2rem")};
     margin-bottom: ${(props) => (props.isSubmited ? "300px" : "140px")};
     padding: 30px 20px 30px 20px;
-    transition: 0.5s all;
+    transition: 0.5s width, height, padding;
   }
 `;
 
 export const TitleWrapper = styled.div`
   margin-bottom: 20px;
-
-  @media screen and (max-width: 37.5rem) {
-    margin-bottom: 15px;
-  }
+  transition: 0.5s all;
 `;
 
 export const Title = styled.span`
