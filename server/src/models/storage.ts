@@ -1,4 +1,10 @@
-import { BelongsToManyAddAssociationMixin, BelongsToManyGetAssociationsMixin, BelongsToManyRemoveAssociationMixin, DataTypes, Model } from "sequelize";
+import {
+  BelongsToManyAddAssociationMixin,
+  BelongsToManyGetAssociationsMixin,
+  BelongsToManyRemoveAssociationMixin,
+  DataTypes,
+  Model,
+} from "sequelize";
 import { sequelize } from "./sequelize";
 import { dbType } from "./index";
 
@@ -31,9 +37,22 @@ storage.init(
     freezeTableName: true,
     timestamps: true,
     updatedAt: "updateTimestamp",
-  },
+  }
 );
 
-export const associate = (db: dbType) => {};
+export const associate = (db: dbType) => {
+  storage.belongsTo(db.post, {
+    foreignKey: "postId",
+    targetKey: "id",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  });
+  storage.belongsTo(db.user, {
+    foreignKey: "userId",
+    targetKey: "id",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  });
+};
 
 export default storage;

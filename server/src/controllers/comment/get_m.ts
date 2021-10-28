@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import comment from "../../models/comment";
 const get = async (req: Request, res: Response) => {
-  const userId = req.body.id;
+  const userId = req.cookies.id;
 
   try {
     await comment

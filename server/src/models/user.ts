@@ -82,6 +82,13 @@ export const associate = (db: dbType) => {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   });
+  user.hasMany(db.storage, {
+    foreignKeyConstraint: true,
+    foreignKey: "userId",
+    sourceKey: "id",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  });
 };
 
 export default user;

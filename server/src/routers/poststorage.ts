@@ -3,17 +3,14 @@ const poststorageRouter = express.Router();
 import * as poststoragecontroller from "../controllers/poststorage/index";
 import accessToken from "../middleware/accessToken";
 
-poststorageRouter.get(
-  "/post/storage",
-  accessToken,
-  poststoragecontroller.get_likes
-);
+poststorageRouter.get("/", accessToken, poststoragecontroller.get_likes);
 poststorageRouter.delete(
-  "/post/storage/:id",
+  "/:postId",
+  accessToken,
   poststoragecontroller.delete_like
 );
 poststorageRouter.post(
-  "/post/storage/:postId",
+  "/:postId",
   accessToken,
   poststoragecontroller.post_like
 );

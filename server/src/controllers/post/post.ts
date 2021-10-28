@@ -5,7 +5,7 @@ import post_category from "../../models/post_category";
 
 const post_user = async (req: Request, res: Response) => {
   try {
-    const id = req.body.id;
+    const id = req.cookies.id;
     console.log("----------", id);
     const image: any = req.files;
     const images = image.map((value: any) => {
