@@ -31,41 +31,47 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const crypto = __importStar(require("crypto"));
-const user_1 = __importDefault(require("../../models/user"));
-const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const user_1 = __importDefault(require("../models/user"));
+const dotenv = __importStar(require("dotenv"));
+dotenv.config();
+const jwt = require("jsonwebtoken");
+const refreshToken = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { nickname, email, password } = req.body;
-        if (!nickname || !email || !password) {
-            return res.status(400).json({
-                message: `필수 항목이 모두 채워지지 않았습니다. 다시 한번 확인해주세요.`,
-            });
+        const token = req.cookies.refreshToken;
+        if (!token) {
+            return res
+                .status(401)
+                .json({ message: "RefreshToken이 존재하지 않습니다." });
         }
-        const salt = crypto.randomBytes(64).toString("hex");
-        const encryptedPassword = crypto
-            .pbkdf2Sync(password, salt, 256, 64, "sha512")
-            .toString("base64");
-        // user 생성
-        const newUser = yield user_1.default.create({
-            // 일반 회원가입 시 - 로그인 타입 false, 소셜 로그인 시 - true
-            loginType: false,
-            nickname,
-            email,
-            salt,
-            password: encryptedPassword,
-        });
-        const userId = newUser.id;
-        return res.status(201).json({
-            userId,
-            nickname,
-            email,
-            message: "회원가입이 완료되었습니다",
-        });
+        const decode = yield jwt.verify(token, process.env.REFRESH_SECRET, (err, decoded) => __awaiter(void 0, void 0, void 0, function* () {
+            if (err) {
+                return res.status(401).json({
+                    message: "RefreshToken이 유효기간이 지났습니다. 다시 로그인 해주세요",
+                });
+            }
+            const userInfo = yield user_1.default.findOne({
+                where: { id: decoded.id },
+            });
+            if (!userInfo) {
+                return res.status(400).json({
+                    message: "RefreshToken에 해당유저가 없습니다.",
+                });
+            }
+            delete userInfo.dataValues.password;
+            const payload = userInfo.dataValues;
+            const accessToken = yield jwt.sign(payload, process.env.ACCESS_SECRET, {
+                expiresIn: "12h",
+            });
+            return res.status(200).json({
+                accessToken,
+                id: payload.id,
+                message: "새로운 accessToken 발급 완료",
+            });
+        }));
     }
     catch (err) {
-        console.log(err);
-        return res.status(501).json({ message: "서버 에러 입니다." });
+        return res.status(501).json({ message: "서버에러 입니다." });
     }
 });
-exports.default = signup;
-//# sourceMappingURL=signup.js.map
+exports.default = refreshToken;
+//# sourceMappingURL=refreshToken.js.map

@@ -31,41 +31,33 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const crypto = __importStar(require("crypto"));
-const user_1 = __importDefault(require("../../models/user"));
-const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const { nickname, email, password } = req.body;
-        if (!nickname || !email || !password) {
-            return res.status(400).json({
-                message: `필수 항목이 모두 채워지지 않았습니다. 다시 한번 확인해주세요.`,
+const user_1 = __importDefault(require("../models/user"));
+const refreshToken_1 = __importDefault(require("./refreshToken"));
+const dotenv = __importStar(require("dotenv"));
+dotenv.config();
+const jwt = require("jsonwebtoken");
+const accessToken = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const authHeader = req.headers.authorization;
+    console.log("token===============", req.headers);
+    if (!authHeader) {
+        return res.status(400).json({ data: null, message: "access token 존재하지 않습니다." });
+    }
+    let token = authHeader.split(" ")[1];
+    const data = yield jwt.verify(token, process.env.ACCESS_SECRET, (err, decode) => __awaiter(void 0, void 0, void 0, function* () {
+        if (err) {
+            token = yield (0, refreshToken_1.default)(req, res, next);
+        }
+        const Info = yield user_1.default.findOne({
+            where: { id: decode.id },
+        });
+        if (!Info) {
+            return res.status(401).json({
+                message: "access token 일치하는 유저가 없습니다.",
             });
         }
-        const salt = crypto.randomBytes(64).toString("hex");
-        const encryptedPassword = crypto
-            .pbkdf2Sync(password, salt, 256, 64, "sha512")
-            .toString("base64");
-        // user 생성
-        const newUser = yield user_1.default.create({
-            // 일반 회원가입 시 - 로그인 타입 false, 소셜 로그인 시 - true
-            loginType: false,
-            nickname,
-            email,
-            salt,
-            password: encryptedPassword,
-        });
-        const userId = newUser.id;
-        return res.status(201).json({
-            userId,
-            nickname,
-            email,
-            message: "회원가입이 완료되었습니다",
-        });
-    }
-    catch (err) {
-        console.log(err);
-        return res.status(501).json({ message: "서버 에러 입니다." });
-    }
+        req.cookies.id = Info.id;
+        next();
+    }));
 });
-exports.default = signup;
-//# sourceMappingURL=signup.js.map
+exports.default = accessToken;
+//# sourceMappingURL=accessToken.js.map

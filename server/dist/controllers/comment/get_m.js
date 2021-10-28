@@ -8,20 +8,31 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const logout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const comment_1 = __importDefault(require("../../models/comment"));
+const get = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userId = req.body.id;
     try {
-        const { authorization } = req.headers;
-        if (!authorization && !req.cookies) {
-            return res.status(401).json({ message: `이미 로그아웃 되었습니다.` });
-        }
-        res.clearCookie("refreshToken");
-        return res.status(200).json({ message: `로그아웃 되었습니다.` });
+        yield comment_1.default
+            .findAll({
+            where: {
+                userId,
+            },
+        })
+            .then((data) => {
+            res.status(200).json({
+                data,
+                message: "내가 쓴 댓글이 성공적으로 조회되었습니다.",
+            });
+        });
     }
     catch (err) {
         console.log(err);
         return res.status(501).json({ message: "서버에러 입니다." });
     }
 });
-exports.default = logout;
-//# sourceMappingURL=logout.js.map
+exports.default = get;
+//# sourceMappingURL=get_m.js.map

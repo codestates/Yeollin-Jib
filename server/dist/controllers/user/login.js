@@ -33,39 +33,58 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const crypto = __importStar(require("crypto"));
 const user_1 = __importDefault(require("../../models/user"));
-const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const jwt = require("jsonwebtoken");
+const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { nickname, email, password } = req.body;
-        if (!nickname || !email || !password) {
-            return res.status(400).json({
-                message: `필수 항목이 모두 채워지지 않았습니다. 다시 한번 확인해주세요.`,
+        const { email, password } = req.body;
+        // 이메일, 비밀번호 중 하나라도 입력하지 않았을 경우
+        if (!email || !password) {
+            return res.status(417).json({
+                message: `필수 항목이 모두 채워지지않았습니다. 다시 한번 확인해주세요.`,
             });
         }
-        const salt = crypto.randomBytes(64).toString("hex");
-        const encryptedPassword = crypto
+        const findUser = yield user_1.default.findOne({
+            where: { email: email },
+        });
+        // 이메일이 없을 때
+        if (!findUser) {
+            return res.status(404).json({ message: `회원을 찾을수 없습니다.` });
+        }
+        const dbPassword = findUser.password;
+        const salt = findUser.salt;
+        const hashedPassword = crypto
             .pbkdf2Sync(password, salt, 256, 64, "sha512")
             .toString("base64");
-        // user 생성
-        const newUser = yield user_1.default.create({
-            // 일반 회원가입 시 - 로그인 타입 false, 소셜 로그인 시 - true
-            loginType: false,
-            nickname,
-            email,
-            salt,
-            password: encryptedPassword,
+        if (hashedPassword !== dbPassword) {
+            return res.status(403).json({ message: "잘못된 비밀번호입니다." });
+        }
+        const payload = {
+            id: findUser.id,
+            email: findUser.email,
+            createdAt: findUser.createdAt,
+            updatedAt: findUser.updatedAt,
+        };
+        const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET, {
+            expiresIn: "12h",
         });
-        const userId = newUser.id;
-        return res.status(201).json({
-            userId,
-            nickname,
-            email,
-            message: "회원가입이 완료되었습니다",
+        const refreshToken = jwt.sign(payload, process.env.REFRESH_SECRET, {
+            expiresIn: "50d",
+        });
+        return res
+            .status(200)
+            .json({
+            accessToken,
+            id: findUser.id,
+            message: "로그인에 성공하였습니다.",
+        })
+            .cookie("refreshToken", refreshToken, {
+            // secure: true,
+            httpOnly: true,
         });
     }
     catch (err) {
-        console.log(err);
-        return res.status(501).json({ message: "서버 에러 입니다." });
+        return res.status(501).json({ message: "서버에러 입니다." });
     }
 });
-exports.default = signup;
-//# sourceMappingURL=signup.js.map
+exports.default = login;
+//# sourceMappingURL=login.js.map

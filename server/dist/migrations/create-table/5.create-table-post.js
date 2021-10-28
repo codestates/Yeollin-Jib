@@ -8,20 +8,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const logout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const { authorization } = req.headers;
-        if (!authorization && !req.cookies) {
-            return res.status(401).json({ message: `이미 로그아웃 되었습니다.` });
-        }
-        res.clearCookie("refreshToken");
-        return res.status(200).json({ message: `로그아웃 되었습니다.` });
-    }
-    catch (err) {
-        console.log(err);
-        return res.status(501).json({ message: "서버에러 입니다." });
-    }
+const post_1 = __importDefault(require("../../models/post"));
+console.log("======Create Table======");
+const create_table_users = () => __awaiter(void 0, void 0, void 0, function* () {
+    yield post_1.default
+        .sync({ force: true })
+        .then(() => {
+        console.log("✅Success Create Table");
+    })
+        .catch((err) => {
+        console.log("❗️Error in Create users Table : ", err);
+    });
 });
-exports.default = logout;
-//# sourceMappingURL=logout.js.map
+create_table_users();
+//# sourceMappingURL=5.create-table-post.js.map

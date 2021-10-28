@@ -8,20 +8,26 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const logout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const user_1 = __importDefault(require("../../models/user"));
+const email = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { authorization } = req.headers;
-        if (!authorization && !req.cookies) {
-            return res.status(401).json({ message: `이미 로그아웃 되었습니다.` });
+        const { email } = req.query;
+        // 로그인된 아이디 정보 찾기
+        const result = yield user_1.default.findOne({ where: { email: email } });
+        // email 중복코드
+        if (result) {
+            return res.status(200).json({ message: `이메일이 중복됩니다.` });
         }
-        res.clearCookie("refreshToken");
-        return res.status(200).json({ message: `로그아웃 되었습니다.` });
+        return res.status(200).json({ message: `사용할 수 있는 이메일입니다.` });
     }
     catch (err) {
         console.log(err);
         return res.status(501).json({ message: "서버에러 입니다." });
     }
 });
-exports.default = logout;
-//# sourceMappingURL=logout.js.map
+exports.default = email;
+//# sourceMappingURL=email.js.map

@@ -8,20 +8,28 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const logout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const user_1 = __importDefault(require("../../models/user"));
+const nick_name = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { authorization } = req.headers;
-        if (!authorization && !req.cookies) {
-            return res.status(401).json({ message: `이미 로그아웃 되었습니다.` });
+        const { nickname } = req.query;
+        // 로그인된 아이디 정보 찾기
+        const userByNick = yield user_1.default.findOne({
+            where: { nickname: nickname || nickname.toUpperCase() },
+        });
+        // nickname 중복코드
+        if (userByNick) {
+            return res.status(200).json({ message: `닉네임이 중복됩니다.` });
         }
-        res.clearCookie("refreshToken");
-        return res.status(200).json({ message: `로그아웃 되었습니다.` });
+        return res.status(200).json({ message: `사용할 수 있는 닉네임입니다.` });
     }
     catch (err) {
         console.log(err);
         return res.status(501).json({ message: "서버에러 입니다." });
     }
 });
-exports.default = logout;
-//# sourceMappingURL=logout.js.map
+exports.default = nick_name;
+//# sourceMappingURL=nickname.js.map

@@ -8,20 +8,26 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const logout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const post_1 = __importDefault(require("../../models/post"));
+const sequelize_1 = __importDefault(require("sequelize"));
+const { or, and, gt, lt } = sequelize_1.default.Op;
+const get_page = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { authorization } = req.headers;
-        if (!authorization && !req.cookies) {
-            return res.status(401).json({ message: `이미 로그아웃 되었습니다.` });
-        }
-        res.clearCookie("refreshToken");
-        return res.status(200).json({ message: `로그아웃 되었습니다.` });
+        const postGet = yield post_1.default.findAll({
+            attributes: ["id", "userId", "title", "address"],
+            order: [["createdAt", "DESC"]],
+            limit: 4,
+        });
+        res.status(200).send({ postGet });
     }
     catch (err) {
         console.log(err);
-        return res.status(501).json({ message: "서버에러 입니다." });
+        return res.status(501).json({ message: "서버 에러 입니다." });
     }
 });
-exports.default = logout;
-//# sourceMappingURL=logout.js.map
+exports.default = get_page;
+//# sourceMappingURL=get_page.js.map

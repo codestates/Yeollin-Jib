@@ -27,45 +27,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const crypto = __importStar(require("crypto"));
-const user_1 = __importDefault(require("../../models/user"));
-const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const { nickname, email, password } = req.body;
-        if (!nickname || !email || !password) {
-            return res.status(400).json({
-                message: `필수 항목이 모두 채워지지 않았습니다. 다시 한번 확인해주세요.`,
-            });
-        }
-        const salt = crypto.randomBytes(64).toString("hex");
-        const encryptedPassword = crypto
-            .pbkdf2Sync(password, salt, 256, 64, "sha512")
-            .toString("base64");
-        // user 생성
-        const newUser = yield user_1.default.create({
-            // 일반 회원가입 시 - 로그인 타입 false, 소셜 로그인 시 - true
-            loginType: false,
-            nickname,
-            email,
-            salt,
-            password: encryptedPassword,
-        });
-        const userId = newUser.id;
-        return res.status(201).json({
-            userId,
-            nickname,
-            email,
-            message: "회원가입이 완료되었습니다",
-        });
-    }
-    catch (err) {
-        console.log(err);
-        return res.status(501).json({ message: "서버 에러 입니다." });
-    }
+const dotenv = __importStar(require("dotenv"));
+dotenv.config();
+const googleLogin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // 로그인 - OAuth 방식: google
+    return res.redirect(`https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.profile&access_type=offline&response_type=code&state=state_parameter_passthrough_value&redirect_uri=${process.env.CLIENT_REDIRECT_URL}&client_id=${process.env.GOOGLE_CLIENT_ID}`);
 });
-exports.default = signup;
-//# sourceMappingURL=signup.js.map
+exports.default = googleLogin;
+//# sourceMappingURL=googleLogin.js.map
