@@ -3,7 +3,7 @@ import user from "../../models/user";
 import comment from "../../models/comment";
 const delete_c = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const userId = req.body.id;
+  const userId = req.cookies.id;
 
   if (userId) {
     try {

@@ -4,7 +4,7 @@ import * as crypto from "crypto";
 import * as fs from "fs";
 
 const put = async (req: Request, res: Response) => {
-  const userId = req.body.id;
+  const userId = req.cookies.id;
   try {
     const header = req.headers;
     if (!header) {

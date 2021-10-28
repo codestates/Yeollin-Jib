@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import comment from "../../models/comment";
 import user from "../../models/user";
+import storage from "../../models/storage";
+
 const delete_ = async (req: Request, res: Response) => {
   try {
     const header: object = req.headers;
@@ -10,7 +12,8 @@ const delete_ = async (req: Request, res: Response) => {
     } else {
       const userId = req.body.id;
       await user.destroy({ where: { id: userId } });
-      // await comment.destroy({ where: { userId } });
+      await comment.destroy({ where: { userId } });
+      await storage.destroy({ where: { userId } });
       return res
         .status(200)
         .cookie("refreshToken", "")
