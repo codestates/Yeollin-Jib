@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import PhotoUpload from "../../../components/PhotoUpload/PhotoUpload";
 import {
   CameraIcon,
+  CategoryIcon,
   CheckBoxIcon,
   ClockIcon,
   MapMarkIcon,
@@ -92,10 +93,38 @@ function CreatePostPage() {
     setRightMainCategories(newMainCate);
   };
 
-  // checkBox
-  const [isSubCategoryCheck, setIsSubCategoryCheck] = useState<string[]>([]);
+  // 서브 체크박스 State
 
-  const addSubCategoryHandle = () => {};
+  // 서브 체크박스 Left Handle
+  const addSubCategoryLeftHandle = (idx: number, name: string) => {
+    console.log(name);
+    const newCategory = [...leftMainCategories];
+    newCategory.forEach((mainCategory) => {
+      mainCategory.subCategories.forEach((subCategory) => {
+        if (mainCategory.id === String(idx) && subCategory.name === name) {
+          subCategory.isSelect = !subCategory.isSelect;
+        }
+      });
+    });
+    setLeftMainCategories(newCategory);
+  };
+
+  // 서브 체크박스 Right Handle
+  const addSubCategoryRightHandle = (idx: number, name: string) => {
+    const newCategory = [...rightMainCategories];
+    newCategory.forEach((mainCategory) => {
+      mainCategory.subCategories.forEach((subCategory) => {
+        if (mainCategory.id === String(idx) && subCategory.name === name) {
+          subCategory.isSelect = !subCategory.isSelect;
+        }
+      });
+    });
+    setRightMainCategories(newCategory);
+  };
+
+  const photoPath = (file: any) => {
+    console.log(file);
+  };
 
   return (
     <CreatePostContainer>
@@ -116,7 +145,7 @@ function CreatePostPage() {
             ></InputTitle>
           </div>
         </TitleArea>
-        {/* 마감시간 작성 칸 ---------------------------------------------------*/}
+        {/* 마감시간 작성 칸 ------------------------------------------------*/}
         <DateArea>
           <div className="Date_Word">
             <ClockIcon color="#2D2D2D" />
@@ -167,14 +196,23 @@ function CreatePostPage() {
               })}
             </MainCategoryBox>
             <SubCategoryBox>
-              {leftMainCategories.map((category) => {
+              {leftMainCategories.map((category, idx) => {
                 return category.isSelect
                   ? category.subCategories.map((subCategory) => {
                       return (
                         <>
-                          <SubCategoryItem>
-                            <input type={"checkbox"} />
-                            {subCategory}
+                          <SubCategoryItem
+                            key={`${category.name + (idx + 1)}`}
+                            checked={subCategory.isSelect}
+                            onClick={() =>
+                              addSubCategoryLeftHandle(
+                                idx + 1,
+                                subCategory.name
+                              )
+                            }
+                          >
+                            <CategoryIcon isCheck={subCategory.isSelect} />
+                            <span>{subCategory.name}</span>
                           </SubCategoryItem>
                         </>
                       );
@@ -199,14 +237,23 @@ function CreatePostPage() {
               })}
             </MainCategoryBox>
             <SubCategoryBox>
-              {rightMainCategories.map((category) => {
+              {rightMainCategories.map((category, idx) => {
                 return category.isSelect
                   ? category.subCategories.map((subCategory) => {
                       return (
                         <>
-                          <SubCategoryItem>
-                            <input type={"checkbox"} />
-                            {subCategory}
+                          <SubCategoryItem
+                            key={`${category.name + (idx + 1)}`}
+                            checked={subCategory.isSelect}
+                            onClick={() =>
+                              addSubCategoryRightHandle(
+                                idx + 7,
+                                subCategory.name
+                              )
+                            }
+                          >
+                            <CategoryIcon isCheck={subCategory.isSelect} />
+                            <span>{subCategory.name}</span>
                           </SubCategoryItem>
                         </>
                       );
@@ -218,14 +265,14 @@ function CreatePostPage() {
         </div>
       </PostCategoryArea>
 
-      {/* 사진 업로드 칸 ----------------------------------------------------*/}
+      {/* 사진 업로드 칸 --------------------------------------------------*/}
       <UploadPhotoArea>
         <div className="Upload_Word">
           <CameraIcon color="#2D2D2D" />
           <span className="">{"사진을 등록해 주세요. (최대 5장)"}</span>
         </div>
         <div className="Photo_Container">
-          <PhotoUpload />
+          <PhotoUpload photoPath={photoPath} />
         </div>
       </UploadPhotoArea>
 
@@ -241,7 +288,7 @@ function CreatePostPage() {
         </div>
       </AddressArea>
 
-      {/* 등록 취소 버튼 ----------------------------------------------------*/}
+      {/* 등록 취소 버튼 ---------------------------------------------------*/}
       <SubmitArea>
         <SubmitBtn>완료</SubmitBtn>
         <CancelBtn>취소</CancelBtn>
