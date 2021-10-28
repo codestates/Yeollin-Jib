@@ -1,29 +1,11 @@
-import express, { Request, Response, NextFunction } from "express";
-import cors from "cors";
-import cookieParser from "cookie-parser";
 import "dotenv/config";
+import { sequelize } from "./models";
+import app from "./app";
 
-const app = express();
-
-const PORT: number = parseInt(process.env.PORT as string, 10) || 5000;
+const PORT: number = parseInt(process.env.PORT as string, 10) || 4000;
 const HOST: string = process.env.HOST || "localhost";
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-
-const options: cors.CorsOptions = {
-  origin: true,
-  credentials: true,
-  methods: "GET,PUT,PATCH,POST,DELETE",
-};
-app.use(cors(options));
-app.use(express.static("public"));
-
-app.get("/", (req: Request, res: Response) => {
-  res.status(200).send("Hello world");
-});
-
-app.listen(PORT, async () => {
+app.listen(PORT, () => {
   console.log(`Server Listening on ${PORT}`);
+  //sequelize-db 연결 테스트
 });
