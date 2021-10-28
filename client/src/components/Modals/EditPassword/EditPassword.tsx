@@ -27,8 +27,8 @@ interface IProps {
 function EditPassword({ setIsOpened }: IProps) {
   const dispatch = useDispatch();
 
+  // 저장된 토큰값을 가져옴
   const { accessToken } = useSelector((state: RootState) => state.authReducer);
-  console.log(accessToken);
 
   // 인풋값
   const [password, setPassword] = useState<string>("");
