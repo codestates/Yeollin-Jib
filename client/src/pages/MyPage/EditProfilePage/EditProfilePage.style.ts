@@ -33,7 +33,7 @@ export const Title = styled.span`
   }
 `;
 
-export const EditPassword = styled.div`
+export const EditPasswordContainer = styled.div`
   display: flex;
   align-items: center;
   font-family: "Gmarket Sans TTF";

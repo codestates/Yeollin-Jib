@@ -73,13 +73,13 @@ function MyPage() {
               <div className="Info_Count">0개</div>
             </UserInfo>
           </InfoContainer>
-          <SmallBtnContainer>
-            <Link to={"/editprofile"}>
-              <BlackSmallBtn>정보 수정</BlackSmallBtn>
-            </Link>
-            <WhiteSmallBtn>회원 탈퇴</WhiteSmallBtn>
-          </SmallBtnContainer>
         </MyInfoContainer>
+        <SmallBtnContainer>
+          <Link to={"/editprofile"}>
+            <BlackSmallBtn>정보 수정</BlackSmallBtn>
+          </Link>
+          <WhiteSmallBtn>회원 탈퇴</WhiteSmallBtn>
+        </SmallBtnContainer>
         <TapContainer>
           <Tap
             onClick={() => {
