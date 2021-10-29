@@ -18,14 +18,14 @@ const post_category_1 = __importDefault(require("../../models/post_category"));
 const post_user = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = req.cookies.id;
-        console.log("----------", id);
         const image = req.files;
         const images = image.map((value) => {
             return String(value.path);
         });
         const imagePath = images.join(",");
-        console.log("----------", req.cookies);
-        const { title, contents, address, dueDate, latitude, longitude, category1, category2, } = req.body;
+
+        const { title, contents, address, dueDate, latitude, longitude, category1, category2 } = req.body;
+
         if (!title)
             return res.status(400).send({ message: "제목이 없습니다." });
         if (!contents)
@@ -60,9 +60,9 @@ const post_user = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }
         if (!postCreate)
             res.status(400).send({ message: "게시글이 생성되지 않았습니다." });
-        res
-            .status(201)
-            .json({ postId: postId, message: "게시글이 생성되었습니다." });
+
+        res.status(201).json({ postId: postId, message: "게시글이 생성되었습니다." });
+
     }
     catch (err) {
         console.log(err);
