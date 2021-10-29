@@ -1,9 +1,24 @@
 import { Request, Response } from "express";
 import user from "../../models/user";
+import comment from "../../models/comment";
+import post from "../../models/post";
+import storage from "../../models/storage";
 
 const get = async (req: Request, res: Response) => {
   const userId = req.cookies.id;
   try {
+    const commentUser = await comment.findAll({
+      where: { userId },
+      attributes: ["id"],
+    });
+    const postUser = await post.findAll({
+      where: { userId },
+      attributes: ["id"],
+    });
+    const storageUser = await storage.findAll({
+      where: { userId },
+      attributes: ["id"],
+    });
     const findUser = await user.findOne({
       where: { id: userId },
     });
@@ -16,10 +31,15 @@ const get = async (req: Request, res: Response) => {
     });
     const { id, email, nickname, userArea, imagePath } = userInfo[0].dataValues;
     const data = { id, email, nickname, userArea, imagePath };
-    res.status(200).json(data);
+    res.status(200).json({
+      data,
+      myComment: commentUser.length,
+      myPost: postUser.length,
+      myStorage: storageUser.length,
+    });
   } catch (err) {
     console.log(err);
-    return res.status(501).json({ message: "서버에러 입니다." });
+    return res.status(501).json({ message: "서버 에러 입니다." });
   }
 };
 export default get;
