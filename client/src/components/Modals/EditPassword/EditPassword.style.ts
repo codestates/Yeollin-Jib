@@ -44,7 +44,6 @@ export const ModalContainer = styled.div<IContainerProps>`
 
 export const TitleWrapper = styled.div`
   margin-bottom: 20px;
-  transition: 0.5s all;
 `;
 
 export const Title = styled.span`
