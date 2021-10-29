@@ -9,6 +9,7 @@ const jwt = require("jsonwebtoken");
 const accessToken = async (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;
   console.log("token===============", req.headers);
+
   if (!authHeader) {
     return res
       .status(400)
@@ -30,7 +31,8 @@ const accessToken = async (req: Request, res: Response, next: NextFunction) => {
           message: "access token 일치하는 유저가 없습니다.",
         });
       }
-      req.body.id = Info.id;
+      req.cookies.id = Info.id;
+
       next();
     }
   );

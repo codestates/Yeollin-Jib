@@ -17,7 +17,7 @@ const post = async (req: Request, res: Response) => {
   const mailOptions = {
     from: email,
     to: "yeollinjib@gmail.com",
-    subject: `[열린집 문의하기]: ${title}`,
+    subject: `[열린집 문의하기] ${title}`,
     text: contents,
   };
 
