@@ -58,12 +58,9 @@ const post_user = async (req: Request, res: Response) => {
       await post_category.create({ postId: postId, categoryId: find!.id });
     }
 
-    if (!postCreate)
-      res.status(400).send({ message: "게시글이 생성되지 않았습니다." });
+    if (!postCreate) res.status(400).send({ message: "게시글이 생성되지 않았습니다." });
 
-    res
-      .status(201)
-      .json({ postId: postId, message: "게시글이 생성되었습니다." });
+    res.status(201).json({ postId: postId, message: "게시글이 생성되었습니다." });
   } catch (err) {
     console.log(err);
     return res.status(501).json({ message: "서버 에러 입니다." });
