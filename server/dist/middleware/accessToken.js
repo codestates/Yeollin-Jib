@@ -40,7 +40,9 @@ const accessToken = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
     const authHeader = req.headers.authorization;
     console.log("token===============", req.headers);
     if (!authHeader) {
-        return res.status(400).json({ data: null, message: "access token 존재하지 않습니다." });
+        return res
+            .status(400)
+            .json({ data: null, message: "access token 존재하지 않습니다." });
     }
     let token = authHeader.split(" ")[1];
     const data = yield jwt.verify(token, process.env.ACCESS_SECRET, (err, decode) => __awaiter(void 0, void 0, void 0, function* () {

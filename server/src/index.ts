@@ -2,7 +2,7 @@ import "dotenv/config";
 import { sequelize } from "./models";
 import app from "./app";
 
-const PORT: number = parseInt(process.env.PORT as string, 10) || 4000;
+const PORT: number = parseInt(process.env.PORT as string, 10) || 80;
 const HOST: string = process.env.HOST || "localhost";
 
 app.listen(PORT, () => {

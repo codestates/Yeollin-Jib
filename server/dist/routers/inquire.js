@@ -25,6 +25,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const inquireRouter = express_1.default.Router();
 const inquirecontroller = __importStar(require("../controllers/inquire/index"));
-inquireRouter.post("/inquire", inquirecontroller.post);
+inquireRouter.post("/", inquirecontroller.post);
 exports.default = inquireRouter;
 //# sourceMappingURL=inquire.js.map

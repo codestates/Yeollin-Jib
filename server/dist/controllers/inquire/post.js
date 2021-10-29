@@ -8,29 +8,37 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const { inquire } = require("../../models");
+const nodemailer_1 = __importDefault(require("nodemailer"));
+const nodemailer_mailgun_transport_1 = __importDefault(require("nodemailer-mailgun-transport"));
 const post = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("hihiihi");
     const { email, title, contents } = req.body;
-    try {
-        yield inquire
-            .create({
-            email: email,
-            title: title,
-            contents: contents,
-        })
-            .then((data) => {
-            res.status(200).json({
-                data,
-                message: "문의 작성이 성공적으로 완료되었습니다.",
-            });
+    const auth = {
+        auth: {
+            api_key: `${process.env.MAILGUN_API_KEY}`,
+            domain: `${process.env.MAILGUN_DOMAIN}`,
+        },
+    };
+    const transporter = nodemailer_1.default.createTransport((0, nodemailer_mailgun_transport_1.default)(auth));
+    const mailOptions = {
+        from: email,
+        to: "yeollinjib@gmail.com",
+        subject: `[열린집 문의하기] ${title}`,
+        text: contents,
+    };
+    transporter.sendMail(mailOptions, (err, data) => {
+        if (err) {
+            console.log(err);
+            return res.status(501).json({ message: "서버에러 입니다." });
+        }
+        res.status(200).json({
+            data,
+            message: "문의 작성이 성공적으로 완료되었습니다.",
         });
-    }
-    catch (err) {
-        console.log(err);
-        return res.status(501).json({ message: "서버에러 입니다." });
-    }
+    });
 });
 exports.default = post;
 //# sourceMappingURL=post.js.map
