@@ -34,13 +34,13 @@ function SignUpPage() {
   const [checkPasswordAlert, setCheckPasswordAlert] = useState<string>("");
 
   // 각 인풋값이 바르게 작성되었는지 확인
-  const [isrightNickname, setisrightNickname] = useState<boolean>(false);
-  const [isrightEmail, setisrightEmail] = useState<boolean>(false);
-  const [isrightPassword, setisrightPassword] = useState<boolean>(false);
-  const [isrightCheckPassword, setisrightCheckPassword] =
+  const [isRightNickname, setIsRightNickname] = useState<boolean>(false);
+  const [isRightEmail, setIsRightEmail] = useState<boolean>(false);
+  const [isRightPassword, setIsRightPassword] = useState<boolean>(false);
+  const [isRightCheckPassword, setIsRightCheckPassword] =
     useState<boolean>(false);
 
-  // 모든 값이 제대로 입력되어 있는지 확인
+  // 모든 값이 입력되어 있는지 확인
   const [isCompleted, setIsCompleted] = useState<boolean>(true);
 
   // 회원가입 완료
@@ -68,42 +68,52 @@ function SignUpPage() {
   // 관련된 상태값이 바뀜에 따라 alert 메시지 변경
   useEffect(() => {
     if (Inspect(nickname, "nickname")) {
+      // 유효 조건을 통과했을 경우 중복 확인 필요
       setNicknameAlert("중복 확인이 필요합니다.");
     } else {
+      // 유효 조건을 통과하지 못했을 경우, 유효 조건을 알려줌
       setNicknameAlert("2글자 이상, 한글, 영어, 숫자만 가능합니다.");
     }
-    setisrightNickname(false);
+    // 위의 두 경우 모두 올바른 값이 아니지만, 값이 입력됨
+    setIsRightNickname(false);
     setIsCompleted(true);
   }, [nickname]);
 
   useEffect(() => {
     if (Inspect(email, "email")) {
+      // 유효 조건을 통과했을 경우 중복 확인 필요
       setEmailAlert("중복 확인이 필요합니다.");
     } else {
+      // 유효 조건을 통과하지 못했을 경우, 유효 조건을 알려줌
       setEmailAlert("올바른 형식의 이메일을 작성해 주세요.");
     }
-    setisrightEmail(false);
+    // 위의 두 경우 모두 올바른 값이 아니지만, 값이 입력됨
+    setIsRightEmail(false);
     setIsCompleted(true);
   }, [email]);
 
   useEffect(() => {
     if (Inspect(password, "password")) {
+      // 올바른 값이 입력됨
       setPasswordAlert("사용 가능한 비밀번호입니다.");
-      setisrightPassword(true);
+      setIsRightPassword(true);
     } else {
+      // 유효 조건을 통과하지 못했을 경우, 유효 조건을 알려줌
       setPasswordAlert("8~16글자, 영문 대소문자, 숫자, 특수문자를 사용하세요.");
-      setisrightPassword(false);
+      setIsRightPassword(false);
     }
     setIsCompleted(true);
   }, [password]);
 
   useEffect(() => {
     if (password !== checkPassword) {
+      // 비빌번호가 일치하진 않지만 값이 입력됨
       setCheckPasswordAlert("비밀번호를 다시 확인해 주세요.");
-      setisrightCheckPassword(false);
+      setIsRightCheckPassword(false);
     } else {
+      // 올바른 값이 입력됨
       setCheckPasswordAlert("비밀번호가 일치합니다.");
-      setisrightCheckPassword(true);
+      setIsRightCheckPassword(true);
     }
     setIsCompleted(true);
   }, [checkPassword, password]);
@@ -116,7 +126,11 @@ function SignUpPage() {
   }
 
   const handleNicknameBtn = async () => {
-    if (Inspect(nickname, "nickname")) {
+    if (nickname === "") {
+      // 아무 값도 입력하지 않은 상태에서 중복 버튼을 눌렀을 경우 유효 조건이 나오도록 "0"으로 설정
+      setNickname("0");
+    } else if (Inspect(nickname, "nickname")) {
+      // 유효 조건을 통과한 닉네임일 경우 서버에 중복 검사 요청을 보님
       const result: Iresponse = await axios.get(
         `${process.env.REACT_APP_API_URL}/user/nickname?nickname=${nickname}`,
         {
@@ -127,16 +141,20 @@ function SignUpPage() {
       const message: string = result.data.message;
       if (message === "사용할 수 있는 닉네임입니다.") {
         setNicknameAlert("사용 가능한 닉네임입니다.");
-        setisrightNickname(true);
+        setIsRightNickname(true);
       } else if (message === "닉네임이 중복됩니다.") {
         setNicknameAlert("이미 가입된 닉네임입니다.");
-        setisrightNickname(false);
+        setIsRightNickname(false);
       }
     }
   };
 
   const handleEmailBtn = async () => {
-    if (Inspect(email, "email")) {
+    // 아무 값도 입력하지 않은 상태에서 중복 버튼을 눌렀을 경우 유효 조건이 나오도록 "0"으로 설정
+    if (email === "") {
+      setEmail("0");
+    } else if (Inspect(email, "email")) {
+      // 유효 조건을 통과한 이메일일 경우 서버에 중복 검사 요청을 보님
       const result: Iresponse = await axios.get(
         `${process.env.REACT_APP_API_URL}/user/email?email=${email}`,
         {
@@ -145,12 +163,13 @@ function SignUpPage() {
       );
 
       const message: string = result.data.message;
+
       if (message === "사용할 수 있는 이메일입니다.") {
         setEmailAlert("사용 가능한 이메일입니다.");
-        setisrightEmail(true);
+        setIsRightEmail(true);
       } else if (message === "이메일이 중복됩니다.") {
         setEmailAlert("이미 가입된 이메일입니다.");
-        setisrightEmail(false);
+        setIsRightEmail(false);
       }
     }
   };
@@ -159,10 +178,10 @@ function SignUpPage() {
   const handleSignupBtn = async () => {
     if (
       // 모든 요소가 true가 아니면 isCompleted는 false
-      !isrightNickname ||
-      !isrightEmail ||
-      !isrightPassword ||
-      !isrightCheckPassword
+      !isRightNickname ||
+      !isRightEmail ||
+      !isRightPassword ||
+      !isRightCheckPassword
     ) {
       setIsCompleted(false);
     } else {
@@ -191,6 +210,7 @@ function SignUpPage() {
   return (
     <Container>
       {isSignup ? (
+        // 회원가입이 완료되었을 때
         <SignupContainer>
           <TitleWrapper>
             <Title>축하합니다</Title>
@@ -201,6 +221,7 @@ function SignUpPage() {
           </Link>
         </SignupContainer>
       ) : (
+        // 회원가입 Form
         <ContentContainer>
           <TitleWrapper>
             <Title>회원가입</Title>
@@ -212,10 +233,10 @@ function SignUpPage() {
               중복 확인
             </ValidationBtn>
           </InputContainer>
-          <MsgContainer isColor={isrightNickname}>
+          <MsgContainer isColor={isRightNickname}>
             {nickname !== "" ? (
               <>
-                <WarningIcon color={isrightNickname ? "#2d2d2d" : "#f44336"} />
+                <WarningIcon color={isRightNickname ? "#2d2d2d" : "#f44336"} />
                 <div>{nicknameAlert}</div>
               </>
             ) : null}
@@ -227,20 +248,20 @@ function SignUpPage() {
               중복 확인
             </ValidationBtn>
           </InputContainer>
-          <MsgContainer isColor={isrightEmail}>
+          <MsgContainer isColor={isRightEmail}>
             {email !== "" ? (
               <>
-                <WarningIcon color={isrightEmail ? "#2d2d2d" : "#f44336"} />
+                <WarningIcon color={isRightEmail ? "#2d2d2d" : "#f44336"} />
                 <div>{emailAlert}</div>
               </>
             ) : null}
           </MsgContainer>
           <InputTitle>비밀번호</InputTitle>
           <InputField type="password" onChange={(e) => setPasswordData(e)} />
-          <MsgContainer isColor={isrightPassword}>
+          <MsgContainer isColor={isRightPassword}>
             {password !== "" ? (
               <>
-                <WarningIcon color={isrightPassword ? "#2d2d2d" : "#f44336"} />
+                <WarningIcon color={isRightPassword ? "#2d2d2d" : "#f44336"} />
                 <div>{passwordAlert}</div>
               </>
             ) : null}
@@ -250,11 +271,11 @@ function SignUpPage() {
             type="password"
             onChange={(e) => setcheckPasswordData(e)}
           />
-          <MsgContainer isColor={isrightCheckPassword}>
+          <MsgContainer isColor={isRightCheckPassword}>
             {checkPassword !== "" ? (
               <>
                 <WarningIcon
-                  color={isrightCheckPassword ? "#2d2d2d" : "#f44336"}
+                  color={isRightCheckPassword ? "#2d2d2d" : "#f44336"}
                 />
                 <div>{checkPasswordAlert}</div>
               </>
