@@ -7,8 +7,8 @@ const post = async (req: Request, res: Response) => {
 
   const auth = {
     auth: {
-      api_key: "4b58d05634031867fdd1da4c9b76e08a-20ebde82-faae9e48",
-      domain: "sandbox931fd1095c56429db84ab978f7dee695.mailgun.org",
+      api_key: `${process.env.MAILGUN_API_KEY}`,
+      domain: `${process.env.MAILGUN_DOMAIN}`,
     },
   };
 
@@ -31,7 +31,6 @@ const post = async (req: Request, res: Response) => {
       message: "문의 작성이 성공적으로 완료되었습니다.",
     });
   });
-
 };
 
 export default post;

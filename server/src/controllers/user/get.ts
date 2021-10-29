@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import user from "../../models/user";
 
 const get = async (req: Request, res: Response) => {
-  const userId = req.body.id;
+  const userId = req.cookies.id;
   try {
     const findUser = await user.findOne({
       where: { id: userId },
