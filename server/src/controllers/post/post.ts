@@ -13,7 +13,6 @@ const post_user = async (req: Request, res: Response) => {
     });
 
     const imagePath = images.join(",");
-    console.log("----------", req.cookies);
 
     const {
       title,

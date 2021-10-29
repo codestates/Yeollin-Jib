@@ -31,6 +31,7 @@ const post = async (req: Request, res: Response) => {
       message: "문의 작성이 성공적으로 완료되었습니다.",
     });
   });
+
 };
 
 export default post;
