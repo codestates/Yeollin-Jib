@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const user_1 = __importDefault(require("../../models/user"));
 const get = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const userId = req.body.id;
+    const userId = req.cookies.id;
     try {
         const findUser = yield user_1.default.findOne({
             where: { id: userId },
