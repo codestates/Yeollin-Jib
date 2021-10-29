@@ -20,13 +20,29 @@ import {
 import { RootState } from "../../reducers/rootReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { setLogOut } from "../../reducers/authReducer";
+import { setUser } from "../../reducers/userReducer";
 
 function Header() {
   const dispatch = useDispatch();
 
   const ArrSearch: string[] = ["전체", "지역"];
+
+  // 햄버거 메뉴 상태
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const isLogin = useSelector((state: RootState) => state.authReducer.isLogin);
+
+  // auth 저장소에서 필요한 값을 가져옴
+  const { isLogin, accessToken } = useSelector(
+    (state: RootState) => state.authReducer
+  );
+
+  // isLogin 상태이고, accessToken이 존재하면 유저 정보 요청
+  const getUserDate = () => {
+    if (isLogin) {
+      console.log("안들어오지?");
+      dispatch(setUser(accessToken));
+    }
+  };
+
   return (
     // 상단바
     <HeaderItemContainer>
@@ -67,7 +83,7 @@ function Header() {
           )}
         </Link>
         <Link to={isLogin ? "/profile" : "/signup"}>
-          <SignupUserInfoBtn>
+          <SignupUserInfoBtn onClick={() => getUserDate()}>
             {isLogin ? "내 정보" : "회원가입"}
           </SignupUserInfoBtn>
         </Link>
@@ -91,7 +107,12 @@ function Header() {
               </MenuWrapper>
               <MenuWrapper>
                 <Link to={isLogin ? "/profile" : "/signup"}>
-                  <Menu onClick={() => setIsOpen(!isOpen)}>
+                  <Menu
+                    onClick={() => {
+                      getUserDate();
+                      setIsOpen(!isOpen);
+                    }}
+                  >
                     {isLogin ? "내 정보" : "회원가입"}
                   </Menu>
                 </Link>

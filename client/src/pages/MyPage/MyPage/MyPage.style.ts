@@ -66,6 +66,17 @@ export const ProfileContainer = styled.div`
   }
 `;
 
+export const ProfileImg = styled.img`
+  height: 66px;
+  width: 66px;
+  border-radius: 50rem;
+
+  @media screen and (max-width: 37.5rem) {
+    height: 50px;
+    width: 50px;
+  }
+`;
+
 export const Profile = styled.div`
   display: flex;
   flex-direction: column;
@@ -179,6 +190,10 @@ export const BlackSmallBtn = styled.button`
   color: #ffffff;
   cursor: pointer;
 
+  :active {
+    background: #3f3f3f;
+  }
+
   @media screen and (min-width: 37.5rem) {
     display: none;
   }
@@ -197,6 +212,10 @@ export const WhiteSmallBtn = styled.button`
   color: #2d2d2d;
   cursor: pointer;
   margin-left: 5px;
+
+  :active {
+    background: #f5f4f5;
+  }
 
   @media screen and (min-width: 37.5rem) {
     display: none;
@@ -267,7 +286,10 @@ export const BlackBtn = styled.button`
   width: 8.8rem;
   height: 42px;
   cursor: pointer;
-  transition: 0.5s all;
+
+  :active {
+    background: #3f3f3f;
+  }
 
   @media screen and (max-width: 37.5rem) {
     display: none;
@@ -286,7 +308,10 @@ export const WhiteBtn = styled.button`
   width: 8.8rem;
   height: 42px;
   cursor: pointer;
-  transition: 0.5s all;
+
+  :active {
+    background: #f5f4f5;
+  }
 
   @media screen and (max-width: 37.5rem) {
     display: none;

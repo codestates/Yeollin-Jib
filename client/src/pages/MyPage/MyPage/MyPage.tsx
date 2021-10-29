@@ -4,6 +4,7 @@ import {
   SideContainer,
   MyInfoContainer,
   ProfileContainer,
+  ProfileImg,
   Profile,
   Adress,
   InfoContainer,
@@ -22,12 +23,27 @@ import {
   Content,
 } from "./MyPage.style";
 import { Link } from "react-router-dom";
+import { RootState } from "../../../reducers/rootReducer";
+import { useSelector } from "react-redux";
 import MyPost from "../../../components/MyPost/MyPost";
 import MyComment from "../../../components/MyComment/MyComment";
 import MyFavoritePost from "../../../components/MyFavoritePost/MyFavoritePost";
 import MyChattingRoom from "../../../components/MyChattingRoom/MyChattingRoom";
 
 function MyPage() {
+  // 유저 정보를 스토어에서 가져옴
+  const { email, nickname, userArea, imagePath } = useSelector(
+    (state: RootState) => state.userReducer
+  );
+
+  // 주소 데이터의 상태 : 유저가 주소를 등록하지 않았다면 초기 메시지를, 등록했다면 등록한 지역을 보여줌
+  const [userAreaData, setUserAreaData] =
+    useState<string>("주소를 등록해 주세요.");
+
+  if (userArea) {
+    setUserAreaData(userAreaData);
+  }
+
   // 선택한 탭의 이름을 저장
   const [tapName, setTapName] = useState<string>("내가 쓴 게시글");
 
@@ -40,13 +56,18 @@ function MyPage() {
       <SideContainer>
         <MyInfoContainer>
           <ProfileContainer>
-            <img src="./images/profile.svg" alt="profile" />
+            {imagePath ? (
+              <ProfileImg src="./images/test.jpeg" alt="PostImg" />
+            ) : (
+              // 프로필 사진을 등록하지 않아 imagePath가 null일 경우, 기본 프로필 이미지 노출
+              <img src="./images/profile.svg" alt="profile" />
+            )}
             <Profile>
-              <div className="Profile_Nickname">까까</div>
-              <div className="Profile_Email">kkakka123@gmail.com</div>
+              <div className="Profile_Nickname">{nickname}</div>
+              <div className="Profile_Email">{email}</div>
               <Adress>
                 <img src="./images/mapMark.svg" alt="mapMark" />
-                <div>경기도 남양주시 별내동</div>
+                <div>{userAreaData}</div>
               </Adress>
             </Profile>
           </ProfileContainer>

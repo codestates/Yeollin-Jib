@@ -169,7 +169,7 @@ export const SearchBtn = styled.button`
   width: 115px;
   margin-left: 0.5rem;
   cursor: pointer;
-  transition: 0.5s all;
+  transition: 0.5s font-size, height, width;
 
   :active {
     background: #3f3f3f;
@@ -177,7 +177,7 @@ export const SearchBtn = styled.button`
 
   @media screen and (max-width: 37.5rem) {
     font-size: 0.8rem;
-    transition: 0.5s all;
+    transition: 0.5s font-size, height, width;
     height: 2.6rem;
     width: 100px;
   }
@@ -226,13 +226,18 @@ export const BlackBtn = styled.button`
   width: 5.3rem;
   height: 2.8rem;
   cursor: pointer;
-  transition: 0.5s all;
+  transition: 0.5s font-size, width, height;
   margin-right: 5px;
+
+  :active {
+    background: #3f3f3f;
+  }
 
   @media screen and (max-width: 37.5rem) {
     font-size: 0.8rem;
     width: 4.3rem;
     height: 2.5rem;
+    transition: 0.5s font-size, width, height;
   }
 `;
 
@@ -248,11 +253,16 @@ export const WhiteBtn = styled.button`
   width: 5.3rem;
   height: 2.8rem;
   cursor: pointer;
-  transition: 0.5s all;
+  transition: 0.5s font-size, width, height;
+
+  :active {
+    background: #f5f4f5;
+  }
 
   @media screen and (max-width: 37.5rem) {
     font-size: 0.8rem;
     width: 4.3rem;
     height: 2.5rem;
+    transition: 0.5s font-size, width, height;
   }
 `;
