@@ -47,6 +47,10 @@ export const EditPasswordContainer = styled.div`
     margin-right: 5px;
   }
 
+  :hover {
+    text-decoration: underline;
+  }
+
   @media screen and (max-width: 37.5rem) {
     transition: 0.5s all;
     img {
