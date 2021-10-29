@@ -32,7 +32,6 @@ const accessToken = async (req: Request, res: Response, next: NextFunction) => {
         });
       }
       req.cookies.id = Info.id;
-
       next();
     }
   );
