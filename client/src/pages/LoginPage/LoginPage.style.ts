@@ -133,7 +133,7 @@ export const LoginBtn = styled.button`
   width: 100%;
   margin-top: 10px;
   cursor: pointer;
-  transition: 0.5s all;
+  transition: 0.5s font-size;
 
   :active {
     background: #3f3f3f;
@@ -141,7 +141,7 @@ export const LoginBtn = styled.button`
 
   @media screen and (max-width: 37.5rem) {
     font-size: 0.8rem;
-    transition: 0.5s all;
+    transition: 0.5s font-size;
   }
 `;
 
@@ -162,7 +162,7 @@ export const SocialLoginBtn = styled.button`
   width: 100%;
   margin-top: 10px;
   cursor: pointer;
-  transition: 0.5s all;
+  transition: 0.5s font-size;
 
   :active {
     background: #f5f4f5;
@@ -175,7 +175,7 @@ export const SocialLoginBtn = styled.button`
 
   @media screen and (max-width: 37.5rem) {
     font-size: 0.8rem;
-    transition: 0.5s all;
+    transition: 0.5s font-size;
 
     img {
       width: 12px;
