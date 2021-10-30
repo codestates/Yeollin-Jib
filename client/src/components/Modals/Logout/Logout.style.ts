@@ -1,13 +1,5 @@
 import styled from "styled-components";
 
-interface IMsgProps {
-  isColor: boolean;
-}
-
-interface IContainerProps {
-  isSubmited: boolean;
-}
-
 export const ModalBackground = styled.div`
   display: flex;
   justify-content: center;

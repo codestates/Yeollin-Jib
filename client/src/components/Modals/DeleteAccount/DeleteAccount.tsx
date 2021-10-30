@@ -21,7 +21,7 @@ function DeleteAccount({ setIsOpened }: IProps) {
   // 회원 탈퇴 시 unmount 할 때 동작
   useEffect(() => {
     return () => setIsOpened(false);
-  }, []);
+  }, [setIsOpened]);
   // 저장된 토큰값을 가져옴
   const { accessToken } = useSelector((state: RootState) => state.authReducer);
   // 로그인 상태를 가져옴
