@@ -39,8 +39,8 @@ function EditPassword({ setIsOpened }: IProps) {
   const [checkPasswordAlert, setCheckPasswordAlert] = useState<string>("");
 
   // 각 인풋값이 바르게 작성되었는지 확인
-  const [isrightPassword, setisrightPassword] = useState<boolean>(false);
-  const [isrightCheckPassword, setisrightCheckPassword] =
+  const [isRightPassword, setIsRightPassword] = useState<boolean>(false);
+  const [isRightCheckPassword, setIsRightCheckPassword] =
     useState<boolean>(false);
 
   // 모든 값이 제대로 입력되어 있는지 확인
@@ -62,10 +62,10 @@ function EditPassword({ setIsOpened }: IProps) {
   useEffect(() => {
     if (Inspect(password, "password")) {
       setPasswordAlert("사용 가능한 비밀번호입니다.");
-      setisrightPassword(true);
+      setIsRightPassword(true);
     } else {
       setPasswordAlert("8~16글자, 영문 대소문자, 숫자, 특수문자를 사용하세요.");
-      setisrightPassword(false);
+      setIsRightPassword(false);
     }
     setIsCompleted(true);
   }, [password]);
@@ -73,10 +73,10 @@ function EditPassword({ setIsOpened }: IProps) {
   useEffect(() => {
     if (password !== checkPassword) {
       setCheckPasswordAlert("비밀번호를 다시 확인해 주세요.");
-      setisrightCheckPassword(false);
+      setIsRightCheckPassword(false);
     } else {
       setCheckPasswordAlert("비밀번호가 일치합니다.");
-      setisrightCheckPassword(true);
+      setIsRightCheckPassword(true);
     }
     setIsCompleted(true);
   }, [checkPassword, password]);
@@ -85,8 +85,8 @@ function EditPassword({ setIsOpened }: IProps) {
   const handleSubmitBtn = async () => {
     if (
       // 모든 요소가 true가 아니면 isCompleted는 false
-      !isrightPassword ||
-      !isrightCheckPassword
+      !isRightPassword ||
+      !isRightCheckPassword
     ) {
       setIsCompleted(false);
     } else {
@@ -123,6 +123,7 @@ function EditPassword({ setIsOpened }: IProps) {
         <TitleWrapper>
           <Title>비밀번호 변경</Title>
         </TitleWrapper>
+        {/*비밀번호 변경 완료---------------------------------------------------------*/}
         {isSubmited ? (
           <>
             <CompletedMsg>비밀번호 변경이 완료되었습니다.</CompletedMsg>
@@ -132,13 +133,14 @@ function EditPassword({ setIsOpened }: IProps) {
           </>
         ) : (
           <>
+            {/*비밀번호 변경 페이지---------------------------------------------------------*/}
             <InputTitle>비밀번호</InputTitle>
             <InputField type="password" onChange={(e) => setPasswordData(e)} />
-            <MsgContainer isColor={isrightPassword}>
+            <MsgContainer isColor={isRightPassword}>
               {password !== "" ? (
                 <>
                   <WarningIcon
-                    color={isrightPassword ? "#2d2d2d" : "#f44336"}
+                    color={isRightPassword ? "#2d2d2d" : "#f44336"}
                   />
                   <div>{passwordAlert}</div>
                 </>
@@ -149,11 +151,11 @@ function EditPassword({ setIsOpened }: IProps) {
               type="password"
               onChange={(e) => checkPasswordData(e)}
             />
-            <MsgContainer isColor={isrightCheckPassword}>
+            <MsgContainer isColor={isRightCheckPassword}>
               {checkPassword !== "" ? (
                 <>
                   <WarningIcon
-                    color={isrightCheckPassword ? "#2d2d2d" : "#f44336"}
+                    color={isRightCheckPassword ? "#2d2d2d" : "#f44336"}
                   />
                   <div>{checkPasswordAlert}</div>
                 </>
@@ -167,6 +169,7 @@ function EditPassword({ setIsOpened }: IProps) {
                 </>
               ) : null}
             </InvalidMessage>
+            {/*변경 및 취소 버튼---------------------------------------------------------*/}
             <BtnContainer>
               <BlackBtn onClick={() => handleSubmitBtn()}>변경</BlackBtn>
               <WhiteBtn onClick={() => setIsOpened(false)}>취소</WhiteBtn>
