@@ -29,6 +29,7 @@ import MyPost from "../../../components/MyPost/MyPost";
 import MyComment from "../../../components/MyComment/MyComment";
 import MyFavoritePost from "../../../components/MyFavoritePost/MyFavoritePost";
 import MyChattingRoom from "../../../components/MyChattingRoom/MyChattingRoom";
+import DeleteAccount from "../../../components/Modals/DeleteAccount/DeleteAccount";
 
 function MyPage() {
   // 유저 정보를 스토어에서 가져옴
@@ -50,6 +51,8 @@ function MyPage() {
   const handleTapBtn = (tapName: string) => {
     setTapName(tapName);
   };
+  // 회원 탈퇴 상태
+  const [isOpened, setIsOpened] = useState<boolean>(false);
 
   return (
     <Container>
@@ -99,7 +102,9 @@ function MyPage() {
           <Link to={"/editprofile"}>
             <BlackSmallBtn>정보 수정</BlackSmallBtn>
           </Link>
-          <WhiteSmallBtn>회원 탈퇴</WhiteSmallBtn>
+          <WhiteSmallBtn onClick={() => setIsOpened(true)}>
+            회원 탈퇴
+          </WhiteSmallBtn>
         </SmallBtnContainer>
         <TapContainer>
           <Tap
@@ -139,7 +144,12 @@ function MyPage() {
           <Link to={"/editprofile"}>
             <BlackBtn>정보 수정</BlackBtn>
           </Link>
-          <WhiteBtn>회원 탈퇴</WhiteBtn>
+          {isOpened ? (
+            <DeleteAccount
+              setIsOpened={(bool: boolean) => setIsOpened(bool)}
+            ></DeleteAccount>
+          ) : null}
+          <WhiteBtn onClick={() => setIsOpened(true)}>회원 탈퇴</WhiteBtn>
         </BtnContainer>
       </SideContainer>
       <ContentContainer>
