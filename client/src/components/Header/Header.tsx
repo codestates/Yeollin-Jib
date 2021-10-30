@@ -19,9 +19,8 @@ import {
 } from "./Header.style";
 import { RootState } from "../../reducers/rootReducer";
 import { useDispatch, useSelector } from "react-redux";
-import { setLogOut } from "../../reducers/authReducer";
 import { setUser } from "../../reducers/userReducer";
-
+import Logout from "../../components/Modals/Logout/Logout";
 function Header() {
   const dispatch = useDispatch();
 
@@ -42,6 +41,8 @@ function Header() {
       dispatch(setUser(accessToken));
     }
   };
+  // 로그인 모달 상태
+  const [isOpened, setIsOpened] = useState<boolean>(false);
 
   return (
     // 상단바
@@ -73,15 +74,18 @@ function Header() {
           alt="Hamburger"
           onClick={() => setIsOpen(!isOpen)}
         />
-        <Link to={isLogin ? "/login" : "/login"}>
-          {isLogin ? (
-            <LoginLogoutBtn onClick={() => dispatch(setLogOut())}>
-              로그아웃
-            </LoginLogoutBtn>
-          ) : (
+        {isOpened ? (
+          <Logout setIsOpened={(bool: boolean) => setIsOpened(bool)}></Logout>
+        ) : null}
+        {isLogin ? (
+          <LoginLogoutBtn onClick={() => setIsOpened(true)}>
+            로그아웃
+          </LoginLogoutBtn>
+        ) : (
+          <Link to={isLogin ? "" : "/login"}>
             <LoginLogoutBtn>로그인</LoginLogoutBtn>
-          )}
-        </Link>
+          </Link>
+        )}
         <Link to={isLogin ? "/profile" : "/signup"}>
           <SignupUserInfoBtn onClick={() => getUserDate()}>
             {isLogin ? "내 정보" : "회원가입"}
@@ -118,16 +122,14 @@ function Header() {
                 </Link>
               </MenuWrapper>
               <MenuWrapper>
-                <Link to={isLogin ? "/login" : ""}>
-                  <Menu
-                    onClick={() => {
-                      dispatch(setLogOut());
-                      setIsOpen(!isOpen);
-                    }}
-                  >
-                    {isLogin ? "로그아웃" : null}
-                  </Menu>
-                </Link>
+                <Menu
+                  onClick={() => {
+                    setIsOpen(!isOpen);
+                    setIsOpened(!isOpened);
+                  }}
+                >
+                  {isLogin ? "로그아웃" : ""}
+                </Menu>
               </MenuWrapper>
             </Bar>
           </BarWrapper>

@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import comment from "../../models/comment";
 import user from "../../models/user";
 import storage from "../../models/storage";
+import post from "../../models/post";
 
 const delete_ = async (req: Request, res: Response) => {
   try {
@@ -10,10 +11,11 @@ const delete_ = async (req: Request, res: Response) => {
     if (!header) {
       return res.status(403).json({ message: "잘못된 요청입니다." });
     } else {
-      const userId = req.body.id;
+      const userId = req.cookies.id;
       await user.destroy({ where: { id: userId } });
       await comment.destroy({ where: { userId } });
       await storage.destroy({ where: { userId } });
+      await post.destroy({ where: { userId } });
       return res
         .status(200)
         .cookie("refreshToken", "")
