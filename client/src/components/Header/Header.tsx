@@ -34,13 +34,13 @@ function Header() {
     (state: RootState) => state.authReducer
   );
 
-  // isLogin 상태이고, accessToken이 존재하면 유저 정보 요청
+  // isLogin이 true일 때 유저 정보 요청
   const getUserDate = () => {
     if (isLogin) {
-      console.log("안들어오지?");
       dispatch(setUser(accessToken));
     }
   };
+
   // 로그인 모달 상태
   const [isOpened, setIsOpened] = useState<boolean>(false);
 

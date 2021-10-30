@@ -24,16 +24,24 @@ export interface IUserState {
   nickname: string;
   userArea: null | string;
   imagePath: null | string;
+  myComment: number;
+  myPost: number;
+  myStorage: number;
 }
 
 export interface IUserPayLoad {
   payload: {
     data: {
-      id: number;
-      email: string;
-      nickname: string;
-      userArea: null | string;
-      imagePath: null | string;
+      data: {
+        id: number;
+        email: string;
+        nickname: string;
+        userArea: null | string;
+        imagePath: null | string;
+      };
+      myComment: number;
+      myPost: number;
+      myStorage: number;
     };
   };
 }

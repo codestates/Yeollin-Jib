@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Container,
   TopContainer,
@@ -9,59 +9,186 @@ import {
   RightContainer,
   FormContainer,
   PhotoBox,
+  Photo,
   InputTitle,
   InputContainer,
   InputField,
   SearchBtn,
-  InvalidMessage,
+  MsgContainer,
   BtnContainer,
   BlackBtn,
   WhiteBtn,
 } from "./EditProfilePage.style";
 import { Link } from "react-router-dom";
+import { RootState } from "../../../reducers/rootReducer";
+import { setUser } from "../../../reducers/userReducer";
+import { useSelector, useDispatch } from "react-redux";
 import { PencilIcon, CameraIcon, MapMarkIcon } from "../../../icons/Icons";
 import EditPassword from "../../../components/Modals/EditPassword/EditPassword";
+import WarningIcon from "../../../icons/Icons";
+import Inspect from "../../SignUpPage/Inspect";
+import axios from "axios";
 
 function EditProfilePage() {
+  const dispatch = useDispatch();
+
+  // 비밀번호 변경 모달의 상태
   const [isOpened, setIsOpened] = useState<boolean>(false);
+
+  // 저장된 토큰값을 가져옴
+  const { accessToken } = useSelector((state: RootState) => state.authReducer);
+
+  // 유저 정보를 스토어에서 가져옴
+  const { nickname, imagePath } = useSelector(
+    (state: RootState) => state.userReducer
+  );
+
+  // 새롭게 입력받을 데이터(인풋값)
+  const [newImagePath, setNewImagePath] = useState<any>(imagePath);
+  const [newNickname, setNewNickname] = useState<string>(nickname);
+
+  // 닉네임 인풋값에 대한 상태 메시지
+  const [nicknameAlert, setNicknameAlert] = useState<string>("");
+
+  // 닉네임이 바르게 작성되었는지 확인
+  const [isRightNickname, setIsRightNickname] = useState<boolean>(false);
+
+  // 각 인풋값을 받아 상태로 저장
+  const setNicknameData = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setNewNickname(e.target.value);
+  };
+
+  const setImagePath = (file: any) => {
+    setNewImagePath(file);
+  };
+
+  // 관련된 상태값이 바뀜에 따라 alert 메시지 변경
+  useEffect(() => {
+    if (Inspect(newNickname, "nickname")) {
+      // 유효 조건을 통과했을 경우 중복 확인 필요
+      setNicknameAlert("중복 확인이 필요합니다.");
+    } else {
+      // 유효 조건을 통과하지 못했을 경우, 유효 조건을 알려줌
+      setNicknameAlert("2글자 이상, 한글, 영어, 숫자만 가능합니다.");
+    }
+    // 위의 두 경우 모두 올바른 값이 아니지만, 값이 입력됨
+    setIsRightNickname(false);
+  }, [newNickname]);
+
+  // 닉네임 중복 확인
+  interface Iresponse {
+    data: {
+      message: string;
+    };
+  }
+
+  const handleNicknameBtn = async () => {
+    if (newNickname === "") {
+      // 아무 값도 입력하지 않은 상태에서 중복 버튼을 눌렀을 경우 유효 조건이 나오도록 "0"으로 설정
+      setNewNickname("0");
+    } else if (Inspect(newNickname, "nickname")) {
+      // 유효 조건을 통과한 닉네임일 경우 서버에 중복 검사 요청을 보님
+      const result: Iresponse = await axios.get(
+        `${process.env.REACT_APP_API_URL}/user/nickname?nickname=${newNickname}`,
+        {
+          withCredentials: true,
+        }
+      );
+
+      const message: string = result.data.message;
+      if (message === "사용할 수 있는 닉네임입니다.") {
+        setNicknameAlert("사용 가능한 닉네임입니다.");
+        setIsRightNickname(true);
+      } else if (message === "닉네임이 중복됩니다.") {
+        setNicknameAlert("이미 가입된 닉네임입니다.");
+        setIsRightNickname(false);
+      }
+    }
+  };
+
+  // 확인 버튼을 눌렀을 때
+  const handleSubmitBtn = async () => {
+    const formData = new FormData();
+    formData.append("nickname", newNickname);
+    if (!newImagePath) {
+      formData.append("imagePath", newImagePath);
+    }
+
+    const result = await axios.patch(
+      `${process.env.REACT_APP_API_URL}/user`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (result.status === 200) {
+      dispatch(setUser(accessToken));
+    }
+  };
 
   return (
     <Container>
+      {/*상단 타이틀---------------------------------------------------------*/}
       <TopContainer>
         <Title>정보 수정</Title>
         <EditPasswordContainer onClick={() => setIsOpened(true)}>
           <img src="./images/editPassword.svg" alt="edit" />
           <div>비밀번호 변경</div>
         </EditPasswordContainer>
+        {/*비밀번호 변경 클릭시 비밀번호 변경 모달 등장------------------------------*/}
         {isOpened ? (
           <EditPassword setIsOpened={(bool: boolean) => setIsOpened(bool)} />
         ) : null}
       </TopContainer>
+      {/*중간 컨텐츠---------------------------------------------------------*/}
       <MiddleContainer>
         <LeftContainer>
+          {/*프로필 입력-----------------------------------------------------*/}
           <FormContainer>
             <InputTitle>
               <CameraIcon color={"#2d2d2d"} />
               <div>프로필 사진</div>
             </InputTitle>
-            <PhotoBox></PhotoBox>
+            <PhotoBox>
+              <Photo
+                type="file"
+                onChange={(e) => setImagePath(e.target.files)}
+              ></Photo>
+            </PhotoBox>
           </FormContainer>
         </LeftContainer>
         <RightContainer>
+          {/*닉네임 입력------------------------------------------------------*/}
           <FormContainer>
             <InputTitle>
               <PencilIcon color={"#2d2d2d"} />
               <div>닉네임</div>
             </InputTitle>
             <InputContainer>
-              <InputField />
-              <SearchBtn>중복 확인</SearchBtn>
+              <InputField
+                defaultValue={nickname}
+                onChange={(e) => setNicknameData(e)}
+              />
+              <SearchBtn onClick={() => handleNicknameBtn()}>
+                중복 확인
+              </SearchBtn>
             </InputContainer>
-            <InvalidMessage>
-              <img src="./images/warning.svg" alt="warning" />
-              <div>중복 확인이 필요합니다.</div>
-            </InvalidMessage>
+            <MsgContainer isColor={isRightNickname}>
+              {newNickname !== nickname ? (
+                <>
+                  <WarningIcon
+                    color={isRightNickname ? "#2d2d2d" : "#f44336"}
+                  />
+                  <div>{nicknameAlert}</div>
+                </>
+              ) : null}
+            </MsgContainer>
           </FormContainer>
+          {/*우리동네 주소 입력-------------------------------------------------*/}
           <FormContainer>
             <InputTitle>
               <MapMarkIcon color={"#2d2d2d"} />
@@ -74,8 +201,11 @@ function EditProfilePage() {
           </FormContainer>
         </RightContainer>
       </MiddleContainer>
+      {/*확인 및 취소 버튼----------------------------------------------------*/}
       <BtnContainer>
-        <BlackBtn>확인</BlackBtn>
+        <Link to="/profile">
+          <BlackBtn onClick={() => handleSubmitBtn()}>확인</BlackBtn>
+        </Link>
         <Link to="/profile">
           <WhiteBtn>취소</WhiteBtn>
         </Link>
