@@ -1,10 +1,10 @@
 #!/bin/bash
 cd /home/ubuntu/Yeollin-Jib/server
-export NODE_OPTIONS="--max-old-space-size=2048"
 npm install
-npm install -g typescript
-npm install pm2@latest -g
+sudo apt install node-typescript
+export NODE_OPTIONS="--max-old-space-size=2048"
 npm run tsc
+npm install pm2@latest -g
 sudo apt-get update
 sudo apt-get install authbind
 sudo touch /etc/authbind/byport/80
