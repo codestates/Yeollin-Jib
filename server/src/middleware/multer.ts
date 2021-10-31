@@ -14,11 +14,12 @@ const s3 = new AWS.S3({
 export const upload = multer({
   storage: multer.diskStorage({
     destination(req, file, cb) {
-      cb(null, "uploads/");
+      cb(null, "public/uploads/");
     },
     filename(req, file, cb) {
       const ext = path.extname(file.originalname);
-      const name = path.basename(file.originalname, ext) + "(" + Date.now() + ")" + ext;
+      const name =
+        path.basename(file.originalname, ext) + "(" + Date.now() + ")" + ext;
       cb(null, name);
     },
   }),

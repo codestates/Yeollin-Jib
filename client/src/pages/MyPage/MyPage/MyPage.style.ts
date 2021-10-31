@@ -56,20 +56,14 @@ export const MyInfoContainer = styled.div`
 
 export const ProfileContainer = styled.div`
   display: flex;
-  justify-content: center;
   align-items: center;
-
-  @media screen and (max-width: 37.5rem) {
-    img {
-      height: 50px;
-    }
-  }
 `;
 
 export const ProfileImg = styled.img`
   height: 66px;
   width: 66px;
   border-radius: 50rem;
+  position: absolute;
 
   @media screen and (max-width: 37.5rem) {
     height: 50px;
@@ -82,7 +76,7 @@ export const Profile = styled.div`
   flex-direction: column;
   justify-content: center;
   height: 66px;
-  margin-left: 15px;
+  margin-left: 80px;
   font-family: "Gmarket Sans TTF";
   width: 100%;
 
@@ -99,6 +93,7 @@ export const Profile = styled.div`
 
   @media screen and (max-width: 37.5rem) {
     height: 50px;
+    margin-left: 60px;
 
     .Profile_Nickname {
       font-size: 0.9rem;
@@ -110,7 +105,7 @@ export const Profile = styled.div`
   }
 `;
 
-export const Adress = styled.div`
+export const Address = styled.div`
   display: flex;
   margin-top: 5px;
 

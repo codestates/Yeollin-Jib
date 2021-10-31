@@ -92,38 +92,77 @@ export const RightContainer = styled.div`
   width: 100%;
 `;
 
-export const FormContainer = styled.div``;
+export const UploadPhotoArea = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 
-export const PhotoBox = styled.div`
-  border: 0.063rem solid #e0dde1;
-  border-radius: 0.313rem;
-  width: 11.19rem;
-  height: 11.19rem;
-  background: #fdfbfe;
-  margin-top: 10px;
-  transition: 0.5s all;
+  .ProfileImg_Container {
+    position: relative;
+    width: 11.19rem;
+    height: 11.19rem;
+  }
+
+  span {
+    margin-left: 7px;
+  }
+
+  .ProfileImg_Thumb {
+    width: 11.19rem;
+    height: 11.19rem;
+    position: absolute;
+    box-sizing: border-box;
+    border-radius: 7px;
+  }
 
   @media screen and (max-width: 37.5rem) {
-    transition: 0.5s all;
-    width: 6rem;
-    height: 6rem;
+    transition: 0.5s width, height;
+    margin-bottom: 65px;
+
+    span {
+      margin-left: 0;
+    }
+
+    .ProfileImg_Container {
+      width: 6rem;
+      height: 6rem;
+    }
+
+    .ProfileImg_Thumb {
+      width: 6rem;
+      height: 6rem;
+    }
   }
 `;
 
-export const Photo = styled.input`
-  width: 11.19rem;
-  height: 11.19rem;
-  cursor: pointer;
-  opacity: 0;
+export const ImgTitleContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
 
-  ::file-selector-button {
-    display: none;
-    text-decoration: none;
+  @media screen and (max-width: 37.5rem) {
+    justify-content: left;
+    margin-bottom: 25px;
+  }
+`;
+
+export const DeleteProfileImg = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  width: 18px;
+  height: 18px;
+  background-color: #fede8a;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+
+  img {
+    width: 10px;
   }
 
   @media screen and (max-width: 37.5rem) {
-    width: 6rem;
-    height: 6rem;
+    margin-left: 16px;
   }
 `;
 

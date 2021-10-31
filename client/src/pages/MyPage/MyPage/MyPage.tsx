@@ -6,7 +6,7 @@ import {
   ProfileContainer,
   ProfileImg,
   Profile,
-  Adress,
+  Address,
   InfoContainer,
   UserInfo,
   InfoIcon,
@@ -32,6 +32,9 @@ import MyChattingRoom from "../../../components/MyChattingRoom/MyChattingRoom";
 import DeleteAccount from "../../../components/Modals/DeleteAccount/DeleteAccount";
 
 function MyPage() {
+  // 회원 탈퇴 상태
+  const [isOpened, setIsOpened] = useState<boolean>(false);
+
   // 유저 정보를 스토어에서 가져옴
   const { email, nickname, userArea, imagePath, myComment, myPost, myStorage } =
     useSelector((state: RootState) => state.userReducer);
@@ -50,8 +53,6 @@ function MyPage() {
   const handleTapBtn = (tapName: string) => {
     setTapName(tapName);
   };
-  // 회원 탈퇴 상태
-  const [isOpened, setIsOpened] = useState<boolean>(false);
 
   return (
     <Container>
@@ -59,21 +60,23 @@ function MyPage() {
         <MyInfoContainer>
           {/*프로필 사진---------------------------------------------------------------*/}
           <ProfileContainer>
-            {!imagePath ? (
-              // <ProfileImg src="imagePath" alt="Profile" />
-              <img src="./images/profile.svg" alt="profile" />
+            {imagePath ? (
+              // 프로필 사진 이미지 데이터의 상태 : 유저가 프로필 사진을 등록하지 않았다면 기본 프로필 이미지를, 등록했다면 등록한 이미지를 보여줌
+              <ProfileImg
+                src={`${process.env.REACT_APP_API_URL}/uploads/${imagePath}`}
+                alt="Profile"
+              />
             ) : (
-              // 프로필 사진을 등록하지 않아 imagePath가 null일 경우, 기본 프로필 이미지 노출
-              <img src="./images/profile.svg" alt="profile" />
+              <ProfileImg src={`./images/profile.svg`} alt="Profile" />
             )}
             {/*닉네임, 이메일, 주소------------------------------------------------------*/}
             <Profile>
               <div className="Profile_Nickname">{nickname}</div>
               <div className="Profile_Email">{email}</div>
-              <Adress>
+              <Address>
                 <img src="./images/mapMark.svg" alt="mapMark" />
                 <div>{userAreaData}</div>
-              </Adress>
+              </Address>
             </Profile>
           </ProfileContainer>
           <InfoContainer>
