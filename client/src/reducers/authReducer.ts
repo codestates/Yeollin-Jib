@@ -6,6 +6,7 @@ import { ILoginState, ILoginPayLoad, ILogin } from "../types/types";
 export const setAuth = createAsyncThunk(
   "authReducer/setAuth",
   async ({ email, password }: ILogin) => {
+    
     return await axios.post(
       `${process.env.REACT_APP_API_URL}/user/login`,
       { email: email, password: password },

@@ -48,7 +48,7 @@ export const SearchBar = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 4% 0 4%;
+  margin: 0 3.125rem 0 3.125rem;
   border: 0.063rem solid #e0dde1;
   box-sizing: border-box;
   border-radius: 0.313rem;
@@ -73,7 +73,7 @@ export const SearchBar = styled.div`
   }
 
   @media screen and (max-width: 37.5rem) {
-    margin: 0 2% 0 2%;
+    margin: 0 1.562rem 0 1.562rem;
   }
 `;
 

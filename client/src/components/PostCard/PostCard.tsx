@@ -1,4 +1,5 @@
 import React from "react";
+import { MapMarkIcon } from "../../icons/Icons";
 import {
   PostCardContainer,
   PostCardImgBox,
@@ -18,9 +19,21 @@ import {
   CategoryBox,
 } from "./PostCard.style";
 
-function PostCard() {
+interface ResultPostGet {
+  id: number;
+  userId: number;
+  title: string;
+  address: string;
+}
+
+interface Result {
+  postInfo: ResultPostGet;
+  idx: number;
+}
+
+function PostCard({ postInfo, idx }: Result) {
   return (
-    <PostCardContainer>
+    <PostCardContainer idx={idx}>
       <PostCardImgBox>
         <PostCardImg src="./images/test.jpeg" alt="PostImg"></PostCardImg>
         <PostCardLikeBox>
@@ -41,7 +54,7 @@ function PostCard() {
         <PostCardImgBackground />
       </PostCardImgBox>
       <PostCardTitle>
-        <span>{"나눔해여어어어"}</span>
+        <span>{postInfo.title}</span>
       </PostCardTitle>
       <InfoBox>
         <ProfileBox>
@@ -53,8 +66,8 @@ function PostCard() {
         <ShareDate>{"2021.10.26"}</ShareDate>
       </InfoBox>
       <PostCardAddress>
-        <img src="./images/mapMark.svg" alt="MapMark" />
-        <span className="Share_Address">{"경기도 용인시 기흥구"}</span>
+        <MapMarkIcon color={"#F44336"} />
+        <span className="Share_Address">{postInfo.address}</span>
       </PostCardAddress>
       <CategoryBox>
         <CategoryCard>{"가구/침구류"}</CategoryCard>
