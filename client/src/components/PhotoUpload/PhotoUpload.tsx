@@ -1,21 +1,35 @@
+import { AnyAaaaRecord, AnyMxRecord } from "dns";
 import React from "react";
 import { PhotoBackground, Photo } from "./PhotoUpload.style";
 
-interface PhotoPathHandle {
+interface PhotoInfo {
   photoPath: (file: any) => void;
+  arrPhoto: any;
 }
 
-function PhotoUpload({ photoPath }: PhotoPathHandle) {
+function PhotoUpload({ photoPath, arrPhoto }: PhotoInfo) {
   return (
     <>
-      <Photo
-        type="file"
-        multiple
-        onChange={(e) => photoPath(e.target.files)}
-      ></Photo>
-      <PhotoBackground>
-        <span>+</span>
-      </PhotoBackground>
+      {arrPhoto[0] === undefined ? (
+        <>
+          <Photo
+            type="file"
+            multiple
+            accept={".jpg,.png"}
+            onChange={(e) => photoPath(e.target.files)}
+          ></Photo>
+          <PhotoBackground>
+            <span>+</span>
+          </PhotoBackground>
+        </>
+      ) : (
+        <Photo
+          type="file"
+          multiple
+          accept={".jpg,.png"}
+          onChange={(e) => photoPath(e.target.files)}
+        ></Photo>
+      )}
     </>
   );
 }

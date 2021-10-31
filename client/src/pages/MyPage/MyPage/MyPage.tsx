@@ -99,7 +99,7 @@ function MyPage() {
           <Link to={"/editprofile"}>
             <BlackSmallBtn>정보 수정</BlackSmallBtn>
           </Link>
-          <WhiteSmallBtn>회원 탈퇴</WhiteSmallBtn>
+          <WhiteSmallBtn>회원 탈퇴2</WhiteSmallBtn>
         </SmallBtnContainer>
         <TapContainer>
           <Tap

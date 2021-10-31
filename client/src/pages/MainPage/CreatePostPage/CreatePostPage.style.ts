@@ -22,7 +22,7 @@ export const TitleDatePickerContainer = styled.div`
   width: 100%;
   margin-top: 37px;
   display: flex;
-  @media screen and (max-width: 37.5rem) {
+  @media screen and (max-width: 670px) {
     flex-direction: column;
   }
 `;
@@ -43,33 +43,8 @@ export const TitleArea = styled.div`
   }
   span {
     margin-left: 7px;
-    min-width: fit-content;
   }
-  @media screen and (max-width: 37.5rem) {
-    padding: 0;
-  }
-`;
-
-export const DateArea = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  padding-left: 18px;
-  min-width: fit-content;
-  .Date_Word {
-    display: flex;
-    align-items: center;
-    margin-left: 7px;
-  }
-  .Date_Input {
-    display: flex;
-    justify-content: end;
-  }
-  span {
-    margin-left: 7px;
-    min-width: fit-content;
-  }
-  @media screen and (max-width: 37.5rem) {
+  @media screen and (max-width: 670px) {
     padding: 0;
   }
 `;
@@ -94,20 +69,70 @@ export const InputTitle = styled.input`
   }
 `;
 
+export const DateArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding-left: 18px;
+  width: 100%;
+  .Date_Word {
+    display: flex;
+    align-items: center;
+    margin-left: 7px;
+  }
+  .Date_Input {
+    display: flex;
+    border: 1px solid #e0dde1;
+    border-radius: 0.313rem;
+    height: 2.938rem;
+    margin-top: 11px;
+    margin-bottom: 1.4rem;
+    width: 100%;
+    justify-content: space-between;
+  }
+  span {
+    margin-left: 7px;
+    min-width: fit-content;
+  }
+  @media screen and (max-width: 670px) {
+    padding: 0;
+  }
+`;
+
 export const DatePicker = styled.input`
   outline: none;
   font-family: "Gmarket Sans TTF";
   font-weight: 100;
   background-color: #fdfbfe;
-  border: 1px solid #e0dde1;
-  border-radius: 0.313rem;
+  border: none;
   font-size: 1rem;
   color: #2d2d2d;
+  border-radius: 0.313rem 0 0 0.313rem;
+  box-sizing: border-box;
   height: 2.938rem;
   width: 100%;
-  padding: 0 17px 0 17px;
-  margin-bottom: 1.4rem;
-  margin-top: 11px;
+  padding: 1px 11px 1px 11px;
+  transition: 0.5s all;
+  border: 1px solid #fdfbfe;
+  :focus {
+    border: 1px solid #2d2d2d;
+  }
+`;
+
+export const TimePicker = styled.input`
+  outline: none;
+  font-family: "Gmarket Sans TTF";
+  font-weight: 100;
+  background-color: #fdfbfe;
+  border: none;
+  font-size: 1rem;
+  color: #2d2d2d;
+  border-radius: 0 0.313rem 0.313rem 0;
+  box-sizing: border-box;
+  height: 2.938rem;
+  width: 100%;
+  border: 1px solid #fdfbfe;
+  padding: 1px 11px 1px 11px;
   transition: 0.5s all;
   :focus {
     border: 1px solid #2d2d2d;
@@ -230,10 +255,10 @@ export const SubCategoryBox = styled.div`
   border-left: none;
   border-radius: 0px 5px 5px 0px;
   box-sizing: border-box;
-  padding-left: 42px;
+  padding: 10px 0 10px 42px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: start;
+  align-content: flex-start;
 `;
 
 interface SubCategorySelect {
@@ -241,15 +266,16 @@ interface SubCategorySelect {
   checked: boolean;
 }
 
-export const SubCategoryItem = styled.div<SubCategorySelect>`
+export const SubCategoryItem = styled.span<SubCategorySelect>`
   width: 150px;
   height: 25px;
   line-height: 25px;
+  margin: 4px 0 4px 0;
   cursor: pointer;
   display: flex;
   align-items: center;
   font-family: "Gmarket Sans TTF";
-  font-weight: 100;
+  font-weight: ${(props) => (props.checked ? "300" : "100")};
   span {
     margin-left: 10px;
   }
@@ -278,6 +304,36 @@ export const UploadPhotoArea = styled.div`
   }
   span {
     margin-left: 7px;
+  }
+  .Photo_Thumb {
+    width: 217px;
+    height: 217px;
+    position: absolute;
+    box-sizing: border-box;
+    border-radius: 7px;
+  }
+  .Delete_Photo {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #2d2d2d;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    font-size: 14px;
+    z-index: 10;
+    cursor: pointer;
+    right: 0;
+    margin-top: 5px;
+    margin-right: 5px;
+    box-sizing: border-box;
+  }
+  .Minus_Button {
+    width: 13px;
+    z-index: 10;
+    border-bottom: 2px solid #2d2d2d;
+    cursor: pointer;
   }
 `;
 
