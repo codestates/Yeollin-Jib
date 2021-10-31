@@ -89,6 +89,7 @@ export const SearchSelect = styled.select`
   font-family: "Gmarket Sans TTF";
   font-weight: 300;
   color: #2d2d2d;
+
   @media screen and (max-width: 37.5rem) {
     padding: 0 1.125rem 0 0.563rem;
     transition: 0.5s all;

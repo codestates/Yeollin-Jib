@@ -43,6 +43,17 @@ function LoginPage() {
     dispatch(setAuth({ email: email, password: password }));
   };
 
+  // 인풋 입력 후 엔터를 치면 로그인 요청을 보냄
+  const handleKeyPress = (
+    e: React.KeyboardEvent,
+    email: string,
+    password: string
+  ) => {
+    if (e.key === "Enter") {
+      handleLoginBtn(email, password);
+    }
+  };
+
   return (
     <>
       {isLogin ? (
@@ -53,10 +64,20 @@ function LoginPage() {
             <TitleWrapper>
               <Title>로그인</Title>
             </TitleWrapper>
+            {/*이메일 입력---------------------------------------------------------*/}
             <InputTitle>이메일</InputTitle>
-            <InputField type="text" onChange={(e) => setEmailData(e)} />
+            <InputField
+              type="text"
+              onChange={(e) => setEmailData(e)}
+              onKeyPress={(e) => handleKeyPress(e, email, password)}
+            />
+            {/*비밀번호 입력---------------------------------------------------------*/}
             <InputTitle>비밀번호</InputTitle>
-            <InputField type="password" onChange={(e) => setPasswordData(e)} />
+            <InputField
+              type="password"
+              onChange={(e) => setPasswordData(e)}
+              onKeyPress={(e) => handleKeyPress(e, email, password)}
+            />
             <InvalidMessage>
               {isInValid ? (
                 <>
@@ -65,9 +86,11 @@ function LoginPage() {
                 </>
               ) : null}
             </InvalidMessage>
+            {/*로그인 버튼---------------------------------------------------------*/}
             <LoginBtn onClick={() => handleLoginBtn(email, password)}>
               로그인
             </LoginBtn>
+            {/*소셜 로그인 버튼---------------------------------------------------------*/}
             <SocialLoginBtn>
               <img src="./images/googleLogo.svg" alt="google" />
               <div>구글 로그인</div>
@@ -76,6 +99,7 @@ function LoginPage() {
               <img src="./images/kakaoLogo.svg" alt="kakao" />
               <div>카카오 로그인</div>
             </SocialLoginBtn>
+            {/*회원가입 버튼---------------------------------------------------------*/}
             <Link to={"/signup"}>
               <SignupBtn>아직 이메일이 없으신가요? 회원가입 하러가기</SignupBtn>
             </Link>
