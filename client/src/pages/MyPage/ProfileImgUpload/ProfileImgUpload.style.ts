@@ -16,6 +16,7 @@ export const PhotoBackground = styled.div`
     transition: 0.5s all;
     width: 8rem;
     height: 8rem;
+    margin-top: 17px;
 
     img {
       width: 18px;
@@ -40,5 +41,6 @@ export const Photo = styled.input`
     transition: 0.5s all;
     width: 8rem;
     height: 8rem;
+    margin-top: 17px;
   }
 `;
