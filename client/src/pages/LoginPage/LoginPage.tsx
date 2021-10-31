@@ -64,17 +64,6 @@ function LoginPage() {
     }
   };
 
-  // 인풋 입력 후 엔터를 치면 로그인 요청을 보냄
-  const handleKeyPress = (
-    e: React.KeyboardEvent,
-    email: string,
-    password: string
-  ) => {
-    if (e.key === "Enter") {
-      handleLoginBtn(email, password);
-    }
-  };
-
   return (
     <>
       {isLogin ? (
