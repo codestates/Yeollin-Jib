@@ -2,8 +2,7 @@ import styled from "styled-components";
 
 interface ShowCategory {
   isShowCategory: boolean;
-  isTestBoolean?: boolean;
-  key?: number;
+  isSelect?: boolean;
 }
 
 export const MainPageContainer = styled.div`
@@ -29,16 +28,17 @@ export const CategoryMenu = styled.div<ShowCategory>`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-right: 4.573%;
+  margin-right: 4.437rem;
   cursor: pointer;
   transition: all 0.3s;
-  font-weight: ${(props) => (props.isShowCategory ? "500" : "100")};
+  font-weight: ${(props) => (props.isShowCategory ? "300" : "100")};
   :active {
     background: #ffdb7d;
   }
   @media screen and (max-width: 37.5rem) {
     width: 49px;
     border-radius: 0px 0px 10px 10px;
+    margin-right: 13px;
   }
   span {
     width: 91px;
@@ -84,45 +84,44 @@ export const CategoryMenuCircle = styled.div<ShowCategory>`
 
 export const CategoryItemsBox = styled.div`
   width: 78.095%;
-  margin-top: 1.117%;
   display: flex;
   flex-wrap: wrap;
   @media screen and (max-width: 37.5rem) {
-    margin: 0.3%;
+    margin-top: 5px;
   }
 `;
 
 export const CategoryItem = styled.div<ShowCategory>`
   width: 129px;
-  margin-right: 3.556%;
-  margin-bottom: 1.727%;
-  margin-top: 1.227%;
+  margin-right: 26px;
+  margin-top: 18px;
   display: flex;
   justify-content: center;
   align-items: center;
   transition: all 0.3s;
   height: ${(props) => (props.isShowCategory ? "22px" : "0px")};
   visibility: ${(props) => (props.isShowCategory ? "visible" : "hidden")};
-  font-weight: ${(props) => (props.isShowCategory ? "500" : "100")};
   color: ${(props) => (props.isShowCategory ? "#2d2d2d" : "#FDFBFE")};
   @media screen and (max-width: 37.5rem) {
-    margin-top: 3.727%;
+    height: ${(props) => (props.isShowCategory ? "14px" : "0px")};
+    margin-top: 5px;
     width: 50px;
   }
   span {
     font-size: 1rem;
-    padding-bottom: 3px;
     cursor: pointer;
     height: 22px;
     visibility: ${(props) => (props.isShowCategory ? "visible" : "hidden")};
     box-sizing: border-box;
     font-family: "Gmarket Sans TTF";
-    font-weight: 300;
+    font-weight: ${(props) => (props.isSelect ? "300" : "100")};
+    border-bottom: ${(props) =>
+      props.isSelect ? "0.313rem solid #fede8a" : "none"};
     :hover {
       border-bottom: 0.313rem solid #fede8a;
     }
     @media screen and (max-width: 37.5rem) {
-      height: 13px;
+      height: ${(props) => (props.isShowCategory ? "13px" : "0px")};
       font-size: 0.5rem;
       padding: 0;
       :hover {
@@ -145,18 +144,18 @@ export const PostBoardTitleContainer = styled.div`
 `;
 
 export const PostBoardTitleBox = styled.div`
-  width: 141px;
+  width: 145px;
   .Post_Title {
     font-size: 24px;
     border-bottom: 0.313rem solid #fede8a;
-    margin-left: 4.762%;
+    margin-left: 0.5rem;
     @media screen and (max-width: 37.5rem) {
       border-bottom: 0.313rem solid #fede8a;
       font-size: 20px;
     }
   }
   .Post_Count {
-    margin-left: 6.122%;
+    margin-left: 0.65rem;
     font-weight: 100;
     @media screen and (max-width: 37.5rem) {
       font-size: 12px;
@@ -195,4 +194,17 @@ export const PostCardArea = styled.div`
   height: 100%;
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
+`;
+
+export const BlankPostCard = styled.div`
+  width: 287px;
+  height: 442px;
+  background: #fdfbfe;
+  border: 1px solid #e0dde1;
+  box-sizing: border-box;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;

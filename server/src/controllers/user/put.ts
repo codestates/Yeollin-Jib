@@ -53,18 +53,16 @@ const put = async (req: Request, res: Response) => {
         }
         // 프로필 사진 수정
         if (imagePathReq) {
+          console.log(`imagePathReq`, imagePathReq);
           // 기존 파일 삭제
-          fs.unlink(
-            `${__dirname}/../../../public/${findUser.imagePath}`,
-            (err) => {
-              if (err) {
-                console.log("기존 파일 삭제 에러 입니다.", err.message);
-              }
+          fs.unlink(`${__dirname}/../../${findUser.path}`, (err) => {
+            if (err) {
+              console.log("기존 파일 삭제 에러 입니다.", err.message);
             }
-          );
+          });
           // 새 파일 업로드
           await user.update(
-            { imagePath: `${imagePathReq.path}` },
+            { imagePath: `${imagePathReq.filename}` },
             {
               where: { id: userId },
             }

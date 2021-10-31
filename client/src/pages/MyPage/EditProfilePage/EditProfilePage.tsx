@@ -7,9 +7,9 @@ import {
   MiddleContainer,
   LeftContainer,
   RightContainer,
-  FormContainer,
-  PhotoBox,
-  Photo,
+  ImgTitleContainer,
+  DeleteProfileImg,
+  UploadPhotoArea,
   InputTitle,
   InputContainer,
   InputField,
@@ -19,6 +19,7 @@ import {
   BlackBtn,
   WhiteBtn,
 } from "./EditProfilePage.style";
+import ProfileImgUpload from "../ProfileImgUpload/ProfileImgUpload";
 import { Link } from "react-router-dom";
 import { RootState } from "../../../reducers/rootReducer";
 import { setUser } from "../../../reducers/userReducer";
@@ -44,7 +45,6 @@ function EditProfilePage() {
   );
 
   // 새롭게 입력받을 데이터(인풋값)
-  const [newImagePath, setNewImagePath] = useState<any>(imagePath);
   const [newNickname, setNewNickname] = useState<string>(nickname);
 
   // 닉네임 인풋값에 대한 상태 메시지
@@ -58,11 +58,7 @@ function EditProfilePage() {
     setNewNickname(e.target.value);
   };
 
-  const setImagePath = (file: any) => {
-    setNewImagePath(file);
-  };
-
-  // 관련된 상태값이 바뀜에 따라 alert 메시지 변경
+  // 닉네임 상태값이 바뀜에 따라 alert 메시지 변경
   useEffect(() => {
     if (Inspect(newNickname, "nickname")) {
       // 유효 조건을 통과했을 경우 중복 확인 필요
@@ -106,13 +102,32 @@ function EditProfilePage() {
     }
   };
 
+  // 업로드 할 프로필 사진의 상태
+
+  // 파일의 경로(string 또는 null)
+  const [userImagePath, setUserImagePath] = useState<any>(imagePath);
+
+  // 프로필 파일(배열)
+  const [profileImg, setProfileImg] = useState<any[] | undefined[]>([]);
+
+  const setProfileImgData = (file: any) => {
+    setUserImagePath(null);
+    let newFile = [];
+    file[0].preview = URL.createObjectURL(file[0]);
+    newFile.push(file[0]);
+    setProfileImg(newFile);
+  };
+
+  const deleteProfileImgHandle = () => {
+    setUserImagePath(null);
+    setProfileImg([]);
+  };
+
   // 확인 버튼을 눌렀을 때
   const handleSubmitBtn = async () => {
     const formData = new FormData();
     formData.append("nickname", newNickname);
-    if (!newImagePath) {
-      formData.append("imagePath", newImagePath);
-    }
+    formData.append("imagePath", profileImg[0]);
 
     const result = await axios.patch(
       `${process.env.REACT_APP_API_URL}/user`,
@@ -147,23 +162,54 @@ function EditProfilePage() {
       {/*중간 컨텐츠---------------------------------------------------------*/}
       <MiddleContainer>
         <LeftContainer>
-          {/*프로필 입력-----------------------------------------------------*/}
-          <FormContainer>
-            <InputTitle>
-              <CameraIcon color={"#2d2d2d"} />
-              <div>프로필 사진</div>
-            </InputTitle>
-            <PhotoBox>
-              <Photo
-                type="file"
-                onChange={(e) => setImagePath(e.target.files)}
-              ></Photo>
-            </PhotoBox>
-          </FormContainer>
+          {/*프로필 사진 입력-----------------------------------------------------*/}
+          <UploadPhotoArea>
+            <ImgTitleContainer>
+              <InputTitle>
+                <CameraIcon color={"#2d2d2d"} />
+                <div>프로필 사진</div>
+              </InputTitle>
+              <DeleteProfileImg onClick={() => deleteProfileImgHandle()}>
+                <img src="./images/delete.svg" alt="" />
+              </DeleteProfileImg>
+            </ImgTitleContainer>
+            <InputContainer>
+              {profileImg[0] === undefined && userImagePath === null ? (
+                <>
+                  <div className="ProfileImg_Container">
+                    <ProfileImgUpload
+                      setProfileImgData={setProfileImgData}
+                      profileImg={profileImg}
+                    />
+                  </div>
+                </>
+              ) : (
+                <div className="ProfileImg_Container">
+                  <ProfileImgUpload
+                    setProfileImgData={setProfileImgData}
+                    profileImg={profileImg}
+                  />
+                  {userImagePath ? (
+                    <img
+                      className="ProfileImg_Thumb"
+                      src={`${process.env.REACT_APP_API_URL}/uploads/${imagePath}`}
+                      alt="Thumb"
+                    />
+                  ) : (
+                    <img
+                      className="ProfileImg_Thumb"
+                      src={profileImg[0].preview}
+                      alt="Thumb"
+                    />
+                  )}
+                </div>
+              )}
+            </InputContainer>
+          </UploadPhotoArea>
         </LeftContainer>
         <RightContainer>
           {/*닉네임 입력------------------------------------------------------*/}
-          <FormContainer>
+          <div>
             <InputTitle>
               <PencilIcon color={"#2d2d2d"} />
               <div>닉네임</div>
@@ -187,9 +233,9 @@ function EditProfilePage() {
                 </>
               ) : null}
             </MsgContainer>
-          </FormContainer>
+          </div>
           {/*우리동네 주소 입력-------------------------------------------------*/}
-          <FormContainer>
+          <div>
             <InputTitle>
               <MapMarkIcon color={"#2d2d2d"} />
               <div>우리 동네</div>
@@ -198,7 +244,7 @@ function EditProfilePage() {
               <InputField placeholder="주소를 검색해 주세요." />
               <SearchBtn>주소 검색</SearchBtn>
             </InputContainer>
-          </FormContainer>
+          </div>
         </RightContainer>
       </MiddleContainer>
       {/*확인 및 취소 버튼----------------------------------------------------*/}

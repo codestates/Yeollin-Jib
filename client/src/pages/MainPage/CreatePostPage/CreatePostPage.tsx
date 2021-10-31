@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PhotoUpload from "../../../components/PhotoUpload/PhotoUpload";
 import {
   CameraIcon,
@@ -16,6 +16,7 @@ import {
   DateArea,
   InputTitle,
   DatePicker,
+  TimePicker,
   PostContentsArea,
   PostContents,
   PostCategoryArea,
@@ -32,21 +33,42 @@ import {
   CancelBtn,
 } from "./CreatePostPage.style";
 import { initLeftMainCategories, initRightMainCategories } from "../Categories";
+import { RootState } from "../../../reducers/rootReducer";
+import axios, { AxiosResponse } from "axios";
+import { useDispatch, useSelector } from "react-redux";
+
 function CreatePostPage() {
+  const dispatch = useDispatch();
+
+  // 저장된 토큰값을 가져옴
+  const { accessToken } = useSelector((state: RootState) => state.authReducer);
+
   // 게시물 제목 State, Handle
   const [inputTitle, setInputTitle] = useState<string>("");
 
   const TitleInputHandle = (value: string) => {
     setInputTitle(value);
-    console.log(value);
   };
 
   // 게시물 마감일자 State, Handle
-  const [inputDate, setInputDate] = useState<string>("");
+  interface DatePicker {
+    date?: string | undefined;
+    time?: string | undefined;
+  }
+  const [inputDate, setInputDate] = useState<DatePicker>({
+    date: "",
+    time: "",
+  });
 
   const DateInputHandle = (value: string) => {
-    setInputDate(value);
-    console.log(value);
+    let newInputDate = { ...inputDate };
+    if (value.length < 7) {
+      newInputDate.time = value;
+    } else {
+      newInputDate.date = value;
+    }
+    setInputDate(newInputDate);
+    console.log(inputDate);
   };
 
   // 게시물 내용 State, Handle
@@ -54,7 +76,6 @@ function CreatePostPage() {
 
   const ContentsInputHandle = (value: string) => {
     setInputContents(value);
-    console.log(value);
   };
 
   // 대분류 왼쪽 테이블 State, Handle
@@ -80,7 +101,7 @@ function CreatePostPage() {
     initRightMainCategories
   );
 
-  const CategoryRightSelectHandle = (id: string): void => {
+  const CategoryRightSelectHandle = (id: string) => {
     let newMainCate = [...rightMainCategories];
     rightMainCategories.forEach((mainCate) => {
       if (mainCate.isSelect) {
@@ -93,15 +114,27 @@ function CreatePostPage() {
     setRightMainCategories(newMainCate);
   };
 
-  // 서브 체크박스 State
+  // 해당 컴포넌트가 실행 될때 카테고리 박스 각 1번째 칸이 선택된 상태로 만들어준다.
+  useEffect(() => {
+    CategoryLeftSelectHandle("1");
+    CategoryRightSelectHandle("7");
+    return () => {
+      setLeftMainCategories(initLeftMainCategories);
+      setRightMainCategories(initRightMainCategories);
+    };
+  }, []);
 
   // 서브 체크박스 Left Handle
   const addSubCategoryLeftHandle = (idx: number, name: string) => {
-    console.log(name);
     const newCategory = [...leftMainCategories];
     newCategory.forEach((mainCategory) => {
       mainCategory.subCategories.forEach((subCategory) => {
         if (mainCategory.id === String(idx) && subCategory.name === name) {
+          subCategory.isSelect = !subCategory.isSelect;
+        } else if (
+          mainCategory.id === String(idx) &&
+          subCategory.name === name
+        ) {
           subCategory.isSelect = !subCategory.isSelect;
         }
       });
@@ -116,14 +149,66 @@ function CreatePostPage() {
       mainCategory.subCategories.forEach((subCategory) => {
         if (mainCategory.id === String(idx) && subCategory.name === name) {
           subCategory.isSelect = !subCategory.isSelect;
+        } else if (
+          mainCategory.id === String(idx) &&
+          subCategory.name === name
+        ) {
+          subCategory.isSelect = !subCategory.isSelect;
         }
       });
     });
     setRightMainCategories(newCategory);
   };
 
+  // 업로드 할 사진정보 state
+  const [files, setFiles] = useState<any[] | undefined[]>([]);
+
   const photoPath = (file: any) => {
-    console.log(file);
+    let newFiles = [...files];
+    if (files.length === 5) {
+      alert("더이상 등록 할 수 없습니다.");
+    } else if (files.length + file.length > 5) {
+      alert("5장까지만 등록 해 주세요.");
+    } else if (newFiles.length < 5) {
+      for (let i = 0; i < file.length; i++) {
+        file[i].preview = URL.createObjectURL(file[i]);
+        newFiles.push(file[i]);
+      }
+      newFiles = newFiles.slice(0, 5);
+      setFiles(newFiles);
+    }
+    console.log("사진정보", files);
+  };
+
+  const deletePhotoHandle = (path: string) => {
+    const deleteNewFiles = files.filter((file) => {
+      return file.preview !== path;
+    });
+    setFiles(deleteNewFiles);
+  };
+
+  const registerPost = async () => {
+    const formData = new FormData();
+    files.forEach((file) => formData.append("image", file));
+    formData.append("title", inputTitle);
+    formData.append("contents", inputContents);
+    formData.append("address", "서울특별시 동대문구");
+    formData.append("dueDate", `${inputDate.date}${inputDate.time}`);
+    formData.append("latitude", "123");
+    formData.append("longitude", "23");
+    formData.append("category1", "1,1");
+    formData.append("category2", `침대,티비선반`);
+
+    const result: AxiosResponse = await axios.post(
+      `${process.env.REACT_APP_API_URL}/post`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
   };
 
   return (
@@ -153,10 +238,15 @@ function CreatePostPage() {
           </div>
           <div className="Date_Input">
             <DatePicker
-              value={inputDate}
+              value={inputDate?.date}
               type={"date"}
               onChange={(e) => DateInputHandle(e.target.value)}
             ></DatePicker>
+            <TimePicker
+              value={inputDate?.time}
+              type={"time"}
+              onChange={(e) => DateInputHandle(e.target.value)}
+            ></TimePicker>
           </div>
         </DateArea>
       </TitleDatePickerContainer>
@@ -271,9 +361,28 @@ function CreatePostPage() {
           <CameraIcon color="#2D2D2D" />
           <span className="">{"사진을 등록해 주세요. (최대 5장)"}</span>
         </div>
-        <div className="Photo_Container">
-          <PhotoUpload photoPath={photoPath} />
-        </div>
+        {files[0] === undefined ? (
+          <>
+            <div className="Photo_Container">
+              <PhotoUpload photoPath={photoPath} arrPhoto={files} />
+            </div>
+          </>
+        ) : (
+          files.map((file: any) => {
+            return (
+              <div id={file.preview} className="Photo_Container">
+                <div
+                  className="Delete_Photo"
+                  onClick={() => deletePhotoHandle(file.preview)}
+                >
+                  <div className="Minus_Button"></div>
+                </div>
+                <PhotoUpload photoPath={photoPath} arrPhoto={files} />
+                <img className="Photo_Thumb" src={file.preview} />
+              </div>
+            );
+          })
+        )}
       </UploadPhotoArea>
 
       {/* 주소 입력 칸 ----------------------------------------------------*/}
@@ -290,7 +399,7 @@ function CreatePostPage() {
 
       {/* 등록 취소 버튼 ---------------------------------------------------*/}
       <SubmitArea>
-        <SubmitBtn>완료</SubmitBtn>
+        <SubmitBtn onClick={() => registerPost()}>완료</SubmitBtn>
         <CancelBtn>취소</CancelBtn>
       </SubmitArea>
     </CreatePostContainer>

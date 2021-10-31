@@ -1,6 +1,12 @@
 import styled from "styled-components";
 
-export const PostCardContainer = styled.article`
+// interface PostCardPadding {
+//   idx: number;
+// }
+interface PostCardMargin {
+  idx: number;
+}
+export const PostCardContainer = styled.article<PostCardMargin>`
   width: 17.938rem;
   border: 0.063rem solid #e0dde1;
   box-sizing: border-box;
@@ -9,6 +15,12 @@ export const PostCardContainer = styled.article`
   flex-direction: column;
   font-family: "Gmarket Sans TTF";
   margin: 1.063rem 0 0.813rem 0;
+  /* margin: ${(props) =>
+    props.idx % 4 === 1
+      ? "1.063rem 1.25rem 0.813rem 1.25rem"
+      : props.idx % 4 === 2
+      ? "1.063rem 1.25rem 0.813rem 0"
+      : "1.063rem 0 0.813rem 0"}; */
   @media screen and (max-width: 37.5rem) {
     width: 100%;
   }
@@ -147,6 +159,9 @@ export const PostCardAddress = styled.div`
   img {
     width: 15px;
     margin-right: 2px;
+  }
+  .Share_Address {
+    margin-left: 4px;
   }
 `;
 export const CategoryBox = styled.div`
