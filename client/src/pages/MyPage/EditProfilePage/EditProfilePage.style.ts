@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+interface IMsgProps {
+  isColor: boolean;
+}
+
 export const Container = styled.div`
   box-sizing: border-box;
   display: flex;
@@ -106,6 +110,23 @@ export const PhotoBox = styled.div`
   }
 `;
 
+export const Photo = styled.input`
+  width: 11.19rem;
+  height: 11.19rem;
+  cursor: pointer;
+  opacity: 0;
+
+  ::file-selector-button {
+    display: none;
+    text-decoration: none;
+  }
+
+  @media screen and (max-width: 37.5rem) {
+    width: 6rem;
+    height: 6rem;
+  }
+`;
+
 export const InputContainer = styled.div`
   display: flex;
   align-items: center;
@@ -183,27 +204,35 @@ export const SearchBtn = styled.button`
   }
 `;
 
-export const InvalidMessage = styled.div`
+export const MsgContainer = styled.div<IMsgProps>`
   display: flex;
+  justify-content: left;
+  align-items: center;
   font-weight: 100;
-  font-size: 1rem;
-  color: #f44336;
-  margin: 10px 0 20px 10px;
-  transition: 0.5s all;
-  height: 16px;
+  font-size: 0.8rem;
+  margin: 5px 0 11px 0;
+  padding-left: 5px;
+  height: 12px;
+  color: ${(props) => (props.isColor ? "#2d2d2d" : "#f44336")};
+
+  div {
+    margin-left: 3px;
+  }
 
   img {
-    width: 14px;
-    margin-right: 3px;
+    width: 13px;
   }
 
   @media screen and (max-width: 37.5rem) {
-    font-size: 0.8rem;
-    transition: 0.5s all;
-    margin: 5px 0 20px 10px;
+    font-size: 0.7rem;
+    height: 10px;
+
+    div {
+      margin-left: 3px;
+    }
 
     img {
-      width: 12px;
+      width: 10px;
     }
   }
 `;

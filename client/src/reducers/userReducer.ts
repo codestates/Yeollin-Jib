@@ -25,6 +25,9 @@ let initialState: IUserState = {
   nickname: "",
   userArea: "",
   imagePath: "",
+  myComment: 0,
+  myPost: 0,
+  myStorage: 0,
 };
 
 export const userReducer = createSlice({
@@ -39,14 +42,20 @@ export const userReducer = createSlice({
       state.nickname = "";
       state.userArea = "";
       state.imagePath = "";
+      state.myComment = 0;
+      state.myPost = 0;
+      state.myStorage = 0;
     },
     // fulfilled 상태
     [setUser.fulfilled.type]: (state, action: IUserPayLoad) => {
-      state.id = action.payload.data.id;
-      state.email = action.payload.data.email;
-      state.nickname = action.payload.data.nickname;
-      state.userArea = action.payload.data.userArea;
-      state.imagePath = action.payload.data.imagePath;
+      state.id = action.payload.data.data.id;
+      state.email = action.payload.data.data.email;
+      state.nickname = action.payload.data.data.nickname;
+      state.userArea = action.payload.data.data.userArea;
+      state.imagePath = action.payload.data.data.imagePath;
+      state.myComment = action.payload.data.myComment;
+      state.myPost = action.payload.data.myPost;
+      state.myStorage = action.payload.data.myStorage;
     },
     // rejected 상태
     [setUser.rejected.type]: (state) => {
@@ -55,6 +64,9 @@ export const userReducer = createSlice({
       state.nickname = "";
       state.userArea = "";
       state.imagePath = "";
+      state.myComment = 0;
+      state.myPost = 0;
+      state.myStorage = 0;
     },
   },
 });
