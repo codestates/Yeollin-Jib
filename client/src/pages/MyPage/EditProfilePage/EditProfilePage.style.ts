@@ -124,13 +124,13 @@ export const UploadPhotoArea = styled.div`
     }
 
     .ProfileImg_Container {
-      width: 6rem;
-      height: 6rem;
+      width: 8rem;
+      height: 8rem;
     }
 
     .ProfileImg_Thumb {
-      width: 6rem;
-      height: 6rem;
+      width: 8rem;
+      height: 8rem;
     }
   }
 `;
