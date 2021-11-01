@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node ./dist/index.js",
-    "tsc": "tsc",
+    "start": "tsc && node ./dist/index.js",
     "table": "./node_modules/ts-node/dist/bin.js ./src/migrations/migration-all-table.ts",
     "seed": "./node_modules/ts-node/dist/bin.js ./src/seeders/dummy.ts",
     "dev": "npm run build:live",
