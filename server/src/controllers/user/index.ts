@@ -8,6 +8,7 @@ import put from "./put";
 import delete_ from "./delete";
 import googleLogin from "./googleLogin";
 import googleCallback from "./googleCallback";
+import deletePhoto from "./deletePhoto";
 
 export {
   signup,
@@ -20,4 +21,5 @@ export {
   email,
   put,
   delete_,
+  deletePhoto,
 };
