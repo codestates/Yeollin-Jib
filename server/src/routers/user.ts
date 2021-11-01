@@ -34,6 +34,9 @@ userRouter.patch(
   usercontroller.put
 );
 
+//유저사진삭제
+userRouter.delete("/photo", accessToken, usercontroller.deletePhoto);
+
 //회원탈퇴
 userRouter.delete("/", accessToken, usercontroller.delete_);
 
