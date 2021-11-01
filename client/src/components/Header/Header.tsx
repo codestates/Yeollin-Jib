@@ -41,7 +41,7 @@ function Header() {
     }
   };
 
-  // 로그인 모달 상태
+  // 로그아웃 모달 상태
   const [isOpened, setIsOpened] = useState<boolean>(false);
 
   return (
