@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+interface Idx {
+  idx: number;
+}
+
 export const AllLandingContainer = styled.div`
   background: linear-gradient(0deg, #fbfafc, #fbfafc);
   display: flex;
@@ -9,6 +13,7 @@ export const AllLandingContainer = styled.div`
   font-family: "Gmarket Sans TTF";
   transition: 0.5s all;
   @media screen and (max-width: 37.5rem) {
+    width: 360px;
     flex-direction: column;
     align-items: center;
     transition: 0.5s all;
@@ -26,8 +31,9 @@ export const FirstLandingContainer = styled.div`
     display: flex;
     flex-direction: column;
     width: 360px;
-    height: 615px;
+    height: 636px;
     transition: 0.5s all;
+    margin-bottom: 62px;
   }
 `;
 
@@ -39,6 +45,7 @@ export const FirstBodyContainer = styled.div`
   transition: 0.5s all;
   flex-direction: row-reverse;
   @media screen and (max-width: 37.5rem) {
+    width: 360px;
     padding: 0 5px 0 5px;
     display: flex;
     flex-direction: column;
@@ -74,6 +81,8 @@ export const FirstImageContainer = styled.div`
   z-index: 0;
   transition: 0.5s all;
   @media screen and (max-width: 37.5rem) {
+    width: 300px;
+    height: 300px;
     margin-top: 0;
     display: flex;
     flex-direction: column;
@@ -143,6 +152,10 @@ export const BigCircle = styled.span`
   height: 10.5rem;
   background: #fede8a;
   border-radius: 100%;
+  transition: 0.5s all;
+  @media screen and (max-width: 37.5rem) {
+    display: none;
+  }
 `;
 
 export const SmallCircle = styled.span`
@@ -153,8 +166,27 @@ export const SmallCircle = styled.span`
   top: 32.8rem;
   background: #fede8a;
   border-radius: 100%;
+  transition: 0.5s all;
+  @media screen and (max-width: 37.5rem) {
+    left: -10.65rem;
+    top: 32rem;
+    transition: 0.5s all;
+  }
 `;
-
+export const VerySmallCircle = styled.span`
+  display: none;
+  @media screen and (max-width: 37.5rem) {
+    display: flex;
+    left: -140px;
+    top: 523px;
+    position: relative;
+    background: #fede8a;
+    border-radius: 100%;
+    width: 13px;
+    height: 13px;
+    transition: 0.5s all;
+  }
+`;
 export const SecLandingContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -165,6 +197,8 @@ export const SecLandingContainer = styled.div`
   font-family: Gmarket Sans TTF;
   transition: 0.5s all;
   @media screen and (max-width: 37.5rem) {
+    display: flex;
+    flex-wrap: nowrap;
     width: 362px;
     height: 866px;
     display: flex;
@@ -270,6 +304,148 @@ export const SecDescrContainer = styled.div`
   transition: 0.5s all;
   @media screen and (max-width: 37.5rem) {
     font-size: 12px;
+    transition: 0.5s all;
+  }
+`;
+
+export const ThirLandingContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 110px;
+  transition: 0.5s all;
+
+  @media screen and (max-width: 37.5rem) {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 360px;
+    height: 531px;
+    transition: 0.5s all;
+  }
+`;
+
+export const ThirBodyContainer = styled.div`
+  @media screen and (max-width: 37.5rem) {
+  }
+`;
+
+export const ThirTextContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: 0.5s all;
+  @media screen and (max-width: 37.5rem) {
+  }
+`;
+
+export const TitleContainer = styled.div`
+  font-size: 30px;
+  font-weight: 300;
+  z-index: 1;
+  transition: 0.5s all;
+  div {
+    margin-bottom: 13px;
+    transition: 0.5s all;
+  }
+  @media screen and (max-width: 37.5rem) {
+    font-size: 17px;
+    font-weight: 300;
+    transition: 0.5s all;
+    div {
+      margin-bottom: 9px;
+      transition: 0.5s all;
+    }
+  }
+`;
+
+export const DescrContainer = styled.div`
+  font-size: 24px;
+  font-weight: 100;
+  transition: 0.5s all;
+  div {
+    margin-top: 10px;
+    margin-bottom: 9px;
+    transition: 0.5s all;
+  }
+  @media screen and (max-width: 37.5rem) {
+    font-size: 15px;
+    font-weight: 100;
+    transition: 0.5s all;
+    div {
+      margin-bottom: 5px;
+      transition: 0.5s all;
+    }
+  }
+`;
+
+export const ThirImageContainer = styled.div<Idx>`
+  margin: ${(props) =>
+    props.idx % 2 === 0 ? "30px 100px 0 0" : "30px 0 0 100px"};
+  transition: 0.5s all;
+  img {
+    width: 604px;
+    height: 741px;
+    transition: 0.5s all;
+  }
+  @media screen and (max-width: 37.5rem) {
+    margin: 30px 0 0 0;
+    transition: 0.5s all;
+    img {
+      width: 266px;
+      height: 238px;
+      transition: 0.5s all;
+    }
+  }
+`;
+
+export const SevLandingContainer = styled.div`
+  width: 100%;
+  height: 223px;
+  margin-bottom: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.5s all;
+  @media screen and (max-width: 37.5rem) {
+    width: 100%;
+    height: 144px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.5s all;
+  }
+`;
+
+export const AllContainer = styled.div<Idx>`
+  display: flex;
+  flex-direction: ${(props) => (props.idx % 2 === 0 ? "row-reverse" : "row")};
+  justify-content: space-between;
+  align-items: center;
+  transition: 0.5s all;
+  @media screen and (max-width: 37.5rem) {
+    flex-direction: column;
+    transition: 0.5s all;
+  }
+`;
+export const Circle = styled.span`
+  position: relative;
+  width: 71px;
+  height: 71px;
+  left: -10%;
+  top: 28px;
+  background: #fede8a;
+  border-radius: 100%;
+  transition: 0.5s all;
+  @media screen and (max-width: 37.5rem) {
+    width: 36px;
+    height: 36px;
+    top: 15px;
+    left: -19px;
     transition: 0.5s all;
   }
 `;
