@@ -14,6 +14,7 @@ export const CardContainer = styled.div`
   font-weight: 100;
   font-size: 1rem;
   color: #2d2d2d;
+  background-color: #fdfbfe;
   margin: 0 0 0.813rem 0;
 
   @media screen and (max-width: 37.5rem) {

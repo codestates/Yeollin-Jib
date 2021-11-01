@@ -315,7 +315,7 @@ export const WhiteBtn = styled.button`
   outline: none;
   border: 1px solid #2d2d2d;
   border-radius: 0.313rem;
-  background: #fbfafc;
+  background: #fdfbfe;
   font-family: "Gmarket Sans TTF";
   font-weight: 100;
   font-size: 1rem;

@@ -177,12 +177,17 @@ export const BlackBtn = styled.button`
   width: 5.3rem;
   height: 2.5rem;
   cursor: pointer;
-  transition: 0.5s all;
+  transition: 0.5s width, height, font-size;
+
+  :active {
+    background: #3f3f3f;
+  }
 
   @media screen and (max-width: 37.5rem) {
     font-size: 0.8rem;
     width: 4rem;
     height: 2.1rem;
+    transition: 0.5s width, height, font-size;
   }
 `;
 
@@ -198,13 +203,18 @@ export const WhiteBtn = styled.button`
   width: 5.3rem;
   height: 2.5rem;
   cursor: pointer;
-  transition: 0.5s all;
   margin-left: 5px;
+  transition: 0.5s width, height, font-size;
+
+  :active {
+    background: #f5f4f5;
+  }
 
   @media screen and (max-width: 37.5rem) {
     font-size: 0.8rem;
     width: 4rem;
     height: 2.1rem;
+    transition: 0.5s width, height, font-size;
   }
 `;
 
