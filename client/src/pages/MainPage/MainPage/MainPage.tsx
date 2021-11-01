@@ -1,5 +1,5 @@
-import axios, { AxiosResponse } from "axios";
-import React, { useEffect, useState, useCallback } from "react";
+import axios from "axios";
+import { useEffect, useState, useCallback } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import PostCard from "../../../components/PostCard/PostCard";
@@ -117,7 +117,6 @@ function MainPage() {
         setPage(page - 4);
       }
     }
-    console.log(postInfo);
   }, [page]);
 
   // 스크롤이 발생할때마다 handleScroll 함수를 호출하도록 한다.
@@ -192,7 +191,10 @@ function MainPage() {
       {/* 게시글 리스트 ----------------------------------------------------*/}
       <PostCardArea>
         {postInfo[0] === undefined ? (
-          <BlankPostCard>{"검색 결과가 없습니다"}</BlankPostCard>
+          <BlankPostCard>
+            <span>검색 결과가</span>
+            <span> 없습니다</span>
+          </BlankPostCard>
         ) : (
           postInfo.map((postInfo, idx) => {
             return (

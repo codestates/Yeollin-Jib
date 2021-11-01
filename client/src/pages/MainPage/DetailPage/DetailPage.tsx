@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import { DeleteIcon, EditPencilIcon, LikeIcon } from "../../../icons/Icons";
 import {
   DetailPageContainer,
@@ -32,16 +31,24 @@ function DetailPage() {
       <LikeAndCommentIconArea>
         <LikeIcon />
         <span>{"2개"}</span>
-        <img src={"./images/commentMark.svg"} />
+        <img src={"./images/commentMark.svg"} alt="Comment_Mark" />
         <span>{"4개"}</span>
       </LikeAndCommentIconArea>
       <PostContentsArea>
         <PhotoBox>
-          <img className="Photo_Slide_Button" src="./images/arrowLeft.svg" />
+          <img
+            className="Photo_Slide_Button"
+            src="./images/arrowLeft.svg"
+            alt="Photo_Slide_Left"
+          />
           <Photo>
-            <img src="./images/test.jpeg" />
+            <img src="./images/test.jpeg" alt="Post_Photo" />
           </Photo>
-          <img className="Photo_Slide_Button" src="./images/arrowRight.svg" />
+          <img
+            className="Photo_Slide_Button"
+            src="./images/arrowRight.svg"
+            alt="Photo_Slide_Right"
+          />
         </PhotoBox>
         <ContentsBox>
           <ContentsUserBox></ContentsUserBox>
