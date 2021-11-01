@@ -113,6 +113,7 @@ export const UploadPhotoArea = styled.div`
     position: absolute;
     box-sizing: border-box;
     border-radius: 7px;
+    border: 1px solid #e0dde1;
   }
 
   @media screen and (max-width: 37.5rem) {
@@ -124,13 +125,14 @@ export const UploadPhotoArea = styled.div`
     }
 
     .ProfileImg_Container {
-      width: 6rem;
-      height: 6rem;
+      width: 8rem;
+      height: 8rem;
     }
 
     .ProfileImg_Thumb {
-      width: 6rem;
-      height: 6rem;
+      width: 8rem;
+      height: 8rem;
+      margin-top: 17px;
     }
   }
 `;
