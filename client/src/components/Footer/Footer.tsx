@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   FooterItemContainer,
   FooterTitle,
@@ -6,8 +6,11 @@ import {
   TeamMemberContainer,
   TeamMember,
 } from "./Footer.style";
-
+import Inquiry from "../../components/Modals/Inquiry/Inquiry";
 function Footer() {
+  // 문의하기 모달 상태
+  const [isOpened, setIsOpened] = useState<boolean>(false);
+
   return (
     <FooterItemContainer>
       <FooterTitle>
@@ -21,7 +24,12 @@ function Footer() {
             Codemon
           </a>
         </GitHubContainer>
-        <div className="contact">문의하기</div>
+        {isOpened ? (
+          <Inquiry setIsOpened={(bool: boolean) => setIsOpened(bool)}></Inquiry>
+        ) : null}
+        <div className="contact" onClick={() => setIsOpened(true)}>
+          문의하기
+        </div>
       </FooterTitle>
       <TeamMemberContainer>
         <TeamMember>
