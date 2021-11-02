@@ -12,15 +12,19 @@ const get_infinite = async (req: Request, res: Response) => {
       where: { id: { [lt]: id } },
       order: [["createdAt", "DESC"]],
       attributes: ["id", "userId", "title", "address"],
-      limit: 4,
+      limit: 8,
     });
     const data = postGet.length;
 
     if (data !== 4) {
       if (data === 0) {
-        return res.status(200).send({ message: "더이상 조회할 게시물이 없습니다." });
+        return res
+          .status(200)
+          .send({ message: "더이상 조회할 게시물이 없습니다." });
       }
-      return res.status(200).send({ postGet, message: "더이상 조회할 게시물이 없습니다." });
+      return res
+        .status(200)
+        .send({ postGet, message: "더이상 조회할 게시물이 없습니다." });
     }
 
     res.status(200).send({ postGet });
