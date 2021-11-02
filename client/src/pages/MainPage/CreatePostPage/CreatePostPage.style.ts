@@ -382,6 +382,7 @@ export const InputAddress = styled.input`
   color: #2d2d2d;
   width: 100%;
   height: 47px;
+  padding: 0 17px 0 17px;
   transition: 0.5s all;
   :focus {
     border: 1px solid #2d2d2d;

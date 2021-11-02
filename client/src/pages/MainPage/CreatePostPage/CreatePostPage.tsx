@@ -37,6 +37,7 @@ import { RootState } from "../../../reducers/rootReducer";
 import axios, { AxiosResponse } from "axios";
 import { useSelector } from "react-redux";
 import KakaoMap from "../../../components/KakaoMap/KakaoMap";
+import SearchAddress from "../../../components/SearchAddress/SearchAddress";
 
 function CreatePostPage() {
   // 카테고리 초기화 1,7번탭 선택
@@ -202,6 +203,12 @@ function CreatePostPage() {
         },
       }
     );
+  };
+
+  const [addressInput, setAddressInput] = useState("");
+
+  const searchAddressHandle = (address: string) => {
+    setAddressInput(address);
   };
 
   return (
@@ -391,11 +398,11 @@ function CreatePostPage() {
           <span>{"주소를 검색해 주세요."}</span>
         </div>
         <div className="Search_Address_Box">
-          <InputAddress />
-          <button>주소 검색</button>
+          <InputAddress value={addressInput} readOnly />
+          <SearchAddress searchAddressHandle={searchAddressHandle} />
         </div>
+        <KakaoMap addressInput={addressInput} />
       </AddressArea>
-      <KakaoMap />
       {/* 등록 취소 버튼 ---------------------------------------------------*/}
       <SubmitArea>
         <SubmitBtn onClick={() => registerPost()}>완료</SubmitBtn>
