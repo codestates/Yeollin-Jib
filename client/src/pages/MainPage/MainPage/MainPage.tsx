@@ -1,10 +1,10 @@
-import axios, { AxiosResponse } from "axios";
-import React, { useEffect, useState, useCallback } from "react";
+import axios from "axios";
+import { useEffect, useState, useCallback } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import PostCard from "../../../components/PostCard/PostCard";
 import { RootState } from "../../../reducers/rootReducer";
-import { initLeftMainCategories, initRightMainCategories } from "../Categories";
+import { initMainCategories } from "../Categories";
 import {
   MainPageContainer,
   CategoryContainer,
@@ -29,13 +29,11 @@ function MainPage() {
   };
 
   // 카테고리 선택 핸들
-  const [leftMainCategories, setLeftMainCategories] = useState(
-    initLeftMainCategories
-  );
+  const [mainCategories, setMainCategories] = useState(initMainCategories);
 
-  const CategoryLeftSelectHandle = (id: string) => {
-    let newMainCate = [...leftMainCategories];
-    leftMainCategories.forEach((mainCate) => {
+  const CategorySelectHandle = (id: string) => {
+    let newMainCate = [...mainCategories];
+    mainCategories.forEach((mainCate) => {
       if (mainCate.isSelect) {
         mainCate.isSelect = false;
       }
@@ -43,29 +41,11 @@ function MainPage() {
         mainCate.isSelect = true;
       }
     });
-    setLeftMainCategories(newMainCate);
-  };
-
-  const [rightMainCategories, setRightMainCategories] = useState(
-    initRightMainCategories
-  );
-
-  const CategoryRightSelectHandle = (id: string) => {
-    let newMainCate = [...rightMainCategories];
-    rightMainCategories.forEach((mainCate) => {
-      if (mainCate.isSelect) {
-        mainCate.isSelect = false;
-      }
-      if (id === mainCate.id) {
-        mainCate.isSelect = true;
-      }
-    });
-    setRightMainCategories(newMainCate);
+    setMainCategories(newMainCate);
   };
 
   const selectCategory = (id: string) => {
-    CategoryLeftSelectHandle(id);
-    CategoryRightSelectHandle(id);
+    CategorySelectHandle(id);
   };
 
   // 초기 게시글 호출
@@ -84,8 +64,7 @@ function MainPage() {
   // 해당 컴포넌트가 마운트될 때 초기 게시글을 호출한다, 카테고리 셀렉트 상태를 초기화 한다
   useEffect(() => {
     firstLoadPost();
-    CategoryRightSelectHandle("init");
-    CategoryLeftSelectHandle("init");
+    CategorySelectHandle("init");
   }, []);
 
   // 무한스크롤 함수
@@ -117,7 +96,6 @@ function MainPage() {
         setPage(page - 4);
       }
     }
-    console.log(postInfo);
   }, [page]);
 
   // 스크롤이 발생할때마다 handleScroll 함수를 호출하도록 한다.
@@ -147,19 +125,7 @@ function MainPage() {
         </CategoryMenu>
         {/* 카테고리 선택 창 ----------------------------------------------------*/}
         <CategoryItemsBox>
-          {leftMainCategories.map((item) => {
-            return (
-              <CategoryItem
-                key={item.name}
-                isShowCategory={isShowCategory}
-                isSelect={item.isSelect}
-                onClick={() => selectCategory(item.id)}
-              >
-                <span>{item.name}</span>
-              </CategoryItem>
-            );
-          })}
-          {rightMainCategories.map((item) => {
+          {mainCategories.map((item) => {
             return (
               <CategoryItem
                 key={item.name}
@@ -192,7 +158,10 @@ function MainPage() {
       {/* 게시글 리스트 ----------------------------------------------------*/}
       <PostCardArea>
         {postInfo[0] === undefined ? (
-          <BlankPostCard>{"검색 결과가 없습니다"}</BlankPostCard>
+          <BlankPostCard>
+            <span>검색 결과가</span>
+            <span> 없습니다</span>
+          </BlankPostCard>
         ) : (
           postInfo.map((postInfo, idx) => {
             return (

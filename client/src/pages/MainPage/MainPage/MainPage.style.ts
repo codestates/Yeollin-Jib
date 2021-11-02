@@ -149,6 +149,7 @@ export const PostBoardTitleBox = styled.div`
     font-size: 24px;
     border-bottom: 0.313rem solid #fede8a;
     margin-left: 0.5rem;
+    font-weight: 300;
     @media screen and (max-width: 37.5rem) {
       border-bottom: 0.313rem solid #fede8a;
       font-size: 20px;
@@ -205,6 +206,8 @@ export const BlankPostCard = styled.div`
   box-sizing: border-box;
   border-radius: 5px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  font-weight: 100;
 `;

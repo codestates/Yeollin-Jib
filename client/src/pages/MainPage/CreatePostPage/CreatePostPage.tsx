@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import PhotoUpload from "../../../components/PhotoUpload/PhotoUpload";
 import {
   CameraIcon,
@@ -32,13 +32,21 @@ import {
   SubmitBtn,
   CancelBtn,
 } from "./CreatePostPage.style";
-import { initLeftMainCategories, initRightMainCategories } from "../Categories";
+import { initMainCategories } from "../Categories";
 import { RootState } from "../../../reducers/rootReducer";
 import axios, { AxiosResponse } from "axios";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import KakaoMap from "../../../components/KakaoMap/KakaoMap";
+import SearchAddress from "../../../components/SearchAddress/SearchAddress";
 
 function CreatePostPage() {
-  const dispatch = useDispatch();
+  // 카테고리 초기화 1,7번탭 선택
+  useEffect(() => {
+    const newMainCategory = [...initMainCategories];
+    newMainCategory[0].isSelect = true;
+    newMainCategory[6].isSelect = true;
+    setMainCategories(newMainCategory);
+  }, []);
 
   // 저장된 토큰값을 가져옴
   const { accessToken } = useSelector((state: RootState) => state.authReducer);
@@ -68,7 +76,6 @@ function CreatePostPage() {
       newInputDate.date = value;
     }
     setInputDate(newInputDate);
-    console.log(inputDate);
   };
 
   // 게시물 내용 State, Handle
@@ -78,56 +85,36 @@ function CreatePostPage() {
     setInputContents(value);
   };
 
-  // 대분류 왼쪽 테이블 State, Handle
-  const [leftMainCategories, setLeftMainCategories] = useState(
-    initLeftMainCategories
-  );
+  // 대분류 테이블 State, Handle
+  const [mainCategories, setMainCategories] = useState(initMainCategories);
 
-  const CategoryLeftSelectHandle = (id: string): void => {
-    let newMainCate = [...leftMainCategories];
-    leftMainCategories.forEach((mainCate) => {
-      if (mainCate.isSelect) {
-        mainCate.isSelect = false;
-      }
-      if (id === mainCate.id) {
-        mainCate.isSelect = true;
-      }
-    });
-    setLeftMainCategories(newMainCate);
-  };
-
-  // 대분류 오른쪽 테이블 State, Handle
-  const [rightMainCategories, setRightMainCategories] = useState(
-    initRightMainCategories
-  );
-
-  const CategoryRightSelectHandle = (id: string) => {
-    let newMainCate = [...rightMainCategories];
-    rightMainCategories.forEach((mainCate) => {
-      if (mainCate.isSelect) {
-        mainCate.isSelect = false;
-      }
-      if (id === mainCate.id) {
-        mainCate.isSelect = true;
+  const CategorySelectHandle = (id: string, selectIdx: number): void => {
+    let newMainCate = [...mainCategories];
+    newMainCate.forEach((mainCate, idx) => {
+      if (selectIdx < 6) {
+        if (mainCate.isSelect && idx < 6) {
+          mainCate.isSelect = false;
+        }
+        if (id === mainCate.id) {
+          mainCate.isSelect = true;
+        }
+      } else if (selectIdx >= 6) {
+        if (mainCate.isSelect && idx >= 6) {
+          mainCate.isSelect = false;
+        }
+        if (id === mainCate.id) {
+          mainCate.isSelect = true;
+        }
       }
     });
-    setRightMainCategories(newMainCate);
+    setMainCategories(newMainCate);
   };
 
-  // 해당 컴포넌트가 실행 될때 카테고리 박스 각 1번째 칸이 선택된 상태로 만들어준다.
-  useEffect(() => {
-    CategoryLeftSelectHandle("1");
-    CategoryRightSelectHandle("7");
-    return () => {
-      setLeftMainCategories(initLeftMainCategories);
-      setRightMainCategories(initRightMainCategories);
-    };
-  }, []);
-
-  // 서브 체크박스 Left Handle
-  const addSubCategoryLeftHandle = (idx: number, name: string) => {
-    const newCategory = [...leftMainCategories];
-    newCategory.forEach((mainCategory) => {
+  // 서브 체크박스 Handle
+  const addSubCategoryHandle = (idx: number, name: string) => {
+    console.log(idx, name);
+    const newMainCate = [...mainCategories];
+    newMainCate.forEach((mainCategory) => {
       mainCategory.subCategories.forEach((subCategory) => {
         if (mainCategory.id === String(idx) && subCategory.name === name) {
           subCategory.isSelect = !subCategory.isSelect;
@@ -139,25 +126,7 @@ function CreatePostPage() {
         }
       });
     });
-    setLeftMainCategories(newCategory);
-  };
-
-  // 서브 체크박스 Right Handle
-  const addSubCategoryRightHandle = (idx: number, name: string) => {
-    const newCategory = [...rightMainCategories];
-    newCategory.forEach((mainCategory) => {
-      mainCategory.subCategories.forEach((subCategory) => {
-        if (mainCategory.id === String(idx) && subCategory.name === name) {
-          subCategory.isSelect = !subCategory.isSelect;
-        } else if (
-          mainCategory.id === String(idx) &&
-          subCategory.name === name
-        ) {
-          subCategory.isSelect = !subCategory.isSelect;
-        }
-      });
-    });
-    setRightMainCategories(newCategory);
+    setMainCategories(newMainCate);
   };
 
   // 업로드 할 사진정보 state
@@ -177,7 +146,6 @@ function CreatePostPage() {
       newFiles = newFiles.slice(0, 5);
       setFiles(newFiles);
     }
-    console.log("사진정보", files);
   };
 
   const deletePhotoHandle = (path: string) => {
@@ -185,6 +153,32 @@ function CreatePostPage() {
       return file.preview !== path;
     });
     setFiles(deleteNewFiles);
+  };
+
+  // 선택된 카테고리 이름 string ex) main => 1,1,2,3,3,4,4,7,7,9,9 sub => 침대, 이불, 유모차,장난감,행거,스탠드
+  const submitCateHandle = (name: string) => {
+    let submitMainCategory: string[] = [];
+    let submitSubCategory: string[] = [];
+    mainCategories.forEach((mainCategory, idx) => {
+      const subCheck = mainCategory.subCategories.filter((subCategory) => {
+        return subCategory.isSelect === true;
+      });
+      subCheck.forEach((subCate) => {
+        submitMainCategory.push(`${idx + 1}`);
+        submitSubCategory.push(subCate.name);
+      });
+    });
+
+    const newSubmitMainCategory = submitMainCategory.join(",");
+    const newSubmitSubCategory = submitSubCategory.join(",");
+
+    console.log(newSubmitMainCategory);
+    console.log(newSubmitSubCategory);
+
+    if (name === "main") {
+      return newSubmitMainCategory;
+    }
+    return newSubmitSubCategory;
   };
 
   const registerPost = async () => {
@@ -196,8 +190,8 @@ function CreatePostPage() {
     formData.append("dueDate", `${inputDate.date}${inputDate.time}`);
     formData.append("latitude", "123");
     formData.append("longitude", "23");
-    formData.append("category1", "1,1");
-    formData.append("category2", `침대,티비선반`);
+    formData.append("category1", submitCateHandle("main"));
+    formData.append("category2", submitCateHandle("sub"));
 
     const result: AxiosResponse = await axios.post(
       `${process.env.REACT_APP_API_URL}/post`,
@@ -209,6 +203,12 @@ function CreatePostPage() {
         },
       }
     );
+  };
+
+  const [addressInput, setAddressInput] = useState("");
+
+  const searchAddressHandle = (address: string) => {
+    setAddressInput(address);
   };
 
   return (
@@ -255,7 +255,7 @@ function CreatePostPage() {
       <PostContentsArea>
         <div className="Contents_Word">
           <PaperIcon color="#2D2D2D" />
-          <span className="">{"설명을 작성해 주세요."}</span>
+          <span>{"설명을 작성해 주세요."}</span>
         </div>
         <PostContents
           value={inputContents}
@@ -272,39 +272,36 @@ function CreatePostPage() {
         <div className="Category_Container">
           <PostCategory>
             <MainCategoryBox>
-              {leftMainCategories.map((category) => {
-                return (
-                  <MainCategoryItem
-                    key={category.name}
-                    id={category.id}
-                    onClick={() => CategoryLeftSelectHandle(category.id)}
-                    isSelect={category.isSelect}
-                  >
-                    <span>{category.name}</span>
-                  </MainCategoryItem>
-                );
+              {mainCategories.map((category, idx) => {
+                if (idx < 6) {
+                  return (
+                    <MainCategoryItem
+                      key={`${category.name + idx}`}
+                      id={category.id}
+                      onClick={() => CategorySelectHandle(category.id, idx)}
+                      isSelect={category.isSelect}
+                    >
+                      <span>{category.name}</span>
+                    </MainCategoryItem>
+                  );
+                }
               })}
             </MainCategoryBox>
             <SubCategoryBox>
-              {leftMainCategories.map((category, idx) => {
-                return category.isSelect
+              {mainCategories.map((category, idx) => {
+                return category.isSelect && idx < 6
                   ? category.subCategories.map((subCategory) => {
                       return (
-                        <>
-                          <SubCategoryItem
-                            key={`${category.name + (idx + 1)}`}
-                            checked={subCategory.isSelect}
-                            onClick={() =>
-                              addSubCategoryLeftHandle(
-                                idx + 1,
-                                subCategory.name
-                              )
-                            }
-                          >
-                            <CategoryIcon isCheck={subCategory.isSelect} />
-                            <span>{subCategory.name}</span>
-                          </SubCategoryItem>
-                        </>
+                        <SubCategoryItem
+                          key={`${subCategory.name + (idx + 1)}`}
+                          checked={subCategory.isSelect}
+                          onClick={() =>
+                            addSubCategoryHandle(idx + 1, subCategory.name)
+                          }
+                        >
+                          <CategoryIcon isCheck={subCategory.isSelect} />
+                          <span>{subCategory.name}</span>
+                        </SubCategoryItem>
                       );
                     })
                   : null;
@@ -313,39 +310,36 @@ function CreatePostPage() {
           </PostCategory>
           <PostCategory>
             <MainCategoryBox>
-              {rightMainCategories.map((category) => {
-                return (
-                  <MainCategoryItem
-                    key={category.name}
-                    id={category.id}
-                    onClick={() => CategoryRightSelectHandle(category.id)}
-                    isSelect={category.isSelect}
-                  >
-                    <span>{category.name}</span>
-                  </MainCategoryItem>
-                );
+              {mainCategories.map((category, idx) => {
+                if (idx >= 6) {
+                  return (
+                    <MainCategoryItem
+                      key={`${category.name + (idx + 1)}`}
+                      id={category.id}
+                      onClick={() => CategorySelectHandle(category.id, idx)}
+                      isSelect={category.isSelect}
+                    >
+                      <span>{category.name}</span>
+                    </MainCategoryItem>
+                  );
+                }
               })}
             </MainCategoryBox>
             <SubCategoryBox>
-              {rightMainCategories.map((category, idx) => {
-                return category.isSelect
+              {mainCategories.map((category, idx) => {
+                return category.isSelect && idx >= 6
                   ? category.subCategories.map((subCategory) => {
                       return (
-                        <>
-                          <SubCategoryItem
-                            key={`${category.name + (idx + 1)}`}
-                            checked={subCategory.isSelect}
-                            onClick={() =>
-                              addSubCategoryRightHandle(
-                                idx + 7,
-                                subCategory.name
-                              )
-                            }
-                          >
-                            <CategoryIcon isCheck={subCategory.isSelect} />
-                            <span>{subCategory.name}</span>
-                          </SubCategoryItem>
-                        </>
+                        <SubCategoryItem
+                          key={`${subCategory.name + (idx + 1)}`}
+                          checked={subCategory.isSelect}
+                          onClick={() =>
+                            addSubCategoryHandle(idx + 1, subCategory.name)
+                          }
+                        >
+                          <CategoryIcon isCheck={subCategory.isSelect} />
+                          <span>{subCategory.name}</span>
+                        </SubCategoryItem>
                       );
                     })
                   : null;
@@ -359,7 +353,7 @@ function CreatePostPage() {
       <UploadPhotoArea>
         <div className="Upload_Word">
           <CameraIcon color="#2D2D2D" />
-          <span className="">{"사진을 등록해 주세요. (최대 5장)"}</span>
+          <span>{"사진을 등록해 주세요. (최대 5장)"}</span>
         </div>
         {files[0] === undefined ? (
           <>
@@ -368,17 +362,29 @@ function CreatePostPage() {
             </div>
           </>
         ) : (
-          files.map((file: any) => {
+          files.map((file: any, idx) => {
             return (
-              <div id={file.preview} className="Photo_Container">
+              <div
+                key={`${file.preview}+${idx}`}
+                id={file.preview}
+                className="Photo_Container"
+              >
                 <div
                   className="Delete_Photo"
                   onClick={() => deletePhotoHandle(file.preview)}
                 >
                   <div className="Minus_Button"></div>
                 </div>
-                <PhotoUpload photoPath={photoPath} arrPhoto={files} />
-                <img className="Photo_Thumb" src={file.preview} />
+                <PhotoUpload
+                  key={`${file.preview}+${idx}`}
+                  photoPath={photoPath}
+                  arrPhoto={files}
+                />
+                <img
+                  className="Photo_Thumb"
+                  src={file.preview}
+                  alt="Upload_Photo"
+                />
               </div>
             );
           })
@@ -389,14 +395,14 @@ function CreatePostPage() {
       <AddressArea>
         <div className="Address_Word">
           <MapMarkIcon color="#2D2D2D" />
-          <span className="">{"주소를 검색해 주세요."}</span>
+          <span>{"주소를 검색해 주세요."}</span>
         </div>
         <div className="Search_Address_Box">
-          <InputAddress />
-          <button>주소 검색</button>
+          <InputAddress value={addressInput} readOnly />
+          <SearchAddress searchAddressHandle={searchAddressHandle} />
         </div>
+        <KakaoMap addressInput={addressInput} />
       </AddressArea>
-
       {/* 등록 취소 버튼 ---------------------------------------------------*/}
       <SubmitArea>
         <SubmitBtn onClick={() => registerPost()}>완료</SubmitBtn>
