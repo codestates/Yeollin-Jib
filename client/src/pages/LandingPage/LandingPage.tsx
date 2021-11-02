@@ -117,14 +117,14 @@ function LandingPage() {
           <SecAllBoxContainer>
             {SecondLandingPageTxt.map((el) => {
               return (
-                <SecBoxContainer>
+                <SecBoxContainer key={el.title}>
                   <SecImgContainer>
                     <img src={el.img} alt={el.title}></img>
                   </SecImgContainer>
                   <SecBigTxtContainer>{el.title}</SecBigTxtContainer>
                   <SecDescrContainer>
                     {el.descr.map((el) => {
-                      return <div>{el}</div>;
+                      return <div key={el[0]}>{el}</div>;
                     })}
                   </SecDescrContainer>
                 </SecBoxContainer>
@@ -135,19 +135,19 @@ function LandingPage() {
       </SecLandingContainer>
       {LandingPageTxt.map((el, idx) => {
         return (
-          <ThirLandingContainer>
+          <ThirLandingContainer key={el.title[0]}>
             <ThirBodyContainer>
               <AllContainer idx={idx}>
                 <ThirTextContainer>
                   <Circle></Circle>
                   <TitleContainer>
                     {el.title.map((el) => {
-                      return <div>{el}</div>;
+                      return <div key={el[0]}>{el}</div>;
                     })}
                   </TitleContainer>
                   <DescrContainer>
                     {el.descr.map((el) => {
-                      return <div>{el}</div>;
+                      return <div key={el[0]}>{el}</div>;
                     })}
                   </DescrContainer>
                 </ThirTextContainer>

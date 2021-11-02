@@ -125,6 +125,9 @@ export const GotoMainButton = styled.button`
   color: #ffffff;
   border: none;
   transition: 0.5s all;
+  :active {
+    background: #3f3f3f;
+  }
   @media screen and (max-width: 37.5rem) {
     width: 180px;
     height: 45px;
