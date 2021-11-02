@@ -1,7 +1,9 @@
 #!/bin/bash
 cd /home/ubuntu/Yeollin-Jib/server
 npm install
-npm install -g typescript
+sudo apt install node-typescript
+export NODE_OPTIONS="--max-old-space-size=2048"
+npm run tsc
 npm install pm2@latest -g
 sudo apt-get update
 sudo apt-get install authbind
