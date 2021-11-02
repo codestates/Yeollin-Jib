@@ -31,6 +31,8 @@ import {
   SubmitArea,
   SubmitBtn,
   CancelBtn,
+  Body,
+  MainArea,
 } from "./CreatePostPage.style";
 import { initMainCategories } from "../Categories";
 import { RootState } from "../../../reducers/rootReducer";
@@ -212,203 +214,207 @@ function CreatePostPage() {
   };
 
   return (
-    <CreatePostContainer>
-      <span className="Create_Post_Word">{"게시글 작성"}</span>
+    <Body>
+      <MainArea>
+        <CreatePostContainer>
+          <span className="Create_Post_Word">{"게시글 작성"}</span>
 
-      {/* 제목 작성 칸 ------------------------------------------------------*/}
-      <TitleDatePickerContainer>
-        <TitleArea>
-          <div className="Title_Word">
-            <PencilIcon color="#2D2D2D" />
-            <span>{"제목을 작성해 주세요."}</span>
-          </div>
-          <div className="Title_Input">
-            <InputTitle
-              value={inputTitle}
-              type={"text"}
-              onChange={(e) => TitleInputHandle(e.target.value)}
-            ></InputTitle>
-          </div>
-        </TitleArea>
-        {/* 마감시간 작성 칸 ------------------------------------------------*/}
-        <DateArea>
-          <div className="Date_Word">
-            <ClockIcon color="#2D2D2D" />
-            <span>{"마감 시간을 설정해 주세요."}</span>
-          </div>
-          <div className="Date_Input">
-            <DatePicker
-              value={inputDate?.date}
-              type={"date"}
-              onChange={(e) => DateInputHandle(e.target.value)}
-            ></DatePicker>
-            <TimePicker
-              value={inputDate?.time}
-              type={"time"}
-              onChange={(e) => DateInputHandle(e.target.value)}
-            ></TimePicker>
-          </div>
-        </DateArea>
-      </TitleDatePickerContainer>
-
-      {/* 내용 설명 칸 ----------------------------------------------------*/}
-      <PostContentsArea>
-        <div className="Contents_Word">
-          <PaperIcon color="#2D2D2D" />
-          <span>{"설명을 작성해 주세요."}</span>
-        </div>
-        <PostContents
-          value={inputContents}
-          onChange={(e) => ContentsInputHandle(e.target.value)}
-        />
-      </PostContentsArea>
-
-      {/* 품목 선택 칸 ----------------------------------------------------*/}
-      <PostCategoryArea>
-        <div className="Check_Category_Word_Area">
-          <CheckBoxIcon color="#2D2D2D" />
-          <span className="Category_Word">{"품목을 선택해 주세요."}</span>
-        </div>
-        <div className="Category_Container">
-          <PostCategory>
-            <MainCategoryBox>
-              {mainCategories.map((category, idx) => {
-                if (idx < 6) {
-                  return (
-                    <MainCategoryItem
-                      key={`${category.name + idx}`}
-                      id={category.id}
-                      onClick={() => CategorySelectHandle(category.id, idx)}
-                      isSelect={category.isSelect}
-                    >
-                      <span>{category.name}</span>
-                    </MainCategoryItem>
-                  );
-                }
-              })}
-            </MainCategoryBox>
-            <SubCategoryBox>
-              {mainCategories.map((category, idx) => {
-                return category.isSelect && idx < 6
-                  ? category.subCategories.map((subCategory) => {
-                      return (
-                        <SubCategoryItem
-                          key={`${subCategory.name + (idx + 1)}`}
-                          checked={subCategory.isSelect}
-                          onClick={() =>
-                            addSubCategoryHandle(idx + 1, subCategory.name)
-                          }
-                        >
-                          <CategoryIcon isCheck={subCategory.isSelect} />
-                          <span>{subCategory.name}</span>
-                        </SubCategoryItem>
-                      );
-                    })
-                  : null;
-              })}
-            </SubCategoryBox>
-          </PostCategory>
-          <PostCategory>
-            <MainCategoryBox>
-              {mainCategories.map((category, idx) => {
-                if (idx >= 6) {
-                  return (
-                    <MainCategoryItem
-                      key={`${category.name + (idx + 1)}`}
-                      id={category.id}
-                      onClick={() => CategorySelectHandle(category.id, idx)}
-                      isSelect={category.isSelect}
-                    >
-                      <span>{category.name}</span>
-                    </MainCategoryItem>
-                  );
-                }
-              })}
-            </MainCategoryBox>
-            <SubCategoryBox>
-              {mainCategories.map((category, idx) => {
-                return category.isSelect && idx >= 6
-                  ? category.subCategories.map((subCategory) => {
-                      return (
-                        <SubCategoryItem
-                          key={`${subCategory.name + (idx + 1)}`}
-                          checked={subCategory.isSelect}
-                          onClick={() =>
-                            addSubCategoryHandle(idx + 1, subCategory.name)
-                          }
-                        >
-                          <CategoryIcon isCheck={subCategory.isSelect} />
-                          <span>{subCategory.name}</span>
-                        </SubCategoryItem>
-                      );
-                    })
-                  : null;
-              })}
-            </SubCategoryBox>
-          </PostCategory>
-        </div>
-      </PostCategoryArea>
-
-      {/* 사진 업로드 칸 --------------------------------------------------*/}
-      <UploadPhotoArea>
-        <div className="Upload_Word">
-          <CameraIcon color="#2D2D2D" />
-          <span>{"사진을 등록해 주세요. (최대 5장)"}</span>
-        </div>
-        {files[0] === undefined ? (
-          <>
-            <div className="Photo_Container">
-              <PhotoUpload photoPath={photoPath} arrPhoto={files} />
-            </div>
-          </>
-        ) : (
-          files.map((file: any, idx) => {
-            return (
-              <div
-                key={`${file.preview}+${idx}`}
-                id={file.preview}
-                className="Photo_Container"
-              >
-                <div
-                  className="Delete_Photo"
-                  onClick={() => deletePhotoHandle(file.preview)}
-                >
-                  <div className="Minus_Button"></div>
-                </div>
-                <PhotoUpload
-                  key={`${file.preview}+${idx}`}
-                  photoPath={photoPath}
-                  arrPhoto={files}
-                />
-                <img
-                  className="Photo_Thumb"
-                  src={file.preview}
-                  alt="Upload_Photo"
-                />
+          {/* 제목 작성 칸 ------------------------------------------------------*/}
+          <TitleDatePickerContainer>
+            <TitleArea>
+              <div className="Title_Word">
+                <PencilIcon color="#2D2D2D" />
+                <span>{"제목을 작성해 주세요."}</span>
               </div>
-            );
-          })
-        )}
-      </UploadPhotoArea>
+              <div className="Title_Input">
+                <InputTitle
+                  value={inputTitle}
+                  type={"text"}
+                  onChange={(e) => TitleInputHandle(e.target.value)}
+                ></InputTitle>
+              </div>
+            </TitleArea>
+            {/* 마감시간 작성 칸 ------------------------------------------------*/}
+            <DateArea>
+              <div className="Date_Word">
+                <ClockIcon color="#2D2D2D" />
+                <span>{"마감 시간을 설정해 주세요."}</span>
+              </div>
+              <div className="Date_Input">
+                <DatePicker
+                  value={inputDate?.date}
+                  type={"date"}
+                  onChange={(e) => DateInputHandle(e.target.value)}
+                ></DatePicker>
+                <TimePicker
+                  value={inputDate?.time}
+                  type={"time"}
+                  onChange={(e) => DateInputHandle(e.target.value)}
+                ></TimePicker>
+              </div>
+            </DateArea>
+          </TitleDatePickerContainer>
 
-      {/* 주소 입력 칸 ----------------------------------------------------*/}
-      <AddressArea>
-        <div className="Address_Word">
-          <MapMarkIcon color="#2D2D2D" />
-          <span>{"주소를 검색해 주세요."}</span>
-        </div>
-        <div className="Search_Address_Box">
-          <InputAddress value={addressInput} readOnly />
-          <SearchAddress searchAddressHandle={searchAddressHandle} />
-        </div>
-        <KakaoMap addressInput={addressInput} />
-      </AddressArea>
-      {/* 등록 취소 버튼 ---------------------------------------------------*/}
-      <SubmitArea>
-        <SubmitBtn onClick={() => registerPost()}>완료</SubmitBtn>
-        <CancelBtn>취소</CancelBtn>
-      </SubmitArea>
-    </CreatePostContainer>
+          {/* 내용 설명 칸 ----------------------------------------------------*/}
+          <PostContentsArea>
+            <div className="Contents_Word">
+              <PaperIcon color="#2D2D2D" />
+              <span>{"설명을 작성해 주세요."}</span>
+            </div>
+            <PostContents
+              value={inputContents}
+              onChange={(e) => ContentsInputHandle(e.target.value)}
+            />
+          </PostContentsArea>
+
+          {/* 품목 선택 칸 ----------------------------------------------------*/}
+          <PostCategoryArea>
+            <div className="Check_Category_Word_Area">
+              <CheckBoxIcon color="#2D2D2D" />
+              <span className="Category_Word">{"품목을 선택해 주세요."}</span>
+            </div>
+            <div className="Category_Container">
+              <PostCategory>
+                <MainCategoryBox>
+                  {mainCategories.map((category, idx) => {
+                    if (idx < 6) {
+                      return (
+                        <MainCategoryItem
+                          key={`${category.name + idx}`}
+                          id={category.id}
+                          onClick={() => CategorySelectHandle(category.id, idx)}
+                          isSelect={category.isSelect}
+                        >
+                          <span>{category.name}</span>
+                        </MainCategoryItem>
+                      );
+                    }
+                  })}
+                </MainCategoryBox>
+                <SubCategoryBox>
+                  {mainCategories.map((category, idx) => {
+                    return category.isSelect && idx < 6
+                      ? category.subCategories.map((subCategory) => {
+                          return (
+                            <SubCategoryItem
+                              key={`${subCategory.name + (idx + 1)}`}
+                              checked={subCategory.isSelect}
+                              onClick={() =>
+                                addSubCategoryHandle(idx + 1, subCategory.name)
+                              }
+                            >
+                              <CategoryIcon isCheck={subCategory.isSelect} />
+                              <span>{subCategory.name}</span>
+                            </SubCategoryItem>
+                          );
+                        })
+                      : null;
+                  })}
+                </SubCategoryBox>
+              </PostCategory>
+              <PostCategory>
+                <MainCategoryBox>
+                  {mainCategories.map((category, idx) => {
+                    if (idx >= 6) {
+                      return (
+                        <MainCategoryItem
+                          key={`${category.name + (idx + 1)}`}
+                          id={category.id}
+                          onClick={() => CategorySelectHandle(category.id, idx)}
+                          isSelect={category.isSelect}
+                        >
+                          <span>{category.name}</span>
+                        </MainCategoryItem>
+                      );
+                    }
+                  })}
+                </MainCategoryBox>
+                <SubCategoryBox>
+                  {mainCategories.map((category, idx) => {
+                    return category.isSelect && idx >= 6
+                      ? category.subCategories.map((subCategory) => {
+                          return (
+                            <SubCategoryItem
+                              key={`${subCategory.name + (idx + 1)}`}
+                              checked={subCategory.isSelect}
+                              onClick={() =>
+                                addSubCategoryHandle(idx + 1, subCategory.name)
+                              }
+                            >
+                              <CategoryIcon isCheck={subCategory.isSelect} />
+                              <span>{subCategory.name}</span>
+                            </SubCategoryItem>
+                          );
+                        })
+                      : null;
+                  })}
+                </SubCategoryBox>
+              </PostCategory>
+            </div>
+          </PostCategoryArea>
+
+          {/* 사진 업로드 칸 --------------------------------------------------*/}
+          <UploadPhotoArea>
+            <div className="Upload_Word">
+              <CameraIcon color="#2D2D2D" />
+              <span>{"사진을 등록해 주세요. (최대 5장)"}</span>
+            </div>
+            {files[0] === undefined ? (
+              <>
+                <div className="Photo_Container">
+                  <PhotoUpload photoPath={photoPath} arrPhoto={files} />
+                </div>
+              </>
+            ) : (
+              files.map((file: any, idx) => {
+                return (
+                  <div
+                    key={`${file.preview}+${idx}`}
+                    id={file.preview}
+                    className="Photo_Container"
+                  >
+                    <div
+                      className="Delete_Photo"
+                      onClick={() => deletePhotoHandle(file.preview)}
+                    >
+                      <div className="Minus_Button"></div>
+                    </div>
+                    <PhotoUpload
+                      key={`${file.preview}+${idx}`}
+                      photoPath={photoPath}
+                      arrPhoto={files}
+                    />
+                    <img
+                      className="Photo_Thumb"
+                      src={file.preview}
+                      alt="Upload_Photo"
+                    />
+                  </div>
+                );
+              })
+            )}
+          </UploadPhotoArea>
+
+          {/* 주소 입력 칸 ----------------------------------------------------*/}
+          <AddressArea>
+            <div className="Address_Word">
+              <MapMarkIcon color="#2D2D2D" />
+              <span>{"주소를 검색해 주세요."}</span>
+            </div>
+            <div className="Search_Address_Box">
+              <InputAddress value={addressInput} readOnly />
+              <SearchAddress searchAddressHandle={searchAddressHandle} />
+            </div>
+            <KakaoMap addressInput={addressInput} />
+          </AddressArea>
+          {/* 등록 취소 버튼 ---------------------------------------------------*/}
+          <SubmitArea>
+            <SubmitBtn onClick={() => registerPost()}>완료</SubmitBtn>
+            <CancelBtn>취소</CancelBtn>
+          </SubmitArea>
+        </CreatePostContainer>
+      </MainArea>
+    </Body>
   );
 }
 
