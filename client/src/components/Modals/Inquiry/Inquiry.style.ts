@@ -133,7 +133,6 @@ export const MsgContainer = styled.div`
   margin: 5px 0 11px 0;
   padding-left: 5px;
   height: 12px;
-  /* color: ${(props) => (props ? "#2d2d2d" : "#f44336")}; */
 
   div {
     margin-left: 3px;
@@ -206,12 +205,14 @@ export const BlackBtn = styled.button`
   transition: 0.5s all;
   :disabled {
     border: 1px solid #2d2d2d;
-    background-color: #929292;
+    background-color: #636363;
     color: #ffffff;
     cursor: default;
     border: none;
   }
-
+  :active {
+    background: #3f3f3f;
+  }
   @media screen and (max-width: 37.5rem) {
     font-size: 0.8rem;
     width: 4rem;
@@ -233,6 +234,9 @@ export const WhiteBtn = styled.button`
   cursor: pointer;
   transition: 0.5s all;
   margin-left: 5px;
+  :active {
+    background: #f5f4f5;
+  }
 
   @media screen and (max-width: 37.5rem) {
     font-size: 0.8rem;
