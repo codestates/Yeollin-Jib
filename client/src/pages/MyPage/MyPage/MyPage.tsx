@@ -1,5 +1,7 @@
 import { useState } from "react";
 import {
+  Body,
+  MainArea,
   Container,
   SideContainer,
   MyInfoContainer,
@@ -56,6 +58,8 @@ function MyPage() {
   };
 
   return (
+    <Body>
+      <MainArea>
     <Container>
       <SideContainer>
         <MyInfoContainer>
@@ -180,6 +184,8 @@ function MyPage() {
         </Content>
       </ContentContainer>
     </Container>
+        </MainArea>
+          </Body>
   );
 }
 
