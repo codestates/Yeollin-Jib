@@ -8,7 +8,7 @@ const get_page = async (req: Request, res: Response) => {
     const postGet = await post.findAll({
       attributes: ["id", "userId", "title", "address"],
       order: [["createdAt", "DESC"]],
-      limit: 4,
+      limit: 8,
     });
 
     res.status(200).send({ postGet });
