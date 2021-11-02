@@ -241,7 +241,7 @@ export const SearchBtn = styled.button`
     font-size: 0.8rem;
     transition: 0.5s font-size, height, width;
     height: 2.6rem;
-    width: 100px;
+    width: 115px;
   }
 `;
 
@@ -315,7 +315,7 @@ export const WhiteBtn = styled.button`
   outline: none;
   border: 1px solid #2d2d2d;
   border-radius: 0.313rem;
-  background: #fbfafc;
+  background: #fdfbfe;
   font-family: "Gmarket Sans TTF";
   font-weight: 100;
   font-size: 1rem;

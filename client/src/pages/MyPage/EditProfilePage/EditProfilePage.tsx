@@ -103,9 +103,8 @@ function EditProfilePage() {
   };
 
   // 업로드 할 프로필 사진의 상태
-
   // 파일의 경로(string 또는 null)
-  const [userImagePath, setUserImagePath] = useState<any>(imagePath);
+  const [userImagePath, setUserImagePath] = useState<string | null>(imagePath);
 
   // 프로필 파일(배열)
   const [profileImg, setProfileImg] = useState<any[] | undefined[]>([]);
@@ -125,9 +124,33 @@ function EditProfilePage() {
 
   // 확인 버튼을 눌렀을 때
   const handleSubmitBtn = async () => {
+    if (!profileImg[0] && !userImagePath) {
+      // 프로필 사진을 삭제하고 싶을 때 : 업로드한 profileImg가 없고, userImagePath도 null로 변경한 상태
+      const result = await axios.delete(
+        `${process.env.REACT_APP_API_URL}/user/photo`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+          data: {
+            imagePath,
+          },
+        }
+      );
+
+      if (result.status === 200) {
+        dispatch(setUser(accessToken));
+      }
+    }
+
     const formData = new FormData();
     formData.append("nickname", newNickname);
-    formData.append("imagePath", profileImg[0]);
+
+    if (profileImg[0] || userImagePath !== null) {
+      // 새로 업로드할 프로필 파일이 있거나, 기존 프로필 사진을 유지할 때
+      formData.append("imagePath", profileImg[0]);
+    }
 
     const result = await axios.patch(
       `${process.env.REACT_APP_API_URL}/user`,

@@ -200,7 +200,7 @@ export const WhiteSmallBtn = styled.button`
   outline: none;
   border: 1px solid #2d2d2d;
   border-radius: 0.313rem;
-  background: #fbfafc;
+  background: #fdfbfe;
   font-family: "Gmarket Sans TTF";
   font-weight: 100;
   font-size: 0.8rem;
@@ -234,7 +234,7 @@ export const TapContainer = styled.div`
 `;
 
 export const Tap = styled.div<ITapProps>`
-  background: ${(props) => (props.isClicked ? "#fede8a" : "#fbfafc")};
+  background: ${(props) => (props.isClicked ? "#fede8a" : "#fdfbfe")};
   border: 1px solid ${(props) => (props.isClicked ? "#fede8a" : "#e0dde1")};
   border-radius: 0.313rem;
   padding: 12px;
@@ -242,6 +242,7 @@ export const Tap = styled.div<ITapProps>`
   font-weight: 100;
   font-size: 1rem;
   color: #2d2d2d;
+
   margin-bottom: 10px;
   cursor: pointer;
 
@@ -295,7 +296,7 @@ export const WhiteBtn = styled.button`
   outline: none;
   border: 1px solid #2d2d2d;
   border-radius: 0.313rem;
-  background: #fbfafc;
+  background: #fdfbfe;
   font-family: "Gmarket Sans TTF";
   font-weight: 100;
   font-size: 1rem;

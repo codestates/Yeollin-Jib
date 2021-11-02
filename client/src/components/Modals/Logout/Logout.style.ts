@@ -80,8 +80,8 @@ export const BlackBtn = styled.button`
 
   @media screen and (max-width: 37.5rem) {
     font-size: 0.8rem;
-    width: 3.125rem;
-    height: 1.688rem;
+    width: 4rem;
+    height: 2.1rem;
     transition: 0.5s all;
   }
 `;
@@ -103,8 +103,8 @@ export const WhiteBtn = styled.button`
 
   @media screen and (max-width: 37.5rem) {
     font-size: 0.8rem;
-    width: 3.125rem;
-    height: 1.688rem;
+    width: 4rem;
+    height: 2.1rem;
     transition: 0.5s all;
   }
 `;

@@ -1,11 +1,11 @@
 import styled from "styled-components";
 
-interface IMsgProps {
-  isColor: boolean;
-}
-
 interface IContainerProps {
   isSubmited: boolean;
+}
+
+interface IContentProps {
+  isContents?: boolean;
 }
 
 export const ModalBackground = styled.div`
@@ -24,8 +24,11 @@ export const ModalBackground = styled.div`
 
 export const ModalContainer = styled.div<IContainerProps>`
   box-sizing: border-box;
-  width: 29.3rem;
-  height: ${(props) => (props.isSubmited ? "13rem" : "23.4rem")};
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 468px;
+  height: 599px;
   background-color: #fdfbfe;
   border: 1px solid #e0dde1;
   border-radius: 0.313rem;
@@ -34,8 +37,8 @@ export const ModalContainer = styled.div<IContainerProps>`
   transition: 0.5s width, height, padding;
 
   @media screen and (max-width: 37.5rem) {
-    width: 19rem;
-    height: ${(props) => (props.isSubmited ? "11.2rem" : "21.2rem")};
+    width: 366px;
+    height: 466px;
     margin-bottom: ${(props) => (props.isSubmited ? "300px" : "140px")};
     padding: 30px 20px 30px 20px;
     transition: 0.5s width, height, padding;
@@ -43,7 +46,7 @@ export const ModalContainer = styled.div<IContainerProps>`
 `;
 
 export const TitleWrapper = styled.div`
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 `;
 
 export const Title = styled.span`
@@ -60,12 +63,12 @@ export const Title = styled.span`
   }
 `;
 
-export const InputTitle = styled.div`
+export const InputTitle = styled.div<IContentProps>`
   font-weight: 100;
   font-size: 1rem;
   margin-bottom: 0.5rem;
   transition: 0.5s all;
-
+  margin-top: ${(props) => (props.isContents ? "16px" : "0")};
   @media screen and (max-width: 37.5rem) {
     font-size: 0.8rem;
     transition: 0.5s all;
@@ -95,27 +98,50 @@ export const InputField = styled.input`
   }
 
   @media screen and (max-width: 37.5rem) {
-    font-size: 0.8rem;
+    font-size: 10px;
   }
 `;
+export const InquiryField = styled.textarea`
+  outline: none;
+  background-color: #fdfbfe;
+  border: 1px solid #e0dde1;
+  border-radius: 0.313rem;
+  padding: 0.5rem 0 0 0.5rem;
+  font-family: "Gmarket Sans TTF";
+  font-weight: 100;
+  font-size: 1rem;
+  color: #2d2d2d;
+  width: 97%;
+  height: 181px;
+  resize: none;
+  :focus {
+    border: 1px solid #2d2d2d;
+  }
 
-export const MsgContainer = styled.div<IMsgProps>`
+  @media screen and (max-width: 37.5rem) {
+    font-size: 10px;
+    height: 100px;
+    resize: none;
+  }
+`;
+export const MsgContainer = styled.div`
   display: flex;
   justify-content: left;
   align-items: center;
   font-weight: 100;
-  font-size: 0.8rem;
+  font-size: 0.875rem;
   margin: 5px 0 11px 0;
   padding-left: 5px;
   height: 12px;
-  color: ${(props) => (props.isColor ? "#2d2d2d" : "#f44336")};
+  /* color: ${(props) => (props ? "#2d2d2d" : "#f44336")}; */
 
   div {
     margin-left: 3px;
   }
 
   img {
-    width: 13px;
+    margin-top: 3.75px;
+    width: 14px;
   }
 
   @media screen and (max-width: 37.5rem) {
@@ -148,7 +174,7 @@ export const InvalidMessage = styled.div`
   }
 
   @media screen and (max-width: 37.5rem) {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     transition: 0.5s all;
     margin: 5px 0 10px 0;
 
@@ -177,17 +203,12 @@ export const BlackBtn = styled.button`
   width: 5.3rem;
   height: 2.5rem;
   cursor: pointer;
-  transition: 0.5s width, height, font-size;
-
-  :active {
-    background: #3f3f3f;
-  }
+  transition: 0.5s all;
 
   @media screen and (max-width: 37.5rem) {
     font-size: 0.8rem;
     width: 4rem;
     height: 2.1rem;
-    transition: 0.5s width, height, font-size;
   }
 `;
 
@@ -203,18 +224,13 @@ export const WhiteBtn = styled.button`
   width: 5.3rem;
   height: 2.5rem;
   cursor: pointer;
+  transition: 0.5s all;
   margin-left: 5px;
-  transition: 0.5s width, height, font-size;
-
-  :active {
-    background: #f5f4f5;
-  }
 
   @media screen and (max-width: 37.5rem) {
     font-size: 0.8rem;
     width: 4rem;
     height: 2.1rem;
-    transition: 0.5s width, height, font-size;
   }
 `;
 
@@ -228,5 +244,16 @@ export const CompletedMsg = styled.div`
   @media screen and (max-width: 37.5rem) {
     font-size: 0.8rem;
     margin-bottom: 2rem;
+  }
+`;
+
+export const InquiryTxt = styled.div`
+  text-align: center;
+  font-size: 14px;
+  font-weight: 100;
+  margin: 14px 0 15px 0;
+  @media screen and (max-width: 37.5rem) {
+    font-size: 0.7rem;
+    margin-bottom: 1rem;
   }
 `;
