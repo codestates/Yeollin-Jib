@@ -29,6 +29,7 @@ import MyPost from "../../../components/MyPost/MyPost";
 import MyComment from "../../../components/MyComment/MyComment";
 import MyFavoritePost from "../../../components/MyFavoritePost/MyFavoritePost";
 import MyChattingRoom from "../../../components/MyChattingRoom/MyChattingRoom";
+import ChatRoom from "../../../components/ChatRoom/ChatRoom";
 import DeleteAccount from "../../../components/Modals/DeleteAccount/DeleteAccount";
 
 function MyPage() {
@@ -175,7 +176,7 @@ function MyPage() {
           {tapName === "내가 쓴 게시글" ? <MyPost /> : null}
           {tapName === "내가 쓴 댓글" ? <MyComment /> : null}
           {tapName === "내가 찜한 게시글" ? <MyFavoritePost /> : null}
-          {tapName === "채팅방" ? <MyChattingRoom /> : null}
+          {tapName === "채팅방" ? <ChatRoom /> : null}
         </Content>
       </ContentContainer>
     </Container>

@@ -56,7 +56,7 @@ function DeleteAccount({ setIsOpened }: IProps) {
           </ModalContainer>
         </ModalBackground>
       ) : (
-        <Redirect to="/main"></Redirect>
+        <Redirect to="/"></Redirect>
       )}
     </>
   );
