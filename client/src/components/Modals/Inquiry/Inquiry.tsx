@@ -29,7 +29,8 @@ function Inquiry({ setIsOpened }: IProps) {
   const [emailAlert, setEmailAlert] = useState<string>("");
   const [isRightEmail, setIsRightEmail] = useState<boolean>(false);
   const [isSubmited, setIsSubmited] = useState<boolean>(false);
-
+  const [title, setTitle] = useState<string>("");
+  const [contents, setContents] = useState<string>("");
   // 이메일 인풋값을 받아 상태로 저장
   const setEmailData = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setEmail(e.target.value);
@@ -43,17 +44,36 @@ function Inquiry({ setIsOpened }: IProps) {
     } else {
       setIsRightEmail(false);
       setEmailAlert("올바른 형식의 이메일을 작성해 주세요.");
+      setIsCompleted(false);
     }
   }, [email]);
 
+  useEffect(() => {
+    if (isRightEmail && title !== "" && contents !== "") {
+      // 모든 요소가 존재하면 isCompleted는 true
+      setIsCompleted(true);
+    }
+    if (!isRightEmail || title === "" || contents === "") {
+      setIsCompleted(false);
+    }
+  }, [isRightEmail, email, title, contents]);
+
   // 확인 버튼을 눌렀을 때
   const handleSubmitBtn = async () => {
-    if (!isRightEmail) {
-      return setIsCompleted(false);
+    if (isCompleted) {
+      await axios.post(
+        `${process.env.REACT_APP_API_URL}/inquire`,
+        {
+          email: email,
+          title: title,
+          contents: contents,
+        },
+        {
+          withCredentials: true,
+        }
+      );
     }
-    // 모든 요소가 true면 isCompleted는 true, 문의하기 요청을 보냄
-    setIsCompleted(true);
-    const result = await axios.patch(`${process.env.REACT_APP_API_URL}/user`);
+    setIsSubmited(true);
   };
 
   return (
@@ -86,16 +106,23 @@ function Inquiry({ setIsOpened }: IProps) {
               </InvalidMessage>
             </MsgContainer>
             <InputTitle>제목</InputTitle>
-            <InputField type="text" />
+            <InputField
+              type="text"
+              onChange={(e) => setTitle(e.target.value)}
+            />
             <InputTitle isContents={true}>문의 내용</InputTitle>
-            <InquiryField />
+            <InquiryField
+              name="textarea"
+              value={contents}
+              onChange={(e) => setContents(e.target.value)}
+            />
             <InquiryTxt>
               문의하신 내용에 대한 답변은 작성해주신 이메일로 발송됩니다.
             </InquiryTxt>
             {/*확인 및 취소 버튼---------------------------------------------------------*/}
             <BtnContainer>
               <BlackBtn
-                disabled={isCompleted}
+                disabled={!isCompleted}
                 onClick={() => handleSubmitBtn()}
               >
                 확인
