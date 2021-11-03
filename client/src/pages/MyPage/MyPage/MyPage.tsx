@@ -48,7 +48,9 @@ function MyPage() {
 
   useEffect(() => {
     if (userArea) {
-      setUserAreaData(userArea);
+      // 구 레벨의 주소까지만 나오도록 처리
+      const areaArr = userArea.split(" ");
+      setUserAreaData(`${areaArr[0]} ${areaArr[1]} ${areaArr[2]}`);
     }
   }, [userArea]);
 
