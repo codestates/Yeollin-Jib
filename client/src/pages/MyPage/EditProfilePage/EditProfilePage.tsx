@@ -186,6 +186,15 @@ function EditProfilePage() {
     }
   };
 
+  // 인풋 입력 후 엔터를 치면 닉네임 중복확인 요청을 보냄
+  const handleNicknameKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      if (Inspect(nickname, "nickname")) {
+        handleNicknameBtn();
+      }
+    }
+  };
+
   return (
     <Body>
       <MainArea>
@@ -263,6 +272,7 @@ function EditProfilePage() {
                   <InputField
                     defaultValue={nickname}
                     onChange={(e) => setNicknameData(e)}
+                    onKeyPress={(e) => handleNicknameKeyPress(e)}
                   />
                   <ValidationBtn onClick={() => handleNicknameBtn()}>
                     중복 확인
