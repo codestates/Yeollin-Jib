@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Body,
   MainArea,
@@ -46,9 +46,11 @@ function MyPage() {
   const [userAreaData, setUserAreaData] =
     useState<string>("주소를 등록해 주세요.");
 
-  if (userArea) {
-    setUserAreaData(userAreaData);
-  }
+  useEffect(() => {
+    if (userArea) {
+      setUserAreaData(userArea);
+    }
+  }, [userArea]);
 
   // 선택한 탭의 이름을 저장
   const [tapName, setTapName] = useState<string>("내가 쓴 게시글");

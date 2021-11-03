@@ -15,7 +15,7 @@ import {
   InputTitle,
   InputContainer,
   InputField,
-  SearchBtn,
+  ValidationBtn,
   MsgContainer,
   BtnContainer,
   BlackBtn,
@@ -31,6 +31,8 @@ import EditPassword from "../../../components/Modals/EditPassword/EditPassword";
 import WarningIcon from "../../../icons/Icons";
 import Inspect from "../../SignUpPage/Inspect";
 import axios from "axios";
+import KakaoMap from "../../../components/KakaoMap/KakaoMap";
+import SearchAddress from "../../../components/SearchAddress/SearchAddress";
 
 function EditProfilePage() {
   const dispatch = useDispatch();
@@ -42,7 +44,7 @@ function EditProfilePage() {
   const { accessToken } = useSelector((state: RootState) => state.authReducer);
 
   // 유저 정보를 스토어에서 가져옴
-  const { nickname, imagePath } = useSelector(
+  const { nickname, imagePath, userArea } = useSelector(
     (state: RootState) => state.userReducer
   );
 
@@ -124,6 +126,13 @@ function EditProfilePage() {
     setProfileImg([]);
   };
 
+  // 주소 입력 상태
+  const [addressInput, setAddressInput] = useState("");
+
+  const searchAddressHandle = (address: string) => {
+    setAddressInput(address);
+  };
+
   // 확인 버튼을 눌렀을 때
   const handleSubmitBtn = async () => {
     if (!profileImg[0] && !userImagePath) {
@@ -147,7 +156,14 @@ function EditProfilePage() {
     }
 
     const formData = new FormData();
-    formData.append("nickname", newNickname);
+
+    if (nickname !== newNickname) {
+      formData.append("nickname", newNickname);
+    }
+
+    if (userArea !== addressInput) {
+      formData.append("userArea", addressInput);
+    }
 
     if (profileImg[0] || userImagePath !== null) {
       // 새로 업로드할 프로필 파일이 있거나, 기존 프로필 사진을 유지할 때
@@ -248,9 +264,9 @@ function EditProfilePage() {
                     defaultValue={nickname}
                     onChange={(e) => setNicknameData(e)}
                   />
-                  <SearchBtn onClick={() => handleNicknameBtn()}>
+                  <ValidationBtn onClick={() => handleNicknameBtn()}>
                     중복 확인
-                  </SearchBtn>
+                  </ValidationBtn>
                 </InputContainer>
                 <MsgContainer isColor={isRightNickname}>
                   {newNickname !== nickname ? (
@@ -270,12 +286,19 @@ function EditProfilePage() {
                   <div>우리 동네</div>
                 </InputTitle>
                 <InputContainer>
-                  <InputField placeholder="주소를 검색해 주세요." />
-                  <SearchBtn>주소 검색</SearchBtn>
+                  <InputField
+                    placeholder={userArea ? userArea : "주소를 검색해 주세요."}
+                    value={addressInput}
+                    readOnly
+                  />
+                  <SearchAddress searchAddressHandle={searchAddressHandle} />
                 </InputContainer>
               </div>
             </RightContainer>
           </MiddleContainer>
+          {addressInput !== "" ? (
+            <KakaoMap addressInput={addressInput} />
+          ) : null}
           {/*확인 및 취소 버튼----------------------------------------------------*/}
           <BtnContainer>
             <Link to="/profile">
