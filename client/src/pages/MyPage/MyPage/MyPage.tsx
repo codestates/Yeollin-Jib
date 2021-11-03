@@ -31,7 +31,6 @@ import MyPost from "../../../components/MyPost/MyPost";
 import MyComment from "../../../components/MyComment/MyComment";
 import MyFavoritePost from "../../../components/MyFavoritePost/MyFavoritePost";
 import MyChattingRoom from "../../../components/MyChattingRoom/MyChattingRoom";
-import ChatRoom from "../../../components/ChatRoom/ChatRoom";
 import DeleteAccount from "../../../components/Modals/DeleteAccount/DeleteAccount";
 
 function MyPage() {
@@ -48,7 +47,9 @@ function MyPage() {
 
   useEffect(() => {
     if (userArea) {
-      setUserAreaData(userArea);
+      // 구 레벨의 주소까지만 나오도록 처리
+      const areaArr = userArea.split(" ");
+      setUserAreaData(`${areaArr[0]} ${areaArr[1]} ${areaArr[2]}`);
     }
   }, [userArea]);
 
