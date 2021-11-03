@@ -1,8 +1,8 @@
 export default function Inspect(data: string, type: string): boolean {
   switch (type) {
     case "nickname":
-      const nickname = /^([a-zA-Z0-9가-힣]){2,}$/;
-      // 2자 이상, 영어, 한글, 숫자만 가능
+      const nickname = /^([a-zA-Z0-9가-힣]){2,10}$/;
+      // 2~10글자, 영어, 한글, 숫자만 가능
       return nickname.test(data);
     case "email":
       const email =

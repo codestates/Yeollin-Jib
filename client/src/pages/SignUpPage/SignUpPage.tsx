@@ -74,7 +74,7 @@ function SignUpPage() {
       setNicknameAlert("중복 확인이 필요합니다.");
     } else {
       // 유효 조건을 통과하지 못했을 경우, 유효 조건을 알려줌
-      setNicknameAlert("2글자 이상, 한글, 영어, 숫자만 가능합니다.");
+      setNicknameAlert("2~10글자, 한글, 영어, 숫자만 가능합니다.");
     }
     // 위의 두 경우 모두 올바른 값이 아니지만, 값이 입력됨
     setIsRightNickname(false);
