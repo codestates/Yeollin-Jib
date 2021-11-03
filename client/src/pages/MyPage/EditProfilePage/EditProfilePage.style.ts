@@ -238,7 +238,7 @@ export const InputField = styled.input`
   }
 `;
 
-export const SearchBtn = styled.button`
+export const ValidationBtn = styled.button`
   outline: none;
   border: 1px solid #2d2d2d;
   background: #2d2d2d;
@@ -301,7 +301,7 @@ export const MsgContainer = styled.div<IMsgProps>`
 export const BtnContainer = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 50px;
+  margin: 40px 0 40px 0;
 `;
 
 export const BlackBtn = styled.button`
