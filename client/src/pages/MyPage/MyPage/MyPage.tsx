@@ -31,7 +31,6 @@ import MyPost from "../../../components/MyPost/MyPost";
 import MyComment from "../../../components/MyComment/MyComment";
 import MyFavoritePost from "../../../components/MyFavoritePost/MyFavoritePost";
 import MyChattingRoom from "../../../components/MyChattingRoom/MyChattingRoom";
-import ChatRoom from "../../../components/ChatRoom/ChatRoom";
 import DeleteAccount from "../../../components/Modals/DeleteAccount/DeleteAccount";
 
 function MyPage() {

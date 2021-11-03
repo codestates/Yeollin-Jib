@@ -148,23 +148,10 @@ export const Address = styled.div`
     font-family: "Gmarket Sans TTF";
     font-weight: 100;
     font-size: 0.8rem;
-    width: 150px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    word-break: keep-all;
   }
 
   @media screen and (max-width: 37.5rem) {
     font-size: 0.8rem;
-
-    div {
-      width: 190px;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      word-break: keep-all;
-    }
 
     img {
       height: 12px;
