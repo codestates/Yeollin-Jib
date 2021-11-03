@@ -150,14 +150,16 @@ function MyPage() {
               >
                 내가 찜한 게시글
               </Tap>
-              <Tap
-                onClick={() => {
-                  handleTapBtn("채팅방");
-                }}
-                isClicked={tapName === "채팅방" ? true : false}
-              >
-                채팅방
-              </Tap>
+              <Link to="/chatroom" style={{ textDecoration: "none" }}>
+                <Tap
+                  onClick={() => {
+                    handleTapBtn("채팅방");
+                  }}
+                  isClicked={tapName === "채팅방" ? true : false}
+                >
+                  채팅방
+                </Tap>
+              </Link>
             </TapContainer>
             {/*웹 환경에서의 정보 수정 탈퇴 버튼----------------------------------------------*/}
             <BtnContainer>

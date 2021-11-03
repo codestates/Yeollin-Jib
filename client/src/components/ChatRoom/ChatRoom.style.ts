@@ -1,14 +1,38 @@
 import styled from "styled-components";
 
 export const CardContainer = styled.div`
-  display: flex;
   flex-direction: column;
-  justify-content: space-between;
   box-sizing: border-box;
   border: 0.063rem solid #e0dde1;
   border-radius: 0.313rem;
   width: 100%;
-  height: 528px;
+  min-width: 10%;
+  flex-wrap: wrap;
+  height: auto;
+  font-family: "Gmarket Sans TTF";
+  font-weight: 100;
+  font-size: 1rem;
+  color: #2d2d2d;
+  background-color: #fdfbfe;
+  padding: 17px;
+
+  @media screen and (max-width: 37.5rem) {
+    display: none;
+    width: 100%;
+    height: auto;
+    font-size: 0.9rem;
+  }
+`;
+export const MobileCardContainer = styled.div`
+  flex-direction: column;
+  display: flex;
+  box-sizing: border-box;
+  border: 0.063rem solid #e0dde1;
+  border-radius: 0.313rem;
+  width: 100%;
+  min-width: 200px;
+  flex-wrap: wrap;
+  height: auto;
   font-family: "Gmarket Sans TTF";
   font-weight: 100;
   font-size: 1rem;
@@ -16,10 +40,22 @@ export const CardContainer = styled.div`
   background-color: #fdfbfe;
   margin: 0 0 0.813rem 0;
   padding: 17px;
+
   @media screen and (max-width: 37.5rem) {
     width: 100%;
-    height: 392px;
+    height: auto;
     font-size: 0.9rem;
+  }
+  .Mobile_Container {
+    display: none;
+    @media screen and (max-width: 37.5rem) {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      font-family: "Gmarket Sans TTF";
+    }
   }
 `;
 
@@ -68,7 +104,10 @@ export const UserChatContainer = styled.div`
 `;
 
 export const UserMsg = styled.div`
-  width: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
   height: auto;
   padding: 10px;
   background: #fdfbfe;
@@ -76,9 +115,7 @@ export const UserMsg = styled.div`
   box-sizing: border-box;
   border-radius: 5px;
   font-size: 14px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+
   @media screen and (max-width: 37.5rem) {
     font-size: 10px;
   }
@@ -112,6 +149,7 @@ export const MyChatContainer = styled.div`
   align-items: flex-end;
   justify-content: flex-end;
   width: 100%;
+  padding: 20px 0 20px 0;
 `;
 export const SendContainer = styled.div`
   width: 100%;
@@ -173,3 +211,64 @@ export const SendButton = styled.button`
     height: 35px;
   }
 `;
+export const ChatListTxt = styled.div`
+  display: flex;
+  width: 100%;
+  flex-wrap: nowrap;
+  margin-bottom: 20px;
+  justify-content: space-between;
+  span {
+    border-bottom: 5px solid #fede8a;
+    font-size: 20px;
+    font-weight: 300;
+    color: #2d2d2d;
+  }
+  @media screen and (max-width: 37.5rem) {
+    span {
+      font-size: 16px;
+      display: flex;
+      align-items: flex-start;
+    }
+  }
+`;
+
+export const AllChatContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
+
+export const DeleteImg = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 34px;
+  height: 34px;
+  background-color: #fede8a;
+  border-radius: 50%;
+  cursor: pointer;
+
+  img {
+    width: 17px;
+    height: 17px;
+  }
+
+  @media screen and (max-width: 37.5rem) {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    img {
+      width: 11px;
+      height: 11px;
+    }
+  }
+`;
+
+export const TopContainer = styled.div`
+  width: 100%;
+  @media screen and (max-width: 37.5rem) {
+    width: 100%;
+  }
+`;
+
+export const DeleteIconContainer = styled.div``;

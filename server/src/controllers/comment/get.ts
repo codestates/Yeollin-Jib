@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import user from "../../models/user";
 import comment from "../../models/comment";
 const get = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const { postId } = req.params;
 
   try {
     await comment
@@ -14,7 +14,7 @@ const get = async (req: Request, res: Response) => {
           },
         ],
         where: {
-          postId: id,
+          postId,
         },
       })
       .then((data: object) => {

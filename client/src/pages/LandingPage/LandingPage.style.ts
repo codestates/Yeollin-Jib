@@ -10,7 +10,7 @@ export const AllLandingContainer = styled.div`
   flex-direction: column;
   width: 100%;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   font-family: "Gmarket Sans TTF";
   transition: 0.5s all;
   @media screen and (max-width: 37.5rem) {
@@ -22,13 +22,12 @@ export const AllLandingContainer = styled.div`
 `;
 
 export const FirstLandingContainer = styled.div`
-  width: 100%;
+  width: 78.75rem;
   height: 51.313rem;
   display: flex;
   background: linear-gradient(0deg, #fbfafc, #fbfafc);
-
   transition: 0.5s all;
-  position: relative;
+  flex-direction: row-reverse;
   @media screen and (max-width: 37.5rem) {
     display: flex;
     flex-direction: column;
@@ -41,12 +40,15 @@ export const FirstLandingContainer = styled.div`
 
 export const FirstTextContainer = styled.div`
   display: flex;
+  width: 100%;
   height: 100%;
   margin-top: 0.5rem;
   flex-direction: column;
   justify-content: center;
   z-index: 1;
   transition: 0.5s all;
+  word-break: keep-all;
+
   @media screen and (max-width: 37.5rem) {
     margin-top: 0;
     transition: 0.5s all;
@@ -62,10 +64,8 @@ export const FirstTextContainer = styled.div`
 export const FirstImageContainer = styled.div`
   margin-top: 7.5rem;
   display: flex;
-  max-width: 100%;
-  right: 0;
-  position: absolute;
   justify-content: flex-end;
+  align-items: center;
   z-index: 0;
   transition: 0.5s all;
   @media screen and (max-width: 37.5rem) {
@@ -104,7 +104,7 @@ export const FirstSecondText = styled.div`
   font-size: 1.875rem;
   margin: 0.5rem 0 2.75rem 0;
   transition: 0.5s all;
-  -webkit-text-stroke: 1px #ffffff;
+  /* -webkit-text-stroke: 1px #ffffff; */
   @media screen and (max-width: 37.5rem) {
     font-size: 20px;
     transition: 0.5s all;
@@ -138,8 +138,9 @@ export const GotoMainButton = styled.button`
 
 export const BigCircle = styled.span`
   position: absolute;
-  left: 7.05rem;
-  top: 13.35rem;
+
+  left: 13.2%;
+  top: 16.35rem;
   width: 10.125rem;
   height: 10.5rem;
   background: #fede8a;
