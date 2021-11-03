@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Body,
   MainArea,
@@ -31,7 +31,6 @@ import MyPost from "../../../components/MyPost/MyPost";
 import MyComment from "../../../components/MyComment/MyComment";
 import MyFavoritePost from "../../../components/MyFavoritePost/MyFavoritePost";
 import MyChattingRoom from "../../../components/MyChattingRoom/MyChattingRoom";
-import ChatRoom from "../../../components/ChatRoom/ChatRoom";
 import DeleteAccount from "../../../components/Modals/DeleteAccount/DeleteAccount";
 
 function MyPage() {
@@ -46,9 +45,13 @@ function MyPage() {
   const [userAreaData, setUserAreaData] =
     useState<string>("주소를 등록해 주세요.");
 
-  if (userArea) {
-    setUserAreaData(userAreaData);
-  }
+  useEffect(() => {
+    if (userArea) {
+      // 구 레벨의 주소까지만 나오도록 처리
+      const areaArr = userArea.split(" ");
+      setUserAreaData(`${areaArr[0]} ${areaArr[1]} ${areaArr[2]}`);
+    }
+  }, [userArea]);
 
   // 선택한 탭의 이름을 저장
   const [tapName, setTapName] = useState<string>("내가 쓴 게시글");
@@ -147,14 +150,16 @@ function MyPage() {
               >
                 내가 찜한 게시글
               </Tap>
-              <Tap
-                onClick={() => {
-                  handleTapBtn("채팅방");
-                }}
-                isClicked={tapName === "채팅방" ? true : false}
-              >
-                채팅방
-              </Tap>
+              <Link to="/chatroom" style={{ textDecoration: "none" }}>
+                <Tap
+                  onClick={() => {
+                    handleTapBtn("채팅방");
+                  }}
+                  isClicked={tapName === "채팅방" ? true : false}
+                >
+                  채팅방
+                </Tap>
+              </Link>
             </TapContainer>
             {/*웹 환경에서의 정보 수정 탈퇴 버튼----------------------------------------------*/}
             <BtnContainer>

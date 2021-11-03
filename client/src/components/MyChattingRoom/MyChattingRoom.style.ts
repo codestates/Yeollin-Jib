@@ -52,7 +52,8 @@ export const UserInfoContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   @media screen and (max-width: 37.5rem) {
-    width: 80%;
+    width: 90%;
+    height: 75px;
   }
 `;
 
@@ -66,20 +67,24 @@ export const UserPhotoContainer = styled.img`
 export const UserNickname = styled.div`
   font-weight: 300;
   margin-right: 10px;
+  @media screen and (max-width: 37.5rem) {
+    font-size: 12px;
+  }
 `;
 
 export const UserTopContainer = styled.div`
   display: flex;
   flex: 1;
   align-items: center;
-  padding-top: 12px;
+  margin-bottom: 6px;
+
   span {
     font-size: 14px;
   }
   @media screen and (max-width: 37.5rem) {
     padding-top: 6px;
     span {
-      font-size: 12px;
+      font-size: 10px;
     }
   }
 `;
@@ -104,23 +109,22 @@ export const SendButtonContainer = styled.div`
 `;
 
 export const MessageContainer = styled.div`
-  font-size: 0.875rem;
+  display: flex;
   width: 100%;
-  display: inline-block;
+  font-size: 0.875rem;
+  flex-direction: row;
   flex: 1;
-  align-items: flex-start;
   padding-top: 3px;
-  text-overflow: ellipsis;
-  overflow: hidden;
+
   div {
-    flex-wrap: nowrap;
+    /* white-space: nowrap; */
     overflow: hidden;
     text-overflow: ellipsis;
-    height: 17.5px;
+    height: 17px;
   }
 
   @media screen and (max-width: 37.5rem) {
-    font-size: 0.8rem;
+    font-size: 10px;
     display: inline-block;
     overflow: hidden;
     white-space: nowrap;

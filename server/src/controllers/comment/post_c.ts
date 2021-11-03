@@ -2,10 +2,9 @@ import { Request, Response } from "express";
 import user from "../../models/user";
 import comment from "../../models/comment";
 const post_c = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const { postId } = req.params;
   const { contents } = req.body;
   const userId = req.cookies.id;
-
   try {
     const userInfo: any = await user.findOne({
       where: {
@@ -19,7 +18,7 @@ const post_c = async (req: Request, res: Response) => {
     await comment
       .create({
         userId: userId, // 댓글을 작성한 유저 아이디 값
-        postId: id, // 게시글 아이디
+        postId: postId, // 게시글 아이디
         contents, // 댓글 내용
       })
       .then((data: any) => {
