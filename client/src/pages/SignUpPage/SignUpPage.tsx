@@ -209,6 +209,31 @@ function SignUpPage() {
     }
   };
 
+  // 인풋 입력 후 엔터를 치면 회원가입 요청을 보냄
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      handleSignupBtn();
+    }
+  };
+
+  // 인풋 입력 후 엔터를 치면 닉네임 중복확인 요청을 보냄
+  const handleNicknameKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      if (Inspect(nickname, "nickname")) {
+        handleNicknameBtn();
+      }
+    }
+  };
+
+  // 인풋 입력 후 엔터를 치면 이메일 중복확인 요청을 보냄
+  const handleEmailKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      if (Inspect(email, "email")) {
+        handleEmailBtn();
+      }
+    }
+  };
+
   return (
     <Body>
       <MainArea>
@@ -235,6 +260,7 @@ function SignUpPage() {
                 <SmallInputField
                   type="text"
                   onChange={(e) => setNicknameData(e)}
+                  onKeyPress={(e) => handleNicknameKeyPress(e)}
                 />
                 <ValidationBtn onClick={() => handleNicknameBtn()}>
                   중복 확인
@@ -255,6 +281,7 @@ function SignUpPage() {
                 <SmallInputField
                   type="text"
                   onChange={(e) => setEmailData(e)}
+                  onKeyPress={(e) => handleEmailKeyPress(e)}
                 />
                 <ValidationBtn onClick={() => handleEmailBtn()}>
                   중복 확인
@@ -272,6 +299,7 @@ function SignUpPage() {
               <InputField
                 type="password"
                 onChange={(e) => setPasswordData(e)}
+                onKeyPress={(e) => handleKeyPress(e)}
               />
               <MsgContainer isColor={isRightPassword}>
                 {password !== "" ? (
@@ -287,6 +315,7 @@ function SignUpPage() {
               <InputField
                 type="password"
                 onChange={(e) => setcheckPasswordData(e)}
+                onKeyPress={(e) => handleKeyPress(e)}
               />
               <MsgContainer isColor={isRightCheckPassword}>
                 {checkPassword !== "" ? (
