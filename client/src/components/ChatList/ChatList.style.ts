@@ -117,7 +117,7 @@ export const MessageContainer = styled.div`
   padding-top: 3px;
 
   div {
-    /* white-space: nowrap; */
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     height: 17px;

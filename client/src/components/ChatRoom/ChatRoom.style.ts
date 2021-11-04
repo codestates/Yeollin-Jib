@@ -6,7 +6,7 @@ export const CardContainer = styled.div`
   border: 0.063rem solid #e0dde1;
   border-radius: 0.313rem;
   width: 100%;
-  min-width: 10%;
+  min-width: 200px;
   flex-wrap: wrap;
   height: auto;
   font-family: "Gmarket Sans TTF";
@@ -16,7 +16,7 @@ export const CardContainer = styled.div`
   background-color: #fdfbfe;
   padding: 17px;
 
-  @media screen and (max-width: 37.5rem) {
+  @media screen and (max-width: 700px) {
     display: none;
     width: 100%;
     height: auto;
@@ -41,14 +41,14 @@ export const MobileCardContainer = styled.div`
   margin: 0 0 0.813rem 0;
   padding: 17px;
 
-  @media screen and (max-width: 37.5rem) {
+  @media screen and (max-width: 700px) {
     width: 100%;
     height: auto;
     font-size: 0.9rem;
   }
   .Mobile_Container {
     display: none;
-    @media screen and (max-width: 37.5rem) {
+    @media screen and (max-width: 700px) {
       width: 100%;
       display: flex;
       justify-content: center;
@@ -215,7 +215,7 @@ export const ChatListTxt = styled.div`
   display: flex;
   width: 100%;
   flex-wrap: nowrap;
-  margin-bottom: 20px;
+  margin: 10px 0 20px 0;
   justify-content: space-between;
   span {
     border-bottom: 5px solid #fede8a;
@@ -272,3 +272,23 @@ export const TopContainer = styled.div`
 `;
 
 export const DeleteIconContainer = styled.div``;
+
+export const GoUpContainer = styled.div`
+  display: none;
+  @media screen and (max-width: 37.5rem) {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 33px;
+    align-items: center;
+    font-size: 10px;
+    font-weight: 100;
+    cursor: pointer;
+    div {
+      margin-top: 5px;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+`;

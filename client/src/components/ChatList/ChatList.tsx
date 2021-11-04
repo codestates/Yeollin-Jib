@@ -8,9 +8,9 @@ import {
   SendButtonContainer,
   MessageContainer,
   UserTopContainer,
-} from "./MyChattingRoom.style";
+} from "./ChatList.style";
 
-function MyChattingRoom() {
+function ChatList() {
   return (
     <>
       <UserInfoContainer>
@@ -33,4 +33,4 @@ function MyChattingRoom() {
   );
 }
 
-export default MyChattingRoom;
+export default ChatList;

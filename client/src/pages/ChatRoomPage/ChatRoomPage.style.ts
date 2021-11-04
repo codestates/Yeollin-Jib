@@ -33,14 +33,14 @@ export const ChatRoomContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  @media screen and (max-width: 37.5rem) {
+  @media screen and (max-width: 700px) {
     display: flex;
     flex-direction: column;
     width: 70%;
   }
   .Mobile_Container {
     display: none;
-    @media screen and (max-width: 37.5rem) {
+    @media screen and (max-width: 700px) {
       width: 100%;
       display: flex;
       justify-content: center;
@@ -52,11 +52,9 @@ export const ChatRoomContainer = styled.div`
 `;
 
 export const ChatListContainer = styled.div`
-  width: 50%;
-  min-width: 250px;
-
+  width: 350px;
   height: 745px;
-  margin: 35px 35px 35px 0;
+  margin: 35px 35px 0 0;
   padding: 0.813rem;
   background: #fdfbfe;
   border: 1px solid #e0dde1;
@@ -67,7 +65,7 @@ export const ChatListContainer = styled.div`
   flex-direction: column;
   align-items: center;
   transition: 0.5s all;
-  @media screen and (max-width: 37.5rem) {
+  @media screen and (max-width: 700px) {
     display: none;
   }
 `;
@@ -78,13 +76,13 @@ export const ChatListTxt = styled.div`
   padding: 19px 17px 17px 17px;
 
   span {
-    margin-left: 17px;
+    margin-left: 0px;
     font-size: 20px;
     font-weight: 300;
     color: #2d2d2d;
     border-bottom: 5px solid #fede8a;
   }
-  @media screen and (max-width: 37.5rem) {
+  @media screen and (max-width: 700px) {
     span {
       margin-left: 0;
       font-size: 16px;
@@ -108,7 +106,7 @@ export const NoChatCard = styled.div`
   color: #2d2d2d;
   background-color: #fdfbfe;
 
-  @media screen and (max-width: 37.5rem) {
+  @media screen and (max-width: 700px) {
     width: 100%;
     height: 75px;
     font-size: 0.9rem;
@@ -136,7 +134,7 @@ export const ChatCard = styled.div`
     background: #fede8a;
   }
 
-  @media screen and (max-width: 37.5rem) {
+  @media screen and (max-width: 700px) {
     width: 100%;
     height: 75px;
     font-size: 0.9rem;
@@ -152,7 +150,7 @@ export const NoChatImgContainer = styled.div`
     width: 100%;
     height: 366.25px;
   }
-  @media screen and (max-width: 37.5rem) {
+  @media screen and (max-width: 700px) {
     img {
       width: 300.43px;
       height: auto;
@@ -169,7 +167,7 @@ export const NoChatRightContainer = styled.div`
   justify-content: center;
   align-items: center;
   margin: 145px 0 0 0;
-  @media screen and (max-width: 37.5rem) {
+  @media screen and (max-width: 700px) {
     margin: 46px 0 0 0;
   }
 `;
@@ -189,7 +187,7 @@ export const GotoMainButton = styled.button`
   :active {
     background: #3f3f3f;
   }
-  @media screen and (max-width: 37.5rem) {
+  @media screen and (max-width: 700px) {
     width: 139px;
     height: 35px;
     font-size: 12px;

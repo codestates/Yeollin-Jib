@@ -56,6 +56,12 @@ function LoginPage() {
     }
   };
 
+  const handleGoogleLoginBtn = async () => {
+    await window.location.assign(
+      `${process.env.REACT_APP_API_URL}/user/login/google`
+    );
+  };
+
   // 인풋 입력 후 엔터를 치면 로그인 요청을 보냄
   const handleKeyPress = (
     e: React.KeyboardEvent,

@@ -18,9 +18,13 @@ import {
   MobileCardContainer,
   DeleteImg,
   TopContainer,
+  GoUpContainer,
 } from "./ChatRoom.style";
 
 function ChatRoom() {
+  const arrowUpHandler = () => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  };
   return (
     <>
       <CardContainer>
@@ -28,7 +32,7 @@ function ChatRoom() {
           <ChatListTxt>
             <span>황마리모님과의 채팅</span>
             <DeleteImg>
-              <img src="./images/delete.svg"></img>
+              <img src="./images/delete.svg" alt="delete"></img>
             </DeleteImg>
           </ChatListTxt>
         </TopContainer>
@@ -71,7 +75,7 @@ function ChatRoom() {
           <ChatListTxt>
             <span>황마리모님과의 채팅</span>
             <DeleteImg>
-              <img src="./images/delete.svg"></img>
+              <img src="./images/delete.svg" alt="delete"></img>
             </DeleteImg>
           </ChatListTxt>
         </TopContainer>
@@ -108,8 +112,12 @@ function ChatRoom() {
             <div className="Button_Area">
               <SendButton>전송</SendButton>
             </div>
-          </SendContainer>
+          </SendContainer>{" "}
         </MobileCardContainer>
+        <GoUpContainer onClick={() => arrowUpHandler()}>
+          <img src="./images/arrowUp.svg" alt="arrowUp"></img>
+          <div>채팅 목록 보러가기</div>
+        </GoUpContainer>
       </div>
     </>
   );
