@@ -1,19 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import {
-  ChatListContainer,
   ChatListTxt,
-  ChatCard,
   NoChatCard,
   NoChatImgContainer,
   NoChatRightContainer,
-  ChatRoomContainer,
   GotoMainButton,
-  Body,
-  MainArea,
-  ChattingContainer,
 } from "../../pages/ChatRoomPage/ChatRoomPage.style";
 
+import { ChatListContainer } from "./NoChat.style";
 function NoChat() {
   return (
     <>

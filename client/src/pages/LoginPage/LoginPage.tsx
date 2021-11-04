@@ -55,6 +55,12 @@ function LoginPage() {
     }
   };
 
+  const handleGoogleLoginBtn = async () => {
+    await window.location.assign(
+      `${process.env.REACT_APP_API_URL}/user/login/google`
+    );
+  };
+
   // 인풋 입력 후 엔터를 치면 로그인 요청을 보냄
   const handleKeyPress = (
     e: React.KeyboardEvent,
@@ -104,7 +110,7 @@ function LoginPage() {
                 로그인
               </LoginBtn>
               {/*소셜 로그인 버튼---------------------------------------------------------*/}
-              <SocialLoginBtn>
+              <SocialLoginBtn onClick={() => handleGoogleLoginBtn()}>
                 <img src="./images/googleLogo.svg" alt="google" />
                 <div>구글 로그인</div>
               </SocialLoginBtn>
@@ -112,7 +118,7 @@ function LoginPage() {
                 <img src="./images/kakaoLogo.svg" alt="kakao" />
                 <div>카카오 로그인</div>
               </SocialLoginBtn>
-              {/*회원가입 버튼---------------------------------------------------------*/}
+              {/*회원가입 버튼————————————————————————————*/}
               <Link to={"/signup"}>
                 <SignupBtn>
                   아직 이메일이 없으신가요? 회원가입 하러가기
