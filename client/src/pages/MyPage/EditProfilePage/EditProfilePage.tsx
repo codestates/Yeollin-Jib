@@ -44,7 +44,7 @@ function EditProfilePage() {
   const { accessToken } = useSelector((state: RootState) => state.authReducer);
 
   // 유저 정보를 스토어에서 가져옴
-  const { nickname, imagePath, userArea } = useSelector(
+  const { nickname, imagePath, userArea, loginType } = useSelector(
     (state: RootState) => state.userReducer
   );
 
@@ -244,11 +244,21 @@ function EditProfilePage() {
                         profileImg={profileImg}
                       />
                       {userImagePath ? (
-                        <img
-                          className="ProfileImg_Thumb"
-                          src={`${process.env.REACT_APP_API_URL}/uploads/${imagePath}`}
-                          alt="Thumb"
-                        />
+                        !loginType ? (
+                          // 프로필사진이 있고, 소셜로그인이 아닐 때
+                          <img
+                            className="ProfileImg_Thumb"
+                            src={`${process.env.REACT_APP_API_URL}/uploads/${imagePath}`}
+                            alt="Thumb"
+                          />
+                        ) : (
+                          // 프로필사진이 있고, 소셜로그인일 때
+                          <img
+                            className="ProfileImg_Thumb"
+                            src={`${imagePath}`}
+                            alt="Thumb"
+                          />
+                        )
                       ) : (
                         <img
                           className="ProfileImg_Thumb"
