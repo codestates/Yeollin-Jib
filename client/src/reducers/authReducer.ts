@@ -6,7 +6,6 @@ import { ILoginState, ILoginPayLoad, ILogin } from "../types/types";
 export const setAuth = createAsyncThunk(
   "authReducer/setAuth",
   async ({ email, password }: ILogin) => {
-    
     return await axios.post(
       `${process.env.REACT_APP_API_URL}/user/login`,
       { email: email, password: password },
@@ -32,6 +31,11 @@ export const authReducer = createSlice({
       state.isLogin = false;
       state.accessToken = "";
     },
+    setSocialLogin(state, action) {
+      state.isLogin = true;
+      state.isInValid = false;
+      state.accessToken = action.payload;
+    },
   },
   extraReducers: {
     // pending 상태
@@ -55,6 +59,6 @@ export const authReducer = createSlice({
   },
 });
 
-export const { setLogOut } = authReducer.actions;
+export const { setLogOut, setSocialLogin } = authReducer.actions;
 
 export default authReducer.reducer;

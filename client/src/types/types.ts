@@ -27,6 +27,7 @@ export interface IUserState {
   myComment: number;
   myPost: number;
   myStorage: number;
+  loginType: boolean;
 }
 
 export interface IUserPayLoad {
@@ -38,6 +39,7 @@ export interface IUserPayLoad {
         nickname: string;
         userArea: null | string;
         imagePath: null | string;
+        loginType: boolean;
       };
       myComment: number;
       myPost: number;

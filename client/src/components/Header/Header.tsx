@@ -35,7 +35,7 @@ function Header() {
   );
 
   // isLogin이 true일 때 유저 정보 요청
-  const getUserDate = () => {
+  const getUserData = () => {
     if (isLogin) {
       dispatch(setUser(accessToken));
     }
@@ -87,7 +87,7 @@ function Header() {
           </Link>
         )}
         <Link to={isLogin ? "/profile" : "/signup"}>
-          <SignupUserInfoBtn onClick={() => getUserDate()}>
+          <SignupUserInfoBtn onClick={() => getUserData()}>
             {isLogin ? "내 정보" : "회원가입"}
           </SignupUserInfoBtn>
         </Link>
@@ -113,7 +113,7 @@ function Header() {
                 <Link to={isLogin ? "/profile" : "/signup"}>
                   <Menu
                     onClick={() => {
-                      getUserDate();
+                      getUserData();
                       setIsOpen(!isOpen);
                     }}
                   >

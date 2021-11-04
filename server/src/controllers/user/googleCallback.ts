@@ -26,6 +26,7 @@ const googleCallback = async (req: Request, res: Response) => {
         },
       }
     );
+
     // 구글 로그인한 회원 정보 중 email이 데이터베이스에 존재하는지 검사 후 없으면 새로 저장
     const [findUser, exist] = await user.findOrCreate({
       where: {
@@ -61,11 +62,10 @@ const googleCallback = async (req: Request, res: Response) => {
       sameSite: "none",
     });
 
-    return res.status(200).json({
-      accessToken,
-      id: findUser.id,
-      message: "소셜 로그인에 성공하였습니다.",
-    });
+    const realQuery = encodeURIComponent(accessToken);
+
+    // redirect를 이용해 쿼리로 accessToken을 전달 (ORIGIN : 클라이언트 url)
+    res.redirect(`${process.env.ORIGIN}/login?access_token=${realQuery}`);
   } catch (error) {
     console.error(error);
     return res.status(501).json({ message: "서버에러 입니다." });

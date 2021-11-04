@@ -28,6 +28,7 @@ let initialState: IUserState = {
   myComment: 0,
   myPost: 0,
   myStorage: 0,
+  loginType: false,
 };
 
 export const userReducer = createSlice({
@@ -45,6 +46,7 @@ export const userReducer = createSlice({
       state.myComment = 0;
       state.myPost = 0;
       state.myStorage = 0;
+      state.loginType = false;
     },
     // fulfilled 상태
     [setUser.fulfilled.type]: (state, action: IUserPayLoad) => {
@@ -53,6 +55,7 @@ export const userReducer = createSlice({
       state.nickname = action.payload.data.data.nickname;
       state.userArea = action.payload.data.data.userArea;
       state.imagePath = action.payload.data.data.imagePath;
+      state.loginType = action.payload.data.data.loginType;
       state.myComment = action.payload.data.myComment;
       state.myPost = action.payload.data.myPost;
       state.myStorage = action.payload.data.myStorage;
@@ -67,6 +70,7 @@ export const userReducer = createSlice({
       state.myComment = 0;
       state.myPost = 0;
       state.myStorage = 0;
+      state.loginType = false;
     },
   },
 });
