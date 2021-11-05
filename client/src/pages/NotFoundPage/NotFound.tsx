@@ -19,7 +19,7 @@ function NotFound() {
       <MainArea>
         <Container>
           <ImgContainer>
-            <img src="./images/404.svg"></img>
+            <img src="./images/404.svg" alt="not_found"></img>
           </ImgContainer>
           <TxtContainer>
             찾을 수 없는 페이지 입니다.

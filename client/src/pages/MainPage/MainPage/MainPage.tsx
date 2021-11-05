@@ -86,7 +86,7 @@ function MainPage() {
 
     // scrollTop과 innerHeight를 더한 값이 scrollHeight보다 크다면, 가장 아래에 도달했다는 의미이다.
     if (Math.round(scrollTop + innerHeight) >= scrollHeight - 200) {
-      if (postInfo.length / 8 < page - 1) {
+      if (postInfo.length / 8 <= page - 1) {
         return;
       } else if (page !== undefined) {
         const result: any = await axios.get(

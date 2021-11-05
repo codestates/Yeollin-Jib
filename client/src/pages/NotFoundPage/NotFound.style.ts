@@ -33,14 +33,14 @@ export const ImgContainer = styled.div``;
 
 export const TxtContainer = styled.div`
   text-align: center;
-  font-size: 24px;
+  font-size: 26px;
   font-weight: 500;
   margin: 25px 0 33px 0;
 `;
 
 export const DivContainer = styled.div`
-  margin-top: 15px;
-  font-size: 20px;
+  margin-top: 16px;
+  font-size: 18px;
   font-weight: 100;
   div {
     margin-bottom: 10px;
@@ -60,6 +60,7 @@ export const GoToMainButton = styled.button`
   background: #2d2d2d;
   border-radius: 5px;
   font-size: 16px;
+  font-weight: 100;
   color: #ffffff;
   font-family: Gmarket Sans TTF;
   border-style: none;
@@ -76,6 +77,7 @@ export const GoToBeforeButton = styled.button`
   font-size: 16px;
   border: 1px solid #2d2d2d;
   font-family: Gmarket Sans TTF;
+  font-weight: 100;
   color: #2d2d2d;
   background: #ffffff;
   cursor: pointer;
