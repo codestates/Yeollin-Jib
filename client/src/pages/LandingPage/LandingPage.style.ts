@@ -36,13 +36,13 @@ export const BodyOutContainer = styled.main`
 `;
 
 export const FirstLandingContainer = styled.div`
-  width: 100%;
+  width: 78.75rem;
   height: 51.313rem;
   display: flex;
   align-items: center;
   background: linear-gradient(0deg, #fbfafc, #fbfafc);
   transition: 0.5s all;
-  position: relative;
+  flex-direction: row-reverse;
   @media screen and (max-width: 37.5rem) {
     display: flex;
     flex-direction: column;
@@ -55,6 +55,7 @@ export const FirstLandingContainer = styled.div`
 
 export const FirstTextContainer = styled.div`
   display: flex;
+  width: 100%;
   height: 100%;
   flex-direction: column;
   justify-content: center;
@@ -119,7 +120,7 @@ export const FirstSecondText = styled.div`
   font-size: 1.875rem;
   margin: 0.5rem 0 2.75rem 0;
   transition: 0.5s all;
-  -webkit-text-stroke: 1px #ffffff;
+  /* -webkit-text-stroke: 1px #ffffff; */
   @media screen and (max-width: 37.5rem) {
     font-size: 20px;
     transition: 0.5s all;
@@ -153,8 +154,9 @@ export const GotoMainButton = styled.button`
 
 export const BigCircle = styled.span`
   position: absolute;
-  left: 7.05rem;
-  top: 13.35rem;
+
+  left: 13.2%;
+  top: 16.35rem;
   width: 10.125rem;
   height: 10.5rem;
   background: #fede8a;

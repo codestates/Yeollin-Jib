@@ -2,13 +2,13 @@ import { Request, Response } from "express";
 import user from "../../models/user";
 import comment from "../../models/comment";
 const delete_c = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const { commentId } = req.params;
   const userId = req.cookies.id;
 
   if (userId) {
     try {
       const commentInfo: any = await comment.findOne({
-        where: { id: id },
+        where: { id: commentId },
       });
       await commentInfo.destroy({});
       return res

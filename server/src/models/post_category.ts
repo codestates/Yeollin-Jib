@@ -1,4 +1,11 @@
-import { BelongsTo, BelongsToManyAddAssociationMixin, BelongsToManyGetAssociationsMixin, BelongsToManyRemoveAssociationMixin, DataTypes, Model } from "sequelize";
+import {
+  BelongsTo,
+  BelongsToManyAddAssociationMixin,
+  BelongsToManyGetAssociationsMixin,
+  BelongsToManyRemoveAssociationMixin,
+  DataTypes,
+  Model,
+} from "sequelize";
 import { sequelize } from "./sequelize";
 import { dbType } from "./index";
 
@@ -35,8 +42,20 @@ post_category.init(
 );
 
 export const associate = (db: dbType) => {
-  db.post_category.belongsTo(db.post, { foreignKey: "postId", targetKey: "id", onDelete: "CASCADE", onUpdate: "CASCADE" });
-  db.post_category.belongsTo(db.category, { onDelete: "CASCADE", onUpdate: "CASCADE" });
+  db.post_category.belongsTo(db.post, {
+    foreignKey: "postId",
+    targetKey: "id",
+    foreignKeyConstraint: true,
+    onDelete: "cascade",
+    onUpdate: "cascade",
+    hooks: true,
+  });
+  db.post_category.belongsTo(db.category, {
+    foreignKey: "categoryId",
+    targetKey: "id",
+    onDelete: "cascade",
+    onUpdate: "CASCADE",
+  });
 };
 
 export default post_category;

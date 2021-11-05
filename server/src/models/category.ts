@@ -1,4 +1,10 @@
-import { BelongsToManyAddAssociationMixin, BelongsToManyGetAssociationsMixin, BelongsToManyRemoveAssociationMixin, DataTypes, Model } from "sequelize";
+import {
+  BelongsToManyAddAssociationMixin,
+  BelongsToManyGetAssociationsMixin,
+  BelongsToManyRemoveAssociationMixin,
+  DataTypes,
+  Model,
+} from "sequelize";
 import { sequelize } from "./sequelize";
 import { dbType } from "./index";
 
@@ -35,7 +41,10 @@ category.init(
 );
 
 export const associate = (db: dbType) => {
-  db.category.hasMany(db.post_category, { foreignKey: "categoryId" });
+  db.category.hasMany(db.post_category, {
+    foreignKey: "categoryId",
+    sourceKey: "id",
+  });
 };
 
 export default category;
