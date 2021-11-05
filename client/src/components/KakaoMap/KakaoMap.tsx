@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 const KakaoMapViewer = styled.div`
@@ -20,38 +20,44 @@ declare global {
   }
 }
 interface AddressName {
-  addressInput?: string;
+  addressInput?: string | undefined;
+  searchCoordinateHandle?: (lat: number, lon: number) => void;
+  latitude?: string | undefined;
+  longitude?: string | undefined;
 }
 
-const KakaoMap = ({ addressInput }: AddressName) => {
-  const [mapCenter, setMapCenter] = useState<number[]>([]);
-
+const KakaoMap = ({
+  addressInput,
+  searchCoordinateHandle,
+  latitude,
+  longitude,
+}: AddressName) => {
   useEffect(() => {
     let container = document.getElementById("map");
     let options = {
-      center:
-        mapCenter[0] === undefined
-          ? new window.kakao.maps.LatLng(33.450701, 126.570667)
-          : new window.kakao.maps.LatLng(mapCenter[0], mapCenter[1]),
+      center: new window.kakao.maps.LatLng(33.450701, 126.570667),
       level: 3,
     };
-    console.log(mapCenter);
-
     let map = new window.kakao.maps.Map(container, options);
 
     // 주소-좌표 변환 객체를 생성합니다
     let geocoder = new window.kakao.maps.services.Geocoder();
 
     // 주소로 좌표를 검색합니다 주소값이 없으면 실행하지 않는다.
+
     if (addressInput !== "") {
       geocoder.addressSearch(addressInput, function (result: any, status: any) {
         // 정상적으로 검색이 완료됐으면
         if (status === window.kakao.maps.services.Status.OK) {
-          let coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
-          let searchCenter = [];
-          searchCenter.push(result[0].y);
-          searchCenter.push(result[0].x);
-          setMapCenter(searchCenter);
+          let coords;
+          if (latitude !== undefined) {
+            coords = { La: longitude, Ma: latitude };
+          } else {
+            coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
+          }
+          if (searchCoordinateHandle) {
+            searchCoordinateHandle(result[0].y, result[0].x);
+          }
 
           // 지도 우측에 확대 축소 컨트롤을 생성
           const zoomControl = new window.kakao.maps.ZoomControl();
@@ -72,12 +78,11 @@ const KakaoMap = ({ addressInput }: AddressName) => {
           // 결과값으로 받은 위치를 마커로 표시합니다
           let marker = new window.kakao.maps.Marker({
             image: markerImage,
-            map: map,
             position: coords,
           });
-
           marker.setMap(map);
-
+          // 마커가 드래그 가능하도록 설정합니다
+          marker.setDraggable(true);
           // 카카오맵에서 검색되도록 주소에서 공백을 지워줌
           const searchAddress = addressInput?.replace(/ /g, "");
 
@@ -92,6 +97,7 @@ const KakaoMap = ({ addressInput }: AddressName) => {
           var customOverlay = new window.kakao.maps.CustomOverlay({
             position: marker.getPosition(),
             content: content,
+            map: map,
           });
 
           customOverlay.setMap(map);

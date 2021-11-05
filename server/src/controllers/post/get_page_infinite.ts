@@ -12,7 +12,7 @@ const get_infinite = async (req: Request, res: Response) => {
     const pageNum: any = req.params.id; // page Number
     let offset = 0;
     if (pageNum > 1) {
-      offset = 7 * (pageNum - 1);
+      offset = 8 * (pageNum - 1);
     }
     const postGet = await post.findAll({
       order: [["id", "DESC"]],

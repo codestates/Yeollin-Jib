@@ -4,20 +4,27 @@ import category from "../../models/category";
 import post_category from "../../models/post_category";
 import post from "../../models/post";
 import storage from "../../models/storage";
+import accessToken from "../../middleware/accessToken";
+import Sequelize from "sequelize";
+const { or, and, gt, lt } = Sequelize.Op;
 
 const get_category_infinite = async (req: Request, res: Response) => {
   try {
-    const category1 = req.query.code1;
-    const category2 = req.query.code2;
+    const categoryNumber = req.query.code;
     const pageNum: any = req.query.page; // page Number
+    const authHeader = req.headers.authorization;
+    if (authHeader) {
+      accessToken;
+    }
+    const id = req.cookies.id;
 
     let offset = 0;
     if (pageNum > 1) {
-      offset = 7 * (pageNum - 1);
+      offset = 8 * (pageNum - 1);
     }
 
     const find = await category.findOne({
-      where: { category1: category1, category2: category2 },
+      where: { category1: categoryNumber },
     });
 
     const categoryId = find!.id;

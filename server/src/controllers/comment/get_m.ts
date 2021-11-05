@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
-import comment from "../../models/comment";
 import post from "../../models/post";
+import comment from "../../models/comment";
 import user from "../../models/user";
+
 const get = async (req: Request, res: Response) => {
   const userId = req.cookies.id;
 

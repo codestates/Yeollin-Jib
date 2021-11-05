@@ -8,7 +8,6 @@ const delete_ = async (req: Request, res: Response) => {
     const postId = req.params.id; //게시물 아이디
 
     const postDelete = await post.destroy({ where: { id: postId } });
-    await post_category.destroy({ where: { postId: postId } });
 
     if (!postDelete)
       return res.status(404).json({ message: "삭제하려는 게시물이 없습니다." });

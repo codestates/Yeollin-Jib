@@ -3,8 +3,8 @@ import user from "../../models/user";
 import post from "../../models/post";
 import post_category from "../../models/post_category";
 import category from "../../models/category";
-import Sequelize from "sequelize";
 import storage from "../../models/storage";
+import Sequelize from "sequelize";
 const { or, and, gt, lt } = Sequelize.Op;
 
 const get_user_infinite = async (req: Request, res: Response) => {
@@ -13,7 +13,7 @@ const get_user_infinite = async (req: Request, res: Response) => {
     const pageNum: any = req.params.id; // page Number
     let offset = 0;
     if (pageNum > 1) {
-      offset = 7 * (pageNum - 1);
+      offset = 8 * (pageNum - 1);
     }
 
     const postGet = await post.findAll({

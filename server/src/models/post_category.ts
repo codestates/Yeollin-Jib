@@ -15,6 +15,10 @@ class post_category extends Model {
   public categoryId!: number;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
+  public removepost!: BelongsToManyRemoveAssociationMixin<
+    post_category,
+    number
+  >;
 }
 
 post_category.init(
@@ -46,14 +50,14 @@ export const associate = (db: dbType) => {
     foreignKey: "postId",
     targetKey: "id",
     foreignKeyConstraint: true,
-    onDelete: "cascade",
-    onUpdate: "cascade",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
     hooks: true,
   });
   db.post_category.belongsTo(db.category, {
     foreignKey: "categoryId",
     targetKey: "id",
-    onDelete: "cascade",
+    onDelete: "CASCADE",
     onUpdate: "CASCADE",
   });
 };

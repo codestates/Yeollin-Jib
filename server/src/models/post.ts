@@ -2,11 +2,14 @@ import {
   BelongsToManyAddAssociationMixin,
   BelongsToManyGetAssociationsMixin,
   BelongsToManyRemoveAssociationMixin,
+  HasManyGetAssociationsMixin,
+  HasManyRemoveAssociationsMixin,
   DataTypes,
   Model,
 } from "sequelize";
 import { sequelize } from "./sequelize";
 import { dbType } from "./index";
+import post_category from "./post_category";
 
 class post extends Model {
   public readonly id!: number;
@@ -20,7 +23,12 @@ class post extends Model {
   public longitude!: string;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
-  dataValues: any;
+
+  public getpost_category!: HasManyGetAssociationsMixin<post_category>;
+  public removepost_categorys!: HasManyRemoveAssociationsMixin<
+    post_category,
+    number
+  >;
 }
 
 post.init(
@@ -71,7 +79,12 @@ export const associate = (db: dbType) => {
     onUpdate: "CASCADE",
   });
   db.post.hasMany(db.post_category, {
-    foreignKeyConstraint: true,
+    foreignKey: "postId",
+    sourceKey: "id",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  });
+  db.post.hasMany(db.comment, {
     foreignKey: "postId",
     sourceKey: "id",
     onDelete: "CASCADE",
