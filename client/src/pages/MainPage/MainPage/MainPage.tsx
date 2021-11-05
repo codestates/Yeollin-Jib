@@ -1,11 +1,13 @@
-import axios, { AxiosResponse } from "axios";
-import React, { useEffect, useState, useCallback } from "react";
+import axios from "axios";
+import { useEffect, useState, useCallback } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import PostCard from "../../../components/PostCard/PostCard";
 import { RootState } from "../../../reducers/rootReducer";
-import { initLeftMainCategories, initRightMainCategories } from "../Categories";
+import { initMainCategories } from "../Categories";
 import {
+  Body,
+  MainArea,
   MainPageContainer,
   CategoryContainer,
   CategoryMenuCircle,
@@ -29,13 +31,11 @@ function MainPage() {
   };
 
   // 카테고리 선택 핸들
-  const [leftMainCategories, setLeftMainCategories] = useState(
-    initLeftMainCategories
-  );
+  const [mainCategories, setMainCategories] = useState(initMainCategories);
 
-  const CategoryLeftSelectHandle = (id: string) => {
-    let newMainCate = [...leftMainCategories];
-    leftMainCategories.forEach((mainCate) => {
+  const CategorySelectHandle = (id: string) => {
+    let newMainCate = [...mainCategories];
+    mainCategories.forEach((mainCate) => {
       if (mainCate.isSelect) {
         mainCate.isSelect = false;
       }
@@ -43,29 +43,11 @@ function MainPage() {
         mainCate.isSelect = true;
       }
     });
-    setLeftMainCategories(newMainCate);
-  };
-
-  const [rightMainCategories, setRightMainCategories] = useState(
-    initRightMainCategories
-  );
-
-  const CategoryRightSelectHandle = (id: string) => {
-    let newMainCate = [...rightMainCategories];
-    rightMainCategories.forEach((mainCate) => {
-      if (mainCate.isSelect) {
-        mainCate.isSelect = false;
-      }
-      if (id === mainCate.id) {
-        mainCate.isSelect = true;
-      }
-    });
-    setRightMainCategories(newMainCate);
+    setMainCategories(newMainCate);
   };
 
   const selectCategory = (id: string) => {
-    CategoryLeftSelectHandle(id);
-    CategoryRightSelectHandle(id);
+    CategorySelectHandle(id);
   };
 
   // 초기 게시글 호출
@@ -84,8 +66,7 @@ function MainPage() {
   // 해당 컴포넌트가 마운트될 때 초기 게시글을 호출한다, 카테고리 셀렉트 상태를 초기화 한다
   useEffect(() => {
     firstLoadPost();
-    CategoryRightSelectHandle("init");
-    CategoryLeftSelectHandle("init");
+    CategorySelectHandle("init");
   }, []);
 
   // 무한스크롤 함수
@@ -117,7 +98,6 @@ function MainPage() {
         setPage(page - 4);
       }
     }
-    console.log(postInfo);
   }, [page]);
 
   // 스크롤이 발생할때마다 handleScroll 함수를 호출하도록 한다.
@@ -131,81 +111,76 @@ function MainPage() {
   }, [handleScroll]);
 
   return (
-    <MainPageContainer>
-      {/* 카테고리 메뉴 슬라이드 버튼----------------------------------------------*/}
-      <CategoryContainer>
-        <CategoryMenu
-          isShowCategory={isShowCategory}
-          onClick={() => {
-            openCategory();
-          }}
-        >
-          <CategoryMenuCircle isShowCategory={isShowCategory}>
-            <img src="./images/categoryMenu.svg" alt="categoryMenu" />
-          </CategoryMenuCircle>
-          <span>{"카테고리"}</span>
-        </CategoryMenu>
-        {/* 카테고리 선택 창 ----------------------------------------------------*/}
-        <CategoryItemsBox>
-          {leftMainCategories.map((item) => {
-            return (
-              <CategoryItem
-                key={item.name}
-                isShowCategory={isShowCategory}
-                isSelect={item.isSelect}
-                onClick={() => selectCategory(item.id)}
-              >
-                <span>{item.name}</span>
-              </CategoryItem>
-            );
-          })}
-          {rightMainCategories.map((item) => {
-            return (
-              <CategoryItem
-                key={item.name}
-                isShowCategory={isShowCategory}
-                isSelect={item.isSelect}
-                onClick={() => selectCategory(item.id)}
-              >
-                <span>{item.name}</span>
-              </CategoryItem>
-            );
-          })}
-        </CategoryItemsBox>
-      </CategoryContainer>
-      {/* 게시글  시작 ----------------------------------------------------*/}
-      <PostBoardTitleContainer>
-        <PostBoardTitleBox>
-          <span className="Post_Title">{"게시판"}</span>
-          <span className="Post_Count">{`총 ${postInfo.length}개`}</span>
-        </PostBoardTitleBox>
-        {/* 게시글 작성 버튼 ------------------------------------------------*/}
-        <Link
-          to={isLogin ? "/createpost" : "/login"}
-          style={{ textDecoration: "none", color: "#2d2d2d" }}
-        >
-          <CreatePostButton>
-            <span className="Redirect_Createpost">+</span>
-          </CreatePostButton>
-        </Link>
-      </PostBoardTitleContainer>
-      {/* 게시글 리스트 ----------------------------------------------------*/}
-      <PostCardArea>
-        {postInfo[0] === undefined ? (
-          <BlankPostCard>{"검색 결과가 없습니다"}</BlankPostCard>
-        ) : (
-          postInfo.map((postInfo, idx) => {
-            return (
-              <PostCard
-                key={postInfo.id}
-                idx={idx}
-                postInfo={postInfo}
-              ></PostCard>
-            );
-          })
-        )}
-      </PostCardArea>
-    </MainPageContainer>
+    <Body>
+      <MainArea>
+        <MainPageContainer>
+          {/* 카테고리 메뉴 슬라이드 버튼----------------------------------------------*/}
+          <CategoryContainer>
+            <CategoryMenu
+              isShowCategory={isShowCategory}
+              onClick={() => {
+                openCategory();
+              }}
+            >
+              <CategoryMenuCircle isShowCategory={isShowCategory}>
+                <img src="./images/categoryMenu.svg" alt="categoryMenu" />
+              </CategoryMenuCircle>
+              <span>{"카테고리"}</span>
+            </CategoryMenu>
+            {/* 카테고리 선택 창 ----------------------------------------------------*/}
+            <CategoryItemsBox>
+              {mainCategories.map((item) => {
+                return (
+                  <CategoryItem
+                    key={item.name}
+                    isShowCategory={isShowCategory}
+                    isSelect={item.isSelect}
+                    onClick={() => selectCategory(item.id)}
+                  >
+                    <span>{item.name}</span>
+                  </CategoryItem>
+                );
+              })}
+            </CategoryItemsBox>
+          </CategoryContainer>
+          {/* 게시글  시작 ----------------------------------------------------*/}
+          <PostBoardTitleContainer>
+            <PostBoardTitleBox>
+              <span className="Post_Title">{"게시판"}</span>
+              <span className="Post_Count">{`총 ${postInfo.length}개`}</span>
+            </PostBoardTitleBox>
+            {/* 게시글 작성 버튼 ------------------------------------------------*/}
+            <Link
+              to={isLogin ? "/createpost" : "/login"}
+              style={{ textDecoration: "none", color: "#2d2d2d" }}
+            >
+              <CreatePostButton>
+                <span className="Redirect_Createpost">+</span>
+              </CreatePostButton>
+            </Link>
+          </PostBoardTitleContainer>
+          {/* 게시글 리스트 ----------------------------------------------------*/}
+          <PostCardArea>
+            {postInfo[0] === undefined ? (
+              <BlankPostCard>
+                <span>검색 결과가</span>
+                <span> 없습니다</span>
+              </BlankPostCard>
+            ) : (
+              postInfo.map((postInfo, idx) => {
+                return (
+                  <PostCard
+                    key={postInfo.id}
+                    idx={idx}
+                    postInfo={postInfo}
+                  ></PostCard>
+                );
+              })
+            )}
+          </PostCardArea>
+        </MainPageContainer>
+      </MainArea>
+    </Body>
   );
 }
 

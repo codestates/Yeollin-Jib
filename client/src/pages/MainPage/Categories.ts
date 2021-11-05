@@ -12,7 +12,7 @@ interface SubCategories {
 }
 // 메인카테고리 별 서브카테고리 array
 // 가구/침구류
-const mainCategory1: SubCategories[] = [
+const subCategory1: SubCategories[] = [
   { name: "침대", isSelect: false },
   { name: "티비선반", isSelect: false },
   { name: "이불", isSelect: false },
@@ -34,7 +34,7 @@ const mainCategory1: SubCategories[] = [
   { name: "기타", isSelect: false },
 ];
 // 디지털기기
-const mainCategory2: SubCategories[] = [
+const subCategory2: SubCategories[] = [
   { name: "휴대폰", isSelect: false },
   { name: "모니터", isSelect: false },
   { name: "데스크탑", isSelect: false },
@@ -42,7 +42,7 @@ const mainCategory2: SubCategories[] = [
   { name: "기타", isSelect: false },
 ];
 // 생활가전
-const mainCategory3: SubCategories[] = [
+const subCategory3: SubCategories[] = [
   { name: "티비", isSelect: false },
   { name: "냉장고", isSelect: false },
   { name: "세탁기", isSelect: false },
@@ -57,21 +57,21 @@ const mainCategory3: SubCategories[] = [
   { name: "기타", isSelect: false },
 ];
 // 의류
-const mainCategory4: SubCategories[] = [
+const subCategory4: SubCategories[] = [
   { name: "여성의류", isSelect: false },
   { name: "남성의류", isSelect: false },
   { name: "유아동의류", isSelect: false },
   { name: "기타", isSelect: false },
 ];
 // 잡화
-const mainCategory5: SubCategories[] = [
+const subCategory5: SubCategories[] = [
   { name: "신발", isSelect: false },
   { name: "가방", isSelect: false },
   { name: "모자", isSelect: false },
   { name: "기타", isSelect: false },
 ];
 // 도서/음반
-const mainCategory6: SubCategories[] = [
+const subCategory6: SubCategories[] = [
   { name: "책", isSelect: false },
   { name: "LP", isSelect: false },
   { name: "CD", isSelect: false },
@@ -79,7 +79,7 @@ const mainCategory6: SubCategories[] = [
   { name: "기타", isSelect: false },
 ];
 // 유아동
-const mainCategory7: SubCategories[] = [
+const subCategory7: SubCategories[] = [
   { name: "유모차", isSelect: false },
   { name: "장난감", isSelect: false },
   { name: "카시트", isSelect: false },
@@ -87,7 +87,7 @@ const mainCategory7: SubCategories[] = [
   { name: "기타", isSelect: false },
 ];
 // 게임/취미
-const mainCategory8: SubCategories[] = [
+const subCategory8: SubCategories[] = [
   { name: "닌텐도", isSelect: false },
   { name: "플레이스테이션", isSelect: false },
   { name: "XBOX", isSelect: false },
@@ -95,7 +95,7 @@ const mainCategory8: SubCategories[] = [
   { name: "기타", isSelect: false },
 ];
 // 스포츠/레저
-const mainCategory9: SubCategories[] = [
+const subCategory9: SubCategories[] = [
   { name: "골프", isSelect: false },
   { name: "캠핑", isSelect: false },
   { name: "홈트레이닝용품", isSelect: false },
@@ -106,49 +106,45 @@ const mainCategory9: SubCategories[] = [
   { name: "기타", isSelect: false },
 ];
 // 반려동물용품
-const mainCategory10: SubCategories[] = [
+const subCategory10: SubCategories[] = [
   { name: "강아지", isSelect: false },
   { name: "고양이", isSelect: false },
   { name: "기타", isSelect: false },
 ];
 // 기타
-const mainCategory11: SubCategories[] = [{ name: "기타", isSelect: false }];
+const subCategory11: SubCategories[] = [{ name: "기타", isSelect: false }];
 
-// Create Post 카테고리 선택창 Left
-export const initLeftMainCategories: MainCategories[] = [
+// 메인 카테고리 init
+export const initMainCategories: MainCategories[] = [
   {
     id: "1",
     name: "가구/침구류",
-    isSelect: false,
-    subCategories: mainCategory1,
+    isSelect: true,
+    subCategories: subCategory1,
   },
   {
     id: "2",
     name: "디지털기기",
     isSelect: false,
-    subCategories: mainCategory2,
+    subCategories: subCategory2,
   },
-  { id: "3", name: "생활가전", isSelect: false, subCategories: mainCategory3 },
-  { id: "4", name: "의류", isSelect: false, subCategories: mainCategory4 },
-  { id: "5", name: "잡화", isSelect: false, subCategories: mainCategory5 },
-  { id: "6", name: "도서/음반", isSelect: false, subCategories: mainCategory6 },
-];
-
-// Create Post 카테고리 선택창 Right
-export const initRightMainCategories: MainCategories[] = [
-  { id: "7", name: "유아동", isSelect: false, subCategories: mainCategory7 },
-  { id: "8", name: "게임/취미", isSelect: false, subCategories: mainCategory8 },
+  { id: "3", name: "생활가전", isSelect: false, subCategories: subCategory3 },
+  { id: "4", name: "의류", isSelect: false, subCategories: subCategory4 },
+  { id: "5", name: "잡화", isSelect: false, subCategories: subCategory5 },
+  { id: "6", name: "도서/음반", isSelect: false, subCategories: subCategory6 },
+  { id: "7", name: "유아동", isSelect: true, subCategories: subCategory7 },
+  { id: "8", name: "게임/취미", isSelect: false, subCategories: subCategory8 },
   {
     id: "9",
     name: "스포츠/레저",
     isSelect: false,
-    subCategories: mainCategory9,
+    subCategories: subCategory9,
   },
   {
     id: "10",
     name: "반려동물용품",
     isSelect: false,
-    subCategories: mainCategory10,
+    subCategories: subCategory10,
   },
-  { id: "11", name: "기타", isSelect: false, subCategories: mainCategory11 },
+  { id: "11", name: "기타", isSelect: false, subCategories: subCategory11 },
 ];

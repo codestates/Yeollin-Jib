@@ -5,6 +5,26 @@ interface ShowCategory {
   isSelect?: boolean;
 }
 
+export const Body = styled.div`
+  min-height: 90vh;
+  margin-top: 4.938rem;
+  background: linear-gradient(0deg, #fbfafc, #fbfafc);
+  display: flex;
+  justify-content: center;
+  padding: 0 30px 0 30px;
+
+  @media screen and (max-width: 37.5rem) {
+    padding: 0 5px 0 5px;
+  }
+`;
+
+export const MainArea = styled.main`
+  width: 78.75rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 export const MainPageContainer = styled.div`
   min-height: 90vh;
   width: 100%;
@@ -149,6 +169,7 @@ export const PostBoardTitleBox = styled.div`
     font-size: 24px;
     border-bottom: 0.313rem solid #fede8a;
     margin-left: 0.5rem;
+    font-weight: 300;
     @media screen and (max-width: 37.5rem) {
       border-bottom: 0.313rem solid #fede8a;
       font-size: 20px;
@@ -205,6 +226,8 @@ export const BlankPostCard = styled.div`
   box-sizing: border-box;
   border-radius: 5px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  font-weight: 100;
 `;

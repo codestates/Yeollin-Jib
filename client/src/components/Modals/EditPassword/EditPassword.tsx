@@ -117,6 +117,13 @@ function EditPassword({ setIsOpened }: IProps) {
     }
   };
 
+  // 인풋 입력 후 엔터를 치면 회원가입 요청을 보냄
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      handleSubmitBtn();
+    }
+  };
+
   return (
     <ModalBackground>
       <ModalContainer isSubmited={isSubmited ? true : false}>
@@ -135,7 +142,11 @@ function EditPassword({ setIsOpened }: IProps) {
           <>
             {/*비밀번호 변경 페이지---------------------------------------------------------*/}
             <InputTitle>비밀번호</InputTitle>
-            <InputField type="password" onChange={(e) => setPasswordData(e)} />
+            <InputField
+              type="password"
+              onChange={(e) => setPasswordData(e)}
+              onKeyPress={(e) => handleKeyPress(e)}
+            />
             <MsgContainer isColor={isRightPassword}>
               {password !== "" ? (
                 <>
@@ -150,6 +161,7 @@ function EditPassword({ setIsOpened }: IProps) {
             <InputField
               type="password"
               onChange={(e) => checkPasswordData(e)}
+              onKeyPress={(e) => handleKeyPress(e)}
             />
             <MsgContainer isColor={isRightCheckPassword}>
               {checkPassword !== "" ? (

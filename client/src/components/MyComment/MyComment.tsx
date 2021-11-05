@@ -15,7 +15,7 @@ function MyComment() {
 
   return (
     <>
-      {myComment === 0 ? (
+      {myComment !== 0 ? (
         // 내가 작성한 댓글이 0개일 때
         <CardContainer isContent={myComment !== 0 ? true : false}>
           <div>작성하신 댓글이 없습니다.</div>

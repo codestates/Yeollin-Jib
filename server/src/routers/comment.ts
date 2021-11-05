@@ -9,8 +9,8 @@ commentRouter.get("/:postId", commentcontroller.get);
 // 댓글 쓰기
 commentRouter.post("/:postId", accessToken, commentcontroller.post_c);
 // 댓글 수정
-commentRouter.patch("/:commetId", accessToken, commentcontroller.patch_c);
+commentRouter.patch("/:commentId", accessToken, commentcontroller.patch_c);
 // 댓글 삭제
-commentRouter.delete("/:commetId", accessToken, commentcontroller.delete_c);
+commentRouter.delete("/:commentId", accessToken, commentcontroller.delete_c);
 
 export default commentRouter;

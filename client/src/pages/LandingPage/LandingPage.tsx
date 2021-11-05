@@ -7,7 +7,6 @@ import {
   FirstSecondText,
   FirstTextContainer,
   FirstImageContainer,
-  FirstBodyContainer,
   BigCircle,
   SmallCircle,
   VerySmallCircle,
@@ -93,41 +92,39 @@ function LandingPage() {
     <AllLandingContainer>
       <SmallCircle></SmallCircle>
       <VerySmallCircle></VerySmallCircle>
+      <BigCircle></BigCircle>
       <FirstLandingContainer>
-        <BigCircle></BigCircle>
-        <FirstBodyContainer>
-          <FirstImageContainer>
-            <img src="./images/landing1.svg" alt="landingpage_img1"></img>
-          </FirstImageContainer>
-          <FirstTextContainer>
-            <FirstText>
-              <div>이사를 앞두고</div>
-              <div>처분하기 어려운 짐들이 있으신가요?</div>
-              <div>버리기에는 아까운 누군가에게 주고싶은</div>
-              <div>매력적인 물건들이 있으신가요?</div>
-            </FirstText>
-            <FirstSecondText>
-              열린집에서 물건을 손쉽게 나눔해보세요 !
-            </FirstSecondText>
-            <Link to="/main">
-              <GotoMainButton>열린집 보러가기</GotoMainButton>
-            </Link>
-          </FirstTextContainer>
-        </FirstBodyContainer>
+        <FirstImageContainer>
+          <img src="./images/landing1.svg" alt="landingpage_img1"></img>
+        </FirstImageContainer>
+        <FirstTextContainer>
+          <FirstText>
+            <div>이사를 앞두고</div>
+            <div>처분하기 어려운 짐들이 있으신가요?</div>
+            <div>버리기에는 아까운 누군가에게 주고싶은</div>
+            <div>매력적인 물건들이 있으신가요?</div>
+          </FirstText>
+          <FirstSecondText>
+            열린집에서 물건을 손쉽게 나눔해보세요 !
+          </FirstSecondText>
+          <Link to="/main">
+            <GotoMainButton>열린집 보러가기</GotoMainButton>
+          </Link>
+        </FirstTextContainer>
       </FirstLandingContainer>
       <SecLandingContainer>
         <SecBodyContainer>
           <SecAllBoxContainer>
             {SecondLandingPageTxt.map((el) => {
               return (
-                <SecBoxContainer>
+                <SecBoxContainer key={el.title}>
                   <SecImgContainer>
                     <img src={el.img} alt={el.title}></img>
                   </SecImgContainer>
                   <SecBigTxtContainer>{el.title}</SecBigTxtContainer>
                   <SecDescrContainer>
                     {el.descr.map((el) => {
-                      return <div>{el}</div>;
+                      return <div key={el[0]}>{el}</div>;
                     })}
                   </SecDescrContainer>
                 </SecBoxContainer>
@@ -138,19 +135,19 @@ function LandingPage() {
       </SecLandingContainer>
       {LandingPageTxt.map((el, idx) => {
         return (
-          <ThirLandingContainer>
+          <ThirLandingContainer key={el.title[0]}>
             <ThirBodyContainer>
               <AllContainer idx={idx}>
                 <ThirTextContainer>
                   <Circle></Circle>
                   <TitleContainer>
                     {el.title.map((el) => {
-                      return <div>{el}</div>;
+                      return <div key={el[0]}>{el}</div>;
                     })}
                   </TitleContainer>
                   <DescrContainer>
                     {el.descr.map((el) => {
-                      return <div>{el}</div>;
+                      return <div key={el[0]}>{el}</div>;
                     })}
                   </DescrContainer>
                 </ThirTextContainer>

@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import {
+  Body,
+  MainArea,
   Container,
   ContentContainer,
   TitleWrapper,
@@ -72,7 +74,7 @@ function SignUpPage() {
       setNicknameAlert("중복 확인이 필요합니다.");
     } else {
       // 유효 조건을 통과하지 못했을 경우, 유효 조건을 알려줌
-      setNicknameAlert("2글자 이상, 한글, 영어, 숫자만 가능합니다.");
+      setNicknameAlert("2~10글자, 한글, 영어, 숫자만 가능합니다.");
     }
     // 위의 두 경우 모두 올바른 값이 아니지만, 값이 입력됨
     setIsRightNickname(false);
@@ -207,97 +209,143 @@ function SignUpPage() {
     }
   };
 
+  // 인풋 입력 후 엔터를 치면 회원가입 요청을 보냄
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      handleSignupBtn();
+    }
+  };
+
+  // 인풋 입력 후 엔터를 치면 닉네임 중복확인 요청을 보냄
+  const handleNicknameKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      if (Inspect(nickname, "nickname")) {
+        handleNicknameBtn();
+      }
+    }
+  };
+
+  // 인풋 입력 후 엔터를 치면 이메일 중복확인 요청을 보냄
+  const handleEmailKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      if (Inspect(email, "email")) {
+        handleEmailBtn();
+      }
+    }
+  };
+
   return (
-    <Container>
-      {isSignup ? (
-        // 회원가입이 완료되었을 때
-        <SignupContainer>
-          <TitleWrapper>
-            <Title>축하합니다</Title>
-          </TitleWrapper>
-          <div>{`${nickname}님의 회원가입이 완료되었습니다.`}</div>
-          <Link to={"/login"}>
-            <SignupLoginBtn>로그인 하러가기</SignupLoginBtn>
-          </Link>
-        </SignupContainer>
-      ) : (
-        // 회원가입 Form
-        <ContentContainer>
-          <TitleWrapper>
-            <Title>회원가입</Title>
-          </TitleWrapper>
-          <InputTitle>닉네임</InputTitle>
-          <InputContainer>
-            <SmallInputField type="text" onChange={(e) => setNicknameData(e)} />
-            <ValidationBtn onClick={() => handleNicknameBtn()}>
-              중복 확인
-            </ValidationBtn>
-          </InputContainer>
-          <MsgContainer isColor={isRightNickname}>
-            {nickname !== "" ? (
-              <>
-                <WarningIcon color={isRightNickname ? "#2d2d2d" : "#f44336"} />
-                <div>{nicknameAlert}</div>
-              </>
-            ) : null}
-          </MsgContainer>
-          <InputTitle>이메일</InputTitle>
-          <InputContainer>
-            <SmallInputField type="text" onChange={(e) => setEmailData(e)} />
-            <ValidationBtn onClick={() => handleEmailBtn()}>
-              중복 확인
-            </ValidationBtn>
-          </InputContainer>
-          <MsgContainer isColor={isRightEmail}>
-            {email !== "" ? (
-              <>
-                <WarningIcon color={isRightEmail ? "#2d2d2d" : "#f44336"} />
-                <div>{emailAlert}</div>
-              </>
-            ) : null}
-          </MsgContainer>
-          <InputTitle>비밀번호</InputTitle>
-          <InputField type="password" onChange={(e) => setPasswordData(e)} />
-          <MsgContainer isColor={isRightPassword}>
-            {password !== "" ? (
-              <>
-                <WarningIcon color={isRightPassword ? "#2d2d2d" : "#f44336"} />
-                <div>{passwordAlert}</div>
-              </>
-            ) : null}
-          </MsgContainer>
-          <InputTitle>비밀번호 확인</InputTitle>
-          <InputField
-            type="password"
-            onChange={(e) => setcheckPasswordData(e)}
-          />
-          <MsgContainer isColor={isRightCheckPassword}>
-            {checkPassword !== "" ? (
-              <>
-                <WarningIcon
-                  color={isRightCheckPassword ? "#2d2d2d" : "#f44336"}
+    <Body>
+      <MainArea>
+        <Container>
+          {isSignup ? (
+            // 회원가입이 완료되었을 때
+            <SignupContainer>
+              <TitleWrapper>
+                <Title>축하합니다</Title>
+              </TitleWrapper>
+              <div>{`${nickname}님의 회원가입이 완료되었습니다.`}</div>
+              <Link to={"/login"}>
+                <SignupLoginBtn>로그인 하러가기</SignupLoginBtn>
+              </Link>
+            </SignupContainer>
+          ) : (
+            // 회원가입 Form
+            <ContentContainer>
+              <TitleWrapper>
+                <Title>회원가입</Title>
+              </TitleWrapper>
+              <InputTitle>닉네임</InputTitle>
+              <InputContainer>
+                <SmallInputField
+                  type="text"
+                  onChange={(e) => setNicknameData(e)}
+                  onKeyPress={(e) => handleNicknameKeyPress(e)}
                 />
-                <div>{checkPasswordAlert}</div>
-              </>
-            ) : null}
-          </MsgContainer>
-          <InvalidMessage>
-            {!isCompleted ? (
-              <>
-                <img src="./images/warning.svg" alt="warning" />
-                <div>모든 항목을 바르게 입력해 주세요.</div>
-              </>
-            ) : null}
-          </InvalidMessage>
-          <SignupLoginBtn onClick={() => handleSignupBtn()}>
-            회원가입
-          </SignupLoginBtn>
-          <Link to={"/login"}>
-            <LoginBtn>이미 가입하셨나요? 로그인 하러가기</LoginBtn>
-          </Link>
-        </ContentContainer>
-      )}
-    </Container>
+                <ValidationBtn onClick={() => handleNicknameBtn()}>
+                  중복 확인
+                </ValidationBtn>
+              </InputContainer>
+              <MsgContainer isColor={isRightNickname}>
+                {nickname !== "" ? (
+                  <>
+                    <WarningIcon
+                      color={isRightNickname ? "#2d2d2d" : "#f44336"}
+                    />
+                    <div>{nicknameAlert}</div>
+                  </>
+                ) : null}
+              </MsgContainer>
+              <InputTitle>이메일</InputTitle>
+              <InputContainer>
+                <SmallInputField
+                  type="text"
+                  onChange={(e) => setEmailData(e)}
+                  onKeyPress={(e) => handleEmailKeyPress(e)}
+                />
+                <ValidationBtn onClick={() => handleEmailBtn()}>
+                  중복 확인
+                </ValidationBtn>
+              </InputContainer>
+              <MsgContainer isColor={isRightEmail}>
+                {email !== "" ? (
+                  <>
+                    <WarningIcon color={isRightEmail ? "#2d2d2d" : "#f44336"} />
+                    <div>{emailAlert}</div>
+                  </>
+                ) : null}
+              </MsgContainer>
+              <InputTitle>비밀번호</InputTitle>
+              <InputField
+                type="password"
+                onChange={(e) => setPasswordData(e)}
+                onKeyPress={(e) => handleKeyPress(e)}
+              />
+              <MsgContainer isColor={isRightPassword}>
+                {password !== "" ? (
+                  <>
+                    <WarningIcon
+                      color={isRightPassword ? "#2d2d2d" : "#f44336"}
+                    />
+                    <div>{passwordAlert}</div>
+                  </>
+                ) : null}
+              </MsgContainer>
+              <InputTitle>비밀번호 확인</InputTitle>
+              <InputField
+                type="password"
+                onChange={(e) => setcheckPasswordData(e)}
+                onKeyPress={(e) => handleKeyPress(e)}
+              />
+              <MsgContainer isColor={isRightCheckPassword}>
+                {checkPassword !== "" ? (
+                  <>
+                    <WarningIcon
+                      color={isRightCheckPassword ? "#2d2d2d" : "#f44336"}
+                    />
+                    <div>{checkPasswordAlert}</div>
+                  </>
+                ) : null}
+              </MsgContainer>
+              <InvalidMessage>
+                {!isCompleted ? (
+                  <>
+                    <img src="./images/warning.svg" alt="warning" />
+                    <div>모든 항목을 바르게 입력해 주세요.</div>
+                  </>
+                ) : null}
+              </InvalidMessage>
+              <SignupLoginBtn onClick={() => handleSignupBtn()}>
+                회원가입
+              </SignupLoginBtn>
+              <Link to={"/login"}>
+                <LoginBtn>이미 가입하셨나요? 로그인 하러가기</LoginBtn>
+              </Link>
+            </ContentContainer>
+          )}
+        </Container>
+      </MainArea>
+    </Body>
   );
 }
 

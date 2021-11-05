@@ -8,12 +8,13 @@ export const AllLandingContainer = styled.div`
   background: linear-gradient(0deg, #fbfafc, #fbfafc);
   display: flex;
   flex-direction: column;
-  width: 120rem;
+  width: 100%;
   justify-content: center;
+  align-items: center;
   font-family: "Gmarket Sans TTF";
   transition: 0.5s all;
   @media screen and (max-width: 37.5rem) {
-    width: 360px;
+    width: 100%;
     flex-direction: column;
     align-items: center;
     transition: 0.5s all;
@@ -21,52 +22,40 @@ export const AllLandingContainer = styled.div`
 `;
 
 export const FirstLandingContainer = styled.div`
-  width: 120rem;
+  width: 78.75rem;
   height: 51.313rem;
   display: flex;
   background: linear-gradient(0deg, #fbfafc, #fbfafc);
-  justify-content: center;
   transition: 0.5s all;
+  flex-direction: row-reverse;
   @media screen and (max-width: 37.5rem) {
     display: flex;
     flex-direction: column;
-    width: 360px;
+    width: 100%;
     height: 636px;
     transition: 0.5s all;
     margin-bottom: 62px;
   }
 `;
 
-export const FirstBodyContainer = styled.div`
+export const FirstTextContainer = styled.div`
   display: flex;
-  background: linear-gradient(0deg, #fbfafc, #fbfafc);
-  padding: 0 30px 0 30px;
-  width: 78.75rem;
-  transition: 0.5s all;
-  flex-direction: row-reverse;
-  @media screen and (max-width: 37.5rem) {
-    width: 360px;
-    padding: 0 5px 0 5px;
-    display: flex;
-    flex-direction: column;
-    transition: 0.5s all;
-  }
-`;
-
-export const FirstTextContainer = styled.span`
-  display: flex;
+  width: 100%;
+  height: 100%;
   margin-top: 0.5rem;
   flex-direction: column;
   justify-content: center;
   z-index: 1;
   transition: 0.5s all;
+  word-break: keep-all;
+
   @media screen and (max-width: 37.5rem) {
     margin-top: 0;
     transition: 0.5s all;
     justify-content: center;
     align-items: center;
     text-align: center;
-    width: 360px;
+    width: 100%;
     height: 313px;
     transition: 0.5s all;
   }
@@ -74,18 +63,17 @@ export const FirstTextContainer = styled.span`
 
 export const FirstImageContainer = styled.div`
   margin-top: 7.5rem;
-  width: 726.83px;
-  height: 533.47px;
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   z-index: 0;
   transition: 0.5s all;
   @media screen and (max-width: 37.5rem) {
-    width: 300px;
-    height: 300px;
-    margin-top: 0;
+    width: 100%;
+    height: auto;
     display: flex;
     flex-direction: column;
+    align-items: center;
     justify-content: center;
     transition: 0.5s all;
     img {
@@ -116,6 +104,7 @@ export const FirstSecondText = styled.div`
   font-size: 1.875rem;
   margin: 0.5rem 0 2.75rem 0;
   transition: 0.5s all;
+  /* -webkit-text-stroke: 1px #ffffff; */
   @media screen and (max-width: 37.5rem) {
     font-size: 20px;
     transition: 0.5s all;
@@ -136,6 +125,9 @@ export const GotoMainButton = styled.button`
   color: #ffffff;
   border: none;
   transition: 0.5s all;
+  :active {
+    background: #3f3f3f;
+  }
   @media screen and (max-width: 37.5rem) {
     width: 180px;
     height: 45px;
@@ -145,9 +137,10 @@ export const GotoMainButton = styled.button`
 `;
 
 export const BigCircle = styled.span`
-  position: relative;
-  left: 7.05rem;
-  top: 13.35rem;
+  position: absolute;
+
+  left: 13.2%;
+  top: 16.35rem;
   width: 10.125rem;
   height: 10.5rem;
   background: #fede8a;
@@ -199,7 +192,7 @@ export const SecLandingContainer = styled.div`
   @media screen and (max-width: 37.5rem) {
     display: flex;
     flex-wrap: nowrap;
-    width: 362px;
+    width: 100%;
     height: 866px;
     display: flex;
     justify-items: center;
@@ -322,7 +315,7 @@ export const ThirLandingContainer = styled.div`
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    width: 360px;
+    width: 100%;
     height: 531px;
     transition: 0.5s all;
   }

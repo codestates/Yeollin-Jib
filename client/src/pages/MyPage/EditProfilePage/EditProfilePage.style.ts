@@ -4,6 +4,26 @@ interface IMsgProps {
   isColor: boolean;
 }
 
+export const Body = styled.div`
+  min-height: 90vh;
+  margin-top: 4.938rem;
+  background: linear-gradient(0deg, #fbfafc, #fbfafc);
+  display: flex;
+  justify-content: center;
+  padding: 0 30px 0 30px;
+
+  @media screen and (max-width: 37.5rem) {
+    padding: 0 5px 0 5px;
+  }
+`;
+
+export const MainArea = styled.main`
+  width: 78.75rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 export const Container = styled.div`
   box-sizing: border-box;
   display: flex;
@@ -218,7 +238,7 @@ export const InputField = styled.input`
   }
 `;
 
-export const SearchBtn = styled.button`
+export const ValidationBtn = styled.button`
   outline: none;
   border: 1px solid #2d2d2d;
   background: #2d2d2d;
@@ -281,7 +301,7 @@ export const MsgContainer = styled.div<IMsgProps>`
 export const BtnContainer = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 50px;
+  margin: 40px 0 40px 0;
 `;
 
 export const BlackBtn = styled.button`

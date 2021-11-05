@@ -1,5 +1,25 @@
 import styled from "styled-components";
 
+export const Body = styled.div`
+  min-height: 90vh;
+  margin-top: 4.938rem;
+  background: linear-gradient(0deg, #fbfafc, #fbfafc);
+  display: flex;
+  justify-content: center;
+  padding: 0 30px 0 30px;
+
+  @media screen and (max-width: 37.5rem) {
+    padding: 0 5px 0 5px;
+  }
+`;
+
+export const MainArea = styled.main`
+  width: 78.75rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 export const DetailPageContainer = styled.article`
   width: 100%;
   height: 100%;
@@ -147,6 +167,7 @@ export const DueDateBox = styled.div`
     font-size: 14px;
   }
 `;
+
 export const CategoryBox = styled.div`
   width: 100%;
   height: 167px;

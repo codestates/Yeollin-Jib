@@ -28,7 +28,7 @@ export const ModalContainer = styled.div<IContainerProps>`
   flex-direction: column;
   justify-content: space-between;
   width: 468px;
-  height: 599px;
+  height: ${(props) => (props.isSubmited ? "265.5px" : "599px")};
   background-color: #fdfbfe;
   border: 1px solid #e0dde1;
   border-radius: 0.313rem;
@@ -38,8 +38,8 @@ export const ModalContainer = styled.div<IContainerProps>`
 
   @media screen and (max-width: 37.5rem) {
     width: 366px;
-    height: 466px;
-    margin-bottom: ${(props) => (props.isSubmited ? "300px" : "140px")};
+    height: ${(props) => (props.isSubmited ? "265.5px" : "466px")};
+    margin-bottom: ${(props) => (props.isSubmited ? "300px" : "80px")};
     padding: 30px 20px 30px 20px;
     transition: 0.5s width, height, padding;
   }
@@ -133,7 +133,6 @@ export const MsgContainer = styled.div`
   margin: 5px 0 11px 0;
   padding-left: 5px;
   height: 12px;
-  /* color: ${(props) => (props ? "#2d2d2d" : "#f44336")}; */
 
   div {
     margin-left: 3px;
@@ -204,7 +203,16 @@ export const BlackBtn = styled.button`
   height: 2.5rem;
   cursor: pointer;
   transition: 0.5s all;
-
+  :disabled {
+    border: 1px solid #2d2d2d;
+    background-color: #636363;
+    color: #ffffff;
+    cursor: default;
+    border: none;
+  }
+  :active {
+    background: #3f3f3f;
+  }
   @media screen and (max-width: 37.5rem) {
     font-size: 0.8rem;
     width: 4rem;
@@ -226,6 +234,9 @@ export const WhiteBtn = styled.button`
   cursor: pointer;
   transition: 0.5s all;
   margin-left: 5px;
+  :active {
+    background: #f5f4f5;
+  }
 
   @media screen and (max-width: 37.5rem) {
     font-size: 0.8rem;
@@ -240,9 +251,10 @@ export const CompletedMsg = styled.div`
   font-size: 1rem;
   color: #2d2d2d;
   margin-bottom: 2.7rem;
+  text-align: center;
 
   @media screen and (max-width: 37.5rem) {
-    font-size: 0.8rem;
+    font-size: 1rem;
     margin-bottom: 2rem;
   }
 `;

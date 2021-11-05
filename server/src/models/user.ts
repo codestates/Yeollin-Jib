@@ -16,6 +16,7 @@ class user extends Model {
     userArea: string;
     imagePath: string;
     password: string;
+    loginType: boolean;
   };
   public readonly id!: number;
   public nickname!: string;
