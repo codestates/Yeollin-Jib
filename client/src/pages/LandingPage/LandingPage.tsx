@@ -26,6 +26,8 @@ import {
   DescrContainer,
   AllContainer,
   Circle,
+  BodyContainer,
+  BodyOutContainer,
 } from "./LandingPage.style";
 
 function LandingPage() {
@@ -93,25 +95,29 @@ function LandingPage() {
       <SmallCircle></SmallCircle>
       <VerySmallCircle></VerySmallCircle>
       <BigCircle></BigCircle>
-      <FirstLandingContainer>
-        <FirstImageContainer>
-          <img src="./images/landing1.svg" alt="landingpage_img1"></img>
-        </FirstImageContainer>
-        <FirstTextContainer>
-          <FirstText>
-            <div>이사를 앞두고</div>
-            <div>처분하기 어려운 짐들이 있으신가요?</div>
-            <div>버리기에는 아까운 누군가에게 주고싶은</div>
-            <div>매력적인 물건들이 있으신가요?</div>
-          </FirstText>
-          <FirstSecondText>
-            열린집에서 물건을 손쉽게 나눔해보세요 !
-          </FirstSecondText>
-          <Link to="/main">
-            <GotoMainButton>열린집 보러가기</GotoMainButton>
-          </Link>
-        </FirstTextContainer>
-      </FirstLandingContainer>
+      <BodyOutContainer>
+        <BodyContainer>
+          <FirstLandingContainer>
+            <FirstTextContainer>
+              <FirstText>
+                <div>이사를 앞두고</div>
+                <div>처분하기 어려운 짐들이 있으신가요?</div>
+                <div>버리기에는 아까운 누군가에게 주고싶은</div>
+                <div>매력적인 물건들이 있으신가요?</div>
+              </FirstText>
+              <FirstSecondText>
+                열린집에서 물건을 손쉽게 나눔해보세요 !
+              </FirstSecondText>
+              <Link to="/main">
+                <GotoMainButton>열린집 보러가기</GotoMainButton>
+              </Link>
+            </FirstTextContainer>
+            <FirstImageContainer>
+              <img src="./images/landing1.svg" alt="landingpage_img1"></img>
+            </FirstImageContainer>
+          </FirstLandingContainer>
+        </BodyContainer>
+      </BodyOutContainer>
       <SecLandingContainer>
         <SecBodyContainer>
           <SecAllBoxContainer>

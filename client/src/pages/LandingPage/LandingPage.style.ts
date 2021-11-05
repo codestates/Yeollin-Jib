@@ -10,7 +10,7 @@ export const AllLandingContainer = styled.div`
   flex-direction: column;
   width: 100%;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   font-family: "Gmarket Sans TTF";
   transition: 0.5s all;
   @media screen and (max-width: 37.5rem) {
@@ -21,12 +21,26 @@ export const AllLandingContainer = styled.div`
   }
 `;
 
+export const BodyContainer = styled.main`
+  width: 100%;
+  max-width: 78.75rem;
+  padding: 0 30px 0 30px;
+  background: linear-gradient(0deg, #fbfafc, #fbfafc);
+`;
+
+export const BodyOutContainer = styled.main`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background: linear-gradient(0deg, #fbfafc, #fbfafc);
+`;
+
 export const FirstLandingContainer = styled.div`
   width: 100%;
   height: 51.313rem;
   display: flex;
+  align-items: center;
   background: linear-gradient(0deg, #fbfafc, #fbfafc);
-
   transition: 0.5s all;
   position: relative;
   @media screen and (max-width: 37.5rem) {
@@ -42,11 +56,11 @@ export const FirstLandingContainer = styled.div`
 export const FirstTextContainer = styled.div`
   display: flex;
   height: 100%;
-  margin-top: 0.5rem;
   flex-direction: column;
   justify-content: center;
-  z-index: 1;
   transition: 0.5s all;
+  z-index: 2;
+  position: absolute;
   @media screen and (max-width: 37.5rem) {
     margin-top: 0;
     transition: 0.5s all;
@@ -60,14 +74,16 @@ export const FirstTextContainer = styled.div`
 `;
 
 export const FirstImageContainer = styled.div`
-  margin-top: 7.5rem;
-  display: flex;
-  max-width: 100%;
-  right: 0;
   position: absolute;
-  justify-content: flex-end;
-  z-index: 0;
+  display: flex;
+  align-items: center;
+  height: 100%;
   transition: 0.5s all;
+  z-index: 1;
+  right: 0;
+  img {
+    width: 700px;
+  }
   @media screen and (max-width: 37.5rem) {
     width: 100%;
     height: auto;
@@ -78,7 +94,6 @@ export const FirstImageContainer = styled.div`
     transition: 0.5s all;
     img {
       width: 317px;
-      height: 289px;
     }
   }
 `;
@@ -87,7 +102,7 @@ export const FirstText = styled.div`
   font-weight: 100;
   font-size: 1.5rem;
   transition: 0.5s all;
-  div {
+  span {
     margin-bottom: 0.813rem;
   }
   @media screen and (max-width: 37.5rem) {
@@ -145,6 +160,7 @@ export const BigCircle = styled.span`
   background: #fede8a;
   border-radius: 100%;
   transition: 0.5s all;
+  z-index: 1;
   @media screen and (max-width: 37.5rem) {
     display: none;
   }
@@ -179,11 +195,14 @@ export const VerySmallCircle = styled.span`
     transition: 0.5s all;
   }
 `;
+
 export const SecLandingContainer = styled.div`
   display: flex;
+  justify-content: center;
   flex-direction: row;
   width: 100%;
-  height: 635px;
+  height: fit-content;
+  padding: 118px 0 118px 0;
   background: #fede8a;
   justify-content: center;
   font-family: Gmarket Sans TTF;
@@ -205,7 +224,7 @@ export const SecBodyContainer = styled.div`
   flex-direction: row;
   background: #fede8a;
   padding: 0 30px 0 30px;
-  width: 78.75rem;
+  width: 100%;
   transition: 0.5s all;
 
   @media screen and (max-width: 37.5rem) {
@@ -220,7 +239,8 @@ export const SecBodyContainer = styled.div`
 export const SecAllBoxContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
+  flex-wrap: wrap;
   width: 100%;
   align-items: center;
   transition: 0.5s all;
@@ -244,6 +264,7 @@ export const SecBoxContainer = styled.div`
   height: 400px;
   justify-content: space-evenly;
   transition: 0.5s all;
+  margin: 59px 19px 57px 19px;
   @media screen and (max-width: 37.5rem) {
     width: 240px;
     height: 210px;
