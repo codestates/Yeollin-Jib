@@ -14,9 +14,9 @@ import {
   FirstTxt,
   SecondTxt,
 } from "./ChatRoomPage.style";
-import NoChat from "../../components/NoChat/NoChat";
-import ChatRoom from "../../components/ChatRoom/ChatRoom";
-import ChatList from "../../components/ChatList/ChatList";
+import NoChat from "./NoChat/NoChat";
+import ChatRoom from "./ChatRoom/ChatRoom";
+import ChatList from "./ChatList/ChatList";
 function ChatRoomPage() {
   const [clicked, setClicked] = useState(false);
   const clickHandle = (e: any) => {

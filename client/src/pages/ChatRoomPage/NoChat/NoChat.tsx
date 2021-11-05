@@ -6,7 +6,7 @@ import {
   NoChatImgContainer,
   NoChatRightContainer,
   GotoMainButton,
-} from "../../pages/ChatRoomPage/ChatRoomPage.style";
+} from "../ChatRoomPage.style";
 
 import { ChatListContainer } from "./NoChat.style";
 function NoChat() {
