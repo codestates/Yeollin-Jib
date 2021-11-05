@@ -18,7 +18,6 @@ import {
   SecDescrContainer,
   SecAllBoxContainer,
   ThirLandingContainer,
-  ThirBodyContainer,
   ThirTextContainer,
   SevLandingContainer,
   ThirImageContainer,
@@ -28,6 +27,8 @@ import {
   Circle,
   BodyContainer,
   BodyOutContainer,
+  ThirdBodyContainer,
+  ThirdBodyOutContainer,
 } from "./LandingPage.style";
 
 function LandingPage() {
@@ -121,9 +122,9 @@ function LandingPage() {
       <SecLandingContainer>
         <SecBodyContainer>
           <SecAllBoxContainer>
-            {SecondLandingPageTxt.map((el) => {
+            {SecondLandingPageTxt.map((el, idx) => {
               return (
-                <SecBoxContainer key={el.title}>
+                <SecBoxContainer idx={idx} key={el.title}>
                   <SecImgContainer>
                     <img src={el.img} alt={el.title}></img>
                   </SecImgContainer>
@@ -139,33 +140,35 @@ function LandingPage() {
           </SecAllBoxContainer>
         </SecBodyContainer>
       </SecLandingContainer>
-      {LandingPageTxt.map((el, idx) => {
-        return (
-          <ThirLandingContainer key={el.title[0]}>
-            <ThirBodyContainer>
-              <AllContainer idx={idx}>
-                <ThirTextContainer>
-                  <Circle></Circle>
-                  <TitleContainer>
-                    {el.title.map((el) => {
-                      return <div key={el[0]}>{el}</div>;
-                    })}
-                  </TitleContainer>
-                  <DescrContainer>
-                    {el.descr.map((el) => {
-                      return <div key={el[0]}>{el}</div>;
-                    })}
-                  </DescrContainer>
-                </ThirTextContainer>
-                <ThirImageContainer idx={idx}>
-                  {" "}
-                  <img src={el.img} alt={el.title[0]}></img>
-                </ThirImageContainer>
-              </AllContainer>
-            </ThirBodyContainer>
-          </ThirLandingContainer>
-        );
-      })}
+      <ThirdBodyOutContainer>
+        <ThirdBodyContainer>
+          {LandingPageTxt.map((el, idx) => {
+            return (
+              <ThirLandingContainer idx={idx} key={el.title[0]}>
+                <AllContainer idx={idx}>
+                  <ThirTextContainer idx={idx}>
+                    <Circle></Circle>
+                    <TitleContainer>
+                      {el.title.map((el) => {
+                        return <div key={el[0]}>{el}</div>;
+                      })}
+                    </TitleContainer>
+                    <DescrContainer>
+                      {el.descr.map((el) => {
+                        return <div key={el[0]}>{el}</div>;
+                      })}
+                    </DescrContainer>
+                  </ThirTextContainer>
+                  <ThirImageContainer idx={idx}>
+                    {" "}
+                    <img src={el.img} alt={el.title[0]}></img>
+                  </ThirImageContainer>
+                </AllContainer>
+              </ThirLandingContainer>
+            );
+          })}
+        </ThirdBodyContainer>
+      </ThirdBodyOutContainer>
       <SevLandingContainer>
         {" "}
         <Link to="/main">
