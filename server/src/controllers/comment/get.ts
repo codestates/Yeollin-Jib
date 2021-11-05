@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import user from "../../models/user";
 import comment from "../../models/comment";
+import post from "../../models/post";
 const get = async (req: Request, res: Response) => {
   const { postId } = req.params;
 
