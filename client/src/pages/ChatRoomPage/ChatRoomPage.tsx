@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { useState } from "react";
 import {
   ChatListContainer,
@@ -66,7 +65,7 @@ function ChatRoomPage() {
                   </SecondTxt>
                 </ClickTxtContainer>
                 <ImgContainer>
-                  <img src="./images/selectChat.svg"></img>
+                  <img src="./images/selectChat.svg" alt="select_chat"></img>
                 </ImgContainer>
               </ClickChatContainer>
               <div className="Mobile_Container">
@@ -83,7 +82,6 @@ function ChatRoomPage() {
                   <ChatList></ChatList>
                 </ChatCard>
               </div>
-
               {clicked ? (
                 <ChattingContainer>
                   <ChatRoom></ChatRoom>

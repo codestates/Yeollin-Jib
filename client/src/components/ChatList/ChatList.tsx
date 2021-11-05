@@ -1,11 +1,8 @@
 import React from "react";
 import {
-  NoCardContainer,
-  CardContainer,
   UserInfoContainer,
   UserPhotoContainer,
   UserNickname,
-  SendButtonContainer,
   MessageContainer,
   UserTopContainer,
 } from "./ChatList.style";
