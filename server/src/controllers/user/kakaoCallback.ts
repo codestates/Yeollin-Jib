@@ -5,29 +5,33 @@ import * as dotenv from "dotenv";
 const jwt = require("jsonwebtoken");
 dotenv.config();
 
-const kakaoLogin = async (req: Request, res: Response) => {
+const kakaoCallback = async (req: Request, res: Response) => {
   const code = req.query.code;
+
   try {
+    // 카카오 로그인
     const result: any = await axios.post(
       `https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${process.env.KAKAO_REST_API_KEY}&redirect_uri=${process.env.KAKAO_REDIRECT_URI}&code=${code}`
     );
 
-    const KakkoAccessToken = result.data.code;
-
+    // 카카오 로그인한 유저 정보 받기
     const userInfo: any = await axios.get(`https://kapi.kakao.com/v2/user/me`, {
       headers: {
-        Authorization: `Bearer ${KakkoAccessToken}`,
+        Authorization: `Bearer ${result.data.access_token}`,
       },
     });
 
+    // 카카오에서 유저 데이터를 받아와 email이 데이터베이스에 존재하는지 검사 후 없으면 새로 저장
     const [findUser, exist] = await user.findOrCreate({
       where: {
-        email: userInfo.data.account_email,
+        email: userInfo.data.kakao_account.email,
       },
       defaults: {
-        nickname: userInfo.data.profile_nickname,
-        email: userInfo.data.account_email,
-        imagePath: userInfo.data.profile_image,
+        nickname: userInfo.data.kakao_account.email.split("@")[0],
+        email: userInfo.data.kakao_account.account_email,
+        imagePath: userInfo.data.kakao_account.profile.is_default_image
+          ? null
+          : userInfo.data.kakao_account.profile.profile_image_url,
         password: userInfo.data.id,
         salt: userInfo.data.id,
         loginType: true,
@@ -65,4 +69,4 @@ const kakaoLogin = async (req: Request, res: Response) => {
   }
 };
 
-export default kakaoLogin;
+export default kakaoCallback;
