@@ -1,7 +1,7 @@
 ---
 name: Dev-Log 마크다운 템플릿
 about: Suggest an idea for this project
-title: "[Dev-Log]"
+title: "[Dev-Log] 이름 / 2021-MM-DD"
 labels: Dev Log
 assignees: ''
 
