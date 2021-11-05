@@ -43,7 +43,7 @@ comment.init(
     freezeTableName: true,
     timestamps: true,
     updatedAt: "updateTimestamp",
-  }
+  },
 );
 
 export const associate = (db: dbType) => {
