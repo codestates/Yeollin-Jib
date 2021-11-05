@@ -9,6 +9,11 @@ import {
   Body,
   MainArea,
   ChattingContainer,
+  ClickChatContainer,
+  ClickTxtContainer,
+  ImgContainer,
+  FirstTxt,
+  SecondTxt,
 } from "./ChatRoomPage.style";
 import NoChat from "../../components/NoChat/NoChat";
 import ChatRoom from "../../components/ChatRoom/ChatRoom";
@@ -30,7 +35,7 @@ function ChatRoomPage() {
     });
   };
 
-  const chat = [];
+  const chat = [2];
   return (
     <Body>
       <MainArea>
@@ -52,6 +57,18 @@ function ChatRoomPage() {
                   <ChatList></ChatList>
                 </ChatCard>
               </ChatListContainer>
+              <ClickChatContainer clicked={!clicked}>
+                <ClickTxtContainer>
+                  <FirstTxt>대화 하고 싶은 채팅방을 클릭하세요</FirstTxt>
+                  <SecondTxt>
+                    <div>새로 대화하고 싶은 유저가 있다면,</div>
+                    <div>게시글의 채팅 아이콘을 눌러 대화를 시작해주세요.</div>
+                  </SecondTxt>
+                </ClickTxtContainer>
+                <ImgContainer>
+                  <img src="./images/selectChat.svg"></img>
+                </ImgContainer>
+              </ClickChatContainer>
               <div className="Mobile_Container">
                 <ChatListTxt>
                   <span>채팅 목록</span>
@@ -66,6 +83,7 @@ function ChatRoomPage() {
                   <ChatList></ChatList>
                 </ChatCard>
               </div>
+
               {clicked ? (
                 <ChattingContainer>
                   <ChatRoom></ChatRoom>
