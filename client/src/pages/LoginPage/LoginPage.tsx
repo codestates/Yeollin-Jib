@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Body,
   MainArea,
@@ -15,8 +15,9 @@ import {
 } from "./LoginPage.style";
 import { RootState } from "../../reducers/rootReducer";
 import { useDispatch, useSelector } from "react-redux";
-import { setAuth } from "../../reducers/authReducer";
+import { setAuth, setSocialLogin } from "../../reducers/authReducer";
 import { Link, Redirect } from "react-router-dom";
+import queryString from "query-string";
 import Inspect from "../SignUpPage/Inspect";
 
 function LoginPage() {
@@ -66,6 +67,28 @@ function LoginPage() {
     }
   };
 
+  // 구글 로그인 버튼을 누르면 서버에 구글 로그인 요청
+  const handleGoogleLoginBtn = async () => {
+    await window.location.assign(
+      `${process.env.REACT_APP_API_URL}/user/login/google`
+    );
+  };
+
+  // 카카오 로그인 버튼을 누르면 서버에 구글 로그인 요청
+  const handleKakaoLoginBtn = async () => {
+    await window.location.assign(
+      `${process.env.REACT_APP_API_URL}/user/login/kakao`
+    );
+  };
+
+  // 서버에서 쿼리에 access_token을 보내주면 현재 url을 감지해 access_token을 저장
+  useEffect(() => {
+    const query = queryString.parse(window.location.search);
+    if (query.access_token) {
+      dispatch(setSocialLogin(query.access_token));
+    }
+  }, [window.location]);
+
   return (
     <Body>
       <MainArea>
@@ -104,15 +127,15 @@ function LoginPage() {
                 로그인
               </LoginBtn>
               {/*소셜 로그인 버튼---------------------------------------------------------*/}
-              <SocialLoginBtn>
+              <SocialLoginBtn onClick={() => handleGoogleLoginBtn()}>
                 <img src="./images/googleLogo.svg" alt="google" />
                 <div>구글 로그인</div>
               </SocialLoginBtn>
-              <SocialLoginBtn>
+              <SocialLoginBtn onClick={() => handleKakaoLoginBtn()}>
                 <img src="./images/kakaoLogo.svg" alt="kakao" />
                 <div>카카오 로그인</div>
               </SocialLoginBtn>
-              {/*회원가입 버튼---------------------------------------------------------*/}
+              {/*회원가입 버튼————————————————————————————*/}
               <Link to={"/signup"}>
                 <SignupBtn>
                   아직 이메일이 없으신가요? 회원가입 하러가기

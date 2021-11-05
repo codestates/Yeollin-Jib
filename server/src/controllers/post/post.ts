@@ -64,7 +64,7 @@ const post_user = async (req: Request, res: Response) => {
 
     return res
       .status(201)
-      .json({ postId: postId, message: "게시글이 수정되었습니다." });
+      .json({ postId: postId, message: "게시글이 생성되었습니다." });
   } catch (err) {
     console.log(err);
     return res.status(501).json({ message: "서버 에러 입니다." });

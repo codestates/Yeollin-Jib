@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import user from "../../models/user";
 import comment from "../../models/comment";
 const patch_c = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const { commentId } = req.params;
   const { contents } = req.body;
   const userId = req.cookies.id;
 
@@ -16,7 +16,7 @@ const patch_c = async (req: Request, res: Response) => {
 
     const commentInfo: any = await comment.findOne({
       where: {
-        id: id,
+        id: commentId,
       },
     });
 
@@ -25,7 +25,7 @@ const patch_c = async (req: Request, res: Response) => {
         contents,
       },
       {
-        where: { id: id },
+        where: { id: commentId },
       }
     );
 
@@ -34,7 +34,7 @@ const patch_c = async (req: Request, res: Response) => {
     };
 
     const payload = {
-      id: id,
+      id: commentId,
       userId: userId,
       postId: commentInfo.postId,
       contents,

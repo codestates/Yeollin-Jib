@@ -27,10 +27,19 @@ const get = async (req: Request, res: Response) => {
     }
     const userInfo = await user.findAll({
       where: { id: userId },
-      attributes: ["id", "email", "nickname", "userArea", "imagePath"],
+      attributes: [
+        "id",
+        "email",
+        "nickname",
+        "userArea",
+        "imagePath",
+        "loginType",
+      ],
     });
-    const { id, email, nickname, userArea, imagePath } = userInfo[0].dataValues;
-    const data = { id, email, nickname, userArea, imagePath };
+
+    const { id, email, nickname, userArea, imagePath, loginType } =
+      userInfo[0].dataValues;
+    const data = { id, email, nickname, userArea, imagePath, loginType };
     res.status(200).json({
       data,
       myComment: commentUser.length,

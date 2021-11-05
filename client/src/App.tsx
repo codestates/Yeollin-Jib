@@ -11,7 +11,7 @@ import MainPage from "./pages/MainPage/MainPage/MainPage";
 import EditProfilePage from "./pages/MyPage/EditProfilePage/EditProfilePage";
 import MyPage from "./pages/MyPage/MyPage/MyPage";
 import SignUpPage from "./pages/SignUpPage/SignUpPage";
-
+import ChatRoomPage from "./pages/ChatRoomPage/ChatRoomPage";
 function App() {
   return (
     <BrowserRouter>
@@ -29,6 +29,7 @@ function App() {
           <Route path="/editpost" component={EditPostPage} />
           <Route path="/profile" component={MyPage} />
           <Route path="/editprofile" component={EditProfilePage} />
+          <Route path="/chatroom" component={ChatRoomPage} />
         </Switch>
         <FooterContainer>
           <Footer />

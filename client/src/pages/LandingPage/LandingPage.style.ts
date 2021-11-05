@@ -13,7 +13,7 @@ export const AllLandingContainer = styled.div`
   align-items: center;
   font-family: "Gmarket Sans TTF";
   transition: 0.5s all;
-  @media screen and (max-width: 37.5rem) {
+  @media screen and (max-width: 1000px) {
     width: 100%;
     flex-direction: column;
     align-items: center;
@@ -43,13 +43,15 @@ export const FirstLandingContainer = styled.div`
   background: linear-gradient(0deg, #fbfafc, #fbfafc);
   transition: 0.5s all;
   position: relative;
-  @media screen and (max-width: 37.5rem) {
+  @media screen and (max-width: 1000px) {
+    margin: 100px 0 100px 0;
+    height: auto;
+    position: static;
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     width: 100%;
-    height: 636px;
+    justify-content: center;
     transition: 0.5s all;
-    margin-bottom: 62px;
   }
 `;
 
@@ -61,10 +63,11 @@ export const FirstTextContainer = styled.div`
   transition: 0.5s all;
   z-index: 2;
   position: absolute;
-  @media screen and (max-width: 37.5rem) {
-    margin-top: 0;
+  @media screen and (max-width: 1000px) {
+    position: static;
+    margin-top: 20px;
     transition: 0.5s all;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
     text-align: center;
     width: 100%;
@@ -84,14 +87,20 @@ export const FirstImageContainer = styled.div`
   img {
     width: 700px;
   }
-  @media screen and (max-width: 37.5rem) {
+  @media screen and (max-width: 1000px) {
+    position: static;
     width: 100%;
-    height: auto;
-    display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
+    margin-bottom: 0px;
+    img {
+      width: 500px;
+    }
+  }
+  @media screen and (max-width: 37.5rem) {
     transition: 0.5s all;
+    margin-bottom: 0;
     img {
       width: 317px;
     }
@@ -105,12 +114,14 @@ export const FirstText = styled.div`
   span {
     margin-bottom: 0.813rem;
   }
-  @media screen and (max-width: 37.5rem) {
-    font-size: 18px;
-    transition: 0.5s all;
+  @media screen and (max-width: 1000px) {
     div {
       margin-bottom: 4px;
     }
+  }
+  @media screen and (max-width: 37.5rem) {
+    font-size: 18px;
+    transition: 0.5s all;
   }
 `;
 
@@ -119,12 +130,15 @@ export const FirstSecondText = styled.div`
   font-size: 1.875rem;
   margin: 0.5rem 0 2.75rem 0;
   transition: 0.5s all;
-  -webkit-text-stroke: 1px #ffffff;
+  text-shadow: 2px 2px #fff, 2px -2px #fff, -2px 2px #fff, -2px -2px #fff;
+  @media screen and (max-width: 1000px) {
+    margin: 39px 0 45px 0;
+  }
   @media screen and (max-width: 37.5rem) {
     font-size: 20px;
     transition: 0.5s all;
     margin: 39px 0 45px 0;
-    transition: 0.5s all;
+    text-shadow: none;
   }
 `;
 
@@ -153,15 +167,15 @@ export const GotoMainButton = styled.button`
 
 export const BigCircle = styled.span`
   position: absolute;
-  left: 7.05rem;
-  top: 13.35rem;
+  left: 15.6rem;
+  top: 15.35rem;
   width: 10.125rem;
   height: 10.5rem;
   background: #fede8a;
   border-radius: 100%;
   transition: 0.5s all;
   z-index: 1;
-  @media screen and (max-width: 37.5rem) {
+  @media screen and (max-width: 1000px) {
     display: none;
   }
 `;
@@ -175,24 +189,40 @@ export const SmallCircle = styled.span`
   background: #fede8a;
   border-radius: 100%;
   transition: 0.5s all;
+  @media screen and (max-width: 1000px) {
+    width: 3.945rem;
+    height: 3.945rem;
+    left: -16.5rem;
+    top: 46.8rem;
+    transition: 0.5s all;
+  }
   @media screen and (max-width: 37.5rem) {
-    left: -10.65rem;
-    top: 32rem;
+    width: 2.945rem;
+    height: 2.945rem;
+    left: -11.3rem;
+    top: 36.5rem;
     transition: 0.5s all;
   }
 `;
 export const VerySmallCircle = styled.span`
   display: none;
-  @media screen and (max-width: 37.5rem) {
+
+  @media screen and (max-width: 1000px) {
     display: flex;
-    left: -140px;
-    top: 523px;
+    left: -210px;
+    top: 763px;
     position: relative;
     background: #fede8a;
     border-radius: 100%;
+    width: 16px;
+    height: 16px;
+    transition: 0.5s all;
+  }
+  @media screen and (max-width: 37.5rem) {
+    left: -138.9px;
+    top: 595px;
     width: 13px;
     height: 13px;
-    transition: 0.5s all;
   }
 `;
 
@@ -207,15 +237,13 @@ export const SecLandingContainer = styled.div`
   justify-content: center;
   font-family: Gmarket Sans TTF;
   transition: 0.5s all;
-  @media screen and (max-width: 37.5rem) {
+  @media screen and (max-width: 1000px) {
     display: flex;
-    flex-wrap: nowrap;
     width: 100%;
-    height: 866px;
-    display: flex;
+    height: 100%;
     justify-items: center;
-    justify-content: center;
     transition: 0.5s all;
+    padding: 0;
   }
 `;
 
@@ -233,6 +261,8 @@ export const SecBodyContainer = styled.div`
     flex-direction: column;
     justify-content: center;
     transition: 0.5s all;
+    width: 100%;
+    height: 100%;
   }
 `;
 
@@ -248,13 +278,13 @@ export const SecAllBoxContainer = styled.div`
   @media screen and (max-width: 37.5rem) {
     display: flex;
     flex-direction: column;
-    height: 684px;
-    justify-content: space-between;
     transition: 0.5s all;
+    width: 100%;
+    height: 100%;
   }
 `;
 
-export const SecBoxContainer = styled.div`
+export const SecBoxContainer = styled.div<Idx>`
   display: flex;
   flex-direction: column;
   background: #fdfbfe;
@@ -272,6 +302,12 @@ export const SecBoxContainer = styled.div`
     flex-direction: column;
     justify-content: space-evenly;
     transition: 0.5s all;
+    margin: ${(props) =>
+      props.idx === 0
+        ? "59px 19px 0px 19px"
+        : props.idx === 1
+        ? "30px 19px 30px 19px"
+        : "0 19px 59px 19px"};
   }
 `;
 
@@ -321,49 +357,54 @@ export const SecDescrContainer = styled.div`
   }
 `;
 
-export const ThirLandingContainer = styled.div`
+export const ThirLandingContainer = styled.div<Idx>`
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin-top: 110px;
+  margin-top: ${(props) => (props.idx === 0 ? "110px" : "0")};
   transition: 0.5s all;
-
+  width: 100%;
+  height: 51.313rem;
+  position: relative;
+  @media screen and (max-width: 1000px) {
+    flex-direction: column;
+    height: 70rem;
+  }
   @media screen and (max-width: 37.5rem) {
     margin-top: 50px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
     height: 531px;
-    transition: 0.5s all;
   }
 `;
 
-export const ThirBodyContainer = styled.div`
-  @media screen and (max-width: 37.5rem) {
-  }
-`;
-
-export const ThirTextContainer = styled.div`
-  width: 100%;
-  height: 100%;
+export const ThirTextContainer = styled.div<Idx>`
+  position: absolute;
   display: flex;
   flex-direction: column;
   transition: 0.5s all;
-  @media screen and (max-width: 37.5rem) {
+  z-index: 2;
+  left: ${(props) => (props.idx % 2 === 0 ? "0" : "none")};
+  right: ${(props) => (props.idx % 2 === 0 ? "none" : "0")};
+  @media screen and (max-width: 1000px) {
+    position: static;
+    left: none;
+    right: none;
+    top: 0;
   }
 `;
 
 export const TitleContainer = styled.div`
   font-size: 30px;
   font-weight: 300;
-  z-index: 1;
+  z-index: 2;
   transition: 0.5s all;
+  text-shadow: 2px 2px #fff, 2px -2px #fff, -2px 2px #fff, -2px -2px #fff;
   div {
     margin-bottom: 13px;
     transition: 0.5s all;
+  }
+  @media screen and (max-width: 1000px) {
+    text-shadow: none;
   }
   @media screen and (max-width: 37.5rem) {
     font-size: 17px;
@@ -384,6 +425,12 @@ export const DescrContainer = styled.div`
     margin-top: 10px;
     margin-bottom: 9px;
     transition: 0.5s all;
+    background: rgba(255, 255, 255, 0.5);
+  }
+  @media screen and (max-width: 1000px) {
+    div {
+      background: none;
+    }
   }
   @media screen and (max-width: 37.5rem) {
     font-size: 15px;
@@ -397,17 +444,27 @@ export const DescrContainer = styled.div`
 `;
 
 export const ThirImageContainer = styled.div<Idx>`
-  margin: ${(props) =>
-    props.idx % 2 === 0 ? "30px 100px 0 0" : "30px 0 0 100px"};
+  /* margin: ${(props) =>
+    props.idx % 2 === 0 ? "30px 100px 0 0" : "30px 0 0 30px"}; */
   transition: 0.5s all;
+  position: absolute;
+  z-index: 1;
+  left: ${(props) => (props.idx % 2 === 0 ? "none" : "0")};
+  right: ${(props) => (props.idx % 2 === 0 ? "0" : "none")};
   img {
     width: 604px;
     height: 741px;
     transition: 0.5s all;
   }
-  @media screen and (max-width: 37.5rem) {
-    margin: 30px 0 0 0;
+  @media screen and (max-width: 1000px) {
+    left: none;
+    right: none;
+    margin-top: 30px;
+    position: static;
+    bottom: 0;
     transition: 0.5s all;
+  }
+  @media screen and (max-width: 37.5rem) {
     img {
       width: 266px;
       height: 238px;
@@ -424,6 +481,8 @@ export const SevLandingContainer = styled.div`
   justify-content: center;
   align-items: center;
   transition: 0.5s all;
+  @media screen and (max-width: 1000px) {
+  }
   @media screen and (max-width: 37.5rem) {
     width: 100%;
     height: 144px;
@@ -437,12 +496,10 @@ export const SevLandingContainer = styled.div`
 export const AllContainer = styled.div<Idx>`
   display: flex;
   flex-direction: ${(props) => (props.idx % 2 === 0 ? "row-reverse" : "row")};
-  justify-content: space-between;
   align-items: center;
   transition: 0.5s all;
-  @media screen and (max-width: 37.5rem) {
+  @media screen and (max-width: 1000px) {
     flex-direction: column;
-    transition: 0.5s all;
   }
 `;
 export const Circle = styled.span`
@@ -454,6 +511,9 @@ export const Circle = styled.span`
   background: #fede8a;
   border-radius: 100%;
   transition: 0.5s all;
+  z-index: 0;
+  @media screen and (max-width: 1000px) {
+  }
   @media screen and (max-width: 37.5rem) {
     width: 36px;
     height: 36px;
@@ -461,4 +521,20 @@ export const Circle = styled.span`
     left: -19px;
     transition: 0.5s all;
   }
+`;
+
+export const ThirdBodyContainer = styled.main`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 78.75rem;
+  padding: 0 30px 0 30px;
+  background: linear-gradient(0deg, #fbfafc, #fbfafc);
+`;
+
+export const ThirdBodyOutContainer = styled.main`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background: linear-gradient(0deg, #fbfafc, #fbfafc);
 `;

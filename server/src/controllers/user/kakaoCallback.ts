@@ -5,36 +5,33 @@ import * as dotenv from "dotenv";
 const jwt = require("jsonwebtoken");
 dotenv.config();
 
-const googleCallback = async (req: Request, res: Response) => {
+const kakaoCallback = async (req: Request, res: Response) => {
   const code = req.query.code;
 
   try {
-    // 구글 자체 로그인
+    // 카카오 로그인
     const result: any = await axios.post(
-      `https://oauth2.googleapis.com/token?code=${code}&client_id=${process.env.GOOGLE_CLIENT_ID}&client_secret=${process.env.GOOGLE_CLIENT_SECRET}&redirect_uri=${process.env.CLIENT_REDIRECT_URL}&grant_type=authorization_code`,
+      `https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${process.env.KAKAO_REST_API_KEY}&redirect_uri=${process.env.KAKAO_REDIRECT_URI}&code=${code}`
     );
 
-    const GoogleAccessToken = result.data.access_token;
-    const GoogleRefreshToken = result.data.refresh_token;
-
-    // 구글 로그인한 회원 정보 받기
-    const userInfo: any = await axios.get(
-      `https://www.googleapis.com/oauth2/v2/userinfo?access_token=${GoogleAccessToken}`,
-      {
-        headers: {
-          Authorization: `Bearer ${GoogleAccessToken}`,
-        },
+    // 카카오 로그인한 유저 정보 받기
+    const userInfo: any = await axios.get(`https://kapi.kakao.com/v2/user/me`, {
+      headers: {
+        Authorization: `Bearer ${result.data.access_token}`,
       },
-    );
+    });
 
-    // 구글 로그인한 회원 정보 중 email이 데이터베이스에 존재하는지 검사 후 없으면 새로 저장
+    // 카카오에서 유저 데이터를 받아와 email이 데이터베이스에 존재하는지 검사 후 없으면 새로 저장
     const [findUser, exist] = await user.findOrCreate({
       where: {
-        email: userInfo.data.email,
+        email: userInfo.data.kakao_account.email,
       },
       defaults: {
-        nickname: userInfo.data.email.split("@")[0],
-        imagePath: userInfo.data.picture,
+        nickname: userInfo.data.kakao_account.email.split("@")[0],
+        email: userInfo.data.kakao_account.account_email,
+        imagePath: userInfo.data.kakao_account.profile.is_default_image
+          ? null
+          : userInfo.data.kakao_account.profile.profile_image_url,
         password: userInfo.data.id,
         salt: userInfo.data.id,
         loginType: true,
@@ -72,4 +69,4 @@ const googleCallback = async (req: Request, res: Response) => {
   }
 };
 
-export default googleCallback;
+export default kakaoCallback;

@@ -374,7 +374,7 @@ function CreatePostPage() {
                 </div>
               </>
             ) : (
-              files.map((file: any, idx) => {
+              files.map((file: any, idx: any) => {
                 return (
                   <div
                     key={`${file.preview}+${idx}`}

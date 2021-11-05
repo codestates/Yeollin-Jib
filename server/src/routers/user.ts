@@ -16,6 +16,12 @@ userRouter.get("/login/google", usercontroller.googleLogin);
 //구글 로그인 callback user/google/callback
 userRouter.get("/google/callback", usercontroller.googleCallback);
 
+//카카오 로그인 /user/login/kakao
+userRouter.get("/login/kakao", usercontroller.kakaoLogin);
+
+//카카오 로그인 callback user/kakao/callback
+userRouter.get("/kakao/callback", usercontroller.kakaoCallback);
+
 //로그아웃
 userRouter.post("/logout", usercontroller.logout);
 

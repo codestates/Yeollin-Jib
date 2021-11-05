@@ -109,10 +109,15 @@ export const Profile = styled.div`
     font-weight: 100;
     font-size: 0.8rem;
     margin-top: 3px;
+    width: 170px;
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 
   @media screen and (max-width: 37.5rem) {
-    height: 50px;
+    height: 60px;
     margin-left: 60px;
 
     .Profile_Nickname {
@@ -121,6 +126,11 @@ export const Profile = styled.div`
 
     .Profile_Email {
       font-size: 0.8rem;
+      width: 210px;
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
   }
 `;
@@ -133,6 +143,7 @@ export const Address = styled.div`
     margin-right: 5px;
     padding-bottom: 1px;
   }
+
   div {
     font-family: "Gmarket Sans TTF";
     font-weight: 100;
@@ -155,7 +166,7 @@ export const InfoContainer = styled.div`
   justify-content: space-between;
   align-items: flex-start;
   height: 68px;
-  margin-top: 30px;
+  margin-top: 20px;
   font-family: "Gmarket Sans TTF";
   font-weight: 100;
   font-size: 0.9rem;

@@ -16,8 +16,8 @@ class post extends Model {
   public imagePath!: string;
   public address!: string;
   public dueDate!: string;
-  public latitude!: number;
-  public longitude!: number;
+  public latitude!: string;
+  public longitude!: string;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
   dataValues: any;
@@ -32,10 +32,10 @@ post.init(
       type: DataTypes.STRING,
     },
     contents: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
     },
     imagePath: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
     },
     address: {
       type: DataTypes.STRING,
@@ -44,10 +44,10 @@ post.init(
       type: DataTypes.STRING,
     },
     latitude: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
     },
     longitude: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
     },
   },
 
@@ -60,18 +60,24 @@ post.init(
     freezeTableName: true,
     timestamps: true,
     updatedAt: "updateTimestamp",
-  }
+  },
 );
 
 export const associate = (db: dbType) => {
+  db.post.belongsTo(db.user, {
+    foreignKey: "userId",
+    targetKey: "id",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  });
   db.post.hasMany(db.post_category, {
+    foreignKeyConstraint: true,
     foreignKey: "postId",
     sourceKey: "id",
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   });
   db.post.hasMany(db.storage, {
-    foreignKeyConstraint: true,
     foreignKey: "postId",
     sourceKey: "id",
     onDelete: "CASCADE",
