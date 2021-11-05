@@ -1,15 +1,17 @@
 import { Request, Response } from "express";
 import post from "../../models/post";
+import post_category from "../../models/post_category";
 
 const delete_ = async (req: Request, res: Response) => {
   try {
-    console.log(req);
-    const id = req.cookies.id; //유저아이디
-    const post_id = req.params.id;
+    const id = req.cookies.id; //유저 아이디
+    const postId = req.params.id; //게시물 아이디
 
-    const postDelete = await post.destroy({ where: { id: post_id } });
+    const postDelete = await post.destroy({ where: { id: postId } });
+    await post_category.destroy({ where: { postId: postId } });
 
-    if (!postDelete) return res.status(404).json({ message: "삭제하려는 게시물이 없습니다." });
+    if (!postDelete)
+      return res.status(404).json({ message: "삭제하려는 게시물이 없습니다." });
 
     res.status(201).json({ message: "게시물이 삭제되었습니다." });
   } catch (err) {

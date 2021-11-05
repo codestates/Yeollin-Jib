@@ -31,7 +31,7 @@ userRouter.patch(
   "/",
   upload.single("imagePath"),
   accessToken,
-  usercontroller.put
+  usercontroller.put,
 );
 
 //유저사진삭제

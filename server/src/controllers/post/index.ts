@@ -1,10 +1,17 @@
 import post_user from "./post";
-import get_page from "./get_page";
-import get_infinite from "./get_infinite";
-import get_user from "./get_user";
+import get_page_infinite from "./get_page_infinite";
+import get_user_infinite from "./get_user_infinite";
 import get from "./get";
-import category_find from "./category";
+import get_category_infinite from "./get_category_infinite";
 import put from "./put";
 import delete_ from "./delete_";
 
-export { post_user, get_page, get_infinite, get_user, get, category_find, put, delete_ };
+export {
+  post_user,
+  get_page_infinite,
+  get_user_infinite,
+  get_category_infinite,
+  get,
+  put,
+  delete_,
+};

@@ -72,19 +72,23 @@ user.init(
     freezeTableName: true,
     timestamps: true,
     updatedAt: "updateTimestamp",
-  }
+  },
 );
 
 export const associate = (db: dbType) => {
-  user.hasMany(db.comment, {
-    foreignKeyConstraint: true,
+  db.user.hasMany(db.post, {
     foreignKey: "userId",
     sourceKey: "id",
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   });
-  user.hasMany(db.storage, {
-    foreignKeyConstraint: true,
+  db.user.hasMany(db.comment, {
+    foreignKey: "userId",
+    sourceKey: "id",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  });
+  db.user.hasMany(db.storage, {
     foreignKey: "userId",
     sourceKey: "id",
     onDelete: "CASCADE",

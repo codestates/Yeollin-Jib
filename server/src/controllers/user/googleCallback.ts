@@ -11,7 +11,7 @@ const googleCallback = async (req: Request, res: Response) => {
   try {
     // 구글 자체 로그인
     const result: any = await axios.post(
-      `https://oauth2.googleapis.com/token?code=${code}&client_id=${process.env.GOOGLE_CLIENT_ID}&client_secret=${process.env.GOOGLE_CLIENT_SECRET}&redirect_uri=${process.env.CLIENT_REDIRECT_URL}&grant_type=authorization_code`
+      `https://oauth2.googleapis.com/token?code=${code}&client_id=${process.env.GOOGLE_CLIENT_ID}&client_secret=${process.env.GOOGLE_CLIENT_SECRET}&redirect_uri=${process.env.CLIENT_REDIRECT_URL}&grant_type=authorization_code`,
     );
 
     const GoogleAccessToken = result.data.access_token;
@@ -24,7 +24,7 @@ const googleCallback = async (req: Request, res: Response) => {
         headers: {
           Authorization: `Bearer ${GoogleAccessToken}`,
         },
-      }
+      },
     );
 
     // 구글 로그인한 회원 정보 중 email이 데이터베이스에 존재하는지 검사 후 없으면 새로 저장
