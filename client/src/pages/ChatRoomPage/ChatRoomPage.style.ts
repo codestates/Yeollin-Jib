@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+interface Clicked {
+  clicked: boolean;
+}
+
 export const Body = styled.div`
   min-height: 90vh;
   margin-top: 4.938rem;
@@ -15,6 +19,7 @@ export const Body = styled.div`
 export const ChattingContainer = styled.div`
   margin: 35px 0 35px 0;
   width: 100%;
+  color: #2d2d2d;
   @media screen and (max-width: 37.5rem) {
     min-width: 50%;
   }
@@ -193,4 +198,39 @@ export const GotoMainButton = styled.button`
     font-size: 12px;
     transition: 0.5s all;
   }
+`;
+
+export const ClickChatContainer = styled.div<Clicked>`
+  display: ${(props) => (props.clicked ? "flex" : "none")};
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #2d2d2d;
+  @media screen and (max-width: 700px) {
+    display: none;
+  }
+`;
+export const ClickTxtContainer = styled.div`
+  width: 400px;
+  text-align: center;
+  font-family: "Gmarket Sans TTF";
+`;
+
+export const FirstTxt = styled.div`
+  font-size: 24px;
+  font-weight: 300;
+`;
+
+export const SecondTxt = styled.div`
+  margin: 25px 0 40px 0;
+  font-size: 18px;
+  font-weight: 100;
+  div {
+    margin-bottom: 5px;
+  }
+`;
+export const ImgContainer = styled.div`
+  padding-bottom: 60px;
 `;
