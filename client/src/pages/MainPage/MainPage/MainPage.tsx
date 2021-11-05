@@ -23,7 +23,7 @@ import {
 
 function MainPage() {
   const [postInfo, setPostInfo] = useState<any[]>([]);
-  const [page, setPage] = useState<number>(36);
+  const [page, setPage] = useState<number>(8);
   const [isShowCategory, setIsShowCategory] = useState<boolean>(false);
   const { isLogin } = useSelector((state: RootState) => state.authReducer);
   const openCategory = () => {
@@ -109,6 +109,8 @@ function MainPage() {
       window.removeEventListener("scroll", handleScroll, true);
     };
   }, [handleScroll]);
+
+  const postCardData = (id: number) => {};
 
   return (
     <Body>
