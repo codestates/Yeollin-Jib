@@ -230,4 +230,5 @@ export const BlankPostCard = styled.div`
   justify-content: center;
   align-items: center;
   font-weight: 100;
+  margin-top: 1.063rem;
 `;
