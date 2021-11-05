@@ -9,7 +9,7 @@ const kakaoLogin = async (req: Request, res: Response) => {
   const code = req.query.code;
   try {
     const result: any = await axios.post(
-      `https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${process.env.KAKAO_REST_API_KEY}&redirect_uri=${process.env.KAKAO_REDIRECT_URI}&code=${code}`,
+      `https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${process.env.KAKAO_REST_API_KEY}&redirect_uri=${process.env.KAKAO_REDIRECT_URI}&code=${code}`
     );
 
     const KakkoAccessToken = result.data.code;
@@ -55,11 +55,10 @@ const kakaoLogin = async (req: Request, res: Response) => {
       sameSite: "none",
     });
 
-    return res.status(200).json({
-      accessToken,
-      id: findUser.id,
-      message: "소셜 로그인에 성공하였습니다.",
-    });
+    const realQuery = encodeURIComponent(accessToken);
+
+    // redirect를 이용해 쿼리로 accessToken을 전달 (ORIGIN : 클라이언트 url)
+    res.redirect(`${process.env.ORIGIN}/login?access_token=${realQuery}`);
   } catch (error) {
     console.error(error);
     return res.status(501).json({ message: "서버에러 입니다." });

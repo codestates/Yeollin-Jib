@@ -8,6 +8,8 @@ import put from "./put";
 import delete_ from "./delete";
 import googleLogin from "./googleLogin";
 import googleCallback from "./googleCallback";
+import kakaoLogin from "./kakaoLogin";
+import kakaoCallback from "./kakaoCallback";
 import deletePhoto from "./deletePhoto";
 
 export {
@@ -15,6 +17,8 @@ export {
   login,
   googleLogin,
   googleCallback,
+  kakaoLogin,
+  kakaoCallback,
   logout,
   get,
   nick_name,

@@ -56,12 +56,6 @@ function LoginPage() {
     }
   };
 
-  const handleGoogleLoginBtn = async () => {
-    await window.location.assign(
-      `${process.env.REACT_APP_API_URL}/user/login/google`
-    );
-  };
-
   // 인풋 입력 후 엔터를 치면 로그인 요청을 보냄
   const handleKeyPress = (
     e: React.KeyboardEvent,
@@ -73,10 +67,17 @@ function LoginPage() {
     }
   };
 
-  // 구글로그인 버튼을 누르면 서버에 구글 로그인 요청
+  // 구글 로그인 버튼을 누르면 서버에 구글 로그인 요청
   const handleGoogleLoginBtn = async () => {
     await window.location.assign(
       `${process.env.REACT_APP_API_URL}/user/login/google`
+    );
+  };
+
+  // 카카오 로그인 버튼을 누르면 서버에 구글 로그인 요청
+  const handleKakaoLoginBtn = async () => {
+    await window.location.assign(
+      `${process.env.REACT_APP_API_URL}/user/login/kakao`
     );
   };
 
@@ -130,7 +131,7 @@ function LoginPage() {
                 <img src="./images/googleLogo.svg" alt="google" />
                 <div>구글 로그인</div>
               </SocialLoginBtn>
-              <SocialLoginBtn>
+              <SocialLoginBtn onClick={() => handleKakaoLoginBtn()}>
                 <img src="./images/kakaoLogo.svg" alt="kakao" />
                 <div>카카오 로그인</div>
               </SocialLoginBtn>
