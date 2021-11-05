@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
+import post from "../../models/post";
 import comment from "../../models/comment";
+
 const get = async (req: Request, res: Response) => {
   const userId = req.cookies.id;
 
@@ -9,6 +11,12 @@ const get = async (req: Request, res: Response) => {
         where: {
           userId,
         },
+        include: [
+          {
+            model: post,
+            attributes: ["title"],
+          },
+        ],
       })
       .then((data: object) => {
         res.status(200).json({

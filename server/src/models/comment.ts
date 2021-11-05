@@ -43,12 +43,18 @@ comment.init(
     freezeTableName: true,
     timestamps: true,
     updatedAt: "updateTimestamp",
-  }
+  },
 );
 
 export const associate = (db: dbType) => {
   comment.belongsTo(db.user, {
     foreignKey: "userId",
+    targetKey: "id",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  });
+  comment.belongsTo(db.post, {
+    foreignKey: "postId",
     targetKey: "id",
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
