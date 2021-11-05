@@ -1,11 +1,23 @@
 import { Request, Response } from "express";
 import comment from "../../models/comment";
+import post from "../../models/post";
+import user from "../../models/user";
 const get = async (req: Request, res: Response) => {
   const userId = req.cookies.id;
 
   try {
     await comment
       .findAll({
+        include: [
+          {
+            model: user,
+            attributes: ["nickname"],
+          },
+          {
+            model: post,
+            attributes: ["title"],
+          },
+        ],
         where: {
           userId,
         },

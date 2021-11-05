@@ -53,6 +53,12 @@ export const associate = (db: dbType) => {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   });
+  comment.belongsTo(db.post, {
+    foreignKey: "postId",
+    targetKey: "id",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  });
 };
 
 export default comment;

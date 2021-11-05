@@ -60,7 +60,7 @@ post.init(
     freezeTableName: true,
     timestamps: true,
     updatedAt: "updateTimestamp",
-  },
+  }
 );
 
 export const associate = (db: dbType) => {
@@ -78,6 +78,12 @@ export const associate = (db: dbType) => {
     onUpdate: "CASCADE",
   });
   db.post.hasMany(db.storage, {
+    foreignKey: "postId",
+    sourceKey: "id",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  });
+  db.post.hasMany(db.comment, {
     foreignKey: "postId",
     sourceKey: "id",
     onDelete: "CASCADE",
