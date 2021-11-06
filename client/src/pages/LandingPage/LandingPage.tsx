@@ -29,6 +29,7 @@ import {
   BodyOutContainer,
   ThirdBodyContainer,
   ThirdBodyOutContainer,
+  GoTopContainer,
 } from "./LandingPage.style";
 
 function LandingPage() {
@@ -88,9 +89,11 @@ function LandingPage() {
 
   // 마지막 버튼 밑으로 스크롤이 내려간 상태로 메인으로 연결되는 것을 방지해 주는 핸들러
   const scrollHandler = () => {
-    window.scrollTo({ top: 0, left: 0 });
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   };
-
+  const arrowUpHandler = () => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  };
   return (
     <AllLandingContainer>
       <SmallCircle></SmallCircle>
@@ -99,6 +102,9 @@ function LandingPage() {
       <BodyOutContainer>
         <BodyContainer>
           <FirstLandingContainer>
+            <GoTopContainer onClick={() => arrowUpHandler()}>
+              <img src="./images/goTop.svg" alt="gotop_icon"></img>
+            </GoTopContainer>
             <FirstTextContainer>
               <FirstText>
                 <div>이사를 앞두고</div>
