@@ -59,7 +59,7 @@ function ChatRoomPage() {
             <ChatContainer>
               <ChatListContainer>
                 <ChatListTxt>
-                  <span>채팅 목록</span>
+                  <span className="Chat_List">채팅 목록</span>
                 </ChatListTxt>
                 <ChatCard id="1" onClick={(e) => clickHandle(e)}>
                   <ChatList></ChatList>
