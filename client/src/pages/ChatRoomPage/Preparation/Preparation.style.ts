@@ -64,7 +64,6 @@ export const DivContainer = styled.div`
   font-size: 18px;
   font-weight: 100;
   div {
-    margin-bottom: 10px;
     width: 100%;
     word-break: keep-all;
   }

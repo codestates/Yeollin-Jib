@@ -96,15 +96,15 @@ function LandingPage() {
   };
   return (
     <AllLandingContainer>
+      <GoTopContainer onClick={() => arrowUpHandler()}>
+        <img src="./images/goTop.svg" alt="gotop_icon"></img>
+      </GoTopContainer>
       <SmallCircle></SmallCircle>
       <VerySmallCircle></VerySmallCircle>
       <BigCircle></BigCircle>
       <BodyOutContainer>
         <BodyContainer>
           <FirstLandingContainer>
-            <GoTopContainer onClick={() => arrowUpHandler()}>
-              <img src="./images/goTop.svg" alt="gotop_icon"></img>
-            </GoTopContainer>
             <FirstTextContainer>
               <FirstText>
                 <div>이사를 앞두고</div>
