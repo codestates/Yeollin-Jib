@@ -61,7 +61,6 @@ function MainPage() {
       }
     );
     if (result !== undefined) {
-      console.log(result);
       setPostInfo(result.data.postGet);
       setPage(page + 1);
     }
@@ -86,7 +85,7 @@ function MainPage() {
 
     // scrollTop과 innerHeight를 더한 값이 scrollHeight보다 크다면, 가장 아래에 도달했다는 의미이다.
     if (Math.round(scrollTop + innerHeight) >= scrollHeight - 200) {
-      if (postInfo.length / 8 < page - 1) {
+      if (postInfo.length / 8 <= page - 1) {
         return;
       } else if (page !== undefined) {
         const result: any = await axios.get(
@@ -103,7 +102,6 @@ function MainPage() {
         setPage(page + 1);
       }
     }
-    console.log("ddddd", postInfo);
   }, [page]);
 
   // 스크롤이 발생할때마다 handleScroll 함수를 호출하도록 한다.
@@ -155,7 +153,9 @@ function MainPage() {
           <PostBoardTitleContainer>
             <PostBoardTitleBox>
               <span className="Post_Title">{"게시판"}</span>
-              <span className="Post_Count">{`총 ${postInfo.length}개`}</span>
+              <span className="Post_Count">
+                {!postInfo ? `총 0개` : `총 ${postInfo.length}개`}
+              </span>
             </PostBoardTitleBox>
             {/* 게시글 작성 버튼 ------------------------------------------------*/}
             <Link
@@ -169,7 +169,7 @@ function MainPage() {
           </PostBoardTitleContainer>
           {/* 게시글 리스트 ----------------------------------------------------*/}
           <PostCardArea>
-            {postInfo[0] === undefined ? (
+            {!postInfo ? (
               <BlankPostCard>
                 <span>검색 결과가</span>
                 <span> 없습니다</span>
