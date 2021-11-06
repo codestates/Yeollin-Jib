@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import {
   ChatListContainer,
@@ -13,6 +14,10 @@ import {
   ImgContainer,
   FirstTxt,
   SecondTxt,
+  PreviousContainer,
+  ArrowContainer,
+  ChatContainer,
+  MobilePreviousContainer,
 } from "./ChatRoomPage.style";
 import NoChat from "./NoChat/NoChat";
 import ChatRoom from "./ChatRoom/ChatRoom";
@@ -39,13 +44,23 @@ function ChatRoomPage() {
     <Body>
       <MainArea>
         <ChatRoomContainer>
+          <Link to="/profile" style={{ textDecoration: "none" }}>
+            <PreviousContainer>
+              <ArrowContainer>
+                <img
+                  src="./images/arrowLeft_chat.svg"
+                  alt="previousPage_Icon"
+                ></img>
+              </ArrowContainer>
+              <span>뒤로가기</span>
+            </PreviousContainer>
+          </Link>
           {chat.length !== 0 ? (
-            <>
+            <ChatContainer>
               <ChatListContainer>
                 <ChatListTxt>
-                  <span>채팅 목록</span>
+                  <span className="Chat_List">채팅 목록</span>
                 </ChatListTxt>
-                {/* when there are chats */}
                 <ChatCard id="1" onClick={(e) => clickHandle(e)}>
                   <ChatList></ChatList>
                 </ChatCard>
@@ -68,9 +83,21 @@ function ChatRoomPage() {
                   <img src="./images/selectChat.svg" alt="select_chat"></img>
                 </ImgContainer>
               </ClickChatContainer>
+              {/* ================== 모바일 컨테이너 */}
               <div className="Mobile_Container">
                 <ChatListTxt>
-                  <span>채팅 목록</span>
+                  <span className="Chat_List">채팅 목록</span>
+                  <Link to="/profile" style={{ textDecoration: "none" }}>
+                    <MobilePreviousContainer>
+                      <ArrowContainer>
+                        <img
+                          src="./images/arrowLeft_chat.svg"
+                          alt="previousPage_Icon"
+                        ></img>
+                      </ArrowContainer>
+                      <span>뒤로가기</span>
+                    </MobilePreviousContainer>
+                  </Link>
                 </ChatListTxt>
                 <ChatCard id="1" onClick={(e) => mobileClickHandle(e)}>
                   <ChatList></ChatList>
@@ -82,12 +109,13 @@ function ChatRoomPage() {
                   <ChatList></ChatList>
                 </ChatCard>
               </div>
+              {/* ================== 모바일 컨테이너 */}
               {clicked ? (
                 <ChattingContainer>
                   <ChatRoom></ChatRoom>
                 </ChattingContainer>
               ) : null}
-            </>
+            </ChatContainer>
           ) : (
             <NoChat></NoChat>
           )}
