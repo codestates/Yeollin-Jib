@@ -30,7 +30,6 @@ import { useSelector } from "react-redux";
 import MyPost from "../../../components/MyPost/MyPost";
 import MyComment from "../../../components/MyComment/MyComment";
 import MyFavoritePost from "../../../components/MyFavoritePost/MyFavoritePost";
-import MyChattingRoom from "../../ChatRoomPage/ChatList/ChatList";
 import DeleteAccount from "../../../components/Modals/DeleteAccount/DeleteAccount";
 
 function MyPage() {
@@ -38,8 +37,16 @@ function MyPage() {
   const [isOpened, setIsOpened] = useState<boolean>(false);
 
   // 유저 정보를 스토어에서 가져옴
-  const { email, nickname, userArea, imagePath, myComment, myPost, myStorage } =
-    useSelector((state: RootState) => state.userReducer);
+  const {
+    email,
+    nickname,
+    userArea,
+    imagePath,
+    myComment,
+    myPost,
+    myStorage,
+    loginType,
+  } = useSelector((state: RootState) => state.userReducer);
 
   // 주소 데이터의 상태 : 유저가 주소를 등록하지 않았다면 초기 메시지를, 등록했다면 등록한 지역을 보여줌
   const [userAreaData, setUserAreaData] =
@@ -69,11 +76,16 @@ function MyPage() {
               {/*프로필 사진---------------------------------------------------------------*/}
               <ProfileContainer>
                 {imagePath ? (
-                  // 프로필 사진 이미지 데이터의 상태 : 유저가 프로필 사진을 등록하지 않았다면 기본 프로필 이미지를, 등록했다면 등록한 이미지를 보여줌
-                  <ProfileImg
-                    src={`${process.env.REACT_APP_API_URL}/uploads/${imagePath}`}
-                    alt="Profile"
-                  />
+                  !loginType ? (
+                    // 프로필 사진 이미지 데이터의 상태 : 유저가 프로필 사진을 등록하지 않았다면 기본 프로필 이미지를, 등록했다면 등록한 이미지를 보여줌
+                    <ProfileImg
+                      src={`${process.env.REACT_APP_API_URL}/uploads/${imagePath}`}
+                      alt="Profile"
+                    />
+                  ) : (
+                    // 소셜로그인 상태일 경우, 이미지 url을 그대로 src로 사용
+                    <ProfileImg src={`${imagePath}`} alt="Profile" />
+                  )
                 ) : (
                   <ProfileImg src={`./images/profile.svg`} alt="Profile" />
                 )}
@@ -177,17 +189,10 @@ function MyPage() {
           {/*각 탭에 대한 컨텐츠---------------------------------------------------------*/}
           <ContentContainer>
             <Title>{tapName}</Title>
-            <Content
-              isColumn={
-                tapName === "채팅방" || tapName === "내가 쓴 댓글"
-                  ? true
-                  : false
-              }
-            >
+            <Content isColumn={tapName === "내가 쓴 댓글" ? true : false}>
               {tapName === "내가 쓴 게시글" ? <MyPost /> : null}
               {tapName === "내가 쓴 댓글" ? <MyComment /> : null}
               {tapName === "내가 찜한 게시글" ? <MyFavoritePost /> : null}
-              {tapName === "채팅방" ? <MyChattingRoom /> : null}
             </Content>
           </ContentContainer>
         </Container>
