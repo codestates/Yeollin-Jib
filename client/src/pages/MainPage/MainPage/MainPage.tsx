@@ -23,7 +23,7 @@ import {
 
 function MainPage() {
   const [postInfo, setPostInfo] = useState<any[]>([]);
-  const [page, setPage] = useState<number>(36);
+  const [page, setPage] = useState<number>(1);
   const [isShowCategory, setIsShowCategory] = useState<boolean>(false);
   const { isLogin } = useSelector((state: RootState) => state.authReducer);
   const openCategory = () => {
@@ -53,14 +53,18 @@ function MainPage() {
   // 초기 게시글 호출
   const firstLoadPost = async () => {
     const result: any = await axios.get(
-      `${process.env.REACT_APP_API_URL}/post/page`,
+      `${process.env.REACT_APP_API_URL}/post/page/1`,
       {
         headers: {
           "Content-Type": "application/json",
         },
       }
     );
-    setPostInfo(result.data.postGet);
+    if (result !== undefined) {
+      console.log(result);
+      setPostInfo(result.data.postGet);
+      setPage(page + 1);
+    }
   };
 
   // 해당 컴포넌트가 마운트될 때 초기 게시글을 호출한다, 카테고리 셀렉트 상태를 초기화 한다
@@ -82,7 +86,9 @@ function MainPage() {
 
     // scrollTop과 innerHeight를 더한 값이 scrollHeight보다 크다면, 가장 아래에 도달했다는 의미이다.
     if (Math.round(scrollTop + innerHeight) >= scrollHeight - 200) {
-      if (page > 3) {
+      if (postInfo.length / 8 <= page - 1) {
+        return;
+      } else if (page !== undefined) {
         const result: any = await axios.get(
           `${process.env.REACT_APP_API_URL}/post/page/${page}`,
           {
@@ -91,13 +97,13 @@ function MainPage() {
             },
           }
         );
+
         // 페이지에 따라서 불러온 배열을 새로운 요청으로 받아온 게시물 배열과 합쳐준다.
         setPostInfo(postInfo.concat(result.data.postGet));
-
-        // 페이지를 불러오는 게시물의 수만큼 줄여준다.
-        setPage(page - 4);
+        setPage(page + 1);
       }
     }
+    console.log("ddddd", postInfo);
   }, [page]);
 
   // 스크롤이 발생할때마다 handleScroll 함수를 호출하도록 한다.
@@ -109,6 +115,8 @@ function MainPage() {
       window.removeEventListener("scroll", handleScroll, true);
     };
   }, [handleScroll]);
+
+  const postCardData = (id: number) => {};
 
   return (
     <Body>

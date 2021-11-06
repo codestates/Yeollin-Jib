@@ -31,7 +31,6 @@ import MyPost from "../../../components/MyPost/MyPost";
 import MyComment from "../../../components/MyComment/MyComment";
 import MyFavoritePost from "../../../components/MyFavoritePost/MyFavoritePost";
 import DeleteAccount from "../../../components/Modals/DeleteAccount/DeleteAccount";
-import { ModalBackground } from "../../../components/Modals/Inquiry/Inquiry.style";
 
 function MyPage() {
   // 회원 탈퇴 상태
