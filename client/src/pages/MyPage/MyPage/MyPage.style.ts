@@ -103,6 +103,11 @@ export const Profile = styled.div`
   .Profile_Nickname {
     font-weight: 300;
     font-size: 1rem;
+    width: 170px;
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 
   .Profile_Email {
@@ -122,6 +127,11 @@ export const Profile = styled.div`
 
     .Profile_Nickname {
       font-size: 0.9rem;
+      width: 210px;
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
 
     .Profile_Email {
@@ -273,7 +283,6 @@ export const Tap = styled.div<ITapProps>`
   font-weight: 100;
   font-size: 1rem;
   color: #2d2d2d;
-
   margin-bottom: 10px;
   cursor: pointer;
 

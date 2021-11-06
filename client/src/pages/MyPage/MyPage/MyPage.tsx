@@ -30,8 +30,8 @@ import { useSelector } from "react-redux";
 import MyPost from "../../../components/MyPost/MyPost";
 import MyComment from "../../../components/MyComment/MyComment";
 import MyFavoritePost from "../../../components/MyFavoritePost/MyFavoritePost";
-import MyChattingRoom from "../../../components/ChatList/ChatList";
 import DeleteAccount from "../../../components/Modals/DeleteAccount/DeleteAccount";
+import { ModalBackground } from "../../../components/Modals/Inquiry/Inquiry.style";
 
 function MyPage() {
   // 회원 탈퇴 상태
@@ -190,17 +190,10 @@ function MyPage() {
           {/*각 탭에 대한 컨텐츠---------------------------------------------------------*/}
           <ContentContainer>
             <Title>{tapName}</Title>
-            <Content
-              isColumn={
-                tapName === "채팅방" || tapName === "내가 쓴 댓글"
-                  ? true
-                  : false
-              }
-            >
+            <Content isColumn={tapName === "내가 쓴 댓글" ? true : false}>
               {tapName === "내가 쓴 게시글" ? <MyPost /> : null}
               {tapName === "내가 쓴 댓글" ? <MyComment /> : null}
               {tapName === "내가 찜한 게시글" ? <MyFavoritePost /> : null}
-              {tapName === "채팅방" ? <MyChattingRoom /> : null}
             </Content>
           </ContentContainer>
         </Container>
