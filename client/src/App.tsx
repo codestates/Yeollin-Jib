@@ -13,6 +13,7 @@ import MyPage from "./pages/MyPage/MyPage/MyPage";
 import SignUpPage from "./pages/SignUpPage/SignUpPage";
 import ChatRoomPage from "./pages/ChatRoomPage/ChatRoomPage";
 import NotFound from "./pages/NotFoundPage/NotFound";
+import Preparation from "./pages/ChatRoomPage/Preparation/Preparation";
 function App() {
   return (
     <BrowserRouter>
@@ -31,6 +32,7 @@ function App() {
           <Route path="/profile" component={MyPage} />
           <Route path="/editprofile" component={EditProfilePage} />
           <Route path="/chatroom" component={ChatRoomPage} />
+          <Route path="/preparation" component={Preparation} />
           <Route path="*" component={NotFound} />
         </Switch>
         <FooterContainer>
