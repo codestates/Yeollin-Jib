@@ -9,7 +9,7 @@ const get = async (req: Request, res: Response) => {
     await comment
       .findAll({
         attributes: {
-          exclude: ["createdAt", "updateTimestamp", "userId", "id"],
+          exclude: ["createdAt", "updateTimestamp", "userId"],
         },
         include: [
           {
