@@ -24,6 +24,7 @@ import {
 function MainPage() {
   const [postInfo, setPostInfo] = useState<any[]>([]);
   const [page, setPage] = useState<number>(1);
+  const [postCount, setPostCount] = useState<number>();
   const [isShowCategory, setIsShowCategory] = useState<boolean>(false);
   const { isLogin } = useSelector((state: RootState) => state.authReducer);
   const openCategory = () => {
@@ -51,7 +52,7 @@ function MainPage() {
   };
 
   // 초기 게시글 호출
-  const firstLoadPost = async () => {
+  const initPostData = async () => {
     const result: any = await axios.get(
       `${process.env.REACT_APP_API_URL}/post/page/1`,
       {
@@ -62,15 +63,33 @@ function MainPage() {
     );
     if (result !== undefined) {
       setPostInfo(result.data.postGet);
+      setPostCount(result.data.postAll);
       setPage(page + 1);
+      console.log(result.data.postGet);
     }
   };
 
   // 해당 컴포넌트가 마운트될 때 초기 게시글을 호출한다, 카테고리 셀렉트 상태를 초기화 한다
   useEffect(() => {
-    firstLoadPost();
+    initPostData();
     CategorySelectHandle("init");
   }, []);
+
+  const infinitePostData = async () => {
+    const result: any = await axios.get(
+      `${process.env.REACT_APP_API_URL}/post/page/${page}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (result !== undefined) {
+      setPostInfo(postInfo.concat(result.data.postGet));
+      setPostCount(result.data.postAll);
+      setPage(page + 1);
+    }
+  };
 
   // 무한스크롤 함수
   const handleScroll = useCallback(async () => {
@@ -84,22 +103,14 @@ function MainPage() {
     const { scrollTop } = document.documentElement;
 
     // scrollTop과 innerHeight를 더한 값이 scrollHeight보다 크다면, 가장 아래에 도달했다는 의미이다.
-    if (Math.round(scrollTop + innerHeight) >= scrollHeight - 200) {
-      if (postInfo.length / 8 <= page - 1) {
+    if (
+      Math.round(scrollTop + innerHeight) >= scrollHeight - 200 &&
+      postCount !== undefined
+    ) {
+      if (page - 1 < postCount / 8) {
+        infinitePostData();
+      } else {
         return;
-      } else if (page !== undefined) {
-        const result: any = await axios.get(
-          `${process.env.REACT_APP_API_URL}/post/page/${page}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
-        // 페이지에 따라서 불러온 배열을 새로운 요청으로 받아온 게시물 배열과 합쳐준다.
-        setPostInfo(postInfo.concat(result.data.postGet));
-        setPage(page + 1);
       }
     }
   }, [page]);
@@ -154,7 +165,7 @@ function MainPage() {
             <PostBoardTitleBox>
               <span className="Post_Title">{"게시판"}</span>
               <span className="Post_Count">
-                {!postInfo ? `총 0개` : `총 ${postInfo.length}개`}
+                {!postCount ? `총 0개` : `총 ${postCount}개`}
               </span>
             </PostBoardTitleBox>
             {/* 게시글 작성 버튼 ------------------------------------------------*/}

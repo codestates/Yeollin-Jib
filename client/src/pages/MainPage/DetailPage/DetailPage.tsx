@@ -20,6 +20,8 @@ import {
   CommentArea,
   Comment,
   SubmitCommentBtn,
+  UserProfileBox,
+  UserInfoBox,
 } from "./DetailPage.style";
 import { RootState } from "../../../reducers/rootReducer";
 import { useSelector } from "react-redux";
@@ -28,9 +30,15 @@ import DeletePost from "../../../components/Modals/DeletePost/DeletePost";
 import ShareCategories from "../../../components/Modals/ShareCategories/ShareCategories";
 
 function DetailPage() {
+  interface User {
+    email: string;
+    imagePath: null | string;
+    nickname: string;
+  }
   interface postDataType {
     id: number;
     userId: number;
+    user: User;
     title: string;
     contents: string;
     imagePath: string;
@@ -51,7 +59,7 @@ function DetailPage() {
 
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_API_URL}/post/13`, {
+      .get(`${process.env.REACT_APP_API_URL}/post/36`, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -73,20 +81,17 @@ function DetailPage() {
       <MainArea>
         {postData !== undefined ? (
           <DetailPageContainer>
+            {/* 제목 칸 HEADER ----------------------------------------------------*/}
             <TitleArea>
               <div className="Post_Title">{postData.title}</div>
-              {isMine ? (
-                <div className="Edit_Delete">
-                  <span>
-                    <EditPencilIcon color={"#2d2d2d"} />
-                  </span>
-                  <span onClick={() => deletePostHandle()}>
-                    <DeleteIcon color={"#2d2d2d"} />
-                  </span>
-                </div>
-              ) : (
-                <></>
-              )}
+              <div className="Edit_Delete">
+                <span>
+                  <EditPencilIcon color={"#2d2d2d"} />
+                </span>
+                <span onClick={() => deletePostHandle()}>
+                  <DeleteIcon color={"#2d2d2d"} />
+                </span>
+              </div>
             </TitleArea>
             <LikeAndCommentIconArea>
               <LikeIcon />
@@ -95,6 +100,7 @@ function DetailPage() {
               <span>{"4개"}</span>
             </LikeAndCommentIconArea>
             <PostContentsArea>
+              {/* 유저가 올린 사진----------------------------------------------------*/}
               <PhotoBox>
                 <img
                   className="Photo_Slide_Button"
@@ -103,7 +109,7 @@ function DetailPage() {
                 />
                 <Photo>
                   <img
-                    src={`http://localhost:80/${postData.imagePath}`}
+                    src={`http://localhost:80/uploads/seokony(1636130051437).jpeg`}
                     alt="Post_Photo"
                   />
                 </Photo>
@@ -114,7 +120,23 @@ function DetailPage() {
                 />
               </PhotoBox>
               <ContentsBox>
-                <ContentsUserBox></ContentsUserBox>
+                {/* 게시글 올린 유저 정보----------------------------------------------------*/}
+                <ContentsUserBox>
+                  <UserProfileBox>
+                    <img
+                      src={
+                        postData.user.imagePath !== null
+                          ? `${process.env.REACT_APP_API_URL}/server/${postData.user.imagePath}`
+                          : ""
+                      }
+                      alt="Profile"
+                    />
+                    <UserInfoBox>
+                      <div className="User_Name">{postData.user.nickname}</div>
+                      <div className="User_Email">{postData.user.email}</div>
+                    </UserInfoBox>
+                  </UserProfileBox>
+                </ContentsUserBox>
                 <TextBox>
                   <div className="Create_Post_Date">
                     작성일

@@ -148,3 +148,37 @@ export const initMainCategories: MainCategories[] = [
   },
   { id: "11", name: "기타", isSelect: false, subCategories: subCategory11 },
 ];
+
+// export const MainCategoriesData: MainCategories[] = [
+//   {
+//     id: "1",
+//     name: "가구/침구류",
+//     isSelect: true,
+//     subCategories: subCategory1,
+//   },
+//   {
+//     id: "2",
+//     name: "디지털기기",
+//     isSelect: false,
+//     subCategories: subCategory2,
+//   },
+//   { id: "3", name: "생활가전", isSelect: false, subCategories: subCategory3 },
+//   { id: "4", name: "의류", isSelect: false, subCategories: subCategory4 },
+//   { id: "5", name: "잡화", isSelect: false, subCategories: subCategory5 },
+//   { id: "6", name: "도서/음반", isSelect: false, subCategories: subCategory6 },
+//   { id: "7", name: "유아동", isSelect: true, subCategories: subCategory7 },
+//   { id: "8", name: "게임/취미", isSelect: false, subCategories: subCategory8 },
+//   {
+//     id: "9",
+//     name: "스포츠/레저",
+//     isSelect: false,
+//     subCategories: subCategory9,
+//   },
+//   {
+//     id: "10",
+//     name: "반려동물용품",
+//     isSelect: false,
+//     subCategories: subCategory10,
+//   },
+//   { id: "11", name: "기타", isSelect: false, subCategories: subCategory11 },
+// ];

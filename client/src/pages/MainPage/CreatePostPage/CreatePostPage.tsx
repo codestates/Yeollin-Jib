@@ -40,8 +40,12 @@ import axios, { AxiosResponse } from "axios";
 import { useSelector } from "react-redux";
 import KakaoMap from "../../../components/KakaoMap/KakaoMap";
 import SearchAddress from "../../../components/SearchAddress/SearchAddress";
+import { useHistory } from "react-router";
+import { Link } from "react-router-dom";
 
 function CreatePostPage() {
+  const history = useHistory();
+
   // 카테고리 초기화 1,7번탭 선택
   useEffect(() => {
     const newMainCategory = [...initMainCategories];
@@ -174,8 +178,8 @@ function CreatePostPage() {
     const newSubmitMainCategory = submitMainCategory.join(",");
     const newSubmitSubCategory = submitSubCategory.join(",");
 
-    console.log(newSubmitMainCategory);
-    console.log(newSubmitSubCategory);
+    console.log("submitMain", newSubmitMainCategory);
+    console.log("submitSub", newSubmitSubCategory);
 
     if (name === "main") {
       return newSubmitMainCategory;
@@ -197,6 +201,7 @@ function CreatePostPage() {
     newCoordinate.push(log);
     setAddressCoordinate(newCoordinate);
   };
+
   const registerPost = async () => {
     const formData = new FormData();
     files.forEach((file) => formData.append("image", file));
@@ -219,6 +224,11 @@ function CreatePostPage() {
         },
       }
     );
+    if (result) {
+      history.push({
+        pathname: "/main",
+      });
+    }
   };
 
   return (
@@ -421,7 +431,9 @@ function CreatePostPage() {
           {/* 등록 취소 버튼 ---------------------------------------------------*/}
           <SubmitArea>
             <SubmitBtn onClick={() => registerPost()}>완료</SubmitBtn>
-            <CancelBtn>취소</CancelBtn>
+            <Link to="/main">
+              <CancelBtn>취소</CancelBtn>
+            </Link>
           </SubmitArea>
         </CreatePostContainer>
       </MainArea>
