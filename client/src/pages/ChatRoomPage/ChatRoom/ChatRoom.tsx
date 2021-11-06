@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   CardContainer,
   UserInfoContainer,
@@ -20,18 +20,27 @@ import {
   TopContainer,
   GoUpContainer,
 } from "./ChatRoom.style";
+import DeleteChat from "../../../components/Modals/DeleteChat/DeleteChat";
 
 function ChatRoom() {
+  // 채팅방 삭제 모달 상태
+  const [isOpened, setIsOpened] = useState<boolean>(false);
+
   const arrowUpHandler = () => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   };
   return (
     <>
       <CardContainer>
+        {isOpened ? (
+          <DeleteChat
+            setIsOpened={(bool: boolean) => setIsOpened(bool)}
+          ></DeleteChat>
+        ) : null}
         <TopContainer>
           <ChatListTxt>
             <span>황마리모님과의 채팅</span>
-            <DeleteImg>
+            <DeleteImg onClick={() => setIsOpened(true)}>
               <img src="./images/delete.svg" alt="delete"></img>
             </DeleteImg>
           </ChatListTxt>
@@ -72,9 +81,14 @@ function ChatRoom() {
       </CardContainer>
       <div className="Mobile_Container">
         <TopContainer>
+          {isOpened ? (
+            <DeleteChat
+              setIsOpened={(bool: boolean) => setIsOpened(bool)}
+            ></DeleteChat>
+          ) : null}
           <ChatListTxt>
             <span>황마리모님과의 채팅</span>
-            <DeleteImg>
+            <DeleteImg onClick={() => setIsOpened(true)}>
               <img src="./images/delete.svg" alt="delete"></img>
             </DeleteImg>
           </ChatListTxt>

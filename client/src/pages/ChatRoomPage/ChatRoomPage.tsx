@@ -24,6 +24,7 @@ import ChatRoom from "./ChatRoom/ChatRoom";
 import ChatList from "./ChatList/ChatList";
 function ChatRoomPage() {
   const [clicked, setClicked] = useState(false);
+
   const clickHandle = (e: any) => {
     setClicked(true);
   };
