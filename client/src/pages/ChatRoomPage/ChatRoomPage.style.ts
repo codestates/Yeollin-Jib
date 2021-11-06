@@ -17,7 +17,7 @@ export const Body = styled.div`
   }
 `;
 export const ChattingContainer = styled.div`
-  margin: 35px 0 35px 0;
+  margin: 0 0 35px 0;
   width: 100%;
   color: #2d2d2d;
   @media screen and (max-width: 37.5rem) {
@@ -298,4 +298,7 @@ export const ChatContainer = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
+  @media screen and (max-width: 700px) {
+    flex-direction: column;
+  }
 `;

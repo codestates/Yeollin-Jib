@@ -14,9 +14,12 @@ const get_infinite = async (req: Request, res: Response) => {
     if (pageNum > 1) {
       offset = 8 * (pageNum - 1);
     }
-    const postGet = await post.findAndCountAll({
+
+    const postAll = await post.count({});
+    const postGet = await post.findAll({
       order: [["id", "DESC"]],
       attributes: ["id", "userId", "title", "address", "dueDate", "imagePath"],
+
       limit: 8,
       offset: offset,
       include: [
@@ -42,7 +45,7 @@ const get_infinite = async (req: Request, res: Response) => {
         },
       ],
     });
-    const data = postGet.count;
+    const data = postGet.length;
 
     if (data !== 8) {
       if (data === 0) {
@@ -50,12 +53,13 @@ const get_infinite = async (req: Request, res: Response) => {
           .status(200)
           .send({ message: "더이상 조회할 게시물이 없습니다." });
       }
-      return res
-        .status(200)
-        .send({ postGet, message: "더이상 조회할 게시물이 없습니다." });
+      return res.status(200).send({
+        postAll,
+        postGet,
+        message: "더이상 조회할 게시물이 없습니다.",
+      });
     }
-
-    res.status(200).send({ postGet });
+    return res.status(200).send({ postAll, postGet });
   } catch (err) {
     console.log(err);
     return res.status(501).json({ message: "서버 에러 입니다." });
