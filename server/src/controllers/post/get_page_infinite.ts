@@ -14,9 +14,9 @@ const get_infinite = async (req: Request, res: Response) => {
     if (pageNum > 1) {
       offset = 8 * (pageNum - 1);
     }
-    const postGet = await post.findAll({
+    const postGet = await post.findAndCountAll({
       order: [["id", "DESC"]],
-      attributes: ["id", "userId", "title", "address"],
+      attributes: ["id", "userId", "title", "address", "dueDate", "imagePath"],
       limit: 8,
       offset: offset,
       include: [
@@ -42,7 +42,7 @@ const get_infinite = async (req: Request, res: Response) => {
         },
       ],
     });
-    const data = postGet.length;
+    const data = postGet.count;
 
     if (data !== 8) {
       if (data === 0) {
