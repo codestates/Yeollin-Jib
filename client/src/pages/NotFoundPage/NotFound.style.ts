@@ -8,6 +8,10 @@ export const Container = styled.div`
   justify-content: center;
   align-items: center;
   font-family: Gmarket Sans TTF;
+  @media screen and (max-width: 37.5rem) {
+    justify-content: flex-start;
+    margin-top: 150px;
+  }
 `;
 export const Body = styled.div`
   min-height: 90vh;
@@ -29,13 +33,23 @@ export const MainArea = styled.main`
   align-items: center;
 `;
 
-export const ImgContainer = styled.div``;
+export const ImgContainer = styled.div`
+  @media screen and (max-width: 37.5rem) {
+    img {
+      width: 208px;
+      height: 208px;
+    }
+  }
+`;
 
 export const TxtContainer = styled.div`
   text-align: center;
   font-size: 26px;
   font-weight: 500;
   margin: 25px 0 33px 0;
+  @media screen and (max-width: 37.5rem) {
+    font-size: 18px;
+  }
 `;
 
 export const DivContainer = styled.div`
@@ -44,6 +58,11 @@ export const DivContainer = styled.div`
   font-weight: 100;
   div {
     margin-bottom: 10px;
+    width: 100%;
+    word-break: keep-all;
+  }
+  @media screen and (max-width: 37.5rem) {
+    font-size: 10px;
   }
 `;
 
@@ -52,6 +71,9 @@ export const ButtonContainer = styled.div`
   width: 228px;
   flex-direction: row;
   justify-content: space-between;
+  @media screen and (max-width: 37.5rem) {
+    width: 136px;
+  }
 `;
 
 export const GoToMainButton = styled.button`
@@ -68,6 +90,11 @@ export const GoToMainButton = styled.button`
   :active {
     background: #3f3f3f;
   }
+  @media screen and (max-width: 37.5rem) {
+    width: 65px;
+    height: 30px;
+    font-size: 10px;
+  }
 `;
 
 export const GoToBeforeButton = styled.button`
@@ -83,5 +110,10 @@ export const GoToBeforeButton = styled.button`
   cursor: pointer;
   :active {
     background: #f5f4f5;
+  }
+  @media screen and (max-width: 37.5rem) {
+    width: 65px;
+    height: 30px;
+    font-size: 10px;
   }
 `;
