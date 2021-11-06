@@ -244,8 +244,9 @@ function EditProfilePage() {
                         profileImg={profileImg}
                       />
                       {userImagePath ? (
-                        !loginType ? (
-                          // 프로필사진이 있고, 소셜로그인이 아닐 때
+                        !loginType || !userImagePath.includes(":") ? (
+                          // 프로필사진이 있고, 소셜로그인이 아닐 때(소셜로그인이지만 이미지를 변경한 경우도 포함)
+                          // 컴퓨터에서 파일 이름에 특수문자 ":"를 넣을 수 없다는 점을 이용하여 소셜로그인시 저장된 프로필 사진인지, 열린집을 통해 업데이트한 사진인지 판별
                           <img
                             className="ProfileImg_Thumb"
                             src={`${process.env.REACT_APP_API_URL}/uploads/${imagePath}`}
