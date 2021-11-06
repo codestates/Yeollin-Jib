@@ -29,11 +29,11 @@ const post_like = async (req: Request, res: Response) => {
 
       if (!exist) {
         return res
-          .status(400)
+          .status(200)
           .send({ message: "이미 찜하기 등록 되었습니다." });
       }
       return res
-        .status(200)
+        .status(201)
         .send({ message: "게시물 찜하기가 성공적으로 등록 되었습니다." });
     } catch (err) {
       console.log(err);
