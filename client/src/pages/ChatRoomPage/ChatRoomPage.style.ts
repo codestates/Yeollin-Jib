@@ -36,12 +36,16 @@ export const ChatRoomContainer = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: flex-start;
+  font-family: "Gmarket Sans TTF";
+  font-weight: 100;
+  font-size: 14px;
   @media screen and (max-width: 700px) {
     display: flex;
     flex-direction: column;
     width: 70%;
+    font-size: 8px;
   }
   .Mobile_Container {
     display: none;
@@ -59,7 +63,7 @@ export const ChatRoomContainer = styled.div`
 export const ChatListContainer = styled.div`
   width: 350px;
   height: 745px;
-  margin: 35px 35px 0 0;
+  margin: 0 35px 0 0;
   padding: 0.813rem;
   background: #fdfbfe;
   border: 1px solid #e0dde1;
@@ -80,7 +84,7 @@ export const ChatListTxt = styled.div`
   width: 100%;
   padding: 19px 17px 17px 17px;
 
-  span {
+  .Chat_List {
     margin-left: 0px;
     font-size: 20px;
     font-weight: 300;
@@ -88,7 +92,9 @@ export const ChatListTxt = styled.div`
     border-bottom: 5px solid #fede8a;
   }
   @media screen and (max-width: 700px) {
-    span {
+    flex-direction: row;
+    justify-content: space-between;
+    .Chat_List {
       margin-left: 0;
       font-size: 16px;
     }
@@ -202,7 +208,7 @@ export const GotoMainButton = styled.button`
 
 export const ClickChatContainer = styled.div<Clicked>`
   display: ${(props) => (props.clicked ? "flex" : "none")};
-  width: 100%;
+  width: 80%;
   height: 100%;
   flex-direction: column;
   justify-content: center;
@@ -233,4 +239,63 @@ export const SecondTxt = styled.div`
 `;
 export const ImgContainer = styled.div`
   padding-bottom: 60px;
+`;
+export const PreviousContainer = styled.div`
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  height: 30px;
+  cursor: pointer;
+  align-items: center;
+  padding: 18px 0 18px 0;
+  color: #2d2d2d;
+  span {
+    :hover {
+    }
+  }
+  @media screen and (max-width: 700px) {
+    display: none;
+  }
+`;
+
+export const MobilePreviousContainer = styled.div`
+  display: none;
+  @media screen and (max-width: 700px) {
+    display: flex;
+    color: #2d2d2d;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5px;
+  }
+`;
+
+export const ArrowContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fede8a;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  margin: 0 8px 0 10px;
+  img {
+    width: 16.67px;
+    height: 20px;
+  }
+  @media screen and (max-width: 700px) {
+    width: 17px;
+    height: 17px;
+    justify-content: center;
+    align-items: center;
+    img {
+      width: 12px;
+      height: 15px;
+    }
+  }
+`;
+
+export const ChatContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
 `;
