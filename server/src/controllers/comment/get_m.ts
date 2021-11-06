@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import post from "../../models/post";
 import comment from "../../models/comment";
-import user from "../../models/user";
 
 const get = async (req: Request, res: Response) => {
   const userId = req.cookies.id;
@@ -9,14 +8,13 @@ const get = async (req: Request, res: Response) => {
   try {
     await comment
       .findAll({
+        attributes: {
+          exclude: ["createdAt", "updateTimestamp", "userId", "id"],
+        },
         include: [
           {
-            model: user,
-            attributes: ["nickname"],
-          },
-          {
             model: post,
-            attributes: ["title"],
+            attributes: ["title", "dueDate"],
           },
         ],
         where: {
