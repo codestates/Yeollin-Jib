@@ -24,13 +24,12 @@ import ChatRoom from "./ChatRoom/ChatRoom";
 import ChatList from "./ChatList/ChatList";
 function ChatRoomPage() {
   const [clicked, setClicked] = useState(false);
+
   const clickHandle = (e: any) => {
-    console.log(e.currentTarget.id);
     setClicked(true);
   };
 
   const mobileClickHandle = (e: any) => {
-    console.log(e.currentTarget.id);
     setClicked(true);
     window.scrollTo({
       left: 0,
