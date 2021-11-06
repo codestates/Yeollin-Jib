@@ -76,8 +76,9 @@ function MyPage() {
               {/*프로필 사진---------------------------------------------------------------*/}
               <ProfileContainer>
                 {imagePath ? (
-                  !loginType ? (
+                  !loginType || !imagePath.includes(":") ? (
                     // 프로필 사진 이미지 데이터의 상태 : 유저가 프로필 사진을 등록하지 않았다면 기본 프로필 이미지를, 등록했다면 등록한 이미지를 보여줌
+                    // 컴퓨터에서 파일 이름에 특수문자 ":"를 넣을 수 없다는 점을 이용하여 소셜로그인시 저장된 프로필 사진인지, 열린집을 통해 업데이트한 사진인지 판별
                     <ProfileImg
                       src={`${process.env.REACT_APP_API_URL}/uploads/${imagePath}`}
                       alt="Profile"
