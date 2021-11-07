@@ -161,7 +161,37 @@ export const SendContainer = styled.div`
     margin-left: 12px;
   }
   .Input_Area {
+    position: relative;
     width: 100%;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    background: #f7f7f8;
+    border: 1px solid #e0dde1;
+    border-radius: 5px;
+  }
+  .Add_File {
+    margin: 0 10px 0 10px;
+    cursor: pointer;
+  }
+  .Input_File {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    z-index: 0;
+    cursor: pointer;
+    ::file-selector-button {
+      display: none;
+      text-decoration: none;
+    }
+  }
+  svg {
+    fill: #e0dde1;
+  }
+  svg:hover {
+    fill: #2d2d2d;
+    z-index: 3;
   }
   @media screen and (max-width: 37.5rem) {
     display: flex;
@@ -178,17 +208,15 @@ export const InputContainer = styled.input`
   width: 100%;
   height: 44px;
   background: #f7f7f8;
-  border: 1px solid #e0dde1;
   box-sizing: border-box;
+  border: none;
   border-radius: 5px;
   font-family: "Gmarket Sans TTF";
   font-weight: 100;
   font-size: 0.9rem;
   padding-left: 0.5rem;
   color: #2d2d2d;
-  :focus {
-    outline: 1px solid #2d2d2d;
-  }
+  outline: none;
   @media screen and (max-width: 37.5rem) {
     height: 35px;
   }
