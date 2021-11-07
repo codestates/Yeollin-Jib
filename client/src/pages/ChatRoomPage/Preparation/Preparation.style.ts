@@ -34,11 +34,17 @@ export const MainArea = styled.main`
 `;
 
 export const ImgContainer = styled.div`
+  img {
+    width: 407px;
+    height: 298.73px;
+  }
+  margin-bottom: 54.27px;
   @media screen and (max-width: 37.5rem) {
     img {
       width: 208px;
       height: 208px;
     }
+    margin-bottom: 37px;
   }
 `;
 
@@ -46,9 +52,10 @@ export const TxtContainer = styled.div`
   text-align: center;
   font-size: 26px;
   font-weight: 500;
-  margin: 25px 0 33px 0;
+  margin: 0 0 33px 0;
   @media screen and (max-width: 37.5rem) {
     font-size: 18px;
+    margin: 0;
   }
 `;
 

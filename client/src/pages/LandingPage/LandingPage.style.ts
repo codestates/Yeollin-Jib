@@ -538,3 +538,23 @@ export const ThirdBodyOutContainer = styled.main`
   justify-content: center;
   background: linear-gradient(0deg, #fbfafc, #fbfafc);
 `;
+export const GoTopContainer = styled.div`
+  position: fixed;
+  cursor: pointer;
+  top: 83%;
+  left: 85%;
+  z-index: 99;
+  img {
+    opacity: 0.2;
+    :hover {
+      opacity: 1;
+    }
+  }
+  @media screen and (max-width: 37.5rem) {
+    left: 85%;
+    img {
+      width: 25px;
+      height: 25px;
+    }
+  }
+`;
