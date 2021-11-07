@@ -103,7 +103,7 @@ export const Profile = styled.div`
   .Profile_Nickname {
     font-weight: 300;
     font-size: 1rem;
-    width: 170px;
+    width: 160px;
     display: inline-block;
     overflow: hidden;
     white-space: nowrap;
@@ -114,7 +114,7 @@ export const Profile = styled.div`
     font-weight: 100;
     font-size: 0.8rem;
     margin-top: 3px;
-    width: 170px;
+    width: 160px;
     display: inline-block;
     overflow: hidden;
     white-space: nowrap;
@@ -158,10 +158,21 @@ export const Address = styled.div`
     font-family: "Gmarket Sans TTF";
     font-weight: 100;
     font-size: 0.8rem;
+    width: 150px;
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 
   @media screen and (max-width: 37.5rem) {
-    font-size: 0.8rem;
+    div {
+      width: 210px;
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
 
     img {
       height: 12px;
