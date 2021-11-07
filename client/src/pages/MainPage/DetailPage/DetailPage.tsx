@@ -28,6 +28,7 @@ import { useSelector } from "react-redux";
 import KakaoMap from "../../../components/KakaoMap/KakaoMap";
 import DeletePost from "../../../components/Modals/DeletePost/DeletePost";
 import ShareCategories from "../../../components/Modals/ShareCategories/ShareCategories";
+import { useLocation } from "react-router";
 
 function DetailPage() {
   interface User {
@@ -48,8 +49,11 @@ function DetailPage() {
     longitude: string;
     createdAt: string;
   }
-  const { accessToken } = useSelector((state: RootState) => state.authReducer);
   const { id } = useSelector((state: RootState) => state.userReducer);
+  let location: any = useLocation();
+
+  console.log(location);
+
   // 게시글 정보
   const [postData, setPostData] = useState<postDataType>();
   const [dueDate, setDueDate] = useState<string>();
@@ -59,7 +63,7 @@ function DetailPage() {
 
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_API_URL}/post/36`, {
+      .get(`${process.env.REACT_APP_API_URL}/post/${location.state.postId}`, {
         headers: {
           "Content-Type": "application/json",
         },

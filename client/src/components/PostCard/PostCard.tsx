@@ -21,7 +21,7 @@ import {
 } from "./PostCard.style";
 import { RootState } from "../../reducers/rootReducer";
 import { useSelector } from "react-redux";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import { useEffect } from "react";
 
 interface Result {
@@ -44,7 +44,10 @@ function PostCard({ postInfo, idx }: Result) {
   // images중에 1번째 사진을 썸네일로 사용하고 사진개수만큼 circle을 추가 해주기위해 배열 생성
   let images: string[] = postInfo.imagePath.split(",");
 
-  //
+  //주소 자르기
+  const userArea = postInfo.address.split(" ");
+
+  // 좋아요 상태
   const [isLike, setIsLike] = useState<boolean>(false);
 
   useEffect(() => {
@@ -130,7 +133,7 @@ function PostCard({ postInfo, idx }: Result) {
       </InfoBox>
       <PostCardAddress>
         <MapMarkIcon color={"#F44336"} />
-        <span className="Share_Address">{postInfo.address}</span>
+        <span className="Share_Address">{`${userArea[0]} ${userArea[1]} ${userArea[2]}`}</span>
       </PostCardAddress>
       <CategoryBox>
         {uniqueArr.map((cate: any, mainIdx: number) => {
