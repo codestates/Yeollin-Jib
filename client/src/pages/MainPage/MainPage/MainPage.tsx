@@ -125,8 +125,9 @@ function MainPage() {
     };
   }, [handleScroll]);
 
-  const postCardData = (id: number) => {};
-
+  const scrollHandler = () => {
+    window.scrollTo({ top: 0, left: 0 });
+  };
   return (
     <Body>
       <MainArea>
@@ -188,11 +189,19 @@ function MainPage() {
             ) : (
               postInfo.map((postInfo, idx) => {
                 return (
-                  <PostCard
+                  <Link
+                    to={{
+                      pathname: `/detail`,
+                      state: {
+                        postId: postInfo.id,
+                      },
+                    }}
                     key={postInfo.id}
-                    idx={idx}
-                    postInfo={postInfo}
-                  ></PostCard>
+                    style={{ textDecoration: "none", color: "#2d2d2d" }}
+                    onClick={() => scrollHandler()}
+                  >
+                    <PostCard idx={idx} postInfo={postInfo}></PostCard>
+                  </Link>
                 );
               })
             )}
