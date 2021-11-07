@@ -47,7 +47,7 @@ function ShareCategories({ isMine }: IProps) {
 
   useEffect(() => {
     let newCategoryLink: any = {};
-    let dummy1 = ["1", "1", "1", "1", "1", "1", "1", "1", "2", "4", "5"];
+    let dummy1 = ["1", "1", "1", "1", "1", "1", "1", "1", "2", "4"];
     let dummy2 = [
       "침대",
       "이불",
@@ -59,7 +59,6 @@ function ShareCategories({ isMine }: IProps) {
       "인테리어소품",
       "휴대폰",
       "남성의류",
-      "신발",
     ];
 
     for (let i = 0; i < dummy1.length; i++) {

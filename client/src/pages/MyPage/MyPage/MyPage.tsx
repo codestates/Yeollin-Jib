@@ -24,7 +24,7 @@ import {
   Title,
   Content,
 } from "./MyPage.style";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { RootState } from "../../../reducers/rootReducer";
 import { useSelector } from "react-redux";
 import MyPost from "../../../components/MyPost/MyPost";
@@ -33,6 +33,8 @@ import MyFavoritePost from "../../../components/MyFavoritePost/MyFavoritePost";
 import DeleteAccount from "../../../components/Modals/DeleteAccount/DeleteAccount";
 
 function MyPage() {
+  const { isLogin } = useSelector((state: RootState) => state.authReducer);
+
   // 회원 탈퇴 상태
   const [isOpened, setIsOpened] = useState<boolean>(false);
 
@@ -70,133 +72,137 @@ function MyPage() {
   return (
     <Body>
       <MainArea>
-        <Container>
-          <SideContainer>
-            <MyInfoContainer>
-              {/*프로필 사진---------------------------------------------------------------*/}
-              <ProfileContainer>
-                {imagePath ? (
-                  !loginType || !imagePath.includes(":") ? (
-                    // 프로필 사진 이미지 데이터의 상태 : 유저가 프로필 사진을 등록하지 않았다면 기본 프로필 이미지를, 등록했다면 등록한 이미지를 보여줌
-                    // 컴퓨터에서 파일 이름에 특수문자 ":"를 넣을 수 없다는 점을 이용하여 소셜로그인시 저장된 프로필 사진인지, 열린집을 통해 업데이트한 사진인지 판별
-                    <ProfileImg
-                      src={`${process.env.REACT_APP_API_URL}/uploads/${imagePath}`}
-                      alt="Profile"
-                    />
+        {!isLogin ? (
+          <Redirect to="/main"></Redirect>
+        ) : (
+          <Container>
+            <SideContainer>
+              <MyInfoContainer>
+                {/*프로필 사진---------------------------------------------------------------*/}
+                <ProfileContainer>
+                  {imagePath ? (
+                    !loginType || !imagePath.includes(":") ? (
+                      // 프로필 사진 이미지 데이터의 상태 : 유저가 프로필 사진을 등록하지 않았다면 기본 프로필 이미지를, 등록했다면 등록한 이미지를 보여줌
+                      // 컴퓨터에서 파일 이름에 특수문자 ":"를 넣을 수 없다는 점을 이용하여 소셜로그인시 저장된 프로필 사진인지, 열린집을 통해 업데이트한 사진인지 판별
+                      <ProfileImg
+                        src={`${process.env.REACT_APP_API_URL}/uploads/${imagePath}`}
+                        alt="Profile"
+                      />
+                    ) : (
+                      // 소셜로그인 상태일 경우, 이미지 url을 그대로 src로 사용
+                      <ProfileImg src={`${imagePath}`} alt="Profile" />
+                    )
                   ) : (
-                    // 소셜로그인 상태일 경우, 이미지 url을 그대로 src로 사용
-                    <ProfileImg src={`${imagePath}`} alt="Profile" />
-                  )
-                ) : (
-                  <ProfileImg src={`./images/profile.svg`} alt="Profile" />
-                )}
-                {/*닉네임, 이메일, 주소------------------------------------------------------*/}
-                <Profile>
-                  <div className="Profile_Nickname">{nickname}</div>
-                  <div className="Profile_Email">{email}</div>
-                  <Address>
-                    <img src="./images/mapMark.svg" alt="mapMark" />
-                    <div>{userAreaData}</div>
-                  </Address>
-                </Profile>
-              </ProfileContainer>
-              <InfoContainer>
-                {/*유저가 가진 데이터--------------------------------------------------------*/}
-                <UserInfo>
-                  {/*유저가 작성한 게시글-----------------------------------------------------*/}
-                  <InfoIcon>
-                    <img src="./images/postMark.svg" alt="postMark" />
-                  </InfoIcon>
-                  <div className="Info_Text">내가 쓴 게시글</div>
-                  <div className="Info_Count">{myPost}개</div>
-                </UserInfo>
-                <UserInfo>
-                  {/*유저가 쓴 댓글---------------------------------------------------------*/}
-                  <InfoIcon>
-                    <img src="./images/commentMark.svg" alt="commentMark" />
-                  </InfoIcon>
-                  <div className="Info_Text">내가 쓴 댓글</div>
-                  <div className="Info_Count">{myComment}개</div>
-                </UserInfo>
-                <UserInfo>
-                  {/*유저가 찜한 게시글-----------------------------------------------------*/}
-                  <InfoIcon>
-                    <img src="./images/likeMark.svg" alt="likeMark" />
-                  </InfoIcon>
-                  <div className="Info_Text">내가 찜한 게시글</div>
-                  <div className="Info_Count">{myStorage}개</div>
-                </UserInfo>
-              </InfoContainer>
-            </MyInfoContainer>
-            {/*모바일 환경에서의 정보 수정 탈퇴 버튼---------------------------------------------*/}
-            <SmallBtnContainer>
-              <Link to={"/editprofile"}>
-                <BlackSmallBtn>정보 수정</BlackSmallBtn>
-              </Link>
-              <WhiteSmallBtn onClick={() => setIsOpened(true)}>
-                회원 탈퇴
-              </WhiteSmallBtn>
-            </SmallBtnContainer>
-            {/*마이페이지의 4가지 탭---------------------------------------------------------*/}
-            <TapContainer>
-              <Tap
-                onClick={() => {
-                  handleTapBtn("내가 쓴 게시글");
-                }}
-                isClicked={tapName === "내가 쓴 게시글" ? true : false}
-              >
-                내가 쓴 게시글
-              </Tap>
-              <Tap
-                onClick={() => {
-                  handleTapBtn("내가 쓴 댓글");
-                }}
-                isClicked={tapName === "내가 쓴 댓글" ? true : false}
-              >
-                내가 쓴 댓글
-              </Tap>
-              <Tap
-                onClick={() => {
-                  handleTapBtn("내가 찜한 게시글");
-                }}
-                isClicked={tapName === "내가 찜한 게시글" ? true : false}
-              >
-                내가 찜한 게시글
-              </Tap>
-              <Link to="/chatroom" style={{ textDecoration: "none" }}>
+                    <ProfileImg src={`./images/profile.svg`} alt="Profile" />
+                  )}
+                  {/*닉네임, 이메일, 주소------------------------------------------------------*/}
+                  <Profile>
+                    <div className="Profile_Nickname">{nickname}</div>
+                    <div className="Profile_Email">{email}</div>
+                    <Address>
+                      <img src="./images/mapMark.svg" alt="mapMark" />
+                      <div>{userAreaData}</div>
+                    </Address>
+                  </Profile>
+                </ProfileContainer>
+                <InfoContainer>
+                  {/*유저가 가진 데이터--------------------------------------------------------*/}
+                  <UserInfo>
+                    {/*유저가 작성한 게시글-----------------------------------------------------*/}
+                    <InfoIcon>
+                      <img src="./images/postMark.svg" alt="postMark" />
+                    </InfoIcon>
+                    <div className="Info_Text">내가 쓴 게시글</div>
+                    <div className="Info_Count">{myPost}개</div>
+                  </UserInfo>
+                  <UserInfo>
+                    {/*유저가 쓴 댓글---------------------------------------------------------*/}
+                    <InfoIcon>
+                      <img src="./images/commentMark.svg" alt="commentMark" />
+                    </InfoIcon>
+                    <div className="Info_Text">내가 쓴 댓글</div>
+                    <div className="Info_Count">{myComment}개</div>
+                  </UserInfo>
+                  <UserInfo>
+                    {/*유저가 찜한 게시글-----------------------------------------------------*/}
+                    <InfoIcon>
+                      <img src="./images/likeMark.svg" alt="likeMark" />
+                    </InfoIcon>
+                    <div className="Info_Text">내가 찜한 게시글</div>
+                    <div className="Info_Count">{myStorage}개</div>
+                  </UserInfo>
+                </InfoContainer>
+              </MyInfoContainer>
+              {/*모바일 환경에서의 정보 수정 탈퇴 버튼---------------------------------------------*/}
+              <SmallBtnContainer>
+                <Link to={"/editprofile"}>
+                  <BlackSmallBtn>정보 수정</BlackSmallBtn>
+                </Link>
+                <WhiteSmallBtn onClick={() => setIsOpened(true)}>
+                  회원 탈퇴
+                </WhiteSmallBtn>
+              </SmallBtnContainer>
+              {/*마이페이지의 4가지 탭---------------------------------------------------------*/}
+              <TapContainer>
                 <Tap
                   onClick={() => {
-                    handleTapBtn("채팅방");
+                    handleTapBtn("내가 쓴 게시글");
                   }}
-                  isClicked={tapName === "채팅방" ? true : false}
+                  isClicked={tapName === "내가 쓴 게시글" ? true : false}
                 >
-                  채팅방
+                  내가 쓴 게시글
                 </Tap>
-              </Link>
-            </TapContainer>
-            {/*웹 환경에서의 정보 수정 탈퇴 버튼----------------------------------------------*/}
-            <BtnContainer>
-              <Link to={"/editprofile"}>
-                <BlackBtn>정보 수정</BlackBtn>
-              </Link>
-              {isOpened ? (
-                <DeleteAccount
-                  setIsOpened={(bool: boolean) => setIsOpened(bool)}
-                ></DeleteAccount>
-              ) : null}
-              <WhiteBtn onClick={() => setIsOpened(true)}>회원 탈퇴</WhiteBtn>
-            </BtnContainer>
-          </SideContainer>
-          {/*각 탭에 대한 컨텐츠---------------------------------------------------------*/}
-          <ContentContainer>
-            <Title>{tapName}</Title>
-            <Content isColumn={tapName === "내가 쓴 댓글" ? true : false}>
-              {tapName === "내가 쓴 게시글" ? <MyPost /> : null}
-              {tapName === "내가 쓴 댓글" ? <MyComment /> : null}
-              {tapName === "내가 찜한 게시글" ? <MyFavoritePost /> : null}
-            </Content>
-          </ContentContainer>
-        </Container>
+                <Tap
+                  onClick={() => {
+                    handleTapBtn("내가 쓴 댓글");
+                  }}
+                  isClicked={tapName === "내가 쓴 댓글" ? true : false}
+                >
+                  내가 쓴 댓글
+                </Tap>
+                <Tap
+                  onClick={() => {
+                    handleTapBtn("내가 찜한 게시글");
+                  }}
+                  isClicked={tapName === "내가 찜한 게시글" ? true : false}
+                >
+                  내가 찜한 게시글
+                </Tap>
+                <Link to="/chatroom" style={{ textDecoration: "none" }}>
+                  <Tap
+                    onClick={() => {
+                      handleTapBtn("채팅방");
+                    }}
+                    isClicked={tapName === "채팅방" ? true : false}
+                  >
+                    채팅방
+                  </Tap>
+                </Link>
+              </TapContainer>
+              {/*웹 환경에서의 정보 수정 탈퇴 버튼----------------------------------------------*/}
+              <BtnContainer>
+                <Link to={"/editprofile"}>
+                  <BlackBtn>정보 수정</BlackBtn>
+                </Link>
+                {isOpened ? (
+                  <DeleteAccount
+                    setIsOpened={(bool: boolean) => setIsOpened(bool)}
+                  ></DeleteAccount>
+                ) : null}
+                <WhiteBtn onClick={() => setIsOpened(true)}>회원 탈퇴</WhiteBtn>
+              </BtnContainer>
+            </SideContainer>
+            {/*각 탭에 대한 컨텐츠---------------------------------------------------------*/}
+            <ContentContainer>
+              <Title>{tapName}</Title>
+              <Content isColumn={tapName === "내가 쓴 댓글" ? true : false}>
+                {tapName === "내가 쓴 게시글" ? <MyPost /> : null}
+                {tapName === "내가 쓴 댓글" ? <MyComment /> : null}
+                {tapName === "내가 찜한 게시글" ? <MyFavoritePost /> : null}
+              </Content>
+            </ContentContainer>
+          </Container>
+        )}
       </MainArea>
     </Body>
   );
