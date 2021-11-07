@@ -6,7 +6,6 @@ const KakaoMapViewer = styled.div`
   width: 100%;
   height: 430px;
   padding-top: 25px;
-  margin-top: 40px;
 
   @media screen and (max-width: 37.5rem) {
     height: 300px;
