@@ -13,7 +13,6 @@ export const PhotoBackground = styled.div`
   background: #fdfbfe;
 
   @media screen and (max-width: 37.5rem) {
-    transition: 0.5s all;
     width: 8rem;
     height: 8rem;
     margin-top: 17px;
@@ -38,7 +37,6 @@ export const Photo = styled.input`
   }
 
   @media screen and (max-width: 37.5rem) {
-    transition: 0.5s all;
     width: 8rem;
     height: 8rem;
     margin-top: 17px;
