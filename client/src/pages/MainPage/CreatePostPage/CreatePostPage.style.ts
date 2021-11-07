@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const Body = styled.div`
   min-height: 90vh;
   margin-top: 4.938rem;
-  background: linear-gradient(0deg, #fbfafc, #fbfafc);
+  background: linear-gradient(x0deg, #fbfafc, #fbfafc);
   display: flex;
   justify-content: center;
   padding: 0 30px 0 30px;

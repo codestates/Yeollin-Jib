@@ -189,8 +189,8 @@ export const GotoMainButton = styled.button`
 
 export const BigCircle = styled.span`
   position: absolute;
-  left: 15.6rem;
-  top: 15.35rem;
+  left: 1.5rem;
+  top: 14rem;
   width: 10.125rem;
   height: 10.5rem;
   background: #fede8a;
@@ -207,12 +207,13 @@ export const SmallCircle = styled.span`
   position: relative;
   width: 2.945rem;
   height: 2.945rem;
-  left: 10rem;
-  top: 32.8rem;
+  left: -30rem;
+  top: 10rem;
   background: #fede8a;
   border-radius: 100%;
   box-sizing: border-box;
   transition: 0.5s all;
+  z-index: 1;
   @media screen and (max-width: 1000px) {
     width: 3.945rem;
     height: 3.945rem;
@@ -596,10 +597,11 @@ export const GoTopContainer = styled.div`
     }
   }
   @media screen and (max-width: 37.5rem) {
+    top: 93%;
     left: 85%;
     img {
-      width: 25px;
-      height: 25px;
+      width: 30px;
+      height: 30px;
     }
   }
 `;

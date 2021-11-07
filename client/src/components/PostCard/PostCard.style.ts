@@ -64,7 +64,7 @@ export const PostCardLikeBox = styled.div`
   display: flex;
   justify-content: end;
   position: relative;
-  z-index: 6;
+  z-index: 3;
   width: 17.813rem;
   height: 3.125rem;
   position: absolute;
