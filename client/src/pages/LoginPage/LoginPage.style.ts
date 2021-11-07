@@ -23,6 +23,8 @@ export const MainArea = styled.main`
 export const Container = styled.div`
   box-sizing: border-box;
   display: flex;
+  flex-direction: column;
+  align-items: center;
   font-family: "Gmarket Sans TTF";
   color: #2d2d2d;
 `;
@@ -38,7 +40,7 @@ export const ContentContainer = styled.div`
   border: 1px solid #e0dde1;
   border-radius: 0.313rem;
   padding: 2rem;
-  margin-bottom: 120px;
+  margin-bottom: 20px;
   transition: 0.5s all;
 
   a {
@@ -47,7 +49,8 @@ export const ContentContainer = styled.div`
 
   @media screen and (max-width: 37.5rem) {
     border: 1px solid #fbfafc;
-    margin-bottom: 300px;
+    padding: 2rem 2rem 0 2rem;
+    margin-bottom: 0px;
     width: 19rem;
     height: 28rem;
     transition: 0.5s all;
@@ -221,5 +224,31 @@ export const SignupBtn = styled.div`
   @media screen and (max-width: 37.5rem) {
     font-size: 0.8rem;
     transition: 0.5s all;
+  }
+`;
+
+export const AdviceContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #f7f7f8;
+  border: 1px solid #e0dde1;
+  box-sizing: border-box;
+  border-radius: 5px;
+  width: 100%;
+  height: 5rem;
+  font-size: 0.9rem;
+  font-weight: 100;
+  margin-bottom: 20px;
+  color: #929292;
+
+  @media screen and (max-width: 37.5rem) {
+    width: 83%;
+    height: 4rem;
+    font-size: 0.7rem;
+    transition: 0.5s all;
+    margin-top: 10px;
+    margin-bottom: 258px;
   }
 `;
