@@ -38,8 +38,8 @@ function ChatRoom() {
           ></DeleteChat>
         ) : null}
         <TopContainer>
-          <ChatListTxt>
-            <span>황마리모님과의 채팅</span>
+          <ChatListTxt padding={"pc"}>
+            <span className="Chat_List">황마리모님과의 채팅</span>
             <DeleteImg onClick={() => setIsOpened(true)}>
               <img src="./images/delete.svg" alt="delete"></img>
             </DeleteImg>
@@ -86,8 +86,8 @@ function ChatRoom() {
               setIsOpened={(bool: boolean) => setIsOpened(bool)}
             ></DeleteChat>
           ) : null}
-          <ChatListTxt>
-            <span>황마리모님과의 채팅</span>
+          <ChatListTxt padding={"mobile"}>
+            <span className="Chat_List">황마리모님과의 채팅</span>
             <DeleteImg onClick={() => setIsOpened(true)}>
               <img src="./images/delete.svg" alt="delete"></img>
             </DeleteImg>

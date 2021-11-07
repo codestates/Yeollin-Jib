@@ -44,13 +44,13 @@ export const ChatRoomContainer = styled.div`
   @media screen and (max-width: 700px) {
     display: flex;
     flex-direction: column;
-    width: 70%;
+    width: 300px;
     font-size: 8px;
   }
   .Mobile_Container {
     display: none;
     @media screen and (max-width: 700px) {
-      width: 100%;
+      width: 300px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -94,6 +94,7 @@ export const ChatListTxt = styled.div`
   @media screen and (max-width: 700px) {
     flex-direction: row;
     justify-content: space-between;
+    padding: 10% 0 3% 0;
     .Chat_List {
       margin-left: 0;
       font-size: 16px;

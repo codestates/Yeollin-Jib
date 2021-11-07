@@ -115,7 +115,7 @@ export const UserMsg = styled.div`
   box-sizing: border-box;
   border-radius: 5px;
   font-size: 14px;
-
+  word-break: keep-all;
   @media screen and (max-width: 37.5rem) {
     font-size: 10px;
   }
@@ -139,6 +139,7 @@ export const MyMsg = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  word-break: keep-all;
   @media screen and (max-width: 37.5rem) {
     font-size: 10px;
   }
@@ -211,24 +212,39 @@ export const SendButton = styled.button`
     height: 35px;
   }
 `;
-export const ChatListTxt = styled.div`
+interface Ipadding {
+  padding: string;
+}
+export const ChatListTxt = styled.div<Ipadding>`
   display: flex;
   width: 100%;
   flex-wrap: nowrap;
-  margin: 10px 0 20px 0;
+  padding: ${(props) => (props.padding === "pc" ? "0" : "19px 17px 17px 17px")};
+  margin: ${(props) => (props.padding === "pc" ? "15px 0 15px 0" : "0")};
   justify-content: space-between;
-  span {
-    border-bottom: 5px solid #fede8a;
+
+  .Chat_List {
+    margin-left: 0px;
     font-size: 20px;
     font-weight: 300;
     color: #2d2d2d;
+    height: 28px;
+    box-sizing: border-box;
+    border-bottom: 5px solid #fede8a;
   }
+
   @media screen and (max-width: 37.5rem) {
-    span {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10% 0 3% 0;
+    .Chat_List {
+      margin-left: 0;
       font-size: 16px;
-      display: flex;
-      align-items: flex-start;
     }
+  }
+
+  @media screen and (max-width: 700px) {
+    padding: 3% 0 3% 0;
   }
 `;
 

@@ -170,3 +170,20 @@ export const LikeIcon = ({ isCheck }: IconProps) => (
     />
   </svg>
 );
+
+export const ImageIcon = ({ color }: IconProps) => (
+  <svg width="24" height="25" viewBox="0 0 24 25" fill="none" cursor="pointer">
+    <path
+      d="M4 5.45557H17V12.4556H19V5.45557C19 4.35257 18.103 3.45557 17 3.45557H4C2.897 3.45557 2 4.35257 2 5.45557V17.4556C2 18.5586 2.897 19.4556 4 19.4556H12V17.4556H4V5.45557Z"
+      fill={color}
+    />
+    <path
+      d="M8 11.4556L5 15.4556H16L12 9.45557L9 13.4556L8 11.4556Z"
+      fill={color}
+    />
+    <path
+      d="M19 14.4556H17V17.4556H14V19.4556H17V22.4556H19V19.4556H22V17.4556H19V14.4556Z"
+      fill={color}
+    />
+  </svg>
+);
