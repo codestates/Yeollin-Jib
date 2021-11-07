@@ -63,7 +63,7 @@ function MyComment() {
                 <TitleContainer>
                   <Title>{commentInfo.post.title}</Title>
                   <Date>
-                    {commentInfo.post.dueDate.slice(0, 10).replace(/-/g, ".")}
+                    {commentInfo.post.dueDate.slice(0, 10).replace(/-/g, ". ")}
                   </Date>
                 </TitleContainer>
                 <CommentContainer>

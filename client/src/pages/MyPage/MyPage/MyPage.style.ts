@@ -45,7 +45,6 @@ export const Container = styled.div`
 
 export const SideContainer = styled.div`
   margin-right: 30px;
-  /* position: fixed; */
 
   @media screen and (max-width: 37.5rem) {
     margin: 0;
@@ -368,7 +367,6 @@ export const WhiteBtn = styled.button`
 export const ContentContainer = styled.div`
   width: 100%;
   box-sizing: border-box;
-  /* margin-left: 318px; */
 
   @media screen and (max-width: 37.5rem) {
     width: 310px;

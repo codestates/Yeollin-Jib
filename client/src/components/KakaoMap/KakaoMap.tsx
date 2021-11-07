@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
 
 const KakaoMapViewer = styled.div`
@@ -19,6 +19,7 @@ declare global {
     kakao: any;
   }
 }
+
 interface AddressName {
   addressInput?: string | undefined;
   searchCoordinateHandle?: (lat: number, lon: number) => void;
@@ -38,13 +39,13 @@ const KakaoMap = ({
       center: new window.kakao.maps.LatLng(33.450701, 126.570667),
       level: 3,
     };
+
     let map = new window.kakao.maps.Map(container, options);
 
-    // 주소-좌표 변환 객체를 생성합니다
+    // 주소-좌표 변환 객체를 생성
     let geocoder = new window.kakao.maps.services.Geocoder();
 
-    // 주소로 좌표를 검색합니다 주소값이 없으면 실행하지 않는다.
-
+    // 주소로 좌표를 검색 : 주소값이 없으면 실행하지 않음
     if (addressInput !== "") {
       geocoder.addressSearch(addressInput, function (result: any, status: any) {
         // 정상적으로 검색이 완료됐으면
@@ -75,14 +76,15 @@ const KakaoMap = ({
             imageOption
           );
 
-          // 결과값으로 받은 위치를 마커로 표시합니다
+          // 결과값으로 받은 위치를 마커로 표시
           let marker = new window.kakao.maps.Marker({
             image: markerImage,
             position: coords,
           });
+
+          // 마커가 지도 위에 표시되도록 설정
           marker.setMap(map);
-          // 마커가 드래그 가능하도록 설정합니다
-          marker.setDraggable(true);
+
           // 카카오맵에서 검색되도록 주소에서 공백을 지워줌
           const searchAddress = addressInput?.replace(/ /g, "");
 
@@ -100,9 +102,10 @@ const KakaoMap = ({
             map: map,
           });
 
+          // 커스텀 오버레이를 지도에 표시
           customOverlay.setMap(map);
 
-          // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+          // 지도의 중심을 결과값으로 받은 위치로 이동
           map.setCenter(coords);
         }
       });
