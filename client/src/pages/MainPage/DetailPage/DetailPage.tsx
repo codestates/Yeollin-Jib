@@ -49,7 +49,6 @@ function DetailPage() {
     longitude: string;
     createdAt: string;
   }
-  const { accessToken } = useSelector((state: RootState) => state.authReducer);
   const { id } = useSelector((state: RootState) => state.userReducer);
   let location: any = useLocation();
 
