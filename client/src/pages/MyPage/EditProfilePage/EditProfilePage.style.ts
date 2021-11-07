@@ -88,6 +88,7 @@ export const EditPasswordContainer = styled.div`
 export const MiddleContainer = styled.div`
   display: flex;
   transition: 0.5s all;
+  margin-bottom: 40px;
 
   @media screen and (max-width: 37.5rem) {
     flex-direction: column;
