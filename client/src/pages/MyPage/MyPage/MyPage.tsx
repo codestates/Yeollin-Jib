@@ -69,6 +69,10 @@ function MyPage() {
     setTapName(tapName);
   };
 
+  const scrollHandler = () => {
+    window.scrollTo({ top: 0, left: 0 });
+  };
+
   return (
     <Body>
       <MainArea>
@@ -181,7 +185,7 @@ function MyPage() {
               </TapContainer>
               {/*웹 환경에서의 정보 수정 탈퇴 버튼----------------------------------------------*/}
               <BtnContainer>
-                <Link to={"/editprofile"}>
+                <Link to={"/editprofile"} onClick={() => scrollHandler()}>
                   <BlackBtn>정보 수정</BlackBtn>
                 </Link>
                 {isOpened ? (
