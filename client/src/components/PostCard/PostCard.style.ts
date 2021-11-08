@@ -140,7 +140,6 @@ export const ProfileBox = styled.div`
 export const PostCardUserProfile = styled.span`
   width: 26px;
   height: 26px;
-  border: 1px solid #e0dde1;
   border-radius: 20px;
   img {
     border-radius: 20px;
