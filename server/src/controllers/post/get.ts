@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import user from "../../models/user";
 import post from "../../models/post";
 import post_category from "../../models/post_category";
-import category from "../../models/category";
 
 const get = async (req: Request, res: Response) => {
   try {
@@ -20,13 +19,6 @@ const get = async (req: Request, res: Response) => {
           model: post_category,
           required: false,
           attributes: ["categoryId"],
-          include: [
-            {
-              model: category,
-              required: false,
-              attributes: ["category1", "category2"],
-            },
-          ],
         },
       ],
     });
