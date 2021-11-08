@@ -14,6 +14,7 @@ import {
   InfoIcon,
   TapContainer,
   Tap,
+  ChatrommTap,
   BtnContainer,
   SmallBtnContainer,
   BlackBtn,
@@ -143,7 +144,7 @@ function MyPage() {
               </MyInfoContainer>
               {/*모바일 환경에서의 정보 수정 탈퇴 버튼---------------------------------------------*/}
               <SmallBtnContainer>
-                <Link to={"/editprofile"}>
+                <Link to={"/editprofile"} onClick={() => scrollHandler()}>
                   <BlackSmallBtn>정보 수정</BlackSmallBtn>
                 </Link>
                 <WhiteSmallBtn onClick={() => setIsOpened(true)}>
@@ -177,9 +178,7 @@ function MyPage() {
                   내가 찜한 게시글
                 </Tap>
                 <Link to="/chatroom" style={{ textDecoration: "none" }}>
-                  <Tap isClicked={tapName === "채팅방" ? true : false}>
-                    채팅방
-                  </Tap>
+                  <ChatrommTap>채팅방</ChatrommTap>
                 </Link>
               </TapContainer>
               {/*웹 환경에서의 정보 수정 탈퇴 버튼----------------------------------------------*/}

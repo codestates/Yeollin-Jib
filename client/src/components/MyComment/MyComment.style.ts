@@ -50,7 +50,6 @@ export const Title = styled.div`
   height: 20px;
   display: inline-block;
   overflow: hidden;
-  text-overflow: ellipsis;
 
   @media screen and (max-width: 37.5rem) {
     line-height: 1.5rem;
@@ -97,7 +96,6 @@ export const Comment = styled.div`
   height: 18px;
   display: inline-block;
   overflow: hidden;
-  text-overflow: ellipsis;
   font-size: 0.9rem;
 
   @media screen and (max-width: 37.5rem) {
