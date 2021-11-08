@@ -1,6 +1,11 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { DeleteIcon, EditPencilIcon, LikeIcon } from "../../../icons/Icons";
+import {
+  DeleteIcon,
+  EditPencilIcon,
+  LikeIcon,
+  MapMarkIcon,
+} from "../../../icons/Icons";
 import {
   Body,
   MainArea,
@@ -13,22 +18,31 @@ import {
   ContentsBox,
   ContentsUserBox,
   TextBox,
-  Timer,
+  TimerArea,
   DueDateBox,
   CategoryBox,
   MapArea,
   CommentArea,
-  Comment,
+  CommentWordArea,
+  CommentInput,
   SubmitCommentBtn,
   UserProfileBox,
   UserInfoBox,
+  ChatBox,
+  ChatIcon,
+  AddressArea,
+  AddressIcon,
+  CommentList,
 } from "./DetailPage.style";
+
 import { RootState } from "../../../reducers/rootReducer";
 import { useSelector } from "react-redux";
 import KakaoMap from "../../../components/KakaoMap/KakaoMap";
 import DeletePost from "../../../components/Modals/DeletePost/DeletePost";
 import ShareCategories from "../../../components/Modals/ShareCategories/ShareCategories";
 import { useLocation } from "react-router";
+import Timer from "../../../components/Timer/Timer";
+import PostComment from "../../../components/PostComment/PostComment";
 
 function DetailPage() {
   interface User {
@@ -36,7 +50,7 @@ function DetailPage() {
     imagePath: null | string;
     nickname: string;
   }
-  interface postDataType {
+  interface PostDataType {
     id: number;
     userId: number;
     user: User;
@@ -49,17 +63,45 @@ function DetailPage() {
     longitude: string;
     createdAt: string;
   }
+
+  interface IsMineType {
+    isMine: true | false;
+  }
+
   const { id } = useSelector((state: RootState) => state.userReducer);
   let location: any = useLocation();
 
-  console.log(location);
-
   // 게시글 정보
-  const [postData, setPostData] = useState<postDataType>();
+  const [postData, setPostData] = useState<PostDataType>();
+  const [commentData, setCommentData] = useState<any[]>();
   const [dueDate, setDueDate] = useState<string>();
   const [isDeleteModal, setIsDeleteModal] = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState<string>("");
+  const [delTargetId, setDelTargetId] = useState<number>(0);
+  let time;
+  if (dueDate !== undefined) {
+    time = dueDate[1].slice(0, 2);
+    if (Number(time) >= 12) {
+      time = `오후 ${Number(dueDate[1].slice(0, 2)) - 12}시`;
+    } else {
+      time = `오전 ${dueDate[1].slice(0, 2)}시`;
+    }
+  }
   // 내 게시글인지 확인
-  const [isMine, setIsMine] = useState(false);
+  const [isMine, setIsMine] = useState<IsMineType>({ isMine: true });
+
+  // imagePath의 배열과 Handle에서 사용할 인덱스 state
+  const [images, setImages] = useState<string[]>(["noImage"]);
+  const [imagesSelect, setImagesSelect] = useState<number>(0);
+
+  // 사진 좌우로 넘기는 Handle
+  const imagesHandle = (name: string) => {
+    if (name === "rightArrow" && imagesSelect < images.length - 1) {
+      setImagesSelect(imagesSelect + 1);
+    } else if (name === "leftArrow" && imagesSelect > 0) {
+      setImagesSelect(imagesSelect - 1);
+    }
+  };
 
   useEffect(() => {
     axios
@@ -70,38 +112,58 @@ function DetailPage() {
       })
       .then((res: any) => {
         setPostData(res.data.postGet);
-        console.log(res.data.postGet);
-        setDueDate(res.data.postGet.dueDate.split(",")[0]);
+        setDueDate(res.data.postGet.dueDate.split(","));
+        setImages(res.data.postGet.imagePath.split(","));
         if (res.data.postGet.userId === id) {
-          setIsMine(true);
+          setIsMine({ isMine: true });
         }
       });
+
+    axios
+      .get(
+        `${process.env.REACT_APP_API_URL}/comment/${location.state.postId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((res: any) => {
+        setCommentData(res.data.data);
+        console.log(res.data.data);
+      });
   }, []);
-  const deletePostHandle = (): void => {
+  const deletePostHandle = (target: string, commentId: number): void => {
     setIsDeleteModal(!isDeleteModal);
+    setDeleteTarget(target);
+    setDelTargetId(commentId);
   };
   return (
     <Body>
       <MainArea>
-        {postData !== undefined ? (
+        {postData !== undefined && commentData !== undefined ? (
           <DetailPageContainer>
             {/* 제목 칸 HEADER ----------------------------------------------------*/}
             <TitleArea>
               <div className="Post_Title">{postData.title}</div>
-              <div className="Edit_Delete">
-                <span>
-                  <EditPencilIcon color={"#2d2d2d"} />
-                </span>
-                <span onClick={() => deletePostHandle()}>
-                  <DeleteIcon color={"#2d2d2d"} />
-                </span>
-              </div>
+              {isMine.isMine && isMine.isMine !== undefined ? (
+                <div className="Edit_Delete">
+                  <span>
+                    <EditPencilIcon color={"#2d2d2d"} />
+                  </span>
+                  <span onClick={() => deletePostHandle("post", postData.id)}>
+                    <DeleteIcon color={"#2d2d2d"} />
+                  </span>
+                </div>
+              ) : (
+                <></>
+              )}
             </TitleArea>
             <LikeAndCommentIconArea>
               <LikeIcon />
               <span>{"2개"}</span>
               <img src={"./images/commentMark.svg"} alt="Comment_Mark" />
-              <span>{"4개"}</span>
+              <span>{commentData.length}개</span>
             </LikeAndCommentIconArea>
             <PostContentsArea>
               {/* 유저가 올린 사진----------------------------------------------------*/}
@@ -110,10 +172,14 @@ function DetailPage() {
                   className="Photo_Slide_Button"
                   src="./images/arrowLeft.svg"
                   alt="Photo_Slide_Left"
+                  onClick={() => imagesHandle("leftArrow")}
                 />
+
                 <Photo>
                   <img
-                    src={`http://localhost:80/uploads/seokony(1636130051437).jpeg`}
+                    src={`${process.env.REACT_APP_API_URL}${images[
+                      imagesSelect
+                    ].slice(6)}`}
                     alt="Post_Photo"
                   />
                 </Photo>
@@ -121,52 +187,61 @@ function DetailPage() {
                   className="Photo_Slide_Button"
                   src="./images/arrowRight.svg"
                   alt="Photo_Slide_Right"
+                  onClick={() => imagesHandle("rightArrow")}
                 />
               </PhotoBox>
               <ContentsBox>
                 {/* 게시글 올린 유저 정보----------------------------------------------------*/}
                 <ContentsUserBox>
                   <UserProfileBox>
-                    <img
-                      src={
-                        postData.user.imagePath !== null
-                          ? `${process.env.REACT_APP_API_URL}/server/${postData.user.imagePath}`
-                          : ""
-                      }
-                      alt="Profile"
-                    />
+                    {postData.user.imagePath ? (
+                      !postData.user.imagePath.includes(":") ? (
+                        <img
+                          src={`${process.env.REACT_APP_API_URL}/uploads/${postData.user.imagePath}`}
+                          alt="UserPhoto"
+                        />
+                      ) : (
+                        <img src={postData.user.imagePath} alt="UserPhoto" />
+                      )
+                    ) : (
+                      <img src="./images/profile.svg" alt="UserPhoto" />
+                    )}
                     <UserInfoBox>
                       <div className="User_Name">{postData.user.nickname}</div>
                       <div className="User_Email">{postData.user.email}</div>
                     </UserInfoBox>
                   </UserProfileBox>
+                  <ChatBox>
+                    <ChatIcon>
+                      <img src="/images/send.svg"></img>
+                    </ChatIcon>
+                    <span>채팅하기</span>
+                  </ChatBox>
                 </ContentsUserBox>
                 <TextBox>
                   <div className="Create_Post_Date">
                     작성일
                     <span className="Date">
-                      {postData.createdAt.slice(0, 10)}
+                      {postData.createdAt.slice(0, 10).replace(/-/g, ". ")}
                     </span>
                   </div>
                   {postData.contents}
                 </TextBox>
-                <Timer>
-                  <div className="Due_Date_Icon_Box">
-                    <img
-                      className="Due_Date_Icon"
-                      src="./images/clock.svg"
-                      alt="dueDate"
-                    />
-                  </div>
-                  <div className="Due_Time">{""}</div>
-                </Timer>
+                <TimerArea>
+                  {dueDate !== undefined ? (
+                    <Timer date={`${dueDate[0]} ${dueDate[1]}:00`} />
+                  ) : (
+                    <></>
+                  )}
+                  <div className="Due_Time"></div>
+                </TimerArea>
                 <DueDateBox>
                   <span className="Due_Date_Word">마감</span>
                   <span className="Due_Date">
                     {dueDate !== undefined
-                      ? `${dueDate.split("-")[0]}년 ${
-                          dueDate.split("-")[1]
-                        }월 ${dueDate.split("-")[2]}일`
+                      ? `${dueDate[0].split("-")[0]}년 ${
+                          dueDate[0].split("-")[1]
+                        }월 ${dueDate[0].split("-")[2]}일 ${time}`
                       : "날짜정보가 없습니다"}
                   </span>
                 </DueDateBox>
@@ -174,19 +249,45 @@ function DetailPage() {
               </ContentsBox>
             </PostContentsArea>
             <MapArea>
-              <KakaoMap addressInput={postData.address} />
+              <AddressArea>
+                <AddressIcon>
+                  <MapMarkIcon color={"#2d2d2d"} />
+                </AddressIcon>
+                <span className="Address_Title">장소</span>
+                <span className="Address">{postData.address}</span>
+              </AddressArea>
+              <div>
+                <KakaoMap addressInput={postData.address} />
+              </div>
             </MapArea>
+            {/* 댓글 Input----------------------------------------------------*/}
             <CommentArea>
-              <div className="Comment_Word"></div>
+              <CommentWordArea>
+                <img src={"./images/commentMark.svg"} alt="Comment_Mark" />
+                <span className="Comment_Word">댓글</span>
+              </CommentWordArea>
               <div className="Comment_Box">
-                <Comment />
+                <CommentInput />
                 <SubmitCommentBtn>등록</SubmitCommentBtn>
               </div>
             </CommentArea>
+            {/* 댓글 리스트----------------------------------------------------*/}
+            <CommentList>
+              {commentData.map((comment) => {
+                return (
+                  <PostComment
+                    key={comment.id}
+                    commentData={comment}
+                    deleteCommentHandle={deletePostHandle}
+                  />
+                );
+              })}
+            </CommentList>
             {isDeleteModal ? (
               <DeletePost
                 setIsDeleteModal={setIsDeleteModal}
-                postId={postData.id}
+                delTargetId={delTargetId}
+                deleteTarget={deleteTarget}
               />
             ) : (
               <></>

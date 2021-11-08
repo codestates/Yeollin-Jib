@@ -109,10 +109,14 @@ export const ContentsUserBox = styled.div`
 
 export const UserProfileBox = styled.div`
   display: flex;
+  align-items: center;
   width: 300px;
+  margin-bottom: 10px;
   img {
     width: 32px;
     height: 32px;
+    border-radius: 20px;
+    margin-right: 8px;
   }
 `;
 
@@ -148,7 +152,7 @@ export const TextBox = styled.div`
   }
 `;
 
-export const Timer = styled.div`
+export const TimerArea = styled.div`
   height: 34px;
   width: 100%;
   display: flex;
@@ -201,35 +205,11 @@ export const CategoryBox = styled.div`
   border-radius: 5px;
 `;
 
-export const MapArea = styled.div``;
-export const CommentArea = styled.div`
-  padding-left: 28px;
-  .Comment_Word {
-    width: 100%;
-    height: 25px;
-  }
-  .Comment_Box {
-    display: flex;
-  }
-`;
-
-export const Comment = styled.input`
-  width: 100%;
-  height: 57px;
-  background: #f7f7f8;
-  border: 1px solid #e0dde1;
-  border-radius: 0.313rem;
-  font-size: 14px;
-  box-sizing: border-box;
-  font-family: "Gmarket Sans TTF";
-  font-weight: 100;
-  color: #2d2d2d;
-  outline: none;
-  padding-left: 17px;
-  transition: 0.5s all;
-  :focus {
-    border: 1px solid #2d2d2d;
-  }
+export const MapArea = styled.div`
+  margin-left: 28px;
+  width: 1204px;
+  display: flex;
+  flex-direction: column;
 `;
 
 export const SubmitCommentBtn = styled.button`
@@ -248,4 +228,102 @@ export const SubmitCommentBtn = styled.button`
   :active {
     background: #3f3f3f;
   }
+`;
+
+export const ChatBox = styled.div`
+  display: flex;
+  align-items: center;
+  font-weight: 100;
+  font-size: 14px;
+  color: #2d2d2d;
+  cursor: pointer;
+  margin-bottom: 10px;
+  span {
+    margin-left: 8px;
+  }
+`;
+
+export const ChatIcon = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 37px;
+  height: 37px;
+  background: #fede8a;
+  border-radius: 50%;
+  img {
+    margin-left: 5px;
+    width: 20px;
+    height: 20px;
+  }
+`;
+
+export const AddressArea = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  font-weight: 300;
+  font-size: 16px;
+  margin: 58px 0 15px 0;
+  .Address_Title {
+    margin-left: 11px;
+  }
+  .Address {
+    font-weight: 100;
+    font-size: 14px;
+    margin-left: 11px;
+  }
+`;
+
+export const AddressIcon = styled.div`
+  width: 13px;
+  height: 16px;
+`;
+
+export const CommentArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding-left: 28px;
+  .Comment_Box {
+    display: flex;
+  }
+`;
+
+export const CommentWordArea = styled.div`
+  display: flex;
+  align-items: center;
+  margin: 58px 0 15px 0;
+  .Comment_Word {
+    font-weight: 100;
+    margin-left: 7px;
+  }
+  img {
+    width: 24px;
+  }
+`;
+
+export const CommentInput = styled.input`
+  width: 100%;
+  height: 57px;
+  background: #f7f7f8;
+  border: 1px solid #e0dde1;
+  border-radius: 0.313rem;
+  font-size: 14px;
+  box-sizing: border-box;
+  font-family: "Gmarket Sans TTF";
+  font-weight: 100;
+  color: #2d2d2d;
+  outline: none;
+  padding-left: 17px;
+  transition: 0.5s all;
+  :focus {
+    border: 1px solid #2d2d2d;
+  }
+`;
+
+export const CommentList = styled.div`
+  margin: 32px 0 18px 0;
+  padding-left: 28px;
+  height: auto;
+  width: 100%;
 `;
