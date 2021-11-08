@@ -13,7 +13,8 @@ function MyPost() {
   // 내가 쓴 게시물의 정보를 담을 배열
   const [postInfo, setPostInfo] = useState<any[]>([]);
 
-  // 내가 쓴 댓글 정보를 받아오는 axios 요청
+  // 내가 쓴 게시물의 정보를 받아오는 axios 요청
+
   const getPostData = async () => {
     const result: any = await axios.get(
       `${process.env.REACT_APP_API_URL}/post/user/${id}`,
@@ -46,7 +47,10 @@ function MyPost() {
       ) : (
         postInfo.map((postInfo, idx) => {
           return (
-            <CardContainer isContent={myPost !== 0 ? true : false}>
+            <CardContainer
+              key={postInfo.id}
+              isContent={myPost !== 0 ? true : false}
+            >
               <PostCard idx={idx} postInfo={postInfo}></PostCard>
             </CardContainer>
           );

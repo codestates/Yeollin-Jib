@@ -33,11 +33,14 @@ import MyComment from "../../../components/MyComment/MyComment";
 import MyFavoritePost from "../../../components/MyFavoritePost/MyFavoritePost";
 import DeleteAccount from "../../../components/Modals/DeleteAccount/DeleteAccount";
 import { setTapName } from "../../../reducers/myPageReducer";
+import { setUser } from "../../../reducers/userReducer";
 
 function MyPage() {
   const dispatch = useDispatch();
 
-  const { isLogin } = useSelector((state: RootState) => state.authReducer);
+  const { isLogin, accessToken } = useSelector(
+    (state: RootState) => state.authReducer
+  );
 
   // 회원 탈퇴 상태
   const [isOpened, setIsOpened] = useState<boolean>(false);
@@ -72,6 +75,7 @@ function MyPage() {
   // 선택한 탭의 이름을 스토어에 저장
   const handleTapBtn = (tapName: string) => {
     dispatch(setTapName(tapName));
+    dispatch(setUser(accessToken));
   };
 
   const scrollHandler = () => {
