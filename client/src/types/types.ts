@@ -47,3 +47,7 @@ export interface IUserPayLoad {
     };
   };
 }
+
+export interface IMyPage {
+  tapName: string;
+}

@@ -20,6 +20,7 @@ import {
 import { RootState } from "../../reducers/rootReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../reducers/userReducer";
+import { setTapName } from "../../reducers/myPageReducer";
 import Logout from "../../components/Modals/Logout/Logout";
 function Header() {
   const dispatch = useDispatch();
@@ -38,6 +39,7 @@ function Header() {
   const getUserData = () => {
     if (isLogin) {
       dispatch(setUser(accessToken));
+      dispatch(setTapName("내가 쓴 게시글"));
     }
   };
 

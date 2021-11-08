@@ -26,13 +26,16 @@ import {
 } from "./MyPage.style";
 import { Link, Redirect } from "react-router-dom";
 import { RootState } from "../../../reducers/rootReducer";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import MyPost from "../../../components/MyPost/MyPost";
 import MyComment from "../../../components/MyComment/MyComment";
 import MyFavoritePost from "../../../components/MyFavoritePost/MyFavoritePost";
 import DeleteAccount from "../../../components/Modals/DeleteAccount/DeleteAccount";
+import { setTapName } from "../../../reducers/myPageReducer";
 
 function MyPage() {
+  const dispatch = useDispatch();
+
   const { isLogin } = useSelector((state: RootState) => state.authReducer);
 
   // 회원 탈퇴 상태
@@ -62,11 +65,12 @@ function MyPage() {
     }
   }, [userArea]);
 
-  // 선택한 탭의 이름을 저장
-  const [tapName, setTapName] = useState<string>("내가 쓴 게시글");
+  // 스토어에 저장한 탭의 이름을 불러옴
+  const { tapName } = useSelector((state: RootState) => state.myPageReducer);
 
+  // 선택한 탭의 이름을 스토어에 저장
   const handleTapBtn = (tapName: string) => {
-    setTapName(tapName);
+    dispatch(setTapName(tapName));
   };
 
   const scrollHandler = () => {
@@ -173,12 +177,7 @@ function MyPage() {
                   내가 찜한 게시글
                 </Tap>
                 <Link to="/chatroom" style={{ textDecoration: "none" }}>
-                  <Tap
-                    onClick={() => {
-                      handleTapBtn("채팅방");
-                    }}
-                    isClicked={tapName === "채팅방" ? true : false}
-                  >
+                  <Tap isClicked={tapName === "채팅방" ? true : false}>
                     채팅방
                   </Tap>
                 </Link>
