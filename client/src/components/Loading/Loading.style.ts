@@ -9,8 +9,8 @@ export const Container = styled.div`
 `;
 
 export const Image = styled.img`
-  width: 216px;
-  height: 216px;
+  width: 316px;
+  height: 316px;
 
   margin-left: 925px;
 `;
