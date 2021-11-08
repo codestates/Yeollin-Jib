@@ -160,13 +160,17 @@ function PostCard({ postInfo, idx }: Result) {
         <InfoBox>
           <ProfileBox>
             <PostCardUserProfile>
-              {!postInfo.user.imagePath.includes(":") ? (
-                <img
-                  src={`${process.env.REACT_APP_API_URL}/uploads/${postInfo.user.imagePath}`}
-                  alt="UserPhoto"
-                />
+              {postInfo.user.imagePath ? (
+                !postInfo.user.imagePath.includes(":") ? (
+                  <img
+                    src={`${process.env.REACT_APP_API_URL}/uploads/${postInfo.user.imagePath}`}
+                    alt="UserPhoto"
+                  />
+                ) : (
+                  <img src={postInfo.user.imagePath} alt="UserPhoto" />
+                )
               ) : (
-                <img src={postInfo.user.imagePath} alt="UserPhoto" />
+                <img src="./images/profile.svg" alt="UserPhoto" />
               )}
             </PostCardUserProfile>
             <span className="User_Name">{postInfo.user.nickname}</span>
