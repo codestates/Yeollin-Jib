@@ -303,6 +303,42 @@ export const Tap = styled.div<ITapProps>`
   }
 `;
 
+export const ChatrommTap = styled.div`
+  background: #fdfbfe;
+  border: 1px solid #e0dde1;
+  border-radius: 0.313rem;
+  padding: 12px;
+  font-family: "Gmarket Sans TTF";
+  font-weight: 100;
+  font-size: 1rem;
+  color: #2d2d2d;
+  margin-bottom: 10px;
+  cursor: pointer;
+
+  :active {
+    background: #fede8a;
+    border: 1px solid #fede8a;
+  }
+
+  @media screen and (max-width: 37.5rem) {
+    background: #fbfafc;
+    border: none;
+    font-size: 0.8rem;
+    padding: 0;
+    margin: 0;
+    border-radius: 0;
+    border-bottom: 5px solid #fbfafc;
+    font-weight: 100;
+
+    :active {
+      border: none;
+      background: none;
+      font-weight: 300;
+      border-bottom: 5px solid #fede8a;
+    }
+  }
+`;
+
 export const BtnContainer = styled.div<IContentProps>`
   margin-top: 20px;
   display: flex;
