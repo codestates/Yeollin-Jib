@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../reducers/rootReducer";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
+import { useHistory } from "react-router";
 import {
   ModalBackground,
   ModalContainer,
@@ -15,16 +16,25 @@ import {
 
 interface IProps {
   setIsDeleteModal: (boolean: boolean) => void;
-  postId: number;
+
+  deleteTarget: string;
+  delTargetId: number;
 }
-function DeletePost({ setIsDeleteModal, postId }: IProps) {
+function DeletePost({
+  setIsDeleteModal,
+
+  deleteTarget,
+  delTargetId,
+}: IProps) {
   // 저장된 토큰값을 가져옴
   const { accessToken } = useSelector((state: RootState) => state.authReducer);
   const [isSuccess, setIsSuccess] = useState(false);
-  // 탈퇴 완료
+  const history = useHistory();
+
+  // 삭제 완료
   const submitDelete = async () => {
     const result = await axios.delete(
-      `${process.env.REACT_APP_API_URL}/post/${postId}`,
+      `${process.env.REACT_APP_API_URL}/${deleteTarget}/${delTargetId}`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -35,12 +45,15 @@ function DeletePost({ setIsDeleteModal, postId }: IProps) {
     if (result.status === 201) {
       // 성공적으로 삭제 했을 경우
       setIsSuccess(true);
+    } else if (result.status === 200) {
+      setIsSuccess(true);
+      history.go(0);
     }
   };
 
   return (
     <>
-      {isSuccess ? (
+      {isSuccess && deleteTarget === "post" ? (
         <Redirect to="/main"></Redirect>
       ) : (
         <ModalBackground>
