@@ -32,6 +32,7 @@ export const CardContainer = styled.article<IContentProps>`
   @media screen and (max-width: 37.5rem) {
     width: 100%;
     font-size: 0.9rem;
-    margin: 10px 0 40px 0;
+    margin: ${(props) =>
+      props.isContent ? "10px 0 40px 0;" : "-5px 0 40px 0;"};
   }
 `;

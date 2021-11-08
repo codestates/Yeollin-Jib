@@ -70,11 +70,9 @@ function MyComment() {
                 }}
                 style={{ textDecoration: "none", color: "#2d2d2d" }}
                 onClick={() => scrollHandler()}
+                key={commentInfo.id}
               >
-                <CardContainer
-                  key={commentInfo.id}
-                  isContent={myComment !== 0 ? true : false}
-                >
+                <CardContainer isContent={myComment !== 0 ? true : false}>
                   <TitleContainer>
                     <Title>{commentInfo.post.title}</Title>
                     <Date>
