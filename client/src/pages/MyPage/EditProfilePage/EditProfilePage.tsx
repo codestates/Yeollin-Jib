@@ -197,6 +197,10 @@ function EditProfilePage() {
     }
   };
 
+  const scrollHandler = () => {
+    window.scrollTo({ top: 0, left: 0 });
+  };
+
   return (
     <Body>
       <MainArea>
@@ -329,10 +333,10 @@ function EditProfilePage() {
             ) : null}
             {/*확인 및 취소 버튼----------------------------------------------------*/}
             <BtnContainer>
-              <Link to="/profile">
+              <Link to="/profile" onClick={() => scrollHandler()}>
                 <BlackBtn onClick={() => handleSubmitBtn()}>확인</BlackBtn>
               </Link>
-              <Link to="/profile">
+              <Link to="/profile" onClick={() => scrollHandler()}>
                 <WhiteBtn>취소</WhiteBtn>
               </Link>
             </BtnContainer>

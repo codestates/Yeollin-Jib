@@ -65,10 +65,13 @@ export const Title = styled.div`
 `;
 
 export const Date = styled.div`
+  box-sizing: border-box;
+  display: inline-block;
+  overflow: hidden;
   text-align: center;
   line-height: 1.7rem;
   font-size: 0.8rem;
-  width: 5.1rem;
+  width: 100px;
   height: 1.6rem;
   background: #fede8a;
   border-radius: 0.313rem;
@@ -77,7 +80,7 @@ export const Date = styled.div`
   @media screen and (max-width: 37.5rem) {
     line-height: 1.4rem;
     font-size: 0.6rem;
-    width: 4.7rem;
+    width: 6rem;
     height: 1.4rem;
     padding: 1px 3px 0 3px;
   }
