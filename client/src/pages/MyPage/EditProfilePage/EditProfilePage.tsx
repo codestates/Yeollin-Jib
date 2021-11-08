@@ -22,7 +22,7 @@ import {
   WhiteBtn,
 } from "./EditProfilePage.style";
 import ProfileImgUpload from "../ProfileImgUpload/ProfileImgUpload";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { RootState } from "../../../reducers/rootReducer";
 import { setUser } from "../../../reducers/userReducer";
 import { useSelector, useDispatch } from "react-redux";
@@ -41,7 +41,9 @@ function EditProfilePage() {
   const [isOpened, setIsOpened] = useState<boolean>(false);
 
   // 저장된 토큰값을 가져옴
-  const { accessToken } = useSelector((state: RootState) => state.authReducer);
+  const { accessToken, isLogin } = useSelector(
+    (state: RootState) => state.authReducer
+  );
 
   // 유저 정보를 스토어에서 가져옴
   const { nickname, imagePath, userArea, loginType } = useSelector(
@@ -198,137 +200,144 @@ function EditProfilePage() {
   return (
     <Body>
       <MainArea>
-        <Container>
-          {/*상단 타이틀---------------------------------------------------------*/}
-          <TopContainer>
-            <Title>정보 수정</Title>
-            <EditPasswordContainer onClick={() => setIsOpened(true)}>
-              <img src="./images/editPassword.svg" alt="edit" />
-              <div>비밀번호 변경</div>
-            </EditPasswordContainer>
-            {/*비밀번호 변경 클릭시 비밀번호 변경 모달 등장------------------------------*/}
-            {isOpened ? (
-              <EditPassword
-                setIsOpened={(bool: boolean) => setIsOpened(bool)}
-              />
-            ) : null}
-          </TopContainer>
-          {/*중간 컨텐츠---------------------------------------------------------*/}
-          <MiddleContainer>
-            <LeftContainer>
-              {/*프로필 사진 입력-----------------------------------------------------*/}
-              <UploadPhotoArea>
-                <ImgTitleContainer>
-                  <InputTitle>
-                    <CameraIcon color={"#2d2d2d"} />
-                    <div>프로필 사진</div>
-                  </InputTitle>
-                  <DeleteProfileImg onClick={() => deleteProfileImgHandle()}>
-                    <img src="./images/delete.svg" alt="" />
-                  </DeleteProfileImg>
-                </ImgTitleContainer>
-                <InputContainer>
-                  {profileImg[0] === undefined && userImagePath === null ? (
-                    <>
+        {!isLogin ? (
+          <Redirect to="/main"></Redirect>
+        ) : (
+          <Container>
+            {/*상단 타이틀---------------------------------------------------------*/}
+            <TopContainer>
+              <Title>정보 수정</Title>
+              <EditPasswordContainer onClick={() => setIsOpened(true)}>
+                <img src="./images/editPassword.svg" alt="edit" />
+                <div>비밀번호 변경</div>
+              </EditPasswordContainer>
+              {/*비밀번호 변경 클릭시 비밀번호 변경 모달 등장------------------------------*/}
+              {isOpened ? (
+                <EditPassword
+                  setIsOpened={(bool: boolean) => setIsOpened(bool)}
+                />
+              ) : null}
+            </TopContainer>
+            {/*중간 컨텐츠---------------------------------------------------------*/}
+            <MiddleContainer>
+              <LeftContainer>
+                {/*프로필 사진 입력-----------------------------------------------------*/}
+                <UploadPhotoArea>
+                  <ImgTitleContainer>
+                    <InputTitle>
+                      <CameraIcon color={"#2d2d2d"} />
+                      <div>프로필 사진</div>
+                    </InputTitle>
+                    <DeleteProfileImg onClick={() => deleteProfileImgHandle()}>
+                      <img src="./images/delete.svg" alt="" />
+                    </DeleteProfileImg>
+                  </ImgTitleContainer>
+                  <InputContainer>
+                    {profileImg[0] === undefined && userImagePath === null ? (
+                      <>
+                        <div className="ProfileImg_Container">
+                          <ProfileImgUpload
+                            setProfileImgData={setProfileImgData}
+                            profileImg={profileImg}
+                          />
+                        </div>
+                      </>
+                    ) : (
                       <div className="ProfileImg_Container">
                         <ProfileImgUpload
                           setProfileImgData={setProfileImgData}
                           profileImg={profileImg}
                         />
-                      </div>
-                    </>
-                  ) : (
-                    <div className="ProfileImg_Container">
-                      <ProfileImgUpload
-                        setProfileImgData={setProfileImgData}
-                        profileImg={profileImg}
-                      />
-                      {userImagePath ? (
-                        !loginType ? (
-                          // 프로필사진이 있고, 소셜로그인이 아닐 때
-                          <img
-                            className="ProfileImg_Thumb"
-                            src={`${process.env.REACT_APP_API_URL}/uploads/${imagePath}`}
-                            alt="Thumb"
-                          />
+                        {userImagePath ? (
+                          !loginType || !userImagePath.includes(":") ? (
+                            // 프로필사진이 있고, 소셜로그인이 아닐 때(소셜로그인이지만 이미지를 변경한 경우도 포함)
+                            // 컴퓨터에서 파일 이름에 특수문자 ":"를 넣을 수 없다는 점을 이용하여 소셜로그인시 저장된 프로필 사진인지, 열린집을 통해 업데이트한 사진인지 판별
+                            <img
+                              className="ProfileImg_Thumb"
+                              src={`${process.env.REACT_APP_API_URL}/uploads/${imagePath}`}
+                              alt="Thumb"
+                            />
+                          ) : (
+                            // 프로필사진이 있고, 소셜로그인일 때
+                            <img
+                              className="ProfileImg_Thumb"
+                              src={`${imagePath}`}
+                              alt="Thumb"
+                            />
+                          )
                         ) : (
-                          // 프로필사진이 있고, 소셜로그인일 때
                           <img
                             className="ProfileImg_Thumb"
-                            src={`${imagePath}`}
+                            src={profileImg[0].preview}
                             alt="Thumb"
                           />
-                        )
-                      ) : (
-                        <img
-                          className="ProfileImg_Thumb"
-                          src={profileImg[0].preview}
-                          alt="Thumb"
+                        )}
+                      </div>
+                    )}
+                  </InputContainer>
+                </UploadPhotoArea>
+              </LeftContainer>
+              <RightContainer>
+                {/*닉네임 입력------------------------------------------------------*/}
+                <div>
+                  <InputTitle>
+                    <PencilIcon color={"#2d2d2d"} />
+                    <div>닉네임</div>
+                  </InputTitle>
+                  <InputContainer>
+                    <InputField
+                      defaultValue={nickname}
+                      onChange={(e) => setNicknameData(e)}
+                      onKeyPress={(e) => handleNicknameKeyPress(e)}
+                    />
+                    <ValidationBtn onClick={() => handleNicknameBtn()}>
+                      중복 확인
+                    </ValidationBtn>
+                  </InputContainer>
+                  <MsgContainer isColor={isRightNickname}>
+                    {newNickname !== nickname ? (
+                      <>
+                        <WarningIcon
+                          color={isRightNickname ? "#2d2d2d" : "#f44336"}
                         />
-                      )}
-                    </div>
-                  )}
-                </InputContainer>
-              </UploadPhotoArea>
-            </LeftContainer>
-            <RightContainer>
-              {/*닉네임 입력------------------------------------------------------*/}
-              <div>
-                <InputTitle>
-                  <PencilIcon color={"#2d2d2d"} />
-                  <div>닉네임</div>
-                </InputTitle>
-                <InputContainer>
-                  <InputField
-                    defaultValue={nickname}
-                    onChange={(e) => setNicknameData(e)}
-                    onKeyPress={(e) => handleNicknameKeyPress(e)}
-                  />
-                  <ValidationBtn onClick={() => handleNicknameBtn()}>
-                    중복 확인
-                  </ValidationBtn>
-                </InputContainer>
-                <MsgContainer isColor={isRightNickname}>
-                  {newNickname !== nickname ? (
-                    <>
-                      <WarningIcon
-                        color={isRightNickname ? "#2d2d2d" : "#f44336"}
-                      />
-                      <div>{nicknameAlert}</div>
-                    </>
-                  ) : null}
-                </MsgContainer>
-              </div>
-              {/*우리동네 주소 입력-------------------------------------------------*/}
-              <div>
-                <InputTitle>
-                  <MapMarkIcon color={"#2d2d2d"} />
-                  <div>우리 동네</div>
-                </InputTitle>
-                <InputContainer>
-                  <InputField
-                    placeholder={userArea ? userArea : "주소를 검색해 주세요."}
-                    value={addressInput}
-                    readOnly
-                  />
-                  <SearchAddress searchAddressHandle={searchAddressHandle} />
-                </InputContainer>
-              </div>
-            </RightContainer>
-          </MiddleContainer>
-          {addressInput !== "" ? (
-            <KakaoMap addressInput={addressInput} />
-          ) : null}
-          {/*확인 및 취소 버튼----------------------------------------------------*/}
-          <BtnContainer>
-            <Link to="/profile">
-              <BlackBtn onClick={() => handleSubmitBtn()}>확인</BlackBtn>
-            </Link>
-            <Link to="/profile">
-              <WhiteBtn>취소</WhiteBtn>
-            </Link>
-          </BtnContainer>
-        </Container>
+                        <div>{nicknameAlert}</div>
+                      </>
+                    ) : null}
+                  </MsgContainer>
+                </div>
+                {/*우리동네 주소 입력-------------------------------------------------*/}
+                <div>
+                  <InputTitle>
+                    <MapMarkIcon color={"#2d2d2d"} />
+                    <div>우리 동네</div>
+                  </InputTitle>
+                  <InputContainer>
+                    <InputField
+                      placeholder={
+                        userArea ? userArea : "주소를 검색해 주세요."
+                      }
+                      value={addressInput}
+                      readOnly
+                    />
+                    <SearchAddress searchAddressHandle={searchAddressHandle} />
+                  </InputContainer>
+                </div>
+              </RightContainer>
+            </MiddleContainer>
+            {addressInput !== "" ? (
+              <KakaoMap addressInput={addressInput} />
+            ) : null}
+            {/*확인 및 취소 버튼----------------------------------------------------*/}
+            <BtnContainer>
+              <Link to="/profile">
+                <BlackBtn onClick={() => handleSubmitBtn()}>확인</BlackBtn>
+              </Link>
+              <Link to="/profile">
+                <WhiteBtn>취소</WhiteBtn>
+              </Link>
+            </BtnContainer>
+          </Container>
+        )}
       </MainArea>
     </Body>
   );

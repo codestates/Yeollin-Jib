@@ -12,6 +12,7 @@ import {
   LoginBtn,
   SocialLoginBtn,
   SignupBtn,
+  AdviceContainer,
 } from "./LoginPage.style";
 import { RootState } from "../../reducers/rootReducer";
 import { useDispatch, useSelector } from "react-redux";
@@ -74,7 +75,7 @@ function LoginPage() {
     );
   };
 
-  // 카카오 로그인 버튼을 누르면 서버에 구글 로그인 요청
+  // 카카오 로그인 버튼을 누르면 서버에 카카오 로그인 요청
   const handleKakaoLoginBtn = async () => {
     await window.location.assign(
       `${process.env.REACT_APP_API_URL}/user/login/kakao`
@@ -95,54 +96,60 @@ function LoginPage() {
         {isLogin ? (
           <Redirect to="/main"></Redirect>
         ) : (
-          <Container>
-            <ContentContainer>
-              <TitleWrapper>
-                <Title>로그인</Title>
-              </TitleWrapper>
-              {/*이메일 입력---------------------------------------------------------*/}
-              <InputTitle>이메일</InputTitle>
-              <InputField
-                type="text"
-                onChange={(e) => setEmailData(e)}
-                onKeyPress={(e) => handleKeyPress(e, email, password)}
-              />
-              {/*비밀번호 입력---------------------------------------------------------*/}
-              <InputTitle>비밀번호</InputTitle>
-              <InputField
-                type="password"
-                onChange={(e) => setPasswordData(e)}
-                onKeyPress={(e) => handleKeyPress(e, email, password)}
-              />
-              <InvalidMessage>
-                {isInValid ? (
-                  <>
-                    <img src="./images/warning.svg" alt="warning" />
-                    <div>{alert}</div>
-                  </>
-                ) : null}
-              </InvalidMessage>
-              {/*로그인 버튼---------------------------------------------------------*/}
-              <LoginBtn onClick={() => handleLoginBtn(email, password)}>
-                로그인
-              </LoginBtn>
-              {/*소셜 로그인 버튼---------------------------------------------------------*/}
-              <SocialLoginBtn onClick={() => handleGoogleLoginBtn()}>
-                <img src="./images/googleLogo.svg" alt="google" />
-                <div>구글 로그인</div>
-              </SocialLoginBtn>
-              <SocialLoginBtn onClick={() => handleKakaoLoginBtn()}>
-                <img src="./images/kakaoLogo.svg" alt="kakao" />
-                <div>카카오 로그인</div>
-              </SocialLoginBtn>
-              {/*회원가입 버튼————————————————————————————*/}
-              <Link to={"/signup"}>
-                <SignupBtn>
-                  아직 이메일이 없으신가요? 회원가입 하러가기
-                </SignupBtn>
-              </Link>
-            </ContentContainer>
-          </Container>
+          <>
+            <Container>
+              <ContentContainer>
+                <TitleWrapper>
+                  <Title>로그인</Title>
+                </TitleWrapper>
+                {/*이메일 입력---------------------------------------------------------*/}
+                <InputTitle>이메일</InputTitle>
+                <InputField
+                  type="text"
+                  onChange={(e) => setEmailData(e)}
+                  onKeyPress={(e) => handleKeyPress(e, email, password)}
+                />
+                {/*비밀번호 입력---------------------------------------------------------*/}
+                <InputTitle>비밀번호</InputTitle>
+                <InputField
+                  type="password"
+                  onChange={(e) => setPasswordData(e)}
+                  onKeyPress={(e) => handleKeyPress(e, email, password)}
+                />
+                <InvalidMessage>
+                  {isInValid ? (
+                    <>
+                      <img src="./images/warning.svg" alt="warning" />
+                      <div>{alert}</div>
+                    </>
+                  ) : null}
+                </InvalidMessage>
+                {/*로그인 버튼---------------------------------------------------------*/}
+                <LoginBtn onClick={() => handleLoginBtn(email, password)}>
+                  로그인
+                </LoginBtn>
+                {/*소셜 로그인 버튼---------------------------------------------------------*/}
+                <SocialLoginBtn onClick={() => handleGoogleLoginBtn()}>
+                  <img src="./images/googleLogo.svg" alt="google" />
+                  <div>구글 로그인</div>
+                </SocialLoginBtn>
+                <SocialLoginBtn onClick={() => handleKakaoLoginBtn()}>
+                  <img src="./images/kakaoLogo.svg" alt="kakao" />
+                  <div>카카오 로그인</div>
+                </SocialLoginBtn>
+                {/*회원가입 버튼————————————————————————————*/}
+                <Link to={"/signup"}>
+                  <SignupBtn>
+                    아직 이메일이 없으신가요? 회원가입 하러가기
+                  </SignupBtn>
+                </Link>
+              </ContentContainer>
+              <AdviceContainer>
+                <div>카카오 로그인을 이용하실 경우</div>
+                <div>정보 제공 약관에 전체 동의를 부탁드립니다.</div>
+              </AdviceContainer>
+            </Container>
+          </>
         )}
       </MainArea>
     </Body>

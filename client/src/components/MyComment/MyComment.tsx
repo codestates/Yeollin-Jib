@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import {
   CardContainer,
   TitleContainer,
@@ -9,29 +9,69 @@ import {
 } from "./MyComment.style";
 import { RootState } from "../../reducers/rootReducer";
 import { useSelector } from "react-redux";
+import axios from "axios";
 
 function MyComment() {
+  // 스토어에 저장된 엑세스토큰과 myComment의 개수를 가져옴
+  const { accessToken } = useSelector((state: RootState) => state.authReducer);
   const { myComment } = useSelector((state: RootState) => state.userReducer);
+
+  // 내가 쓴 댓글의 정보를 담을 배열
+  const [commentInfo, setCommentInfo] = useState<any[]>([]);
+
+  // 내가 쓴 댓글 정보를 받아오는 axios 요청
+  const getCommentData = async () => {
+    const result: any = await axios.get(
+      `${process.env.REACT_APP_API_URL}/comment/me`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      }
+    );
+
+    if (result !== undefined) {
+      setCommentInfo(result.data.data);
+    }
+  };
+
+  // myComment 컴포넌트가 마운트될 때 호출
+  useEffect(() => {
+    getCommentData();
+  }, []);
 
   return (
     <>
-      {myComment !== 0 ? (
+      {myComment === 0 ? (
         // 내가 작성한 댓글이 0개일 때
         <CardContainer isContent={myComment !== 0 ? true : false}>
           <div>작성하신 댓글이 없습니다.</div>
         </CardContainer>
       ) : (
-        <>
-          <CardContainer isContent={myComment !== 0 ? true : false}>
-            <TitleContainer>
-              <Title>고양이 관련 물품들 나눔합니다.</Title>
-              <Date>2021.10.11</Date>
-            </TitleContainer>
-            <CommentContainer>
-              <Comment>안녕하세요! 고양이 사진 보여주세요!</Comment>
-            </CommentContainer>
-          </CardContainer>
-        </>
+        // 댓글을 최신순으로 정렬하기 위해 reverse() 사용
+        commentInfo
+          .slice(0)
+          .reverse()
+          .map((commentInfo) => {
+            return (
+              <CardContainer
+                key={commentInfo.id}
+                isContent={myComment !== 0 ? true : false}
+              >
+                <TitleContainer>
+                  <Title>{commentInfo.post.title}</Title>
+                  <Date>
+                    {commentInfo.post.dueDate.slice(0, 10).replace(/-/g, ". ")}
+                  </Date>
+                </TitleContainer>
+                <CommentContainer>
+                  <Comment>{commentInfo.contents}</Comment>
+                </CommentContainer>
+              </CardContainer>
+            );
+          })
       )}
     </>
   );

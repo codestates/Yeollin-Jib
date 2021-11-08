@@ -216,6 +216,12 @@ export const PostCardArea = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  transition: all 0.3s;
+  @media screen and (max-width: 37.5rem) {
+    flex-wrap: nowrap;
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 export const BlankPostCard = styled.div`
@@ -230,4 +236,5 @@ export const BlankPostCard = styled.div`
   justify-content: center;
   align-items: center;
   font-weight: 100;
+  margin-top: 1.063rem;
 `;

@@ -9,7 +9,9 @@ const get = async (req: Request, res: Response) => {
   try {
     await comment
       .findAll({
-        where: { userId: userId },
+        attributes: {
+          exclude: ["createdAt", "updateTimestamp", "userId"],
+        },
         include: [
           {
             model: user,
@@ -17,9 +19,12 @@ const get = async (req: Request, res: Response) => {
           },
           {
             model: post,
-            attributes: ["title"],
+            attributes: ["title", "dueDate"],
           },
         ],
+        where: {
+          userId,
+        },
       })
       .then((data: object) => {
         res.status(200).json({

@@ -45,6 +45,7 @@ const get_infinite = async (req: Request, res: Response) => {
     }
 
     return res.status(200).send({ postGet });
+
   } catch (err) {
     console.log(err);
     return res.status(501).json({ message: "서버 에러 입니다." });

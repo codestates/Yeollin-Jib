@@ -23,7 +23,8 @@ import {
 
 function MainPage() {
   const [postInfo, setPostInfo] = useState<any[]>([]);
-  const [page, setPage] = useState<number>(36);
+  const [page, setPage] = useState<number>(1);
+  const [postCount, setPostCount] = useState<number>();
   const [isShowCategory, setIsShowCategory] = useState<boolean>(false);
   const { isLogin } = useSelector((state: RootState) => state.authReducer);
   const openCategory = () => {
@@ -51,23 +52,44 @@ function MainPage() {
   };
 
   // 초기 게시글 호출
-  const firstLoadPost = async () => {
+  const initPostData = async () => {
     const result: any = await axios.get(
-      `${process.env.REACT_APP_API_URL}/post/page`,
+      `${process.env.REACT_APP_API_URL}/post/page/1`,
       {
         headers: {
           "Content-Type": "application/json",
         },
       }
     );
-    setPostInfo(result.data.postGet);
+    if (result !== undefined) {
+      setPostInfo(result.data.postGet);
+      setPostCount(result.data.postAll);
+      setPage(page + 1);
+      console.log(result.data.postGet);
+    }
   };
 
   // 해당 컴포넌트가 마운트될 때 초기 게시글을 호출한다, 카테고리 셀렉트 상태를 초기화 한다
   useEffect(() => {
-    firstLoadPost();
+    initPostData();
     CategorySelectHandle("init");
   }, []);
+
+  const infinitePostData = async () => {
+    const result: any = await axios.get(
+      `${process.env.REACT_APP_API_URL}/post/page/${page}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (result !== undefined) {
+      setPostInfo(postInfo.concat(result.data.postGet));
+      setPostCount(result.data.postAll);
+      setPage(page + 1);
+    }
+  };
 
   // 무한스크롤 함수
   const handleScroll = useCallback(async () => {
@@ -81,21 +103,14 @@ function MainPage() {
     const { scrollTop } = document.documentElement;
 
     // scrollTop과 innerHeight를 더한 값이 scrollHeight보다 크다면, 가장 아래에 도달했다는 의미이다.
-    if (Math.round(scrollTop + innerHeight) >= scrollHeight - 200) {
-      if (page > 3) {
-        const result: any = await axios.get(
-          `${process.env.REACT_APP_API_URL}/post/page/${page}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        // 페이지에 따라서 불러온 배열을 새로운 요청으로 받아온 게시물 배열과 합쳐준다.
-        setPostInfo(postInfo.concat(result.data.postGet));
-
-        // 페이지를 불러오는 게시물의 수만큼 줄여준다.
-        setPage(page - 4);
+    if (
+      Math.round(scrollTop + innerHeight) >= scrollHeight - 200 &&
+      postCount !== undefined
+    ) {
+      if (page - 1 < postCount / 8) {
+        infinitePostData();
+      } else {
+        return;
       }
     }
   }, [page]);
@@ -110,6 +125,9 @@ function MainPage() {
     };
   }, [handleScroll]);
 
+  const scrollHandler = () => {
+    window.scrollTo({ top: 0, left: 0 });
+  };
   return (
     <Body>
       <MainArea>
@@ -147,7 +165,9 @@ function MainPage() {
           <PostBoardTitleContainer>
             <PostBoardTitleBox>
               <span className="Post_Title">{"게시판"}</span>
-              <span className="Post_Count">{`총 ${postInfo.length}개`}</span>
+              <span className="Post_Count">
+                {!postCount ? `총 0개` : `총 ${postCount}개`}
+              </span>
             </PostBoardTitleBox>
             {/* 게시글 작성 버튼 ------------------------------------------------*/}
             <Link
@@ -161,7 +181,7 @@ function MainPage() {
           </PostBoardTitleContainer>
           {/* 게시글 리스트 ----------------------------------------------------*/}
           <PostCardArea>
-            {postInfo[0] === undefined ? (
+            {!postInfo ? (
               <BlankPostCard>
                 <span>검색 결과가</span>
                 <span> 없습니다</span>
@@ -169,11 +189,19 @@ function MainPage() {
             ) : (
               postInfo.map((postInfo, idx) => {
                 return (
-                  <PostCard
+                  <Link
+                    to={{
+                      pathname: `/detail`,
+                      state: {
+                        postId: postInfo.id,
+                      },
+                    }}
                     key={postInfo.id}
-                    idx={idx}
-                    postInfo={postInfo}
-                  ></PostCard>
+                    style={{ textDecoration: "none", color: "#2d2d2d" }}
+                    onClick={() => scrollHandler()}
+                  >
+                    <PostCard idx={idx} postInfo={postInfo}></PostCard>
+                  </Link>
                 );
               })
             )}

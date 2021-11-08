@@ -271,11 +271,9 @@ export const TopContainer = styled.div`
   }
 `;
 
-export const DeleteIconContainer = styled.div``;
-
 export const GoUpContainer = styled.div`
   display: none;
-  @media screen and (max-width: 37.5rem) {
+  @media screen and (max-width: 700px) {
     width: 100%;
     display: flex;
     flex-direction: column;

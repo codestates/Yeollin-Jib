@@ -45,7 +45,6 @@ export const Container = styled.div`
 
 export const SideContainer = styled.div`
   margin-right: 30px;
-  /* position: fixed; */
 
   @media screen and (max-width: 37.5rem) {
     margin: 0;
@@ -103,13 +102,18 @@ export const Profile = styled.div`
   .Profile_Nickname {
     font-weight: 300;
     font-size: 1rem;
+    width: 160px;
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 
   .Profile_Email {
     font-weight: 100;
     font-size: 0.8rem;
     margin-top: 3px;
-    width: 170px;
+    width: 160px;
     display: inline-block;
     overflow: hidden;
     white-space: nowrap;
@@ -122,6 +126,11 @@ export const Profile = styled.div`
 
     .Profile_Nickname {
       font-size: 0.9rem;
+      width: 210px;
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
 
     .Profile_Email {
@@ -148,10 +157,21 @@ export const Address = styled.div`
     font-family: "Gmarket Sans TTF";
     font-weight: 100;
     font-size: 0.8rem;
+    width: 150px;
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 
   @media screen and (max-width: 37.5rem) {
-    font-size: 0.8rem;
+    div {
+      width: 210px;
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
 
     img {
       height: 12px;
@@ -273,7 +293,6 @@ export const Tap = styled.div<ITapProps>`
   font-weight: 100;
   font-size: 1rem;
   color: #2d2d2d;
-
   margin-bottom: 10px;
   cursor: pointer;
 
@@ -348,7 +367,6 @@ export const WhiteBtn = styled.button`
 export const ContentContainer = styled.div`
   width: 100%;
   box-sizing: border-box;
-  /* margin-left: 318px; */
 
   @media screen and (max-width: 37.5rem) {
     width: 310px;

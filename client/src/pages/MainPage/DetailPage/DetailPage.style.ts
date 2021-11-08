@@ -82,6 +82,7 @@ export const PhotoBox = styled.div`
 export const Photo = styled.div`
   img {
     width: 472px;
+    height: 472px;
     margin: 0 8px 0 8px;
   }
 `;
@@ -102,6 +103,30 @@ export const ContentsUserBox = styled.div`
   justify-content: space-between;
   border-bottom: 1px solid #e0dde1;
   box-sizing: border-box;
+  font-family: "Gmarket Sans TTF";
+  font-weight: 100;
+`;
+
+export const UserProfileBox = styled.div`
+  display: flex;
+  width: 300px;
+  img {
+    width: 32px;
+    height: 32px;
+  }
+`;
+
+export const UserInfoBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+  color: #2d2d2d;
+  font-size: 14px;
+  .User_Name {
+    font-weight: 300;
+  }
+  .User_Email {
+  }
 `;
 
 export const TextBox = styled.div`

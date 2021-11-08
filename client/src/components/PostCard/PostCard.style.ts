@@ -15,27 +15,22 @@ export const PostCardContainer = styled.article<PostCardMargin>`
   flex-direction: column;
   font-family: "Gmarket Sans TTF";
   margin: 1.063rem 0 0.813rem 0;
-  /* margin: ${(props) =>
-    props.idx % 4 === 1
-      ? "1.063rem 1.25rem 0.813rem 1.25rem"
-      : props.idx % 4 === 2
-      ? "1.063rem 1.25rem 0.813rem 0"
-      : "1.063rem 0 0.813rem 0"}; */
+  cursor: pointer;
   @media screen and (max-width: 37.5rem) {
-    width: 100%;
+    width: 19.937rem;
   }
 `;
 
 export const PostCardImgBox = styled.div`
   position: relative;
-  width: 17.938rem;
-  height: 17.938rem;
+  width: 17.813rem;
+  height: 17.813rem;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   @media screen and (max-width: 37.5rem) {
-    width: 100%;
-    height: auto;
+    width: 19.813rem;
+    height: 19.813rem;
   }
 `;
 
@@ -43,10 +38,12 @@ export const PostCardImg = styled.img`
   width: 17.813rem;
   height: 17.813rem;
   border-radius: 0.313rem 0.313rem 0px 0px;
+  font-size: 16px;
+  font-weight: 100;
   @media screen and (max-width: 37.5rem) {
     border-radius: 0.25rem 0.25rem 0px 0px;
-    width: 100%;
-    height: auto;
+    width: 19.813rem;
+    height: 19.813rem;
   }
 `;
 
@@ -58,19 +55,19 @@ export const PostCardImgBackground = styled.div`
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3));
   @media screen and (max-width: 37.5rem) {
     border-radius: 0.25rem 0.25rem 0px 0px;
-    width: 100%;
-    height: auto;
-    z-index: 99;
+    width: 19.813rem;
+    height: 19.813rem;
   }
 `;
 
 export const PostCardLikeBox = styled.div`
   display: flex;
   justify-content: end;
-  position: absolute;
-  z-index: 1;
+  position: relative;
+  z-index: 6;
   width: 17.813rem;
   height: 3.125rem;
+  position: absolute;
   @media screen and (max-width: 37.5rem) {
     width: 100%;
   }
@@ -80,6 +77,7 @@ export const PostCardLike = styled.svg`
   width: 1rem;
   margin-top: 0.813rem;
   margin-right: 0.75rem;
+  cursor: pointer;
 `;
 
 export const PhotoCirclesBox = styled.div`
@@ -108,12 +106,20 @@ export const PostCardTitle = styled.div`
   font-size: 1rem;
   color: #2d2d2d;
   margin: 15px 0 0 11px;
+  font-weight: 300;
+  span {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
 `;
 
 export const InfoBox = styled.div`
   display: flex;
   justify-content: space-between;
   margin: 10px 11px 0 11px;
+  font-weight: 300;
 `;
 
 export const ProfileBox = styled.div`
@@ -123,6 +129,10 @@ export const ProfileBox = styled.div`
   .User_Name {
     font-size: 14px;
     margin-left: 7px;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 `;
 
@@ -171,7 +181,7 @@ export const CategoryBox = styled.div`
   padding: 21px 0 14px 0;
 `;
 
-export const CategoryCard = styled.span`
+export const CategoryCard = styled.span<PostCardMargin>`
   width: 85px;
   height: 26px;
   background: #f7f7f8;
@@ -183,4 +193,5 @@ export const CategoryCard = styled.span`
   border-radius: 0.313rem;
   font-size: 12px;
   font-weight: 100;
+  margin: ${(props) => (props.idx === 1 ? "0 3px 0 3px" : "none")};
 `;

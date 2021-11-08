@@ -40,8 +40,12 @@ import axios, { AxiosResponse } from "axios";
 import { useSelector } from "react-redux";
 import KakaoMap from "../../../components/KakaoMap/KakaoMap";
 import SearchAddress from "../../../components/SearchAddress/SearchAddress";
+import { useHistory } from "react-router";
+import { Link } from "react-router-dom";
 
 function CreatePostPage() {
+  const history = useHistory();
+
   // 카테고리 초기화 1,7번탭 선택
   useEffect(() => {
     const newMainCategory = [...initMainCategories];
@@ -174,8 +178,8 @@ function CreatePostPage() {
     const newSubmitMainCategory = submitMainCategory.join(",");
     const newSubmitSubCategory = submitSubCategory.join(",");
 
-    console.log(newSubmitMainCategory);
-    console.log(newSubmitSubCategory);
+    console.log("submitMain", newSubmitMainCategory);
+    console.log("submitSub", newSubmitSubCategory);
 
     if (name === "main") {
       return newSubmitMainCategory;
@@ -183,18 +187,33 @@ function CreatePostPage() {
     return newSubmitSubCategory;
   };
 
+  const [addressInput, setAddressInput] = useState("");
+
+  const searchAddressHandle = (address: string) => {
+    setAddressInput(address);
+  };
+
+  const [addressCoordinate, setAddressCoordinate] = useState<number[]>([]);
+
+  const searchCoordinateHandle = (lat: number, log: number) => {
+    let newCoordinate: number[] = [];
+    newCoordinate.push(lat);
+    newCoordinate.push(log);
+    setAddressCoordinate(newCoordinate);
+  };
+
   const registerPost = async () => {
     const formData = new FormData();
     files.forEach((file) => formData.append("image", file));
     formData.append("title", inputTitle);
     formData.append("contents", inputContents);
-    formData.append("address", "서울특별시 동대문구");
-    formData.append("dueDate", `${inputDate.date}${inputDate.time}`);
-    formData.append("latitude", "123");
-    formData.append("longitude", "23");
+    formData.append("address", addressInput);
+    formData.append("dueDate", `${inputDate.date},${inputDate.time}`);
+    formData.append("latitude", `${addressCoordinate[0]}`);
+    formData.append("longitude", `${addressCoordinate[1]}`);
     formData.append("category1", submitCateHandle("main"));
     formData.append("category2", submitCateHandle("sub"));
-
+    console.log(addressCoordinate);
     const result: AxiosResponse = await axios.post(
       `${process.env.REACT_APP_API_URL}/post`,
       formData,
@@ -205,12 +224,11 @@ function CreatePostPage() {
         },
       }
     );
-  };
-
-  const [addressInput, setAddressInput] = useState("");
-
-  const searchAddressHandle = (address: string) => {
-    setAddressInput(address);
+    if (result) {
+      history.push({
+        pathname: "/main",
+      });
+    }
   };
 
   return (
@@ -405,12 +423,17 @@ function CreatePostPage() {
               <InputAddress value={addressInput} readOnly />
               <SearchAddress searchAddressHandle={searchAddressHandle} />
             </div>
-            <KakaoMap addressInput={addressInput} />
+            <KakaoMap
+              addressInput={addressInput}
+              searchCoordinateHandle={searchCoordinateHandle}
+            />
           </AddressArea>
           {/* 등록 취소 버튼 ---------------------------------------------------*/}
           <SubmitArea>
             <SubmitBtn onClick={() => registerPost()}>완료</SubmitBtn>
-            <CancelBtn>취소</CancelBtn>
+            <Link to="/main">
+              <CancelBtn>취소</CancelBtn>
+            </Link>
           </SubmitArea>
         </CreatePostContainer>
       </MainArea>
