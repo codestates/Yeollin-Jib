@@ -43,13 +43,7 @@ export const Container = styled.div`
   }
 `;
 
-export const SideContainer = styled.div`
-  margin-right: 30px;
-
-  @media screen and (max-width: 37.5rem) {
-    margin: 0;
-  }
-`;
+export const SideContainer = styled.div``;
 
 export const MyInfoContainer = styled.div`
   display: flex;
@@ -309,7 +303,7 @@ export const Tap = styled.div<ITapProps>`
   }
 `;
 
-export const BtnContainer = styled.div`
+export const BtnContainer = styled.div<IContentProps>`
   margin-top: 20px;
   display: flex;
   justify-content: space-between;
@@ -317,6 +311,7 @@ export const BtnContainer = styled.div`
   @media screen and (max-width: 37.5rem) {
     width: 150px;
     align-items: flex-end;
+    margin-top: ${(props) => (props.isColumn ? "15px" : "20px")};
   }
 `;
 
@@ -379,6 +374,7 @@ export const Title = styled.span`
   font-size: 1.4rem;
   color: #2d2d2d;
   border-bottom: 5px solid #fede8a;
+  margin-left: 37px;
 
   @media screen and (max-width: 37.5rem) {
     display: none;

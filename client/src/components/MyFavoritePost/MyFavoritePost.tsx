@@ -10,12 +10,12 @@ function MyFavoritePost() {
     <Container>
       {myStorage === 0 ? (
         // 내가 찜한 게시글이 0개일 때
-        <CardContainer>
+        <CardContainer isContent={myStorage !== 0 ? true : false}>
           <div>찜한</div>
           <div>게시글이 없습니다.</div>
         </CardContainer>
       ) : (
-        <CardContainer>
+        <CardContainer isContent={myStorage !== 0 ? true : false}>
           <div>찜한</div>
           <div>게시글이 없습니다.</div>
         </CardContainer>

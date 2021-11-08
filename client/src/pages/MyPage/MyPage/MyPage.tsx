@@ -183,7 +183,9 @@ function MyPage() {
                 </Link>
               </TapContainer>
               {/*웹 환경에서의 정보 수정 탈퇴 버튼----------------------------------------------*/}
-              <BtnContainer>
+              <BtnContainer
+                isColumn={tapName === "내가 쓴 댓글" ? true : false}
+              >
                 <Link to={"/editprofile"} onClick={() => scrollHandler()}>
                   <BlackBtn>정보 수정</BlackBtn>
                 </Link>
