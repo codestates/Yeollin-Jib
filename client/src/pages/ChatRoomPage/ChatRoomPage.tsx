@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../reducers/rootReducer";
-import { useState } from "react";
+// import io from "socket.io-client";
+
 import {
   ChatListContainer,
   ChatListTxt,
