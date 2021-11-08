@@ -10,18 +10,20 @@ const { or, and, gt, lt } = Sequelize.Op;
 const get_user_infinite = async (req: Request, res: Response) => {
   try {
     const id = req.cookies.id; //유저아이디
-    const pageNum: any = req.params.id; // page Number
+    const pageNum: any = req.params; // page Number
+
     let offset = 0;
     if (pageNum > 1) {
       offset = 8 * (pageNum - 1);
     }
 
-    const postGet = await post.findAll({
-      where: { userId: id },
+    const postGet = await post.findAndCountAll({
+      attributes: ["id", "userId", "title", "address", "dueDate", "imagePath"],
       order: [["id", "DESC"]],
-      attributes: ["id", "title", "address"],
-      limit: 8,
-      offset: offset,
+      //   limit: 8,
+      //   offset: offset,
+      distinct: true, //Don't count include
+      where: { userId: id },
       include: [
         {
           model: user,
@@ -33,30 +35,15 @@ const get_user_infinite = async (req: Request, res: Response) => {
         },
         {
           model: post_category,
-          required: false,
           attributes: ["categoryId"],
-          include: [
-            {
-              model: category,
-              required: false,
-              attributes: ["category1", "category2"],
-            },
-          ],
         },
       ],
     });
 
-    const data = postGet.length; // 게시물 정보 갯수
-
-    if (data !== 8) {
-      if (data === 0) {
-        return res
-          .status(200)
-          .send({ message: "더이상 조회할 게시물이 없습니다." });
-      }
+    if (postGet.rows.length === 0) {
       return res
-        .status(200)
-        .send({ postGet, message: "더이상 조회할 게시물이 없습니다." });
+        .status(404)
+        .send({ message: "더이상 조회할 게시물이 없습니다." });
     }
 
     res.status(200).send({ postGet });

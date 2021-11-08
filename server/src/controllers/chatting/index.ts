@@ -1,3 +1,3 @@
-import get from "./get";
+import createChat from "./createChat";
 
-export { get };
+export { createChat };
