@@ -13,8 +13,11 @@ import {
   SubCategoryName,
 } from "./ShareCategorise.style";
 
+interface IsMineType {
+  isMine: true | false;
+}
 interface IProps {
-  isMine: boolean;
+  isMine: IsMineType;
 }
 function ShareCategories({ isMine }: IProps) {
   // 로그인 상태를 가져옴
@@ -94,7 +97,7 @@ function ShareCategories({ isMine }: IProps) {
                               <div>
                                 <CategoryIcon
                                   isCheck={subCate.isSelect}
-                                  isMine={isMine}
+                                  isMine={isMine.isMine}
                                 />
                                 <SubCategoryName
                                   isCheck={subCate.isSelect}

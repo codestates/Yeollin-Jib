@@ -36,12 +36,11 @@ function PostCard({ postInfo, idx }: Result) {
 
   // 저장된 유저의 카테고리에서 중복 제거
   let ArrCategory: number[] = [];
-
   postInfo.post_categories.map((category: any) => {
     return initMainCategories.map((mainCate) => {
       return mainCate.subCategories.map((subCate) => {
         if (subCate.id === category.categoryId) {
-          ArrCategory.push(Number(mainCate.id));
+          return ArrCategory.push(Number(mainCate.id));
         }
       });
     });
