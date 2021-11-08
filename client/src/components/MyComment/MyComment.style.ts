@@ -12,20 +12,20 @@ export const CardContainer = styled.div<IContentProps>`
   align-items: center;
   border: 0.063rem solid #e0dde1;
   border-radius: 0.313rem;
-  width: 100%;
   height: 6rem;
   font-family: "Gmarket Sans TTF";
   font-weight: 100;
   font-size: 1rem;
   color: #2d2d2d;
   background-color: #fdfbfe;
-  margin: 0 0 0.813rem 0;
+  margin: 4px 0 0.813rem 37px;
   padding: 20px;
   cursor: ${(props) => (props.isContent ? "pointer" : "Default")};
 
   @media screen and (max-width: 37.5rem) {
     height: 4.5rem;
     font-size: 0.9rem;
+    margin: 0 0 0.813rem 0;
   }
 `;
 
@@ -46,7 +46,7 @@ export const Title = styled.div`
   font-weight: 300;
   font-size: 1rem;
   line-height: 1.7rem;
-  width: 100%;
+  width: 70%;
   height: 20px;
   display: inline-block;
   overflow: hidden;

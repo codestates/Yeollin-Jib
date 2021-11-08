@@ -1,5 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import { createSlice } from "@reduxjs/toolkit";
 import { IMyPage } from "../types/types";
 
 // 초기 상태값
