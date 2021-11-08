@@ -23,6 +23,7 @@ import { RootState } from "../../reducers/rootReducer";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 interface Result {
   postInfo: any;
@@ -32,11 +33,20 @@ interface Result {
 function PostCard({ postInfo, idx }: Result) {
   const { accessToken } = useSelector((state: RootState) => state.authReducer);
   const { id } = useSelector((state: RootState) => state.userReducer);
+
   // 저장된 유저의 카테고리에서 중복 제거
-  let ArrCategory: string[] = [];
-  postInfo.post_categories.forEach((category: any) => {
-    ArrCategory.push(category.category.category1);
+  let ArrCategory: number[] = [];
+
+  postInfo.post_categories.map((category: any) => {
+    return initMainCategories.map((mainCate) => {
+      return mainCate.subCategories.map((subCate) => {
+        if (subCate.id === category.categoryId) {
+          ArrCategory.push(Number(mainCate.id));
+        }
+      });
+    });
   });
+
   const uniqueArr = ArrCategory.filter((element, index) => {
     return ArrCategory.indexOf(element) === index;
   });
@@ -48,7 +58,7 @@ function PostCard({ postInfo, idx }: Result) {
   const userArea = postInfo.address.split(" ");
 
   // 좋아요 상태
-  const [isLike, setIsLike] = useState<boolean>(false);
+  const [isLike, setIsLike] = useState<boolean>();
 
   useEffect(() => {
     postInfo.storages.map((user: any) => {
@@ -70,10 +80,7 @@ function PostCard({ postInfo, idx }: Result) {
       },
     })
       .then((res) => {
-        setIsLike(true);
-      })
-      .catch((err) => {
-        if (err.message.slice(-3) === "400") {
+        if (res.status === 200) {
           axios({
             method: "delete",
             url: `${process.env.REACT_APP_API_URL}/storage/${postInfo.id}`,
@@ -85,7 +92,15 @@ function PostCard({ postInfo, idx }: Result) {
             setIsLike(false);
           });
         }
+        setIsLike(true);
+      })
+      .catch((err) => {
+        console.log(err);
       });
+  };
+
+  const scrollHandler = () => {
+    window.scrollTo({ top: 0, left: 0 });
   };
   return (
     <PostCardContainer idx={idx}>
@@ -112,44 +127,74 @@ function PostCard({ postInfo, idx }: Result) {
             return <PhotoCircle key={`${idx}` + image} />;
           })}
         </PhotoCirclesBox>
-        <PostCardImgBackground />
+        <Link
+          to={{
+            pathname: `/detail`,
+            state: {
+              postId: postInfo.id,
+            },
+          }}
+          style={{
+            textDecoration: "none",
+            color: "#2d2d2d",
+            position: "absolute",
+          }}
+          onClick={() => scrollHandler()}
+        >
+          <PostCardImgBackground />
+        </Link>
       </PostCardImgBox>
-      <PostCardTitle>
-        <span>{postInfo.title}</span>
-      </PostCardTitle>
-      <InfoBox>
-        <ProfileBox>
-          <PostCardUserProfile>
-            <img
-              src={`${process.env.REACT_APP_API_URL}/uploads/${postInfo.user.imagePath}`}
-              alt="UserPhoto"
-            />
-          </PostCardUserProfile>
-          <span className="User_Name">{postInfo.user.nickname}</span>
-        </ProfileBox>
-        <ShareDate>
-          {postInfo.dueDate.slice(0, 10).replace(/-/g, ". ")}
-        </ShareDate>
-      </InfoBox>
-      <PostCardAddress>
-        <MapMarkIcon color={"#F44336"} />
-        <span className="Share_Address">{`${userArea[0]} ${userArea[1]} ${userArea[2]}`}</span>
-      </PostCardAddress>
-      <CategoryBox>
-        {uniqueArr.map((cate: any, mainIdx: number) => {
-          if (mainIdx < 3) {
-            return initMainCategories.map((mainCate) => {
-              if (cate === parseInt(mainCate.id)) {
-                return (
-                  <CategoryCard key={mainCate.id} idx={mainIdx}>
-                    {mainCate.name}
-                  </CategoryCard>
-                );
-              }
-            });
-          }
-        })}
-      </CategoryBox>
+      <Link
+        to={{
+          pathname: `/detail`,
+          state: {
+            postId: postInfo.id,
+          },
+        }}
+        style={{ textDecoration: "none", color: "#2d2d2d" }}
+        onClick={() => scrollHandler()}
+      >
+        <PostCardTitle>
+          <span>{postInfo.title}</span>
+        </PostCardTitle>
+        <InfoBox>
+          <ProfileBox>
+            <PostCardUserProfile>
+              {!postInfo.user.imagePath.includes(":") ? (
+                <img
+                  src={`${process.env.REACT_APP_API_URL}/uploads/${postInfo.user.imagePath}`}
+                  alt="UserPhoto"
+                />
+              ) : (
+                <img src={postInfo.user.imagePath} alt="UserPhoto" />
+              )}
+            </PostCardUserProfile>
+            <span className="User_Name">{postInfo.user.nickname}</span>
+          </ProfileBox>
+          <ShareDate>
+            {postInfo.dueDate.slice(0, 10).replace(/-/g, ". ")}
+          </ShareDate>
+        </InfoBox>
+        <PostCardAddress>
+          <MapMarkIcon color={"#F44336"} />
+          <span className="Share_Address">{`${userArea[0]} ${userArea[1]} ${userArea[2]}`}</span>
+        </PostCardAddress>
+        <CategoryBox>
+          {uniqueArr.map((cate: any, mainIdx: number) => {
+            if (mainIdx < 3) {
+              return initMainCategories.map((mainCate) => {
+                if (cate === parseInt(mainCate.id)) {
+                  return (
+                    <CategoryCard key={mainCate.id} idx={mainIdx}>
+                      {mainCate.name}
+                    </CategoryCard>
+                  );
+                }
+              });
+            }
+          })}
+        </CategoryBox>
+      </Link>
     </PostCardContainer>
   );
 }

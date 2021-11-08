@@ -52,6 +52,7 @@ export const PostCardImgBackground = styled.div`
   width: 17.813rem;
   height: 17.813rem;
   border-radius: 0.313rem 0.313rem 0px 0px;
+  z-index: 2;
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3));
   @media screen and (max-width: 37.5rem) {
     border-radius: 0.25rem 0.25rem 0px 0px;
@@ -177,6 +178,8 @@ export const PostCardAddress = styled.div`
 export const CategoryBox = styled.div`
   display: flex;
   align-items: center;
+  flex-direction: row-reverse;
+  justify-content: start;
   margin: 0 11px 0 11px;
   padding: 21px 0 14px 0;
 `;

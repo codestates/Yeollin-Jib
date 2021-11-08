@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import post from "../../models/post";
+import user from "../../models/user";
 import comment from "../../models/comment";
 
 const get = async (req: Request, res: Response) => {
@@ -12,6 +13,10 @@ const get = async (req: Request, res: Response) => {
           exclude: ["createdAt", "updateTimestamp", "userId"],
         },
         include: [
+          {
+            model: user,
+            attributes: ["nickname"],
+          },
           {
             model: post,
             attributes: ["title", "dueDate"],

@@ -62,8 +62,8 @@ function MainPage() {
       }
     );
     if (result !== undefined) {
-      setPostInfo(result.data.postGet);
-      setPostCount(result.data.postAll);
+      setPostInfo(result.data.postGet.rows);
+      setPostCount(result.data.postGet.count);
       setPage(page + 1);
       console.log(result.data.postGet);
     }
@@ -125,9 +125,6 @@ function MainPage() {
     };
   }, [handleScroll]);
 
-  const scrollHandler = () => {
-    window.scrollTo({ top: 0, left: 0 });
-  };
   return (
     <Body>
       <MainArea>
@@ -189,19 +186,11 @@ function MainPage() {
             ) : (
               postInfo.map((postInfo, idx) => {
                 return (
-                  <Link
-                    to={{
-                      pathname: `/detail`,
-                      state: {
-                        postId: postInfo.id,
-                      },
-                    }}
+                  <PostCard
                     key={postInfo.id}
-                    style={{ textDecoration: "none", color: "#2d2d2d" }}
-                    onClick={() => scrollHandler()}
-                  >
-                    <PostCard idx={idx} postInfo={postInfo}></PostCard>
-                  </Link>
+                    idx={idx}
+                    postInfo={postInfo}
+                  ></PostCard>
                 );
               })
             )}
