@@ -65,7 +65,6 @@ function MainPage() {
       setPostInfo(result.data.postGet.rows);
       setPostCount(result.data.postGet.count);
       setPage(page + 1);
-      console.log(result.data.postGet);
     }
   };
 
@@ -85,8 +84,8 @@ function MainPage() {
       }
     );
     if (result !== undefined) {
-      setPostInfo(postInfo.concat(result.data.postGet));
-      setPostCount(result.data.postAll);
+      setPostInfo(postInfo.concat(result.data.postGet.rows));
+      setPostCount(result.data.postGet.count);
       setPage(page + 1);
     }
   };
@@ -178,7 +177,7 @@ function MainPage() {
           </PostBoardTitleContainer>
           {/* 게시글 리스트 ----------------------------------------------------*/}
           <PostCardArea>
-            {!postInfo ? (
+            {postInfo[0] === undefined ? (
               <BlankPostCard>
                 <span>검색 결과가</span>
                 <span> 없습니다</span>
