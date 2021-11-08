@@ -91,12 +91,10 @@ function LandingPage() {
   const scrollHandler = () => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   };
-  const arrowUpHandler = () => {
-    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-  };
+
   return (
     <AllLandingContainer>
-      <GoTopContainer onClick={() => arrowUpHandler()}>
+      <GoTopContainer onClick={() => scrollHandler()}>
         <img src="./images/goTop.svg" alt="gotop_icon"></img>
       </GoTopContainer>
       <SmallCircle></SmallCircle>

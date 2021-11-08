@@ -7,15 +7,26 @@ import {
   TeamMember,
 } from "./Footer.style";
 import Inquiry from "../../components/Modals/Inquiry/Inquiry";
+import { Link } from "react-router-dom";
 function Footer() {
   // 문의하기 모달 상태
   const [isOpened, setIsOpened] = useState<boolean>(false);
-
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  };
   return (
     <FooterItemContainer>
       <FooterTitle>
         <GitHubContainer>
-          <img src="./images/githubLogo.svg" alt="GitImg" />
+          <Link to="/" style={{ textDecoration: "none", borderBottom: "none" }}>
+            <img
+              src="./images/githubLogo.svg"
+              alt="GitImg"
+              onClick={() => {
+                scrollToTop();
+              }}
+            />
+          </Link>
           <a
             href="https://github.com/codestates/Yeollin-Jib"
             target="_blank"
@@ -24,9 +35,6 @@ function Footer() {
             Codemon
           </a>
         </GitHubContainer>
-        {isOpened ? (
-          <Inquiry setIsOpened={(bool: boolean) => setIsOpened(bool)}></Inquiry>
-        ) : null}
         <div className="contact" onClick={() => setIsOpened(true)}>
           문의하기
         </div>
@@ -69,6 +77,9 @@ function Footer() {
           </a>
         </TeamMember>
       </TeamMemberContainer>
+      {isOpened ? (
+        <Inquiry setIsOpened={(bool: boolean) => setIsOpened(bool)}></Inquiry>
+      ) : null}
     </FooterItemContainer>
   );
 }

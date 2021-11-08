@@ -16,7 +16,7 @@ export const HeaderContainer = styled.div`
   justify-content: center;
   align-items: center;
   position: fixed;
-  z-index: 999;
+  z-index: 4;
   top: 0;
   left: 0;
 `;
@@ -29,5 +29,5 @@ export const FooterContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 999;
+  z-index: 5;
 `;

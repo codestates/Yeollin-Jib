@@ -37,7 +37,7 @@ function Inquiry({ setIsOpened }: IProps) {
   };
 
   useEffect(() => {
-    if (Inspect(email, "email")) {
+    if (Inspect(email, "email") || email.length <= 2) {
       // 유효 조건을 통과하지 못했을 경우, 유효 조건을 알려줌
       setEmailAlert("");
       setIsRightEmail(true);

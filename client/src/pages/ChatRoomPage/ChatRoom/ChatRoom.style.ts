@@ -115,7 +115,7 @@ export const UserMsg = styled.div`
   box-sizing: border-box;
   border-radius: 5px;
   font-size: 14px;
-
+  word-break: keep-all;
   @media screen and (max-width: 37.5rem) {
     font-size: 10px;
   }
@@ -139,6 +139,7 @@ export const MyMsg = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  word-break: keep-all;
   @media screen and (max-width: 37.5rem) {
     font-size: 10px;
   }
@@ -160,7 +161,37 @@ export const SendContainer = styled.div`
     margin-left: 12px;
   }
   .Input_Area {
+    position: relative;
     width: 100%;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    background: #f7f7f8;
+    border: 1px solid #e0dde1;
+    border-radius: 5px;
+  }
+  .Add_File {
+    margin: 0 10px 0 10px;
+    cursor: pointer;
+  }
+  .Input_File {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    z-index: 0;
+    cursor: pointer;
+    ::file-selector-button {
+      display: none;
+      text-decoration: none;
+    }
+  }
+  svg {
+    fill: #e0dde1;
+  }
+  svg:hover {
+    fill: #2d2d2d;
+    z-index: 3;
   }
   @media screen and (max-width: 37.5rem) {
     display: flex;
@@ -177,17 +208,15 @@ export const InputContainer = styled.input`
   width: 100%;
   height: 44px;
   background: #f7f7f8;
-  border: 1px solid #e0dde1;
   box-sizing: border-box;
+  border: none;
   border-radius: 5px;
   font-family: "Gmarket Sans TTF";
   font-weight: 100;
   font-size: 0.9rem;
   padding-left: 0.5rem;
   color: #2d2d2d;
-  :focus {
-    outline: 1px solid #2d2d2d;
-  }
+  outline: none;
   @media screen and (max-width: 37.5rem) {
     height: 35px;
   }
@@ -211,24 +240,39 @@ export const SendButton = styled.button`
     height: 35px;
   }
 `;
-export const ChatListTxt = styled.div`
+interface Ipadding {
+  padding: string;
+}
+export const ChatListTxt = styled.div<Ipadding>`
   display: flex;
   width: 100%;
   flex-wrap: nowrap;
-  margin: 10px 0 20px 0;
+  padding: ${(props) => (props.padding === "pc" ? "0" : "19px 17px 17px 17px")};
+  margin: ${(props) => (props.padding === "pc" ? "15px 0 15px 0" : "0")};
   justify-content: space-between;
-  span {
-    border-bottom: 5px solid #fede8a;
+
+  .Chat_List {
+    margin-left: 0px;
     font-size: 20px;
     font-weight: 300;
     color: #2d2d2d;
+    height: 28px;
+    box-sizing: border-box;
+    border-bottom: 5px solid #fede8a;
   }
+
   @media screen and (max-width: 37.5rem) {
-    span {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10% 0 3% 0;
+    .Chat_List {
+      margin-left: 0;
       font-size: 16px;
-      display: flex;
-      align-items: flex-start;
     }
+  }
+
+  @media screen and (max-width: 700px) {
+    padding: 3% 0 3% 0;
   }
 `;
 
