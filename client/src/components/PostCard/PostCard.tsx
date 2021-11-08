@@ -111,7 +111,7 @@ function PostCard({ postInfo, idx }: Result) {
             alt="PostImg"
           />
         ) : (
-          <PostCardImg src={"./images.noImage.jpeg"} alt="PostImg" />
+          <PostCardImg src={"./images/noImage.png"} alt="PostImg" />
         )}
         <PostCardLikeBox>
           <PostCardLike>
