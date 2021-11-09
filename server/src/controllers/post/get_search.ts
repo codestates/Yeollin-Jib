@@ -63,10 +63,11 @@ const get_search = async (req: Request, res: Response) => {
 
     // 주소 검색
     if (code === "address") {
-      const find = await post.findAndCountAll({
+      const postGet = await post.findAndCountAll({
         order: [["id", "DESC"]],
         limit: 8,
         offset: offset,
+        distinct: true, //Don't count include
         where: {
           address: {
             [like]: "%" + search + "%",
@@ -87,12 +88,12 @@ const get_search = async (req: Request, res: Response) => {
           },
         ],
       });
-      if (find.rows.length === 0) {
+      if (postGet.rows.length === 0) {
         return res
           .status(404)
           .send({ message: "더이상 조회할 게시물이 없습니다." });
       }
-      return res.status(200).send({ find });
+      return res.status(200).send({ postGet });
     }
   } catch (err) {
     console.log(err);
