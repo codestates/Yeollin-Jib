@@ -10,8 +10,7 @@ const io_socket = require("socket.io");
 const io = io_socket(server);
 
 try {
-  const chatIo = io.of(/^\/chat\/\w{4,20}$/); // dynamic namespace(/chat/projectURL)
-
+  const chatIo = io.of(/^\/chat\/\w{4,20}$/); // dynamic namespace
   chatIo.use();
 
   io.on("connect", (socket: Socket) => {
@@ -19,6 +18,7 @@ try {
 
     const projectChatIo = chatIo.nsp;
     app.set("chatIo", projectChatIo);
+
     socketChat(socket);
 
     socket.on("disconnect", function () {

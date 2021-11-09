@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import user from "../../models/user";
 import post from "../../models/post";
 import post_category from "../../models/post_category";
+import category from "../../models/category";
 import storage from "../../models/storage";
 import accessToken from "../../middleware/accessToken";
 import Sequelize from "sequelize";
@@ -11,12 +12,6 @@ const get_category_infinite = async (req: Request, res: Response) => {
   try {
     const pageNum: any = req.query.page; // page Number
     const categoryNumber = req.query.code;
-    const authHeader = req.headers.authorization;
-
-    if (authHeader) {
-      accessToken;
-    }
-    const id = req.cookies.id;
 
     // 무한스크롤 offset 설정
     let offset = 0;
@@ -42,9 +37,14 @@ const get_category_infinite = async (req: Request, res: Response) => {
         },
         {
           model: post_category,
-          where: { categoryId: categoryNumber },
-          required: true, // associated model 이 존재하는 객체만을 Return 하도록 강제
           attributes: ["categoryId"],
+          include: [
+            {
+              model: category,
+              attributes: ["category1", "category2"],
+              where: { category1: categoryNumber },
+            },
+          ],
         },
       ],
     });
