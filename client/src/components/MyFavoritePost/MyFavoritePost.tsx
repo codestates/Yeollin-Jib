@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import PostCard from "../PostCard/PostCard";
 
-function MyFavoritePost() {
+function MyFavoritePost(userStorage: any) {
   // 스토어에 저장된 정보를 가져옴
   const { accessToken } = useSelector((state: RootState) => state.authReducer);
   const { myStorage, nickname, imagePath } = useSelector(
@@ -34,11 +34,12 @@ function MyFavoritePost() {
   };
 
   // 닉네임이나 프로필이미지가 바뀌면 포스트카드에 변경 사항을 반영
+  // 마이페이지에서 변화된 userStorage가 감지되었을 경우 변경 사항 반영
   useEffect(() => {
-    if (myStorage !== 0) {
+    if (myStorage !== 0 || userStorage !== myStorage) {
       getStorageData();
     }
-  }, [nickname, imagePath]);
+  }, [nickname, imagePath, userStorage]);
 
   return (
     <Container>

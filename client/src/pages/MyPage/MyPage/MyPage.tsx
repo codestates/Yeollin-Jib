@@ -33,14 +33,11 @@ import MyComment from "../../../components/MyComment/MyComment";
 import MyFavoritePost from "../../../components/MyFavoritePost/MyFavoritePost";
 import DeleteAccount from "../../../components/Modals/DeleteAccount/DeleteAccount";
 import { setTapName } from "../../../reducers/myPageReducer";
-import { setUser } from "../../../reducers/userReducer";
 
 function MyPage() {
   const dispatch = useDispatch();
 
-  const { isLogin, accessToken } = useSelector(
-    (state: RootState) => state.authReducer
-  );
+  const { isLogin } = useSelector((state: RootState) => state.authReducer);
 
   // 회원 탈퇴 상태
   const [isOpened, setIsOpened] = useState<boolean>(false);
@@ -61,6 +58,9 @@ function MyPage() {
   const [userAreaData, setUserAreaData] =
     useState<string>("주소를 등록해 주세요.");
 
+  // 좋아요 기능을 추적하게 위한 Storage 상태
+  const [userStorage, setUserStorage] = useState<number>(myStorage);
+
   useEffect(() => {
     if (userArea) {
       // 구 레벨의 주소까지만 나오도록 처리
@@ -75,8 +75,11 @@ function MyPage() {
   // 선택한 탭의 이름을 스토어에 저장
   const handleTapBtn = (tapName: string) => {
     dispatch(setTapName(tapName));
-    dispatch(setUser(accessToken));
   };
+
+  useEffect(() => {
+    setUserStorage(myStorage);
+  }, [myStorage]);
 
   const scrollHandler = () => {
     window.scrollTo({ top: 0, left: 0 });
@@ -142,7 +145,7 @@ function MyPage() {
                       <img src="./images/likeMark.svg" alt="likeMark" />
                     </InfoIcon>
                     <div className="Info_Text">내가 찜한 게시글</div>
-                    <div className="Info_Count">{myStorage}개</div>
+                    <div className="Info_Count">{userStorage}개</div>
                   </UserInfo>
                 </InfoContainer>
               </MyInfoContainer>
@@ -206,7 +209,9 @@ function MyPage() {
               <Content isColumn={tapName === "내가 쓴 댓글" ? true : false}>
                 {tapName === "내가 쓴 게시글" ? <MyPost /> : null}
                 {tapName === "내가 쓴 댓글" ? <MyComment /> : null}
-                {tapName === "내가 찜한 게시글" ? <MyFavoritePost /> : null}
+                {tapName === "내가 찜한 게시글" ? (
+                  <MyFavoritePost userStorage={userStorage} />
+                ) : null}
               </Content>
             </ContentContainer>
           </Container>

@@ -20,10 +20,14 @@ import {
   CategoryBox,
 } from "./PostCard.style";
 import { RootState } from "../../reducers/rootReducer";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import {
+  setPlusMyStorage,
+  setMinusMyStorage,
+} from "../../reducers/userReducer";
 
 interface Result {
   postInfo: any;
@@ -31,6 +35,8 @@ interface Result {
 }
 
 function PostCard({ postInfo, idx }: Result) {
+  const dispatch = useDispatch();
+
   const { accessToken } = useSelector((state: RootState) => state.authReducer);
   const { id } = useSelector((state: RootState) => state.userReducer);
 
@@ -89,9 +95,13 @@ function PostCard({ postInfo, idx }: Result) {
             },
           }).then((res) => {
             setIsLike(false);
+            dispatch(setMinusMyStorage());
           });
         }
         setIsLike(true);
+        if (res.status === 201) {
+          dispatch(setPlusMyStorage());
+        }
       })
       .catch((err) => {
         console.log(err);
