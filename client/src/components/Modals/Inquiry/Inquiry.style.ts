@@ -33,6 +33,7 @@ export const ModalContainer = styled.div<IContainerProps>`
   border: 1px solid #e0dde1;
   border-radius: 0.313rem;
   padding: 30px;
+  margin-top: 20px;
   margin-bottom: ${(props) => (props.isSubmited ? "265.5px" : "100px")};
   transition: 0.5s width, height, padding;
 

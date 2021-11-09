@@ -6,7 +6,6 @@ interface IContentProps {
 
 export const Container = styled.div`
   display: flex;
-  justify-content: space-between;
   flex-wrap: wrap;
   width: 100%;
 `;
@@ -26,12 +25,14 @@ export const CardContainer = styled.article<IContentProps>`
   font-size: 1rem;
   color: #2d2d2d;
   background-color: #fdfbfe;
-  margin: 0 0 0.813rem 0;
+  margin: ${(props) =>
+    props.isContent ? "0 0 0.813rem 37px" : "4px 0 0.813rem 37px"};
   cursor: ${(props) => (props.isContent ? "pointer" : "Default")};
 
   @media screen and (max-width: 37.5rem) {
     width: 100%;
     font-size: 0.9rem;
-    margin: 10px 0 40px 0;
+    margin: ${(props) =>
+      props.isContent ? "10px 0 40px 0;" : "-5px 0 40px 0;"};
   }
 `;

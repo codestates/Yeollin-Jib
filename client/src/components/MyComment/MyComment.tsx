@@ -10,6 +10,7 @@ import {
 import { RootState } from "../../reducers/rootReducer";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 function MyComment() {
   // 스토어에 저장된 엑세스토큰과 myComment의 개수를 가져옴
@@ -42,6 +43,10 @@ function MyComment() {
     getCommentData();
   }, []);
 
+  const scrollHandler = () => {
+    window.scrollTo({ top: 0, left: 0 });
+  };
+
   return (
     <>
       {myComment === 0 ? (
@@ -56,20 +61,31 @@ function MyComment() {
           .reverse()
           .map((commentInfo) => {
             return (
-              <CardContainer
+              <Link
+                to={{
+                  pathname: `/detail`,
+                  state: {
+                    postId: commentInfo.postId,
+                  },
+                }}
+                style={{ textDecoration: "none", color: "#2d2d2d" }}
+                onClick={() => scrollHandler()}
                 key={commentInfo.id}
-                isContent={myComment !== 0 ? true : false}
               >
-                <TitleContainer>
-                  <Title>{commentInfo.post.title}</Title>
-                  <Date>
-                    {commentInfo.post.dueDate.slice(0, 10).replace(/-/g, ". ")}
-                  </Date>
-                </TitleContainer>
-                <CommentContainer>
-                  <Comment>{commentInfo.contents}</Comment>
-                </CommentContainer>
-              </CardContainer>
+                <CardContainer isContent={myComment !== 0 ? true : false}>
+                  <TitleContainer>
+                    <Title>{commentInfo.post.title}</Title>
+                    <Date>
+                      {commentInfo.post.dueDate
+                        .slice(0, 10)
+                        .replace(/-/g, ". ")}
+                    </Date>
+                  </TitleContainer>
+                  <CommentContainer>
+                    <Comment>{commentInfo.contents}</Comment>
+                  </CommentContainer>
+                </CardContainer>
+              </Link>
             );
           })
       )}

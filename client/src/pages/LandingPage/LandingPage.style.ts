@@ -26,6 +26,9 @@ export const BodyContainer = styled.main`
   max-width: 78.75rem;
   padding: 0 30px 0 30px;
   background: linear-gradient(0deg, #fbfafc, #fbfafc);
+  @media screen and (max-width: 1000px) {
+    padding: 0;
+  }
 `;
 
 export const BodyOutContainer = styled.main`
@@ -44,7 +47,7 @@ export const FirstLandingContainer = styled.div`
   transition: 0.5s all;
   position: relative;
   @media screen and (max-width: 1000px) {
-    margin: 100px 0 100px 0;
+    margin: 70px 0 70px 0;
     height: auto;
     position: static;
     display: flex;
@@ -72,7 +75,10 @@ export const FirstTextContainer = styled.div`
     text-align: center;
     width: 100%;
     height: 313px;
-    transition: 0.5s all;
+  }
+  @media screen and (max-width: 420px) {
+    margin-top: 0;
+    height: 250px;
   }
 `;
 
@@ -99,10 +105,14 @@ export const FirstImageContainer = styled.div`
     }
   }
   @media screen and (max-width: 37.5rem) {
-    transition: 0.5s all;
     margin-bottom: 0;
     img {
       width: 317px;
+    }
+  }
+  @media screen and (max-width: 420px) {
+    img {
+      width: 287px;
     }
   }
 `;
@@ -123,6 +133,9 @@ export const FirstText = styled.div`
     font-size: 18px;
     transition: 0.5s all;
   }
+  @media screen and (max-width: 420px) {
+    font-size: 14px;
+  }
 `;
 
 export const FirstSecondText = styled.div`
@@ -140,6 +153,10 @@ export const FirstSecondText = styled.div`
     margin: 39px 0 45px 0;
     text-shadow: none;
   }
+  @media screen and (max-width: 420px) {
+    font-size: 16px;
+    margin: 20px 0 40px 0;
+  }
 `;
 
 export const GotoMainButton = styled.button`
@@ -149,6 +166,7 @@ export const GotoMainButton = styled.button`
   height: 4.063rem;
   background: #2d2d2d;
   border-radius: 4px;
+  box-sizing: border-box;
   cursor: pointer;
   font-size: 1.5rem;
   color: #ffffff;
@@ -163,16 +181,21 @@ export const GotoMainButton = styled.button`
     font-size: 16px;
     transition: 0.5s all;
   }
+  @media screen and (max-width: 420px) {
+    width: 150px;
+    height: 40px;
+  }
 `;
 
 export const BigCircle = styled.span`
   position: absolute;
-  left: 15.6rem;
-  top: 15.35rem;
+  left: 1.5rem;
+  top: 14rem;
   width: 10.125rem;
   height: 10.5rem;
   background: #fede8a;
   border-radius: 100%;
+  box-sizing: border-box;
   transition: 0.5s all;
   z-index: 1;
   @media screen and (max-width: 1000px) {
@@ -184,11 +207,13 @@ export const SmallCircle = styled.span`
   position: relative;
   width: 2.945rem;
   height: 2.945rem;
-  left: 10rem;
-  top: 32.8rem;
+  left: -30rem;
+  top: 10rem;
   background: #fede8a;
   border-radius: 100%;
+  box-sizing: border-box;
   transition: 0.5s all;
+  z-index: 1;
   @media screen and (max-width: 1000px) {
     width: 3.945rem;
     height: 3.945rem;
@@ -203,6 +228,12 @@ export const SmallCircle = styled.span`
     top: 36.5rem;
     transition: 0.5s all;
   }
+  @media screen and (max-width: 420px) {
+    width: 1.945rem;
+    height: 1.945rem;
+    left: -8.7rem;
+    top: 28.7rem;
+  }
 `;
 export const VerySmallCircle = styled.span`
   display: none;
@@ -214,6 +245,7 @@ export const VerySmallCircle = styled.span`
     position: relative;
     background: #fede8a;
     border-radius: 100%;
+    box-sizing: border-box;
     width: 16px;
     height: 16px;
     transition: 0.5s all;
@@ -223,6 +255,10 @@ export const VerySmallCircle = styled.span`
     top: 595px;
     width: 13px;
     height: 13px;
+  }
+  @media screen and (max-width: 420px) {
+    left: -108.9px;
+    top: 468px;
   }
 `;
 
@@ -256,7 +292,7 @@ export const SecBodyContainer = styled.div`
   transition: 0.5s all;
 
   @media screen and (max-width: 37.5rem) {
-    padding: 0 5px 0 5px;
+    padding: 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -289,6 +325,7 @@ export const SecBoxContainer = styled.div<Idx>`
   flex-direction: column;
   background: #fdfbfe;
   border: 1px solid #e0dde1;
+  box-sizing: border-box;
   border-radius: 5px;
   width: 396px;
   height: 400px;
@@ -373,7 +410,7 @@ export const ThirLandingContainer = styled.div<Idx>`
   }
   @media screen and (max-width: 37.5rem) {
     margin-top: 50px;
-    height: 531px;
+    height: 431px;
   }
 `;
 
@@ -408,12 +445,14 @@ export const TitleContainer = styled.div`
   }
   @media screen and (max-width: 37.5rem) {
     font-size: 17px;
-    font-weight: 300;
     transition: 0.5s all;
     div {
       margin-bottom: 9px;
       transition: 0.5s all;
     }
+  }
+  @media screen and (max-width: 420px) {
+    font-size: 14px;
   }
 `;
 
@@ -440,6 +479,9 @@ export const DescrContainer = styled.div`
       margin-bottom: 5px;
       transition: 0.5s all;
     }
+  }
+  @media screen and (max-width: 420px) {
+    font-size: 12px;
   }
 `;
 
@@ -510,6 +552,7 @@ export const Circle = styled.span`
   top: 28px;
   background: #fede8a;
   border-radius: 100%;
+  box-sizing: border-box;
   transition: 0.5s all;
   z-index: 0;
   @media screen and (max-width: 1000px) {
@@ -528,8 +571,11 @@ export const ThirdBodyContainer = styled.main`
   flex-direction: column;
   width: 100%;
   max-width: 78.75rem;
-  padding: 0 30px 0 30px;
+  padding: 0 27px 0 27px;
   background: linear-gradient(0deg, #fbfafc, #fbfafc);
+  @media screen and (max-width: 1000px) {
+    padding: 0;
+  }
 `;
 
 export const ThirdBodyOutContainer = styled.main`
@@ -551,10 +597,11 @@ export const GoTopContainer = styled.div`
     }
   }
   @media screen and (max-width: 37.5rem) {
+    top: 93%;
     left: 85%;
     img {
-      width: 25px;
-      height: 25px;
+      width: 30px;
+      height: 30px;
     }
   }
 `;

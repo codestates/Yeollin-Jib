@@ -442,10 +442,12 @@ function CreatePostPage() {
               <InputAddress value={addressInput} readOnly />
               <SearchAddress searchAddressHandle={searchAddressHandle} />
             </div>
-            <KakaoMap
-              addressInput={addressInput}
-              searchCoordinateHandle={searchCoordinateHandle}
-            />
+            {addressInput ? (
+              <KakaoMap
+                addressInput={addressInput}
+                searchCoordinateHandle={searchCoordinateHandle}
+              />
+            ) : null}
           </AddressArea>
           {/* 등록 취소 버튼 ---------------------------------------------------*/}
           <SubmitArea>

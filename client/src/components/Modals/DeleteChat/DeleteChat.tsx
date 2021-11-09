@@ -1,8 +1,3 @@
-import { useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../reducers/rootReducer";
-import { Redirect } from "react-router-dom";
-import axios from "axios";
 import {
   ModalBackground,
   ModalContainer,

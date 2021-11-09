@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react";
 import { Container, CardContainer } from "./MyPost.style";
 import { RootState } from "../../reducers/rootReducer";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import PostCard from "../PostCard/PostCard";
+import { setUser } from "../../reducers/userReducer";
 
 function MyPost() {
-  // 스토어에 저장된 엑세스토큰과 myComment의 개수를 가져옴
+  const dispatch = useDispatch();
+
+  // 스토어에 저장된 정보를 가져옴
   const { accessToken } = useSelector((state: RootState) => state.authReducer);
   const { id, myPost, nickname, imagePath } = useSelector(
     (state: RootState) => state.userReducer
@@ -16,7 +18,8 @@ function MyPost() {
   // 내가 쓴 게시물의 정보를 담을 배열
   const [postInfo, setPostInfo] = useState<any[]>([]);
 
-  // 내가 쓴 댓글 정보를 받아오는 axios 요청
+  // 내가 쓴 게시물의 정보를 받아오는 axios 요청
+
   const getPostData = async () => {
     const result: any = await axios.get(
       `${process.env.REACT_APP_API_URL}/post/user/${id}`,
@@ -34,9 +37,11 @@ function MyPost() {
     }
   };
 
-  // 프로필 사진이나 닉네임이 변경된 경우 이를 반영하여 호출
+  // 닉네임이나 프로필이미지가 바뀌면 포스트카드에 변경 사항을 반영
   useEffect(() => {
-    getPostData();
+    if (myPost !== 0) {
+      getPostData();
+    }
   }, [nickname, imagePath]);
 
   return (
@@ -50,22 +55,12 @@ function MyPost() {
       ) : (
         postInfo.map((postInfo, idx) => {
           return (
-            <>
-              <CardContainer isContent={myPost !== 0 ? true : false}>
-                <Link
-                  to={{
-                    pathname: `/detail`,
-                    state: {
-                      postId: postInfo.id,
-                    },
-                  }}
-                  key={postInfo.id}
-                  style={{ textDecoration: "none", color: "#2d2d2d" }}
-                >
-                  <PostCard idx={idx} postInfo={postInfo}></PostCard>
-                </Link>
-              </CardContainer>
-            </>
+            <CardContainer
+              key={postInfo.id}
+              isContent={myPost !== 0 ? true : false}
+            >
+              <PostCard idx={idx} postInfo={postInfo}></PostCard>
+            </CardContainer>
           );
         })
       )}

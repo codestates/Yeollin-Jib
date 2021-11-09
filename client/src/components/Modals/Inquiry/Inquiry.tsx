@@ -37,7 +37,7 @@ function Inquiry({ setIsOpened }: IProps) {
   };
 
   useEffect(() => {
-    if (Inspect(email, "email")) {
+    if (Inspect(email, "email") || email.length <= 5) {
       // 유효 조건을 통과하지 못했을 경우, 유효 조건을 알려줌
       setEmailAlert("");
       setIsRightEmail(true);
@@ -94,7 +94,7 @@ function Inquiry({ setIsOpened }: IProps) {
           <>
             {/*문의하기 페이지---------------------------------------------------------*/}
             <InputTitle>이메일</InputTitle>
-            <InputField type="text" onChange={(e) => setEmailData(e)} />
+            <InputField type="text" onBlur={(e) => setEmailData(e)} />
             <MsgContainer>
               <InvalidMessage>
                 {!isRightEmail ? (

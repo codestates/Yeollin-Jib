@@ -15,6 +15,7 @@ function ProfileImgUpload({ setProfileImgData, profileImg }: PhotoInfo) {
             multiple
             accept={".jpg,.png"}
             onChange={(e) => setProfileImgData(e.target.files)}
+            title=" "
           ></Photo>
           <PhotoBackground>
             <img src="./images/plusBtn.svg" alt="+" />
@@ -26,6 +27,7 @@ function ProfileImgUpload({ setProfileImgData, profileImg }: PhotoInfo) {
           multiple
           accept={".jpg,.png"}
           onChange={(e) => setProfileImgData(e.target.files)}
+          title=" "
         ></Photo>
       )}
     </>
