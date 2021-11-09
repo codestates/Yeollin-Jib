@@ -36,7 +36,7 @@ function MyFavoritePost(userStorage: any) {
   // 닉네임이나 프로필이미지가 바뀌면 포스트카드에 변경 사항을 반영
   // 마이페이지에서 변화된 userStorage가 감지되었을 경우 변경 사항 반영
   useEffect(() => {
-    if (myStorage !== 0 || userStorage !== myStorage) {
+    if (myStorage !== 0 || userStorage.userStorage !== myStorage) {
       getStorageData();
     }
   }, [nickname, imagePath, userStorage]);
