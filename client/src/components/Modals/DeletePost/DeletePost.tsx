@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../reducers/rootReducer";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
-import { useHistory } from "react-router";
 import {
   ModalBackground,
   ModalContainer,
@@ -16,20 +15,21 @@ import {
 
 interface IProps {
   setIsDeleteModal: (boolean: boolean) => void;
-
+  getComment: (Id: number) => void;
+  postId: number;
   deleteTarget: string;
   delTargetId: number;
 }
 function DeletePost({
   setIsDeleteModal,
-
   deleteTarget,
   delTargetId,
+  getComment,
+  postId,
 }: IProps) {
   // 저장된 토큰값을 가져옴
   const { accessToken } = useSelector((state: RootState) => state.authReducer);
   const [isSuccess, setIsSuccess] = useState(false);
-  const history = useHistory();
 
   // 삭제 완료
   const submitDelete = async () => {
@@ -43,11 +43,13 @@ function DeletePost({
       }
     );
     if (result.status === 201) {
-      // 성공적으로 삭제 했을 경우
+      // 포스트 삭제 했을 경우
       setIsSuccess(true);
     } else if (result.status === 200) {
+      // 코멘트 삭제 했을 경우
       setIsSuccess(true);
-      history.go(0);
+      setIsDeleteModal(false);
+      getComment(postId);
     }
   };
 

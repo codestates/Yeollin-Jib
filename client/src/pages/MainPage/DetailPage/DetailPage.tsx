@@ -43,33 +43,37 @@ import ShareCategories from "../../../components/Modals/ShareCategories/ShareCat
 import { useLocation } from "react-router";
 import Timer from "../../../components/Timer/Timer";
 import PostComment from "../../../components/PostComment/PostComment";
+import { useHistory } from "react-router";
+
+interface User {
+  email: string;
+  imagePath: null | string;
+  nickname: string;
+}
+
+interface PostDataType {
+  id: number;
+  userId: number;
+  user: User;
+  title: string;
+  contents: string;
+  imagePath: string;
+  address: string;
+  dueDate: string;
+  latitude: string;
+  longitude: string;
+  createdAt: string;
+}
+
+interface IsMineType {
+  isMine: true | false;
+}
 
 function DetailPage() {
-  interface User {
-    email: string;
-    imagePath: null | string;
-    nickname: string;
-  }
-  interface PostDataType {
-    id: number;
-    userId: number;
-    user: User;
-    title: string;
-    contents: string;
-    imagePath: string;
-    address: string;
-    dueDate: string;
-    latitude: string;
-    longitude: string;
-    createdAt: string;
-  }
-
-  interface IsMineType {
-    isMine: true | false;
-  }
-
   const { id } = useSelector((state: RootState) => state.userReducer);
+  const { accessToken } = useSelector((state: RootState) => state.authReducer);
   let location: any = useLocation();
+  const history = useHistory();
 
   // 게시글 정보
   const [postData, setPostData] = useState<PostDataType>();
@@ -78,6 +82,7 @@ function DetailPage() {
   const [isDeleteModal, setIsDeleteModal] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<string>("");
   const [delTargetId, setDelTargetId] = useState<number>(0);
+
   let time;
   if (dueDate !== undefined) {
     time = dueDate[1].slice(0, 2);
@@ -103,7 +108,53 @@ function DetailPage() {
     }
   };
 
+  // Comment Input => State, Handle
+  const [commentInput, setCommentInput] = useState<string>("");
+
+  const commentInputHandle = (value: string) => {
+    setCommentInput(value);
+  };
+
+  const submitComment = () => {
+    if (postData !== undefined) {
+      axios
+        .post(
+          `${process.env.REACT_APP_API_URL}/comment/${postData.id}`,
+          { contents: commentInput },
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((res: any) => {
+          if (res.status === 200 && commentData !== undefined) {
+            setCommentData([...commentData, res.data.data]);
+            setCommentInput("");
+          }
+        });
+    }
+  };
+  const postIdProps = location.state.postId;
+  const getComment = (postId: number) => {
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/comment/${postId}`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res: any) => {
+        setCommentData(res.data.data);
+      });
+  };
+
   useEffect(() => {
+    // postId props없이 페이지에 진입했을때 뒤로가기 진행
+    if (location.state === undefined) {
+      history.go(-1);
+    }
+    // 페이지 마운트 시에 post 정보 요청
     axios
       .get(`${process.env.REACT_APP_API_URL}/post/${location.state.postId}`, {
         headers: {
@@ -118,20 +169,8 @@ function DetailPage() {
           setIsMine({ isMine: true });
         }
       });
-
-    axios
-      .get(
-        `${process.env.REACT_APP_API_URL}/comment/${location.state.postId}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then((res: any) => {
-        setCommentData(res.data.data);
-        console.log(res.data.data);
-      });
+    // 페이지 마운트 시에 comment 정보 요청
+    getComment(postIdProps);
   }, []);
   const deletePostHandle = (target: string, commentId: number): void => {
     setIsDeleteModal(!isDeleteModal);
@@ -267,8 +306,19 @@ function DetailPage() {
                 <span className="Comment_Word">댓글</span>
               </CommentWordArea>
               <div className="Comment_Box">
-                <CommentInput />
-                <SubmitCommentBtn>등록</SubmitCommentBtn>
+                <CommentInput
+                  value={commentInput}
+                  onChange={(e) => {
+                    commentInputHandle(e.target.value);
+                  }}
+                />
+                <SubmitCommentBtn
+                  onClick={() => {
+                    submitComment();
+                  }}
+                >
+                  등록
+                </SubmitCommentBtn>
               </div>
             </CommentArea>
             {/* 댓글 리스트----------------------------------------------------*/}
@@ -288,6 +338,8 @@ function DetailPage() {
                 setIsDeleteModal={setIsDeleteModal}
                 delTargetId={delTargetId}
                 deleteTarget={deleteTarget}
+                getComment={getComment}
+                postId={postData.id}
               />
             ) : (
               <></>

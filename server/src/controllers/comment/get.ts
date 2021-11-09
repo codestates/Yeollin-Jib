@@ -11,7 +11,7 @@ const get = async (req: Request, res: Response) => {
         include: [
           {
             model: user,
-            attributes: ["nickname"],
+            attributes: ["nickname", "imagePath"],
           },
         ],
         where: {

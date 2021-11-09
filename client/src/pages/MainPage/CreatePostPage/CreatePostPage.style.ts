@@ -370,6 +370,7 @@ export const AddressArea = styled.div`
     display: flex;
     align-items: center;
     margin-top: 11px;
+    margin-bottom: 30px;
   }
   span {
     margin-left: 7px;
