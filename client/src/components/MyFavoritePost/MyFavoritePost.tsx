@@ -8,7 +8,9 @@ import PostCard from "../PostCard/PostCard";
 function MyFavoritePost() {
   // 스토어에 저장된 정보를 가져옴
   const { accessToken } = useSelector((state: RootState) => state.authReducer);
-  const { myStorage } = useSelector((state: RootState) => state.userReducer);
+  const { myStorage, nickname, imagePath } = useSelector(
+    (state: RootState) => state.userReducer
+  );
 
   // 내가 찜한 게시물의 정보를 담을 배열
   const [storageInfo, setStorageInfo] = useState<any[]>([]);
@@ -31,14 +33,17 @@ function MyFavoritePost() {
     }
   };
 
+  // 닉네임이나 프로필이미지가 바뀌면 포스트카드에 변경 사항을 반영
   useEffect(() => {
-    getStorageData();
-  }, []);
+    if (myStorage !== 0) {
+      getStorageData();
+    }
+  }, [nickname, imagePath]);
 
   return (
     <Container>
       {myStorage === 0 ? (
-        // 내가 작성한 게시글이 0개일 때
+        // 내가 찜한 게시글이 0개일 때
         <CardContainer isContent={myStorage !== 0 ? true : false}>
           <div>찜한</div>
           <div>게시글이 없습니다.</div>
