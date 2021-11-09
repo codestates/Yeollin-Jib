@@ -41,7 +41,11 @@ const App = () => {
   return (
     <ModalBackground>
       <Container>
-        <Image src={animationImages[imageNumber]} key={imageNumber} />
+        <Image
+          src={animationImages[imageNumber]}
+          key={imageNumber}
+          alt="loading"
+        />
       </Container>
     </ModalBackground>
   );

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState, useCallback } from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import PostCard from "../../../components/PostCard/PostCard";
 import { RootState } from "../../../reducers/rootReducer";
 import { initMainCategories } from "../Categories";
@@ -27,6 +27,9 @@ function MainPage() {
   const [postCount, setPostCount] = useState<number>();
   const [isShowCategory, setIsShowCategory] = useState<boolean>(false);
   const { isLogin } = useSelector((state: RootState) => state.authReducer);
+
+  const location: any = useLocation();
+
   const openCategory = () => {
     setIsShowCategory(!isShowCategory);
   };
@@ -52,15 +55,18 @@ function MainPage() {
   };
 
   // 초기 게시글 호출
-  const initPostData = async () => {
-    const result: any = await axios.get(
-      `${process.env.REACT_APP_API_URL}/post/page/1`,
-      {
+  const initPostData = async (endpoint: string) => {
+    const result: any = await axios
+      .get(`${process.env.REACT_APP_API_URL}/${endpoint}`, {
         headers: {
           "Content-Type": "application/json",
         },
-      }
-    );
+      })
+      .catch((err) => {
+        setPostInfo([]);
+        setPostCount(0);
+      });
+    console.log(result);
     if (result !== undefined) {
       setPostInfo(result.data.postGet.rows);
       setPostCount(result.data.postGet.count);
@@ -70,13 +76,23 @@ function MainPage() {
 
   // 해당 컴포넌트가 마운트될 때 초기 게시글을 호출한다, 카테고리 셀렉트 상태를 초기화 한다
   useEffect(() => {
-    initPostData();
+    if (location.state) {
+      if (location.state.isSearch !== undefined) {
+        setPage(1);
+        initPostData(
+          `post/search/condition?search=${location.state.value}&code=${location.state.searchOption}`
+        );
+      }
+    } else {
+      setPage(1);
+      initPostData("post/page/1");
+    }
     CategorySelectHandle("init");
-  }, []);
+  }, [location.state]);
 
-  const infinitePostData = async () => {
+  const infinitePostData = async (endpoint: string) => {
     const result: any = await axios.get(
-      `${process.env.REACT_APP_API_URL}/post/page/${page}`,
+      `${process.env.REACT_APP_API_URL}/${endpoint}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -106,10 +122,16 @@ function MainPage() {
       Math.round(scrollTop + innerHeight) >= scrollHeight - 200 &&
       postCount !== undefined
     ) {
-      if (page - 1 < postCount / 8) {
-        infinitePostData();
+      if (location.state) {
+        if (location.state.isSearch !== undefined) {
+          if (page - 1 < postCount / 8) {
+            infinitePostData(
+              `post/search/condition?search=${location.state.value}&code=${location.state.searchOption}&page=${page}`
+            );
+          }
+        }
       } else {
-        return;
+        infinitePostData(`post/page/${page}`);
       }
     }
   }, [page]);

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import {
   HeaderItemContainer,
   Logo,
@@ -24,8 +24,14 @@ import { setTapName } from "../../reducers/myPageReducer";
 import Logout from "../../components/Modals/Logout/Logout";
 function Header() {
   const dispatch = useDispatch();
+  let history = useHistory();
+  const ArrSearch: string[] = ["제목", "지역"];
 
-  const ArrSearch: string[] = ["전체", "지역"];
+  // 검색어
+  const [value, setValue] = useState<string>("");
+
+  // 검색 항목 선택
+  const [searchOption, setSearchOption] = useState<string>("title");
 
   // 햄버거 메뉴 상태
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -34,6 +40,24 @@ function Header() {
   const { isLogin, accessToken } = useSelector(
     (state: RootState) => state.authReducer
   );
+
+  // 검색 항목 선택시
+  const searchOptionHandle = (option: string) => {
+    if (option === "제목" || searchOption === undefined) {
+      setSearchOption("title");
+    } else if (option === "지역") {
+      setSearchOption("address");
+    }
+  };
+  // 인풋 입력 후 엔터를 치면 검색 요청을 보냄
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      history.push({
+        pathname: "/main",
+        state: { isSearch: true, value, searchOption },
+      });
+    }
+  };
 
   // isLogin이 true일 때 유저 정보 요청
   const getUserData = () => {
@@ -58,7 +82,7 @@ function Header() {
         </Logo>
       </Link>
       <SearchBar>
-        <SearchSelect onChange={(e) => {}}>
+        <SearchSelect onChange={(e) => searchOptionHandle(e.target.value)}>
           {ArrSearch.map((el, idx) => {
             return (
               <option key={idx} value={el}>
@@ -67,8 +91,20 @@ function Header() {
             );
           })}
         </SearchSelect>
-        <input />
-        <img src="./images/searchBtn.svg" alt="search" />
+        <input
+          onChange={(e) => {
+            setValue(e.target.value);
+          }}
+          onKeyPress={(e) => handleKeyPress(e)}
+        />
+        <Link
+          to={{
+            pathname: "/main",
+            state: { isSearch: true, value, searchOption },
+          }}
+        >
+          <img src="./images/searchBtn.svg" alt="search" />
+        </Link>
       </SearchBar>
       <MenuBtn>
         <HamburgerBtn
