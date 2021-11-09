@@ -10,22 +10,25 @@ const post_c = async (req: Request, res: Response) => {
       where: {
         id: userId,
       },
-      attributes: ["nickname"],
+      attributes: ["nickname", "imagePath"],
     });
     const payload = {
       nickname: userInfo.nickname,
+      imagePath: userInfo.imagePath,
     };
     await comment
       .create({
         userId: userId, // 댓글을 작성한 유저 아이디 값
-        postId: postId, // 게시글 아이디
+        postId: parseInt(postId), // 게시글 아이디
         contents, // 댓글 내용
       })
-      .then((data: any) => {
+      .then((result: any) => {
+        let data = {
+          ...result.dataValues,
+          user: { nickname: userInfo.nickname, imagePath: userInfo.imagePath },
+        };
         res.status(200).json({
           data,
-          nickname: payload,
-          message: "댓글이 성공적으로 입력되었습니다.",
         });
       });
   } catch (err) {

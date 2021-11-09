@@ -369,7 +369,8 @@ export const AddressArea = styled.div`
   .Search_Address_Box {
     display: flex;
     align-items: center;
-    margin: 11px 0 20px 0;
+    margin-top: 11px;
+    margin-bottom: 30px;
   }
   span {
     margin-left: 7px;

@@ -45,15 +45,6 @@ import { Link } from "react-router-dom";
 
 function CreatePostPage() {
   const history = useHistory();
-
-  // 카테고리 초기화 1,7번탭 선택
-  useEffect(() => {
-    const newMainCategory = [...initMainCategories];
-    newMainCategory[0].isSelect = true;
-    newMainCategory[6].isSelect = true;
-    setMainCategories(newMainCategory);
-  }, []);
-
   // 저장된 토큰값을 가져옴
   const { accessToken } = useSelector((state: RootState) => state.authReducer);
 
@@ -230,7 +221,34 @@ function CreatePostPage() {
       });
     }
   };
+  const resetCategory = () => {
+    const newMainCategory = [...initMainCategories];
+    newMainCategory.forEach((mainCategory) => {
+      mainCategory.subCategories.forEach((subCategory) => {
+        subCategory.isSelect = false;
+        setMainCategories(newMainCategory);
+      });
+    });
+  };
 
+  // 카테고리 초기화 1,7번탭 선택상태로 컴포넌트 랜더링
+  useEffect(() => {
+    const newMainCategory = [...initMainCategories];
+    newMainCategory[0].isSelect = true;
+    newMainCategory[6].isSelect = true;
+    setMainCategories(newMainCategory);
+  }, []);
+
+  // unmount 시 카테고리 isSelect 상태 초기화
+  useEffect(() => {
+    return () => {
+      initMainCategories.forEach((mainCategory) => {
+        mainCategory.subCategories.forEach((subCategory) => {
+          subCategory.isSelect = false;
+        });
+      });
+    };
+  }, []);
   return (
     <Body>
       <MainArea>
@@ -248,6 +266,7 @@ function CreatePostPage() {
                 <InputTitle
                   value={inputTitle}
                   type={"text"}
+                  maxLength={40}
                   onChange={(e) => TitleInputHandle(e.target.value)}
                 ></InputTitle>
               </div>
