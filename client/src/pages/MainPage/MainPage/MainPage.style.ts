@@ -220,7 +220,7 @@ export const PostCardArea = styled.div`
   display: grid;
   grid-row-gap: 0px;
   grid-column-gap: 33px;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   transition: all 0.3s;
 
   @media screen and (max-width: 37.5rem) {
