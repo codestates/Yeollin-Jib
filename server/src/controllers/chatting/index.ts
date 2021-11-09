@@ -1,3 +1,5 @@
-import createChat from "./createChat";
+import createRoom from "./createRoom";
+import getRoom from "./getRoom";
+import deleteRoom from "./deleteRoom";
 
-export { createChat };
+export { createRoom, getRoom, deleteRoom };
