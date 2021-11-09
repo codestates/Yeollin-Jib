@@ -34,7 +34,14 @@ let initialState: IUserState = {
 export const userReducer = createSlice({
   name: "userReducer",
   initialState,
-  reducers: {},
+  reducers: {
+    setPlusMyStorage(state) {
+      state.myStorage += 1;
+    },
+    setMinusMyStorage(state) {
+      state.myStorage -= 1;
+    },
+  },
   extraReducers: {
     // pending 상태
     [setUser.pending.type]: (state) => {
@@ -74,5 +81,7 @@ export const userReducer = createSlice({
     },
   },
 });
+
+export const { setPlusMyStorage, setMinusMyStorage } = userReducer.actions;
 
 export default userReducer.reducer;
