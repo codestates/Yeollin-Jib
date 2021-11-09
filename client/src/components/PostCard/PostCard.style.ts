@@ -159,6 +159,18 @@ export const ShareDate = styled.div`
   font-weight: 100;
 `;
 
+export const ShareDone = styled.div`
+  width: 81px;
+  height: 26px;
+  line-height: 26px;
+  text-align: center;
+  font-size: 12px;
+  background: #2d2d2d;
+  color: #ffffff;
+  border-radius: 0.313rem;
+  font-weight: 100;
+`;
+
 export const PostCardAddress = styled.div`
   height: 24px;
   font-size: 12px;

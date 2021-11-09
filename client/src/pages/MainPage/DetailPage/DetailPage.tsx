@@ -91,9 +91,10 @@ function DetailPage() {
   const [isMine, setIsMine] = useState<IsMineType>({ isMine: true });
 
   // imagePath의 배열과 Handle에서 사용할 인덱스 state
-  const [images, setImages] = useState<string[]>(["noImage"]);
+  const [images, setImages] = useState<string[]>([""]);
   const [imagesSelect, setImagesSelect] = useState<number>(0);
 
+  console.log("@@@@@", images.length, images[0] === "", images);
   // 사진 좌우로 넘기는 Handle
   const imagesHandle = (name: string) => {
     if (name === "rightArrow" && imagesSelect < images.length - 1) {
@@ -168,27 +169,50 @@ function DetailPage() {
             <PostContentsArea>
               {/* 유저가 올린 사진----------------------------------------------------*/}
               <PhotoBox>
-                <img
-                  className="Photo_Slide_Button"
-                  src="./images/arrowLeft.svg"
-                  alt="Photo_Slide_Left"
-                  onClick={() => imagesHandle("leftArrow")}
-                />
+                {images[0] !== "" ? (
+                  <>
+                    <img
+                      className="Photo_Slide_Button"
+                      src="./images/arrowLeft.svg"
+                      alt="Photo_Slide_Left"
+                      onClick={() => imagesHandle("leftArrow")}
+                    />
 
-                <Photo>
-                  <img
-                    src={`${process.env.REACT_APP_API_URL}${images[
-                      imagesSelect
-                    ].slice(6)}`}
-                    alt="Post_Photo"
-                  />
-                </Photo>
-                <img
-                  className="Photo_Slide_Button"
-                  src="./images/arrowRight.svg"
-                  alt="Photo_Slide_Right"
-                  onClick={() => imagesHandle("rightArrow")}
-                />
+                    <Photo>
+                      <img
+                        src={`${process.env.REACT_APP_API_URL}${images[
+                          imagesSelect
+                        ].slice(6)}`}
+                        alt="Post_Photo"
+                      />
+                    </Photo>
+                    <img
+                      className="Photo_Slide_Button"
+                      src="./images/arrowRight.svg"
+                      alt="Photo_Slide_Right"
+                      onClick={() => imagesHandle("rightArrow")}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <img
+                      className="Photo_Slide_Button"
+                      src="./images/arrowLeft.svg"
+                      alt="Photo_Slide_Left"
+                      onClick={() => imagesHandle("leftArrow")}
+                    />
+
+                    <Photo>
+                      <img src={"./images/noImage.svg"} alt="NoImg" />
+                    </Photo>
+                    <img
+                      className="Photo_Slide_Button"
+                      src="./images/arrowRight.svg"
+                      alt="Photo_Slide_Right"
+                      onClick={() => imagesHandle("rightArrow")}
+                    />
+                  </>
+                )}
               </PhotoBox>
               <ContentsBox>
                 {/* 게시글 올린 유저 정보----------------------------------------------------*/}
