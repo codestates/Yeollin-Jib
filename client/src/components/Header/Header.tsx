@@ -51,7 +51,7 @@ function Header() {
   };
   // 인풋 입력 후 엔터를 치면 검색 요청을 보냄
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && value.length >= 2) {
       history.push({
         pathname: "/main",
         state: { isSearch: true, value, searchOption },
@@ -96,15 +96,20 @@ function Header() {
             setValue(e.target.value);
           }}
           onKeyPress={(e) => handleKeyPress(e)}
+          value={value}
         />
-        <Link
-          to={{
-            pathname: "/main",
-            state: { isSearch: true, value, searchOption },
-          }}
-        >
+        {value.length >= 2 ? (
+          <Link
+            to={{
+              pathname: "/main",
+              state: { isSearch: true, value, searchOption },
+            }}
+          >
+            <img src="./images/searchBtn.svg" alt="search" />
+          </Link>
+        ) : (
           <img src="./images/searchBtn.svg" alt="search" />
-        </Link>
+        )}
       </SearchBar>
       <MenuBtn>
         <HamburgerBtn

@@ -77,7 +77,7 @@ function MainPage() {
   // 해당 컴포넌트가 마운트될 때 초기 게시글을 호출한다, 카테고리 셀렉트 상태를 초기화 한다
   useEffect(() => {
     if (location.state) {
-      if (location.state.isSearch !== undefined) {
+      if (location.state.isSearch) {
         setPage(1);
         initPostData(
           `post/search/condition?search=${location.state.value}&code=${location.state.searchOption}`
@@ -87,6 +87,7 @@ function MainPage() {
       setPage(1);
       initPostData("post/page/1");
     }
+
     CategorySelectHandle("init");
   }, [location.state]);
 

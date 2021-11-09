@@ -19,7 +19,7 @@ export const ModalBackground = styled.div`
   transform: translate(-50%, -50%);
   left: 50%;
   top: 50%;
-  z-index: 999;
+  z-index: 998;
 `;
 
 export const ModalContainer = styled.div<IContainerProps>`
@@ -36,7 +36,7 @@ export const ModalContainer = styled.div<IContainerProps>`
   margin-top: 20px;
   margin-bottom: ${(props) => (props.isSubmited ? "265.5px" : "100px")};
   transition: 0.5s width, height, padding;
-
+  z-index: 999;
   @media screen and (max-width: 37.5rem) {
     width: 366px;
     height: ${(props) => (props.isSubmited ? "265.5px" : "466px")};
