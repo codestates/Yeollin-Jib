@@ -115,22 +115,40 @@ function Header() {
         <HamburgerBtn
           src="./images/hamburger.svg"
           alt="Hamburger"
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={() => {
+            setIsOpen(!isOpen);
+            setValue("");
+          }}
         />
         {isOpened ? (
-          <Logout setIsOpened={(bool: boolean) => setIsOpened(bool)}></Logout>
+          <Logout
+            setIsOpened={(bool: boolean) => {
+              setIsOpened(bool);
+              setValue("");
+            }}
+          ></Logout>
         ) : null}
         {isLogin ? (
-          <LoginLogoutBtn onClick={() => setIsOpened(true)}>
+          <LoginLogoutBtn
+            onClick={() => {
+              setIsOpened(true);
+              setValue("");
+            }}
+          >
             로그아웃
           </LoginLogoutBtn>
         ) : (
           <Link to={isLogin ? "" : "/login"}>
-            <LoginLogoutBtn>로그인</LoginLogoutBtn>
+            <LoginLogoutBtn onClick={() => setValue("")}>로그인</LoginLogoutBtn>
           </Link>
         )}
         <Link to={isLogin ? "/profile" : "/signup"}>
-          <SignupUserInfoBtn onClick={() => getUserData()}>
+          <SignupUserInfoBtn
+            onClick={() => {
+              getUserData();
+              setValue("");
+            }}
+          >
             {isLogin ? "내 정보" : "회원가입"}
           </SignupUserInfoBtn>
         </Link>
@@ -143,11 +161,19 @@ function Header() {
               <img
                 src="./images/closeMenu.svg"
                 alt="close"
-                onClick={() => setIsOpen(!isOpen)}
+                onClick={() => {
+                  setIsOpen(!isOpen);
+                  setValue("");
+                }}
               />
               <MenuWrapper>
                 <Link to={isLogin ? "/main" : "/login"}>
-                  <Menu onClick={() => setIsOpen(!isOpen)}>
+                  <Menu
+                    onClick={() => {
+                      setIsOpen(!isOpen);
+                      setValue("");
+                    }}
+                  >
                     {isLogin ? "홈" : "로그인"}
                   </Menu>
                 </Link>
@@ -158,6 +184,7 @@ function Header() {
                     onClick={() => {
                       getUserData();
                       setIsOpen(!isOpen);
+                      setValue("");
                     }}
                   >
                     {isLogin ? "내 정보" : "회원가입"}
@@ -169,6 +196,7 @@ function Header() {
                   onClick={() => {
                     setIsOpen(!isOpen);
                     setIsOpened(!isOpened);
+                    setValue("");
                   }}
                 >
                   {isLogin ? "로그아웃" : ""}
