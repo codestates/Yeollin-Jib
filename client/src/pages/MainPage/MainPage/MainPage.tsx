@@ -49,9 +49,12 @@ function MainPage() {
     });
     setMainCategories(newMainCate);
   };
-
+  let select: string = "";
   const selectCategory = (id: string) => {
+    setPage(1);
+    select = id;
     CategorySelectHandle(id);
+    initPostData(`post/category?code=${id}&page=1`);
   };
 
   // 초기 게시글 호출
@@ -66,7 +69,6 @@ function MainPage() {
         setPostInfo([]);
         setPostCount(0);
       });
-    console.log(result);
     if (result !== undefined) {
       setPostInfo(result.data.postGet.rows);
       setPostCount(result.data.postGet.count);
@@ -87,9 +89,9 @@ function MainPage() {
       setPage(1);
       initPostData("post/page/1");
     }
-
+    setPage(1);
     CategorySelectHandle("init");
-  }, [location.state]);
+  }, [location.state, select]);
 
   const infinitePostData = async (endpoint: string) => {
     const result: any = await axios.get(
@@ -100,6 +102,7 @@ function MainPage() {
         },
       }
     );
+
     if (result !== undefined) {
       setPostInfo(postInfo.concat(result.data.postGet.rows));
       setPostCount(result.data.postGet.count);
@@ -124,14 +127,14 @@ function MainPage() {
       postCount !== undefined
     ) {
       if (location.state) {
-        if (location.state.isSearch !== undefined) {
-          if (page - 1 < postCount / 8) {
-            infinitePostData(
-              `post/search/condition?search=${location.state.value}&code=${location.state.searchOption}&page=${page}`
-            );
-          }
+        if (location.state.isSearch !== undefined && page - 1 < postCount / 8) {
+          infinitePostData(
+            `post/search/condition?search=${location.state.value}&code=${location.state.searchOption}&page=${page}`
+          );
         }
-      } else {
+      } else if (select !== "") {
+        infinitePostData(`post/category?code=${select}&page=${page - 1}`);
+      } else if (page - 1 < postCount / 8) {
         infinitePostData(`post/page/${page}`);
       }
     }
