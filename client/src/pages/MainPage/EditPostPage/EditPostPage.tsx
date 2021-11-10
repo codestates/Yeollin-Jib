@@ -116,35 +116,52 @@ function EditPostPage() {
   };
 
   // 기존 imagePath
-  const imagePath = location.state.postData.imagePath.split(",");
-
+  let imagePath = location.state.postData.imagePath.split(",");
+  if (imagePath[0] === "") {
+    imagePath = [];
+  }
   // 삭제 imagePath
-  const [imageDelete, setImageDelete] = useState<string>("");
+  const [imageDelete, setImageDelete] = useState<string[]>([]);
 
   // 업로드 할 사진정보 state
-  const [files, setFiles] = useState<any[] | undefined[]>([]);
+  const [uploadFiles, setUploadFiles] = useState<any[] | undefined[]>([]);
+  const [postImagePath, setPostImagePath] = useState<string[]>(imagePath);
 
   const photoPath = (file: any) => {
-    let newFiles = [...files];
-    if (files.length === 5) {
+    let newFiles = [...uploadFiles];
+    let newFileLen = newFiles.length;
+    let postImgPathLen = postImagePath.length;
+    if (uploadFiles.length + postImagePath.length === 5) {
       alert("더이상 등록 할 수 없습니다.");
-    } else if (files.length + file.length > 5) {
+    } else if (uploadFiles.length + postImgPathLen + file.length > 5) {
       alert("5장까지만 등록 해 주세요.");
-    } else if (newFiles.length < 5) {
-      for (let i = 0; i < file.length; i++) {
+    } else if (newFileLen + postImgPathLen < 5) {
+      for (let i = 0; i < 5 - (newFileLen + postImgPathLen); i++) {
         file[i].preview = URL.createObjectURL(file[i]);
         newFiles.push(file[i]);
       }
-      newFiles = newFiles.slice(0, 5);
-      setFiles(newFiles);
+      newFiles = newFiles.slice(0, 5 - (newFileLen + postImgPathLen));
+      setUploadFiles(newFiles);
     }
   };
 
-  const deletePhotoHandle = (path: string) => {
-    const deleteNewFiles = files.filter((file) => {
-      return file.preview !== path;
-    });
-    setFiles(deleteNewFiles);
+  const deletePhotoHandle = (type: string, path: string) => {
+    if (type === "delete") {
+      const deleteFiles = postImagePath.filter((file) => {
+        return file === path;
+      });
+      setImageDelete(imageDelete.concat(deleteFiles));
+
+      const newImagePath = postImagePath.filter((file) => {
+        return file !== path;
+      });
+      setPostImagePath(newImagePath);
+    } else if (type === "addFile") {
+      const newFiles = uploadFiles.filter((file) => {
+        return file.preview !== path;
+      });
+      setUploadFiles(newFiles);
+    }
   };
 
   // 선택된 카테고리 이름 string ex) main => 1,1,2,3,3,4,4,7,7,9,9 sub => 침대, 이불, 유모차,장난감,행거,스탠드
@@ -187,7 +204,7 @@ function EditPostPage() {
 
   const registerPost = async () => {
     const formData = new FormData();
-    files.forEach((file) => formData.append("image", file));
+    uploadFiles.forEach((file) => formData.append("image", file));
     formData.append("title", inputTitle);
     formData.append("contents", inputContents);
     formData.append("address", addressInput);
@@ -404,40 +421,74 @@ function EditPostPage() {
               <CameraIcon color="#2D2D2D" />
               <span>{"사진을 등록해 주세요. (최대 5장)"}</span>
             </div>
-            {imagePath[0] === undefined ? (
-              <>
-                <div className="Photo_Container">
-                  <PhotoUpload photoPath={photoPath} arrPhoto={files} />
-                </div>
-              </>
-            ) : (
-              imagePath.map((file: any, idx: any) => {
-                return (
-                  <div
-                    key={`${file}+${idx}`}
-                    id={`${file}+${idx}`}
-                    className="Photo_Container"
-                  >
+            <>
+              {imagePath[0] === undefined ? (
+                <></>
+              ) : (
+                postImagePath.map((file: any, idx: any) => {
+                  return (
                     <div
-                      className="Delete"
-                      onClick={() => deletePhotoHandle(file)}
-                    >
-                      x
-                    </div>
-                    <PhotoUpload
                       key={`${file}+${idx}`}
-                      photoPath={photoPath}
-                      arrPhoto={files}
-                    />
-                    <img
-                      className="Photo_Thumb"
-                      src={`${process.env.REACT_APP_API_URL}${file.slice(6)}`}
-                      alt="Upload_Photo"
-                    />
+                      id={`${file}+${idx}`}
+                      className="Photo_Container"
+                    >
+                      <div
+                        className="Delete"
+                        onClick={() => deletePhotoHandle("delete", file)}
+                      >
+                        x
+                      </div>
+                      <PhotoUpload
+                        key={`${file}+${idx}`}
+                        photoPath={photoPath}
+                        arrPhoto={postImagePath}
+                      />
+                      <img
+                        className="Photo_Thumb"
+                        src={`${process.env.REACT_APP_API_URL}${file.slice(6)}`}
+                        alt="Upload_Photo"
+                      />
+                    </div>
+                  );
+                })
+              )}
+              {uploadFiles[0] === undefined ? (
+                <>
+                  <div className="Photo_Container">
+                    <PhotoUpload photoPath={photoPath} arrPhoto={uploadFiles} />
                   </div>
-                );
-              })
-            )}
+                </>
+              ) : (
+                uploadFiles.map((file: any, idx: any) => {
+                  return (
+                    <div
+                      key={`${file.preview}+${idx}`}
+                      id={file.preview}
+                      className="Photo_Container"
+                    >
+                      <div
+                        className="Delete"
+                        onClick={() =>
+                          deletePhotoHandle("addFile", file.preview)
+                        }
+                      >
+                        x
+                      </div>
+                      <PhotoUpload
+                        key={`${file.preview}+${idx}`}
+                        photoPath={photoPath}
+                        arrPhoto={uploadFiles}
+                      />
+                      <img
+                        className="Photo_Thumb"
+                        src={file.preview}
+                        alt="Upload_Photo"
+                      />
+                    </div>
+                  );
+                })
+              )}
+            </>
           </UploadPhotoArea>
 
           {/* 주소 입력 칸 ----------------------------------------------------*/}
