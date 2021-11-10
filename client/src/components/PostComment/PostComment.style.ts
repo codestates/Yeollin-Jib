@@ -18,6 +18,20 @@ export const Comment = styled.div`
     font-size: 14px;
     padding-left: 7px;
   }
+  @media screen and (max-width: 37.5rem) {
+    min-height: 67px;
+    margin-bottom: 34px;
+    .Comment_Contents {
+      font-size: 14px;
+    }
+  }
+  @media screen and (max-width: 375px) {
+    padding: 0.5rem;
+    margin-bottom: 20px;
+    .Comment_Contents {
+      font-size: 12px;
+    }
+  }
 `;
 
 export const CommentUserContainer = styled.div`
@@ -42,6 +56,28 @@ export const CommentUserContainer = styled.div`
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
+  }
+  @media screen and (max-width: 37.5rem) {
+    .Comment_User_Name {
+      font-size: 14px;
+    }
+    .Comment_Date {
+      font-size: 12px;
+    }
+  }
+  @media screen and (max-width: 375px) {
+    .Comment_User_Name {
+      font-size: 12px;
+    }
+    .Comment_Date {
+      font-size: 10px;
+    }
+    .Edit_Delete {
+      width: 30px;
+      svg {
+        width: 12px;
+      }
+    }
   }
 `;
 
