@@ -1,5 +1,3 @@
-import { AnyAaaaRecord, AnyMxRecord } from "dns";
-import React from "react";
 import { PhotoBackground, Photo } from "./PhotoUpload.style";
 
 interface PhotoInfo {

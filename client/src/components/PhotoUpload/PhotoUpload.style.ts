@@ -15,8 +15,8 @@ export const PhotoBackground = styled.div`
     height: 20px;
     width: 20px;
     border-radius: 20px;
-    color: #2d2d2d;
-    border: 3px solid #2d2d2d;
+    color: #e0dde1;
+    border: 3px solid #e0dde1;
     position: absolute;
     cursor: pointer;
     line-height: 22px;

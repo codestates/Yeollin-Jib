@@ -12,7 +12,6 @@ export const Body = styled.div`
   display: flex;
   justify-content: center;
   padding: 0 30px 0 30px;
-
   @media screen and (max-width: 37.5rem) {
     padding: 0 5px 0 5px;
   }
@@ -222,7 +221,6 @@ export const PostCardArea = styled.div`
   grid-column-gap: 33px;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   transition: all 0.3s;
-
   @media screen and (max-width: 37.5rem) {
     display: flex;
     flex-wrap: nowrap;
