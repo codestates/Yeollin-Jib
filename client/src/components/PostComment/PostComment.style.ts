@@ -25,6 +25,7 @@ export const Comment = styled.div`
   @media screen and (max-width: 37.5rem) {
     min-height: 67px;
     margin-bottom: 34px;
+
     .Comment_Contents {
       font-size: 14px;
     }
@@ -32,8 +33,10 @@ export const Comment = styled.div`
   @media screen and (max-width: 375px) {
     padding: 0.5rem;
     margin-bottom: 20px;
+
     .Comment_Contents {
       font-size: 12px;
+      padding-left: 0;
     }
   }
 `;

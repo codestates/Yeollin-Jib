@@ -402,13 +402,10 @@ export const AddressIcon = styled.div`
 export const CommentArea = styled.div`
   display: flex;
   flex-direction: column;
-  margin-left: 28px;
+
   .Comment_Box {
     display: flex;
     justify-content: space-between;
-  }
-  @media screen and (max-width: 950px) {
-    padding: 0;
   }
 `;
 
