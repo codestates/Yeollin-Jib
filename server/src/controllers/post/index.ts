@@ -4,7 +4,8 @@ import get_user_infinite from "./get_user_infinite";
 import get_search from "./get_search";
 import get from "./get";
 import get_category_infinite from "./get_category_infinite";
-import put from "./put";
+import patch_category from "./patch_category";
+import patch from "./patch";
 import delete_ from "./delete_";
 
 export {
@@ -14,6 +15,7 @@ export {
   get_category_infinite,
   get_search,
   get,
-  put,
+  patch,
+  patch_category,
   delete_,
 };

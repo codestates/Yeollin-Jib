@@ -40,12 +40,11 @@ const get_infinite = async (req: Request, res: Response) => {
 
     if (postGet.rows.length === 0) {
       return res
-        .status(404)
+        .status(200)
         .send({ message: "더이상 조회할 게시물이 없습니다." });
     }
 
     return res.status(200).send({ postGet });
-
   } catch (err) {
     console.log(err);
     return res.status(501).json({ message: "서버 에러 입니다." });

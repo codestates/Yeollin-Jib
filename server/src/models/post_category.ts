@@ -13,6 +13,7 @@ class post_category extends Model {
   public readonly id!: number;
   public postId!: number;
   public categoryId!: number;
+  public readonly Boolean!: boolean;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
   public removepost!: BelongsToManyRemoveAssociationMixin<
@@ -29,6 +30,11 @@ post_category.init(
     },
     categoryId: {
       type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    Boolean: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true,
       allowNull: false,
     },
   },

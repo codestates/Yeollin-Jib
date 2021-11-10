@@ -7,12 +7,12 @@ poststorageRouter.get("/", accessToken, poststoragecontroller.get_likes);
 poststorageRouter.delete(
   "/:postId",
   accessToken,
-  poststoragecontroller.delete_like
+  poststoragecontroller.delete_like,
 );
 poststorageRouter.post(
   "/:postId",
   accessToken,
-  poststoragecontroller.post_like
+  poststoragecontroller.post_like,
 );
 
 export default poststorageRouter;
