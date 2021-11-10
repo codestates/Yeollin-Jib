@@ -196,7 +196,7 @@ export const CreatePostButton = styled.div`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  padding: 2px 0 0 2px;
+  padding: 2px 0 0 1px;
   :active {
     background: #ffdb7d;
   }
