@@ -156,7 +156,6 @@ function DetailPage() {
     let category2: string[] = [];
     if (location.state !== undefined) {
       const postInfo = location.state.postInfo;
-      console.log("d", postInfo);
       initMainCategories.forEach((mainCategory) => {
         mainCategory.subCategories.forEach((subCategory) => {
           postInfo.post_categories.forEach((userCategory: any) => {
