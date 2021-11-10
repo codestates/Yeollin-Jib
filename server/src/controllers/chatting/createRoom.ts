@@ -4,6 +4,6 @@ import chatroom from "../../models/chatroom";
 import user from "../../models/user";
 import chatting from "../../models/chatting";
 
-const createChatRoom = async (req: Request, res: Response) => {};
+const createRoom = async (req: Request, res: Response) => {};
 
-export default createChatRoom;
+export default createRoom;

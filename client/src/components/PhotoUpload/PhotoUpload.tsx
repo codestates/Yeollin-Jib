@@ -19,7 +19,7 @@ function PhotoUpload({ photoPath, arrPhoto }: PhotoInfo) {
             onChange={(e) => photoPath(e.target.files)}
           ></Photo>
           <PhotoBackground>
-            <span>+</span>
+            <img src="./images/plusBtn.svg" alt="plus" />
           </PhotoBackground>
         </>
       ) : (

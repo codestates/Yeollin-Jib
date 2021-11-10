@@ -109,19 +109,19 @@ export const CategoryIcon = ({ isCheck, isMine }: IconProps) => (
     width="15"
     height="15"
     viewBox="0 0 15 15"
-    fill={isCheck && isMine ? "none" : isCheck ? "#fede8a" : "none"}
+    fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
     <path
       d="M10.625 1.875H4.375C2.99429 1.875 1.875 2.99429 1.875 4.375V10.625C1.875 12.0057 2.99429 13.125 4.375 13.125H10.625C12.0057 13.125 13.125 12.0057 13.125 10.625V4.375C13.125 2.99429 12.0057 1.875 10.625 1.875Z"
-      stroke={isCheck && isMine ? "#C2BFC3" : "#2d2d2d"}
+      stroke={isCheck ? "#2d2d2d" : "#C2BFC3"}
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M5.625 7.5L7.03125 8.75L9.375 6.25"
-      stroke={isCheck && isMine ? "#C2BFC3" : "#2d2d2d"}
+      stroke={isCheck ? "#2d2d2d" : "#C2BFC3"}
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"

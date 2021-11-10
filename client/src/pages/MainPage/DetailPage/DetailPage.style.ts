@@ -402,7 +402,7 @@ export const AddressIcon = styled.div`
 export const CommentArea = styled.div`
   display: flex;
   flex-direction: column;
-  padding-left: 28px;
+  margin-left: 28px;
   .Comment_Box {
     display: flex;
     justify-content: space-between;

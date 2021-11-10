@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from "express";
-
 import user from "../models/user";
 import refreshToken from "./refreshToken";
 import * as dotenv from "dotenv";
@@ -16,7 +15,8 @@ const accessToken = async (req: Request, res: Response, next: NextFunction) => {
       .json({ data: null, message: "access token 존재하지 않습니다." });
   }
   let token: any = authHeader.split(" ")[1];
-  const data = await jwt.verify(
+
+  await jwt.verify(
     token,
     process.env.ACCESS_SECRET,
     async (err: Error, decode: any) => {
@@ -33,7 +33,7 @@ const accessToken = async (req: Request, res: Response, next: NextFunction) => {
       }
       req.cookies.id = Info.id;
       next();
-    }
+    },
   );
 };
 

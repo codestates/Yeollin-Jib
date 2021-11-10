@@ -90,7 +90,7 @@ const get_search = async (req: Request, res: Response) => {
       });
       if (postGet.rows.length === 0) {
         return res
-          .status(404)
+          .status(200)
           .send({ message: "더이상 조회할 게시물이 없습니다." });
       }
       return res.status(200).send({ postGet });

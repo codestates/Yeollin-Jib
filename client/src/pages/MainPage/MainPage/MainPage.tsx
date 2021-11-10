@@ -69,7 +69,8 @@ function MainPage() {
         setPostInfo([]);
         setPostCount(0);
       });
-    if (result !== undefined) {
+
+    if (result.data.message === undefined) {
       setPostInfo(result.data.postGet.rows);
       setPostCount(result.data.postGet.count);
       setPage(page + 1);
@@ -79,7 +80,7 @@ function MainPage() {
   // 해당 컴포넌트가 마운트될 때 초기 게시글을 호출한다, 카테고리 셀렉트 상태를 초기화 한다
   useEffect(() => {
     if (location.state) {
-      if (location.state.isSearch) {
+      if (location.state.isSearch !== undefined) {
         setPage(1);
         initPostData(
           `post/search/condition?search=${location.state.value}&code=${location.state.searchOption}`
@@ -89,7 +90,6 @@ function MainPage() {
       setPage(1);
       initPostData("post/page/1");
     }
-    setPage(1);
     CategorySelectHandle("init");
   }, [location.state, select]);
 

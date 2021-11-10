@@ -20,7 +20,6 @@ import {
   TextBox,
   TimerArea,
   DueDateBox,
-  CategoryBox,
   MapArea,
   CommentArea,
   CommentWordArea,
@@ -39,15 +38,13 @@ import { RootState } from "../../../reducers/rootReducer";
 import { useSelector } from "react-redux";
 import KakaoMap from "../../../components/KakaoMap/KakaoMap";
 import DeletePost from "../../../components/Modals/DeletePost/DeletePost";
-import ShareCategories from "../../../components/Modals/ShareCategories/ShareCategories";
-import { useLocation } from "react-router";
 import Timer from "../../../components/Timer/Timer";
 import PostComment from "../../../components/PostComment/PostComment";
-import { useHistory } from "react-router";
-import {
-  setPlusMyStorage,
-  setMinusMyStorage,
-} from "../../../reducers/userReducer";
+import { useHistory, useLocation } from "react-router";
+import DetailCategories from "../../../components/DetailCategories/DetailCategories";
+import { initMainCategories } from "../Categories";
+import { Link } from "react-router-dom";
+
 interface User {
   email: string;
   imagePath: null | string;
@@ -68,15 +65,14 @@ interface PostDataType {
   createdAt: string;
 }
 
-interface IsMineType {
-  isMine: true | false;
-}
-
 function DetailPage() {
   const { id } = useSelector((state: RootState) => state.userReducer);
   const { accessToken } = useSelector((state: RootState) => state.authReducer);
   let location: any = useLocation();
   const history = useHistory();
+  if (location.state === undefined) {
+    history.go(-1);
+  }
 
   // 게시글 정보
   const [postData, setPostData] = useState<PostDataType>();
@@ -97,7 +93,7 @@ function DetailPage() {
     }
   }
   // 내 게시글인지 확인
-  const [isMine, setIsMine] = useState<IsMineType>({ isMine: false });
+  const [isMine, setIsMine] = useState<boolean>(true);
 
   // imagePath의 배열과 Handle에서 사용할 인덱스 state
   const [images, setImages] = useState<string[]>([""]);
@@ -140,7 +136,7 @@ function DetailPage() {
         });
     }
   };
-  const postIdProps = location.state.postId;
+
   const getComment = (postId: number) => {
     axios
       .get(`${process.env.REACT_APP_API_URL}/comment/${postId}`, {
@@ -153,11 +149,35 @@ function DetailPage() {
       });
   };
 
+  const [categoryLink, setCategoryLink] = useState<any>({});
+
   useEffect(() => {
     // postId props없이 페이지에 진입했을때 뒤로가기 진행
-    getStorageData();
-    if (location.state === undefined) {
-      history.go(-1);
+    let category1: string[] = [];
+    let category2: string[] = [];
+    if (location.state !== undefined) {
+      const postInfo = location.state.postInfo;
+      initMainCategories.forEach((mainCategory) => {
+        mainCategory.subCategories.forEach((subCategory) => {
+          postInfo.post_categories.forEach((userCategory: any) => {
+            if (userCategory.categoryId === subCategory.id) {
+              category1.push(mainCategory.id);
+              category2.push(subCategory.name);
+            }
+          });
+        });
+      });
+      // 카테고리 세팅
+      let newCategoryLink: any = {};
+      for (let i = 0; i < category1.length; i++) {
+        if (newCategoryLink[category1[i]] === undefined) {
+          newCategoryLink[category1[i]] = [];
+          newCategoryLink[category1[i]].push(category2[i]);
+        } else {
+          newCategoryLink[category1[i]].push(category2[i]);
+        }
+      }
+      setCategoryLink(newCategoryLink);
     }
     // 페이지 마운트 시에 post 정보 요청
     axios
@@ -172,11 +192,11 @@ function DetailPage() {
         setDueDate(res.data.postGet.dueDate.split(","));
         setImages(res.data.postGet.imagePath.split(","));
         if (res.data.postGet.userId === id) {
-          setIsMine({ isMine: true });
+          setIsMine(true);
         }
       });
     // 페이지 마운트 시에 comment 정보 요청
-    getComment(postIdProps);
+    getComment(location.state.postId);
   }, []);
   const deletePostHandle = (target: string, commentId: number): void => {
     setIsDeleteModal(!isDeleteModal);
@@ -257,11 +277,20 @@ function DetailPage() {
             {/* 제목 칸 HEADER ----------------------------------------------------*/}
             <TitleArea>
               <div className="Post_Title">{postData.title}</div>
-              {isMine.isMine && isMine.isMine !== undefined ? (
+              {isMine ? (
                 <div className="Edit_Delete">
-                  <span>
-                    <EditPencilIcon color={"#2d2d2d"} />
-                  </span>
+                  <Link
+                    to={{
+                      pathname: `/editpost`,
+                      state: {
+                        postData: postData,
+                      },
+                    }}
+                  >
+                    <span>
+                      <EditPencilIcon color={"#2d2d2d"} />
+                    </span>
+                  </Link>
                   <span onClick={() => deletePostHandle("post", postData.id)}>
                     <DeleteIcon color={"#2d2d2d"} />
                   </span>
@@ -381,9 +410,11 @@ function DetailPage() {
                       : "날짜정보가 없습니다"}
                   </span>
                 </DueDateBox>
-                <CategoryBox></CategoryBox>
+                {/* 카테고리 미리보기 컴포넌트----------------------------------------------------*/}
+                <DetailCategories categoryLink={categoryLink} isMine={isMine} />
               </ContentsBox>
             </PostContentsArea>
+            {/* 카카오맵 ----------------------------------------------------*/}
             <MapArea>
               <AddressArea>
                 <AddressIcon>
@@ -392,30 +423,32 @@ function DetailPage() {
                 <span className="Address_Title">장소</span>
                 <span className="Address">{postData.address}</span>
               </AddressArea>
-              <div>
+              <div className="Kakao_Map">
                 <KakaoMap addressInput={postData.address} />
               </div>
             </MapArea>
             {/* 댓글 Input----------------------------------------------------*/}
             <CommentArea>
-              <CommentWordArea>
-                <img src={"./images/commentMark.svg"} alt="Comment_Mark" />
-                <span className="Comment_Word">댓글</span>
-              </CommentWordArea>
-              <div className="Comment_Box">
-                <CommentInput
-                  value={commentInput}
-                  onChange={(e) => {
-                    commentInputHandle(e.target.value);
-                  }}
-                />
-                <SubmitCommentBtn
-                  onClick={() => {
-                    submitComment();
-                  }}
-                >
-                  등록
-                </SubmitCommentBtn>
+              <div className="Comment_Top_Area">
+                <CommentWordArea>
+                  <img src={"./images/commentMark.svg"} alt="Comment_Mark" />
+                  <span className="Comment_Word">댓글</span>
+                </CommentWordArea>
+                <div className="Comment_Box">
+                  <CommentInput
+                    value={commentInput}
+                    onChange={(e) => {
+                      commentInputHandle(e.target.value);
+                    }}
+                  />
+                  <SubmitCommentBtn
+                    onClick={() => {
+                      submitComment();
+                    }}
+                  >
+                    등록
+                  </SubmitCommentBtn>
+                </div>
               </div>
               {/* 댓글 리스트----------------------------------------------------*/}
               <CommentList>
@@ -430,6 +463,7 @@ function DetailPage() {
                 })}
               </CommentList>
             </CommentArea>
+            {/* 삭제하시겠습니다 Modal ----------------------------------------------------*/}
             {isDeleteModal ? (
               <DeletePost
                 setIsDeleteModal={setIsDeleteModal}
@@ -441,7 +475,6 @@ function DetailPage() {
             ) : (
               <></>
             )}
-            {false ? <ShareCategories isMine={isMine} /> : <></>}
           </DetailPageContainer>
         ) : (
           <></>

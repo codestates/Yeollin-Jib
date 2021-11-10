@@ -23,12 +23,15 @@ postRouter.get("/:id", postcontroller.get);
 // 게시물 검색 조회 기능 (제목, 주소)
 postRouter.get("/search/condition", postcontroller.get_search);
 
+// 게시물 카테고리 true false
+postRouter.patch("/category", accessToken, postcontroller.patch_category);
+
 // 게시물 수정
 postRouter.patch(
   "/:id",
   accessToken,
   upload.array("image", 5),
-  postcontroller.put,
+  postcontroller.patch,
 );
 
 // 게시물 삭제

@@ -18,7 +18,7 @@ const get = async (req: Request, res: Response) => {
         {
           model: post_category,
           required: false,
-          attributes: ["categoryId"],
+          attributes: ["categoryId", "Boolean"],
         },
       ],
     });
