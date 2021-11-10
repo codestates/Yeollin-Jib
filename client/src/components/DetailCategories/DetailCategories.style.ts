@@ -28,6 +28,9 @@ export const CategoryTitle = styled.div`
   width: 100%;
   font-family: "Gmarket Sans TTF";
   font-weight: 300;
+  @media screen and (max-width: 37.5rem) {
+    font-size: 14px;
+  }
 `;
 
 export const CategoryRow = styled.div`
@@ -36,11 +39,19 @@ export const CategoryRow = styled.div`
   height: auto;
   margin-top: 13px;
   font-weight: 100;
+  @media screen and (max-width: 37.5rem) {
+    font-size: 12px;
+  }
 `;
 
 export const MainCategory = styled.div`
   width: 180px;
   height: 17px;
+  @media screen and (max-width: 37.5rem) {
+  }
+  @media screen and (max-width: 375px) {
+    width: 250px;
+  }
 `;
 
 export const SubCategory = styled.div`
@@ -52,6 +63,11 @@ export const SubCategory = styled.div`
     align-items: center;
     width: 120px;
     height: 17px;
+  }
+  @media screen and (max-width: 37.5rem) {
+    div {
+      width: 100%;
+    }
   }
 `;
 
@@ -80,6 +96,13 @@ export const ShowAllCategoryBtn = styled.div`
     }
     :active {
       color: #c2bfc3;
+    }
+  }
+
+  @media screen and (max-width: 32.5rem) {
+    font-size: 14px;
+    .Down_Arrow {
+      font-size: 14px;
     }
   }
 `;

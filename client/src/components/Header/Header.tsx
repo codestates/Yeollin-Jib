@@ -74,7 +74,7 @@ function Header() {
     // 상단바
     <HeaderItemContainer>
       <Link to="/main">
-        <Logo>
+        <Logo onClick={() => setValue("")}>
           <div>
             <LogoImg src="./images/logo.svg" alt="LogoImg" />
             <LogoTitle src="./images/logoTitle.svg" alt="LogoTitle" />

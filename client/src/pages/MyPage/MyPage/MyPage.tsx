@@ -184,7 +184,7 @@ function MyPage() {
                 >
                   내가 찜한 게시글
                 </Tap>
-                <Link to="/chatroom" style={{ textDecoration: "none" }}>
+                <Link to="/preparation" style={{ textDecoration: "none" }}>
                   <ChatrommTap>채팅방</ChatrommTap>
                 </Link>
               </TapContainer>

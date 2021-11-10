@@ -22,6 +22,9 @@ export const BodyContainer = styled.div`
   width: 100%;
   max-width: 684px;
   padding: 0 30px 0 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const ModalContainer = styled.div`
@@ -42,6 +45,10 @@ export const ModalContainer = styled.div`
     width: 100%;
     justify-content: center;
     margin-top: 30px;
+  }
+  @media screen and (max-width: 37.5rem) {
+    min-height: 215px;
+    width: 90%;
   }
 `;
 
@@ -65,6 +72,16 @@ export const CategoryTitle = styled.div`
     color: #2d2d2d;
     border-bottom: 5px solid #fede8a;
   }
+  @media screen and (max-width: 37.5rem) {
+    span {
+      font-size: 16px;
+    }
+  }
+  @media screen and (max-width: 375px) {
+    span {
+      font-size: 14px;
+    }
+  }
 `;
 
 export const CategoryRow = styled.div`
@@ -72,6 +89,12 @@ export const CategoryRow = styled.div`
   width: 100%;
   height: auto;
   margin-top: 19px;
+  @media screen and (max-width: 37.5rem) {
+    font-size: 14px;
+  }
+  @media screen and (max-width: 375px) {
+    font-size: 12px;
+  }
 `;
 
 export const MainCategory = styled.div`
