@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const Body = styled.div`
   min-height: 90vh;
   margin-top: 4.938rem;
-  background: linear-gradient(x0deg, #fbfafc, #fbfafc);
+  background: linear-gradient(0deg, #fbfafc, #fbfafc);
   display: flex;
   justify-content: center;
   padding: 0 30px 0 30px;
@@ -308,7 +308,7 @@ export const UploadPhotoArea = styled.div`
   width: 100%;
   margin-top: 50px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   flex-wrap: wrap;
   .Upload_Word {
     display: flex;
@@ -332,28 +332,21 @@ export const UploadPhotoArea = styled.div`
     box-sizing: border-box;
     border-radius: 7px;
   }
-  .Delete_Photo {
+  .Delete {
     width: 20px;
     height: 20px;
-    border: 2px solid #2d2d2d;
-    border-radius: 20px;
+    color: #e0dde1;
     display: flex;
     justify-content: center;
     align-items: center;
     position: absolute;
-    font-size: 14px;
-    z-index: 10;
+    font-size: 18px;
+    z-index: 4;
     cursor: pointer;
     right: 0;
     margin-top: 5px;
     margin-right: 5px;
-    box-sizing: border-box;
-  }
-  .Minus_Button {
-    width: 13px;
-    z-index: 10;
-    border-bottom: 2px solid #2d2d2d;
-    cursor: pointer;
+    opacity: 0.95;
   }
 `;
 

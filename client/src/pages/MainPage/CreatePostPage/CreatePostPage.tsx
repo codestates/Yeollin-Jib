@@ -56,24 +56,10 @@ function CreatePostPage() {
   };
 
   // 게시물 마감일자 State, Handle
-  interface DatePicker {
-    date?: string | undefined;
-    time?: string | undefined;
-  }
-  const [inputDate, setInputDate] = useState<DatePicker>({
-    date: "",
-    time: "",
-  });
 
-  const DateInputHandle = (value: string) => {
-    let newInputDate = { ...inputDate };
-    if (value.length < 7) {
-      newInputDate.time = value;
-    } else {
-      newInputDate.date = value;
-    }
-    setInputDate(newInputDate);
-  };
+  // 게시물 마감일자 State, Handle
+  const [inputDate, setInputDate] = useState<string>("");
+  const [inputTime, setInputTime] = useState<string>("");
 
   // 게시물 내용 State, Handle
   const [inputContents, setInputContents] = useState<string>("");
@@ -199,7 +185,7 @@ function CreatePostPage() {
     formData.append("title", inputTitle);
     formData.append("contents", inputContents);
     formData.append("address", addressInput);
-    formData.append("dueDate", `${inputDate.date},${inputDate.time}`);
+    formData.append("dueDate", `${inputDate},${inputTime}`);
     formData.append("latitude", `${addressCoordinate[0]}`);
     formData.append("longitude", `${addressCoordinate[1]}`);
     formData.append("category1", submitCateHandle("main"));
@@ -249,6 +235,18 @@ function CreatePostPage() {
       });
     };
   }, []);
+  //  오늘 잘짜 구하기 dete 선택 제한
+  const getToday = () => {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const day = date.getDate();
+    if (day < 10) {
+      return `${year}-${month + 1}-0${day}`;
+    } else {
+      return `${year}-${month + 1}-${day}`;
+    }
+  };
   return (
     <Body>
       <MainArea>
@@ -279,14 +277,15 @@ function CreatePostPage() {
               </div>
               <div className="Date_Input">
                 <DatePicker
-                  value={inputDate?.date}
+                  value={inputDate}
                   type={"date"}
-                  onChange={(e) => DateInputHandle(e.target.value)}
+                  min={getToday()}
+                  onChange={(e) => setInputDate(e.target.value)}
                 ></DatePicker>
                 <TimePicker
-                  value={inputDate?.time}
+                  value={inputTime}
                   type={"time"}
-                  onChange={(e) => DateInputHandle(e.target.value)}
+                  onChange={(e) => setInputTime(e.target.value)}
                 ></TimePicker>
               </div>
             </DateArea>
@@ -411,10 +410,10 @@ function CreatePostPage() {
                     className="Photo_Container"
                   >
                     <div
-                      className="Delete_Photo"
+                      className="Delete"
                       onClick={() => deletePhotoHandle(file.preview)}
                     >
-                      <div className="Minus_Button"></div>
+                      x
                     </div>
                     <PhotoUpload
                       key={`${file.preview}+${idx}`}
