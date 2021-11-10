@@ -36,7 +36,7 @@ import {
   MainArea,
   InvalidMessage,
 } from "./CreatePostPage.style";
-import { initMainCategories } from "../Categories";
+import { initCategoryFunc, initMainCategories } from "../Categories";
 import { RootState } from "../../../reducers/rootReducer";
 import axios, { AxiosResponse } from "axios";
 import { useSelector } from "react-redux";
@@ -249,11 +249,7 @@ function CreatePostPage() {
   // unmount 시 카테고리 isSelect 상태 초기화
   useEffect(() => {
     return () => {
-      initMainCategories.forEach((mainCategory) => {
-        mainCategory.subCategories.forEach((subCategory) => {
-          subCategory.isSelect = false;
-        });
-      });
+      initCategoryFunc();
     };
   }, []);
   //  오늘 잘짜 구하기 dete 선택 제한

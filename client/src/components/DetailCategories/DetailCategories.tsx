@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
-import { initMainCategories } from "../../pages/MainPage/Categories";
 import {
-  Testcontainer,
+  initCategoryFunc,
+  initMainCategories,
+} from "../../pages/MainPage/Categories";
+import {
   CategoryBox,
   CategoryTitle,
   CategoryRow,
@@ -21,6 +23,9 @@ interface IsMine {
 function DetailCategories({ isMine, categoryLink }: IsMine) {
   // 대분류 테이블 State, Handle
   const [mainCategories, setMainCategories] = useState(initMainCategories);
+
+  let count = 0;
+
   // 서브 체크박스 Handle
   const addSubCategoryHandle = (id: string, name: string) => {
     const newMainCate = [...mainCategories];
@@ -44,23 +49,35 @@ function DetailCategories({ isMine, categoryLink }: IsMine) {
     addSubCategoryHandle(id, name);
   };
 
+  // unmount 시 카테고리 isSelect 상태 초기화
+  useEffect(() => {
+    return () => {
+      initCategoryFunc();
+    };
+  }, []);
   return (
     <CategoryBox>
       <CategoryTitle>품목</CategoryTitle>
       <div className="Category_Slice">
-        {mainCategories.map((mainCate, mainIdx) => {
+        {mainCategories.map((mainCate) => {
           if (categoryLink[mainCate.id] !== undefined) {
             return (
               <CategoryRow>
                 <MainCategory>{mainCate.name}</MainCategory>
                 <SubCategory>
-                  {mainCate.subCategories.map((subCate, subIdx) => {
+                  {mainCate.subCategories.map((subCate) => {
                     if (categoryLink[mainCate.id].includes(subCate.name)) {
+                      count += 1;
+                    }
+                    if (
+                      categoryLink[mainCate.id].includes(subCate.name) &&
+                      count < 4
+                    ) {
                       return (
                         <div>
                           <CategoryIcon
                             isCheck={subCate.isSelect}
-                            isMine={isMine}
+                            isMine={true}
                           />
                           <SubCategoryName
                             isCheck={subCate.isSelect}
@@ -78,6 +95,8 @@ function DetailCategories({ isMine, categoryLink }: IsMine) {
                 </SubCategory>
               </CategoryRow>
             );
+          } else if (categoryLink[mainCate.id] === undefined) {
+            count = 0;
           }
         })}
       </div>

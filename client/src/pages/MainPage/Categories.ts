@@ -152,6 +152,14 @@ export const initMainCategories: MainCategories[] = [
   { id: "11", name: "기타", isSelect: false, subCategories: subCategory11 },
 ];
 
+export const initCategoryFunc = () => {
+  initMainCategories.forEach((mainCategory) => {
+    mainCategory.subCategories.forEach((subCategory) => {
+      subCategory.isSelect = false;
+    });
+  });
+};
+
 // export const MainCategoriesData: MainCategories[] = [
 //   {
 //     id: "1",

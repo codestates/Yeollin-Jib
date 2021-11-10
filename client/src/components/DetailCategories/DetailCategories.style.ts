@@ -4,11 +4,6 @@ export interface SubCateSelect {
   isCheck: boolean;
 }
 
-export const Testcontainer = styled.div`
-  width: 670px;
-  height: 167px;
-`;
-
 export const CategoryBox = styled.div`
   width: 100%;
   height: 167px;
@@ -50,8 +45,9 @@ export const SubCategory = styled.div`
   div {
     display: flex;
     align-items: center;
-    width: 120px;
+    width: 130px;
     height: 17px;
+    margin-left: 10px;
   }
 `;
 

@@ -67,10 +67,12 @@ function MainPage() {
         setPostCount(0);
       });
 
-    if (result.data.message === undefined) {
-      setPostInfo(result.data.postGet.rows);
-      setPostCount(result.data.postGet.count);
-      setPage(page + 1);
+    if (result !== undefined) {
+      if (result.data.message === undefined) {
+        setPostInfo(result.data.postGet.rows);
+        setPostCount(result.data.postGet.count);
+        setPage(page + 1);
+      }
     }
   };
 
