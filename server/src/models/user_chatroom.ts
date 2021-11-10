@@ -1,4 +1,10 @@
-import { BelongsToManyAddAssociationMixin, BelongsToManyGetAssociationsMixin, BelongsToManyRemoveAssociationMixin, DataTypes, Model } from "sequelize";
+import {
+  BelongsToManyAddAssociationMixin,
+  BelongsToManyGetAssociationsMixin,
+  BelongsToManyRemoveAssociationMixin,
+  DataTypes,
+  Model,
+} from "sequelize";
 import { sequelize } from "./sequelize";
 import { dbType } from "./index";
 
@@ -33,7 +39,6 @@ user_chatroom.init(
     updatedAt: "updateTimestamp",
   },
 );
-
 export const associate = (db: dbType) => {};
 
 export default user_chatroom;
