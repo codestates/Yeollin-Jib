@@ -44,7 +44,10 @@ import { useLocation } from "react-router";
 import Timer from "../../../components/Timer/Timer";
 import PostComment from "../../../components/PostComment/PostComment";
 import { useHistory } from "react-router";
-
+import {
+  setPlusMyStorage,
+  setMinusMyStorage,
+} from "../../../reducers/userReducer";
 interface User {
   email: string;
   imagePath: null | string;
@@ -82,7 +85,8 @@ function DetailPage() {
   const [isDeleteModal, setIsDeleteModal] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<string>("");
   const [delTargetId, setDelTargetId] = useState<number>(0);
-
+  const [likes, setLikes] = useState<string>();
+  const [likepost, setLikepost] = useState<boolean>(false);
   let time;
   if (dueDate !== undefined) {
     time = dueDate[1].slice(0, 2);
@@ -93,13 +97,12 @@ function DetailPage() {
     }
   }
   // 내 게시글인지 확인
-  const [isMine, setIsMine] = useState<IsMineType>({ isMine: true });
+  const [isMine, setIsMine] = useState<IsMineType>({ isMine: false });
 
   // imagePath의 배열과 Handle에서 사용할 인덱스 state
   const [images, setImages] = useState<string[]>([""]);
   const [imagesSelect, setImagesSelect] = useState<number>(0);
 
-  console.log("@@@@@", images.length, images[0] === "", images);
   // 사진 좌우로 넘기는 Handle
   const imagesHandle = (name: string) => {
     if (name === "rightArrow" && imagesSelect < images.length - 1) {
@@ -152,6 +155,7 @@ function DetailPage() {
 
   useEffect(() => {
     // postId props없이 페이지에 진입했을때 뒤로가기 진행
+    getStorageData();
     if (location.state === undefined) {
       history.go(-1);
     }
@@ -164,6 +168,7 @@ function DetailPage() {
       })
       .then((res: any) => {
         setPostData(res.data.postGet);
+        setLikes(res.data.postLike);
         setDueDate(res.data.postGet.dueDate.split(","));
         setImages(res.data.postGet.imagePath.split(","));
         if (res.data.postGet.userId === id) {
@@ -178,6 +183,72 @@ function DetailPage() {
     setDeleteTarget(target);
     setDelTargetId(commentId);
   };
+  const { myStorage, nickname, imagePath } = useSelector(
+    (state: RootState) => state.userReducer
+  );
+
+  // 내가 찜한 게시물의 정보를 담을 배열
+  const [storageInfo, setStorageInfo] = useState<any[]>([]);
+
+  // 내가  찜한 게시물를 받아오는 axios 요청
+  const getStorageData = async () => {
+    const result: any = await axios.get(
+      `${process.env.REACT_APP_API_URL}/storage`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      }
+    );
+
+    if (result !== undefined) {
+      setStorageInfo(result.data.postGet.rows);
+    }
+  };
+
+  // useEffect(() => {
+  //   if (postData !== undefined) {
+  //     storageInfo.map((el) => {
+  //       if (el.id === postData.id) {
+  //         setLikepost(true);
+  //       }
+  //     });
+  //   }
+  // }, [postData]);
+
+  const likeHandle = () => {
+    if (postData !== undefined) {
+      axios({
+        method: "post",
+        url: `${process.env.REACT_APP_API_URL}/storage/${postData.id}`,
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => {
+          if (res.status === 200) {
+            axios({
+              method: "delete",
+              url: `${process.env.REACT_APP_API_URL}/storage/${postData.id}`,
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+                "Content-Type": "application/json",
+              },
+            }).then((res) => {
+              setLikepost(false);
+            });
+          }
+          setLikepost(true);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
+
   return (
     <Body>
       <MainArea>
@@ -200,8 +271,10 @@ function DetailPage() {
               )}
             </TitleArea>
             <LikeAndCommentIconArea>
-              <LikeIcon />
-              <span>{"2개"}</span>
+              <div onClick={() => likeHandle()}>
+                <LikeIcon isCheck={likepost} />
+              </div>
+              <span>{likes}개</span>
               <img src={"./images/commentMark.svg"} alt="Comment_Mark" />
               <span>{commentData.length}개</span>
             </LikeAndCommentIconArea>
@@ -344,19 +417,19 @@ function DetailPage() {
                   등록
                 </SubmitCommentBtn>
               </div>
+              {/* 댓글 리스트----------------------------------------------------*/}
+              <CommentList>
+                {commentData.map((comment) => {
+                  return (
+                    <PostComment
+                      key={comment.id}
+                      commentData={comment}
+                      deleteCommentHandle={deletePostHandle}
+                    />
+                  );
+                })}
+              </CommentList>
             </CommentArea>
-            {/* 댓글 리스트----------------------------------------------------*/}
-            <CommentList>
-              {commentData.map((comment) => {
-                return (
-                  <PostComment
-                    key={comment.id}
-                    commentData={comment}
-                    deleteCommentHandle={deletePostHandle}
-                  />
-                );
-              })}
-            </CommentList>
             {isDeleteModal ? (
               <DeletePost
                 setIsDeleteModal={setIsDeleteModal}
