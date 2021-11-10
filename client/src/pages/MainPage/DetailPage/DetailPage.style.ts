@@ -7,10 +7,6 @@ export const Body = styled.div`
   display: flex;
   justify-content: center;
   padding: 0 30px 0 30px;
-
-  @media screen and (max-width: 37.5rem) {
-    padding: 0 5px 0 5px;
-  }
 `;
 
 export const MainArea = styled.main`
@@ -19,12 +15,22 @@ export const MainArea = styled.main`
   display: flex;
   justify-content: center;
   align-items: center;
+  @media screen and (max-width: 950px) {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 export const DetailPageContainer = styled.article`
   width: 100%;
   height: 100%;
   font-family: "Gmarket Sans TTF";
+  padding-right: 28px;
+  @media screen and (max-width: 950px) {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+  }
 `;
 
 export const TitleArea = styled.div`
@@ -47,6 +53,14 @@ export const TitleArea = styled.div`
     align-items: center;
     cursor: pointer;
   }
+  @media screen and (max-width: 950px) {
+    padding: 0 18px 5px 8px;
+    .Post_Title {
+      font-size: 18px;
+    }
+    span {
+    }
+  }
 `;
 
 export const LikeAndCommentIconArea = styled.div`
@@ -62,6 +76,16 @@ export const LikeAndCommentIconArea = styled.div`
   span {
     margin: 0 18px 0 7px;
   }
+  @media screen and (max-width: 950px) {
+    padding-left: 8px;
+    svg {
+      width: 14px;
+      height: 13px;
+    }
+    span {
+      font-size: 12px;
+    }
+  }
 `;
 
 export const PostContentsArea = styled.div`
@@ -69,6 +93,13 @@ export const PostContentsArea = styled.div`
   height: 472px;
   display: flex;
   margin-top: 8px;
+  @media screen and (max-width: 950px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 export const PhotoBox = styled.div`
@@ -77,6 +108,12 @@ export const PhotoBox = styled.div`
     width: 20px;
     cursor: pointer;
   }
+  @media screen and (max-width: 950px) {
+    justify-content: center;
+
+    .Photo_Slide_Button {
+    }
+  }
 `;
 
 export const Photo = styled.div`
@@ -84,6 +121,21 @@ export const Photo = styled.div`
     width: 472px;
     height: 472px;
     margin: 0 8px 0 8px;
+  }
+
+  @media screen and (max-width: 950px) {
+    justify-content: center;
+    img {
+      width: 308px;
+      height: 308px;
+      margin: 0;
+    }
+  }
+  @media screen and (max-width: 320px) {
+    img {
+      width: 250px;
+      height: 250px;
+    }
   }
 `;
 
@@ -94,6 +146,12 @@ export const ContentsBox = styled.div`
   width: 100%;
   height: 100%;
   margin-left: 34px;
+  @media screen and (max-width: 950px) {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 34px 0 0 0;
+  }
 `;
 
 export const ContentsUserBox = styled.div`
@@ -118,6 +176,9 @@ export const UserProfileBox = styled.div`
     border-radius: 20px;
     margin-right: 8px;
   }
+  @media screen and (max-width: 950px) {
+    width: 200px;
+  }
 `;
 
 export const UserInfoBox = styled.div`
@@ -128,8 +189,22 @@ export const UserInfoBox = styled.div`
   font-size: 14px;
   .User_Name {
     font-weight: 300;
+    width: 200px;
   }
   .User_Email {
+    width: 200px;
+  }
+  @media screen and (max-width: 950px) {
+    width: 200px;
+  }
+  @media screen and (max-width: 414px) {
+    .User_Email {
+      font-size: 10px;
+      width: 200px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
   }
 `;
 
@@ -149,6 +224,23 @@ export const TextBox = styled.div`
   }
   .Date {
     margin-left: 11px;
+  }
+  @media screen and (max-width: 950px) {
+    font-size: 14px;
+    min-height: 50px;
+    width: 100%;
+    .Date {
+      font-size: 14px;
+    }
+  }
+  @media screen and (max-width: 375px) {
+    font-size: 14px;
+    .Create_Post_Date {
+      font-size: 10px;
+    }
+    .Date {
+      font-size: 10px;
+    }
   }
 `;
 
@@ -195,15 +287,30 @@ export const DueDateBox = styled.div`
     font-weight: 100;
     font-size: 14px;
   }
+  @media screen and (max-width: 950px) {
+    .Due_Date {
+      font-size: 14px;
+    }
+  }
+  @media screen and (max-width: 375px) {
+    .Due_Date_Word {
+      font-size: 14px;
+    }
+    .Due_Date {
+      font-size: 10px;
+    }
+  }
 `;
 
-export const MapArea = styled.div`
-  display: flex;
-  flex-direction: column;
+export const CategoryBox = styled.div`
   width: 100%;
-  margin-right: 28px;
-  padding-left: 28px;
+  height: 167px;
+  border: 1px solid #e0dde1;
+  box-sizing: border-box;
+  border-radius: 5px;
 `;
+
+export const MapArea = styled.div``;
 
 export const SubmitCommentBtn = styled.button`
   width: 109px;
@@ -221,6 +328,12 @@ export const SubmitCommentBtn = styled.button`
   :active {
     background: #3f3f3f;
   }
+  @media screen and (max-width: 950px) {
+    width: 63px;
+    height: 45px;
+    font-size: 12px;
+    margin-left: 10px;
+  }
 `;
 
 export const ChatBox = styled.div`
@@ -233,6 +346,11 @@ export const ChatBox = styled.div`
   margin-bottom: 10px;
   span {
     margin-left: 8px;
+  }
+  @media screen and (max-width: 1070px) {
+    span {
+      display: none;
+    }
   }
 `;
 
@@ -266,6 +384,14 @@ export const AddressArea = styled.div`
     font-size: 14px;
     margin-left: 11px;
   }
+  @media screen and (max-width: 375px) {
+    .Address_Title {
+      font-size: 14px;
+    }
+    .Address {
+      font-size: 10px;
+    }
+  }
 `;
 
 export const AddressIcon = styled.div`
@@ -279,6 +405,10 @@ export const CommentArea = styled.div`
   margin-left: 28px;
   .Comment_Box {
     display: flex;
+    justify-content: space-between;
+  }
+  @media screen and (max-width: 950px) {
+    padding: 0;
   }
 `;
 
@@ -292,6 +422,16 @@ export const CommentWordArea = styled.div`
   }
   img {
     width: 24px;
+  }
+  @media screen and (max-width: 950px) {
+    font-size: 16px;
+  }
+  @media screen and (max-width: 375px) {
+    font-size: 14px;
+    margin: 30px 0 10px 0;
+    img {
+      width: 20px;
+    }
   }
 `;
 
@@ -312,10 +452,18 @@ export const CommentInput = styled.input`
   :focus {
     border: 1px solid #2d2d2d;
   }
+  @media screen and (max-width: 950px) {
+    width: 100%;
+    height: auto;
+  }
 `;
 
 export const CommentList = styled.div`
-  margin-top: 32px;
+  margin: 32px 0 18px 0;
+  padding-right: 28px;
   height: auto;
   width: 100%;
+  @media screen and (max-width: 950px) {
+    padding: 0;
+  }
 `;

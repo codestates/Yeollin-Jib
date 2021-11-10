@@ -19,6 +19,14 @@ export const TimerBg = styled.div<Time>`
   display: flex;
   justify-content: center;
   align-items: center;
+  @media screen and (max-width: 375px) {
+    width: 24px;
+    height: 24px;
+    img {
+      width: 14px;
+      height: 14px;
+    }
+  }
 `;
 export const TimerTxt = styled.div<Time>`
   font-weight: 200;
@@ -27,5 +35,8 @@ export const TimerTxt = styled.div<Time>`
   span {
     color: ${(props) =>
       props.timeLeft === "나눔 마감" ? "#2d2d2d" : "#2d2d2d"};
+  }
+  @media screen and (max-width: 375px) {
+    font-size: 12px;
   }
 `;

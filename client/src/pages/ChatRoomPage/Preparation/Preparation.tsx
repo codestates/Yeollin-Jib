@@ -19,7 +19,7 @@ function Preparation() {
       <MainArea>
         <Container>
           <TxtContainer>
-            서비스 준비중입니다.
+            서비스를 준비중입니다.
             <DivContainer>
               <div>이용에 불편을 드려 죄송합니다.</div>
               <div>다음에 다시 찾아주세요. 감사합니다.</div>
