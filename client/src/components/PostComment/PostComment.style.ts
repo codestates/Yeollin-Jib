@@ -17,6 +17,10 @@ export const Comment = styled.div`
     font-weight: 100;
     font-size: 14px;
     padding-left: 7px;
+    min-height: 33px;
+    overflow-wrap: break-word;
+    display: inline-flex;
+    align-items: center;
   }
 `;
 
@@ -37,7 +41,7 @@ export const CommentUserContainer = styled.div`
     font-size: 12px;
   }
   .Edit_Delete {
-    width: 40px;
+    width: 45px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -65,4 +69,31 @@ export const CommentUserAndDate = styled.div`
   align-items: center;
   span {
   }
+`;
+
+export const EditContainer = styled.div`
+  display: flex;
+  width: 100%;
+`;
+
+export const EditInput = styled.input`
+  width: 100%;
+  height: 33px;
+  background: #fdfbfe;
+  border: 1px solid #e0dde1;
+  box-sizing: border-box;
+  border-radius: 5px;
+  padding-left: 10px;
+  font-family: "Gmarket Sans TTF";
+  font-weight: 100;
+`;
+
+export const SubmitButton = styled.button`
+  width: 81px;
+  height: 33px;
+  color: #ffffff;
+  background: #2d2d2d;
+  border-radius: 5px;
+  margin-left: 7px;
+  cursor: pointer;
 `;

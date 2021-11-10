@@ -14,7 +14,8 @@ export const Body = styled.div`
 `;
 
 export const MainArea = styled.main`
-  width: 78.75rem;
+  max-width: 78.75rem;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -24,7 +25,6 @@ export const DetailPageContainer = styled.article`
   width: 100%;
   height: 100%;
   font-family: "Gmarket Sans TTF";
-  padding-right: 28px;
 `;
 
 export const TitleArea = styled.div`
@@ -197,19 +197,12 @@ export const DueDateBox = styled.div`
   }
 `;
 
-export const CategoryBox = styled.div`
-  width: 100%;
-  height: 167px;
-  border: 1px solid #e0dde1;
-  box-sizing: border-box;
-  border-radius: 5px;
-`;
-
 export const MapArea = styled.div`
-  margin-left: 28px;
-  width: 1204px;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  margin-right: 28px;
+  padding-left: 28px;
 `;
 
 export const SubmitCommentBtn = styled.button`
@@ -283,7 +276,7 @@ export const AddressIcon = styled.div`
 export const CommentArea = styled.div`
   display: flex;
   flex-direction: column;
-  padding-left: 28px;
+  margin-left: 28px;
   .Comment_Box {
     display: flex;
   }
@@ -322,8 +315,7 @@ export const CommentInput = styled.input`
 `;
 
 export const CommentList = styled.div`
-  margin: 32px 0 18px 0;
-  padding-left: 28px;
+  margin-top: 32px;
   height: auto;
   width: 100%;
 `;
