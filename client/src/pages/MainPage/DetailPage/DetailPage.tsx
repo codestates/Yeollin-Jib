@@ -51,6 +51,10 @@ interface User {
   nickname: string;
 }
 
+interface Category {
+  categoryId: number;
+}
+
 interface PostDataType {
   id: number;
   userId: number;
@@ -63,6 +67,7 @@ interface PostDataType {
   latitude: string;
   longitude: string;
   createdAt: string;
+  post_categories: Category[];
 }
 
 function DetailPage() {
@@ -152,33 +157,6 @@ function DetailPage() {
   const [categoryLink, setCategoryLink] = useState<any>({});
 
   useEffect(() => {
-    // postId props없이 페이지에 진입했을때 뒤로가기 진행
-    let category1: string[] = [];
-    let category2: string[] = [];
-    if (location.state !== undefined) {
-      const postInfo = location.state.postInfo;
-      initMainCategories.forEach((mainCategory) => {
-        mainCategory.subCategories.forEach((subCategory) => {
-          postInfo.post_categories.forEach((userCategory: any) => {
-            if (userCategory.categoryId === subCategory.id) {
-              category1.push(mainCategory.id);
-              category2.push(subCategory.name);
-            }
-          });
-        });
-      });
-      // 카테고리 세팅
-      let newCategoryLink: any = {};
-      for (let i = 0; i < category1.length; i++) {
-        if (newCategoryLink[category1[i]] === undefined) {
-          newCategoryLink[category1[i]] = [];
-          newCategoryLink[category1[i]].push(category2[i]);
-        } else {
-          newCategoryLink[category1[i]].push(category2[i]);
-        }
-      }
-      setCategoryLink(newCategoryLink);
-    }
     // 페이지 마운트 시에 post 정보 요청
     axios
       .get(`${process.env.REACT_APP_API_URL}/post/${location.state.postId}`, {
@@ -198,6 +176,35 @@ function DetailPage() {
     // 페이지 마운트 시에 comment 정보 요청
     getComment(location.state.postId);
   }, []);
+
+  useEffect(() => {
+    let category1: string[] = [];
+    let category2: string[] = [];
+    if (postData !== undefined) {
+      initMainCategories.forEach((mainCategory) => {
+        mainCategory.subCategories.forEach((subCategory) => {
+          postData.post_categories.forEach((userCategory: any) => {
+            if (userCategory.categoryId === subCategory.id) {
+              category1.push(mainCategory.id);
+              category2.push(subCategory.name);
+            }
+          });
+        });
+      });
+      // 카테고리 세팅
+      let newCategoryLink: any = {};
+      for (let i = 0; i < category1.length; i++) {
+        if (newCategoryLink[category1[i]] === undefined) {
+          newCategoryLink[category1[i]] = [];
+          newCategoryLink[category1[i]].push(category2[i]);
+        } else {
+          newCategoryLink[category1[i]].push(category2[i]);
+        }
+      }
+      setCategoryLink(newCategoryLink);
+    }
+  }, [postData]);
+
   const deletePostHandle = (target: string, commentId: number): void => {
     setIsDeleteModal(!isDeleteModal);
     setDeleteTarget(target);

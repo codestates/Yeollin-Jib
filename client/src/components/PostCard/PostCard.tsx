@@ -206,7 +206,6 @@ function PostCard({ postInfo, idx }: Result) {
               pathname: `/detail`,
               state: {
                 postId: postInfo.id,
-                postInfo: postInfo,
               },
             }}
             style={{
@@ -224,7 +223,6 @@ function PostCard({ postInfo, idx }: Result) {
             pathname: `/detail`,
             state: {
               postId: postInfo.id,
-              postInfo: postInfo,
             },
           }}
           style={{ textDecoration: "none", color: "#2d2d2d" }}
