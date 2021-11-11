@@ -32,8 +32,8 @@ function PostComment({
   const editCancel = () => {
     if (!isEdit) {
       setShowValue(editValue);
-    } else if(isEdit){
-      setEditValue(showValue)
+    } else if (isEdit) {
+      setEditValue(showValue);
     }
     setIsEdit(!isEdit);
   };
@@ -105,6 +105,7 @@ function PostComment({
             }}
           />
           <SubmitButton
+            disabled={editValue.length < 1}
             onClick={() => {
               submitHandle();
             }}

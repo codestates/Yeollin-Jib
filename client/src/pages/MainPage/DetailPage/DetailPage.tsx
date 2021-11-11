@@ -493,6 +493,7 @@ function DetailPage() {
                     }}
                   />
                   <SubmitCommentBtn
+                    disabled={commentInput.length < 1}
                     onClick={() => {
                       submitComment();
                     }}
