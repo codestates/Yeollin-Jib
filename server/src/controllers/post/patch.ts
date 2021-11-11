@@ -59,6 +59,7 @@ const patch = async (req: Request, res: Response) => {
       );
     }
 
+    // image add
     if (imageJoin) {
       if (imagePath) {
         const newImagePath = imagePath + "," + imageJoin;
@@ -73,21 +74,21 @@ const patch = async (req: Request, res: Response) => {
       );
     }
 
+    // image delete
     if (imageDelete) {
       const array = imageDelete.split(",");
       array.map((value: string) => {
         if (fs.existsSync(value)) {
           fs.unlinkSync(value); // unlinkSync 파일 삭제
         } else {
-          return res
-            .status(409)
-            .json({
-              massage: "삭제 되었거나, 존재하지 않는 이미지 파일입니다.",
-            });
+          return res.status(409).json({
+            massage: "삭제 되었거나, 존재하지 않는 이미지 파일입니다.",
+          });
         }
       });
     }
 
+    // category
     if (category1 && category2) {
       await post_category.destroy({
         where: { postId: postId },
