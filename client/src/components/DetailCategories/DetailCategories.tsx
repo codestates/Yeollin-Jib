@@ -40,6 +40,7 @@ function DetailCategories({ isMine, categoryLink }: IsMine) {
     });
     setMainCategories(newMainCate);
   };
+
   const [showAllCategory, setShowAllCategory] = useState(false);
   const showCategoryHandle = () => {
     setShowAllCategory(!showAllCategory);
@@ -60,9 +61,10 @@ function DetailCategories({ isMine, categoryLink }: IsMine) {
       <CategoryTitle>품목</CategoryTitle>
       <div className="Category_Slice">
         {mainCategories.map((mainCate) => {
+          count = 0;
           if (categoryLink[mainCate.id] !== undefined) {
             return (
-              <CategoryRow>
+              <CategoryRow key={mainCate.name}>
                 <MainCategory>{mainCate.name}</MainCategory>
                 <SubCategory>
                   {mainCate.subCategories.map((subCate) => {
@@ -74,7 +76,7 @@ function DetailCategories({ isMine, categoryLink }: IsMine) {
                       count < 4
                     ) {
                       return (
-                        <div>
+                        <div key={subCate.id}>
                           <CategoryIcon
                             isCheck={subCate.isSelect}
                             isMine={false}
@@ -95,8 +97,6 @@ function DetailCategories({ isMine, categoryLink }: IsMine) {
                 </SubCategory>
               </CategoryRow>
             );
-          } else if (categoryLink[mainCate.id] === undefined) {
-            count = 0;
           }
         })}
       </div>
