@@ -296,6 +296,8 @@ export const SubCategoryItem = styled.span<SubCategorySelect>`
   display: flex;
   align-items: center;
   font-family: "Gmarket Sans TTF";
+  font-weight: 100;
+  color: ${(props) => (props.checked ? "#2d2d2d" : "#C2BFC3")};
   font-weight: ${(props) => (props.checked ? "300" : "100")};
   span {
     margin-left: 10px;

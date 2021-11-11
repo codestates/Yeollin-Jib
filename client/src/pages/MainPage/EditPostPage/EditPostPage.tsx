@@ -375,7 +375,7 @@ function EditPostPage() {
                                 addSubCategoryHandle(idx + 1, subCategory.name)
                               }
                             >
-                              <CategoryIcon isCheck={subCategory.isSelect} />
+                              <CategoryIcon isCheck={!subCategory.isSelect} />
                               <span>{subCategory.name}</span>
                             </SubCategoryItem>
                           );
@@ -413,7 +413,7 @@ function EditPostPage() {
                                 addSubCategoryHandle(idx + 1, subCategory.name)
                               }
                             >
-                              <CategoryIcon isCheck={subCategory.isSelect} />
+                              <CategoryIcon isCheck={!subCategory.isSelect} />
                               <span>{subCategory.name}</span>
                             </SubCategoryItem>
                           );
