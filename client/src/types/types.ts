@@ -55,3 +55,7 @@ export interface IMyPage {
 export interface ISearch {
   search: string;
 }
+
+export interface IisMine {
+  isMine: boolean;
+}

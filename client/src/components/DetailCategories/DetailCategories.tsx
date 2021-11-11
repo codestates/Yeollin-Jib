@@ -77,7 +77,7 @@ function DetailCategories({ isMine, categoryLink }: IsMine) {
                         <div>
                           <CategoryIcon
                             isCheck={subCate.isSelect}
-                            isMine={true}
+                            isMine={false}
                           />
                           <SubCategoryName
                             isCheck={subCate.isSelect}
