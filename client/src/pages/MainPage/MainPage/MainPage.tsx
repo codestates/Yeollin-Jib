@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState, useCallback } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import PostCard from "../../../components/PostCard/PostCard";
 import { RootState } from "../../../reducers/rootReducer";
@@ -20,21 +20,23 @@ import {
   PostCardArea,
   BlankPostCard,
 } from "./MainPage.style";
-
+import Loading from "../../../components/Loading/Loading";
+import { setSearch } from "../../../reducers/searchReducer";
 function MainPage() {
   const [postInfo, setPostInfo] = useState<any[]>([]);
   const [page, setPage] = useState<number>(1);
   const [postCount, setPostCount] = useState<number>();
   const [isShowCategory, setIsShowCategory] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const { isLogin } = useSelector((state: RootState) => state.authReducer);
-
   const location: any = useLocation();
-
-  // 내게시글 상태
-  const [isMine, setIsMine] = useState<boolean>();
-
+  const dispatch = useDispatch();
   const openCategory = () => {
     setIsShowCategory(!isShowCategory);
+  };
+
+  const valueHandler = (search: string) => {
+    dispatch(setSearch(search));
   };
 
   // 카테고리 선택 핸들
@@ -51,6 +53,7 @@ function MainPage() {
       }
     });
     setMainCategories(newMainCate);
+    valueHandler("");
   };
   let select: string = "";
   const selectCategory = (id: string) => {
@@ -58,27 +61,39 @@ function MainPage() {
     select = id;
     CategorySelectHandle(id);
     initPostData(`post/category?code=${id}&page=1`);
+    // 카테고리 검색 글 없을 시 로딩창 해제
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
   };
 
   // 초기 게시글 호출
   const initPostData = async (endpoint: string) => {
-    const result: any = await axios
-      .get(`${process.env.REACT_APP_API_URL}/${endpoint}`, {
+    setIsLoading(true);
+    const result: any = await axios.get(
+      `${process.env.REACT_APP_API_URL}/${endpoint}`,
+      {
         headers: {
           "Content-Type": "application/json",
         },
-      })
-      .catch((err) => {
-        setPostInfo([]);
-        setPostCount(0);
-      });
+      }
+    );
 
     if (result !== undefined) {
       if (result.data.message === undefined) {
         setPostInfo(result.data.postGet.rows);
         setPostCount(result.data.postGet.count);
         setPage(page + 1);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 1500);
+      } else if (result.data.message) {
+        setPostInfo([]);
+        setPostCount(0);
       }
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
     }
   };
 
@@ -88,7 +103,7 @@ function MainPage() {
       if (location.state.isSearch !== undefined) {
         setPage(1);
         initPostData(
-          `post/search/condition?search=${location.state.value}&code=${location.state.searchOption}`
+          `post/search/condition?search=${location.state.search}&code=${location.state.searchOption}`
         );
       } else {
         setPage(1);
@@ -117,7 +132,13 @@ function MainPage() {
         setPostCount(result.data.postGet.count);
         setPage(page + 1);
       }
+    } else if (result.data.message) {
+      setPostInfo([]);
+      setPostCount(0);
     }
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
   };
 
   // 무한스크롤 함수
@@ -139,7 +160,7 @@ function MainPage() {
       if (location.state) {
         if (location.state.isSearch !== undefined && page - 1 < postCount / 8) {
           infinitePostData(
-            `post/search/condition?search=${location.state.value}&code=${location.state.searchOption}&page=${page}`
+            `post/search/condition?search=${location.state.search}&code=${location.state.searchOption}&page=${page}`
           );
         }
       } else if (select !== "") {
@@ -163,74 +184,79 @@ function MainPage() {
   return (
     <Body>
       <MainArea>
-        <MainPageContainer>
-          {/* 카테고리 메뉴 슬라이드 버튼----------------------------------------------*/}
-          <CategoryContainer>
-            <CategoryMenu
-              isShowCategory={isShowCategory}
-              onClick={() => {
-                openCategory();
-              }}
-            >
-              <CategoryMenuCircle isShowCategory={isShowCategory}>
-                <img src="./images/categoryMenu.svg" alt="categoryMenu" />
-              </CategoryMenuCircle>
-              <span>{"카테고리"}</span>
-            </CategoryMenu>
-            {/* 카테고리 선택 창 ----------------------------------------------------*/}
-            <CategoryItemsBox>
-              {mainCategories.map((item) => {
-                return (
-                  <CategoryItem
-                    key={item.name}
-                    isShowCategory={isShowCategory}
-                    isSelect={item.isSelect}
-                    onClick={() => selectCategory(item.id)}
-                  >
-                    <span>{item.name}</span>
-                  </CategoryItem>
-                );
-              })}
-            </CategoryItemsBox>
-          </CategoryContainer>
-          {/* 게시글  시작 ----------------------------------------------------*/}
-          <PostBoardTitleContainer>
-            <PostBoardTitleBox>
-              <span className="Post_Title">{"게시판"}</span>
-              <span className="Post_Count">
-                {!postCount ? `총 0개` : `총 ${postCount}개`}
-              </span>
-            </PostBoardTitleBox>
-            {/* 게시글 작성 버튼 ------------------------------------------------*/}
-            <Link
-              to={isLogin ? "/createpost" : "/login"}
-              style={{ textDecoration: "none", color: "#2d2d2d" }}
-            >
-              <CreatePostButton>
-                <span className="Redirect_Createpost">+</span>
-              </CreatePostButton>
-            </Link>
-          </PostBoardTitleContainer>
-          {/* 게시글 리스트 ----------------------------------------------------*/}
-          <PostCardArea>
-            {postInfo[0] === undefined ? (
-              <BlankPostCard>
-                <span>검색 결과가</span>
-                <span> 없습니다</span>
-              </BlankPostCard>
-            ) : (
-              postInfo.map((postInfo, idx) => {
-                return (
-                  <PostCard
-                    key={postInfo.id}
-                    idx={idx}
-                    postInfo={postInfo}
-                  ></PostCard>
-                );
-              })
-            )}
-          </PostCardArea>
-        </MainPageContainer>
+        {isLoading ? (
+          <Loading></Loading>
+        ) : (
+          <MainPageContainer>
+            {/* 카테고리 메뉴 슬라이드 버튼----------------------------------------------*/}
+            <CategoryContainer>
+              <CategoryMenu
+                isShowCategory={isShowCategory}
+                onClick={() => {
+                  openCategory();
+                }}
+              >
+                <CategoryMenuCircle isShowCategory={isShowCategory}>
+                  <img src="./images/categoryMenu.svg" alt="categoryMenu" />
+                </CategoryMenuCircle>
+                <span>{"카테고리"}</span>
+              </CategoryMenu>
+              {/* 카테고리 선택 창 ----------------------------------------------------*/}
+              <CategoryItemsBox>
+                {mainCategories.map((item) => {
+                  return (
+                    <CategoryItem
+                      key={item.name}
+                      isShowCategory={isShowCategory}
+                      isSelect={item.isSelect}
+                      onClick={() => selectCategory(item.id)}
+                    >
+                      <span>{item.name}</span>
+                    </CategoryItem>
+                  );
+                })}
+              </CategoryItemsBox>
+            </CategoryContainer>
+            {/* 게시글  시작 ----------------------------------------------------*/}
+            <PostBoardTitleContainer>
+              <PostBoardTitleBox>
+                <span className="Post_Title">{"게시판"}</span>
+                <span className="Post_Count">
+                  {!postCount ? `총 0개` : `총 ${postCount}개`}
+                </span>
+              </PostBoardTitleBox>
+              {/* 게시글 작성 버튼 ------------------------------------------------*/}
+              <Link
+                to={isLogin ? "/createpost" : "/login"}
+                style={{ textDecoration: "none", color: "#2d2d2d" }}
+                onClick={() => valueHandler("")}
+              >
+                <CreatePostButton>
+                  <span className="Redirect_Createpost">+</span>
+                </CreatePostButton>
+              </Link>
+            </PostBoardTitleContainer>
+            {/* 게시글 리스트 ----------------------------------------------------*/}
+            <PostCardArea>
+              {postInfo[0] === undefined ? (
+                <BlankPostCard>
+                  <span>검색 결과가</span>
+                  <span> 없습니다</span>
+                </BlankPostCard>
+              ) : (
+                postInfo.map((postInfo, idx) => {
+                  return (
+                    <PostCard
+                      key={postInfo.id}
+                      idx={idx}
+                      postInfo={postInfo}
+                    ></PostCard>
+                  );
+                })
+              )}
+            </PostCardArea>
+          </MainPageContainer>
+        )}
       </MainArea>
     </Body>
   );

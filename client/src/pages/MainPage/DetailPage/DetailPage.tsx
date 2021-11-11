@@ -40,7 +40,7 @@ import KakaoMap from "../../../components/KakaoMap/KakaoMap";
 import DeletePost from "../../../components/Modals/DeletePost/DeletePost";
 import Timer from "../../../components/Timer/Timer";
 import PostComment from "../../../components/PostComment/PostComment";
-import { useHistory, useLocation } from "react-router";
+import { useLocation } from "react-router";
 import DetailCategories from "../../../components/DetailCategories/DetailCategories";
 import { initMainCategories } from "../Categories";
 import { Link } from "react-router-dom";
@@ -73,15 +73,10 @@ interface PostDataType {
 
 function DetailPage() {
   const dispatch = useDispatch();
-  let { accessToken } = useSelector((state: RootState) => state.authReducer);
   let { id } = useSelector((state: RootState) => state.userReducer);
+  let { accessToken } = useSelector((state: RootState) => state.authReducer);
   let { isMine } = useSelector((state: RootState) => state.isMineReducer);
   let location: any = useLocation();
-  const history = useHistory();
-  if (location.state === undefined) {
-    history.go(-1);
-  }
-
   // 게시글 정보
   const [postData, setPostData] = useState<PostDataType>();
   const [commentData, setCommentData] = useState<any[]>();
@@ -411,7 +406,7 @@ function DetailPage() {
                   </UserProfileBox>
                   <ChatBox>
                     <ChatIcon>
-                      <img src="/images/send.svg"></img>
+                      <img src="/images/send.svg" alt="send"></img>
                     </ChatIcon>
                     <span>채팅하기</span>
                   </ChatBox>

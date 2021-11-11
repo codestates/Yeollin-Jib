@@ -35,7 +35,7 @@ export const CategoryRow = styled.div`
   margin-top: 13px;
   font-weight: 100;
   @media screen and (max-width: 37.5rem) {
-    font-size: 12px;
+    font-size: 10px;
   }
 `;
 
@@ -61,8 +61,9 @@ export const SubCategory = styled.div`
     margin-left: 10px;
   }
   @media screen and (max-width: 37.5rem) {
+    width: 100%;
     div {
-      width: 100%;
+      width: 90px;
     }
   }
 `;

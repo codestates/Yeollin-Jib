@@ -1,18 +1,18 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  align-items: center;
-  justify-content: center;
   width: 100%;
-
-  flex: 1;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const Image = styled.img`
-  width: 316px;
-  height: 316px;
-
-  margin-left: 925px;
+  width: 120px;
+  margin-left: 60px;
+  @media screen and (max-width: 37.5rem) {
+  }
 `;
 
 export const ModalBackground = styled.div`
@@ -29,21 +29,12 @@ export const ModalBackground = styled.div`
   z-index: 999;
 `;
 
-export const ModalContainer = styled.div`
-  box-sizing: border-box;
-  width: 24.75rem;
-  height: 15.938rem;
-  background-color: #fdfbfe;
-  border: 1px solid #e0dde1;
-  border-radius: 0.313rem;
-  padding: 30px;
-  margin-bottom: 100px;
-  transition: 0.5s all;
-
-  @media screen and (max-width: 37.5rem) {
-    width: 13.938rem;
-    height: 8.188rem;
-    margin-bottom: 140px;
-    transition: 0.5s all;
-  }
+export const Background = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #2d2d2d;
+  width: 120px;
+  height: 120px;
+  border-radius: 100px;
 `;

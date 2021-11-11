@@ -25,6 +25,7 @@ export const Comment = styled.div`
   @media screen and (max-width: 37.5rem) {
     min-height: 67px;
     margin-bottom: 34px;
+
     .Comment_Contents {
       font-size: 14px;
     }
@@ -32,8 +33,10 @@ export const Comment = styled.div`
   @media screen and (max-width: 375px) {
     padding: 0.5rem;
     margin-bottom: 20px;
+
     .Comment_Contents {
       font-size: 12px;
+      padding-left: 0;
     }
   }
 `;
@@ -89,9 +92,7 @@ export const CommentUserPhoto = styled.div`
   width: 25.94px;
   height: 25.94px;
   border-radius: 20px;
-  box-sizing: border-box;
-  background: #e0dde1;
-  border: 1px solid #e0dde1;
+
   img {
     width: 23.94px;
     height: 23.94px;
@@ -122,6 +123,7 @@ export const EditInput = styled.input`
   padding-left: 10px;
   font-family: "Gmarket Sans TTF";
   font-weight: 100;
+  outline: none;
 `;
 
 export const SubmitButton = styled.button`
@@ -129,7 +131,11 @@ export const SubmitButton = styled.button`
   height: 33px;
   color: #ffffff;
   background: #2d2d2d;
+  border-style: none;
   border-radius: 5px;
   margin-left: 7px;
   cursor: pointer;
+  :active {
+    background: #3f3f3f;
+  }
 `;

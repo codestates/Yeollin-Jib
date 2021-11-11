@@ -51,3 +51,11 @@ export interface IUserPayLoad {
 export interface IMyPage {
   tapName: string;
 }
+
+export interface ISearch {
+  search: string;
+}
+
+export interface IisMine {
+  isMine: boolean;
+}
