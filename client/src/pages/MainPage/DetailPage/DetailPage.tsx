@@ -96,6 +96,9 @@ function DetailPage() {
     }
   }
 
+  // 내 게시글인지 확인
+  const [isMine, setIsMine] = useState<boolean>(false);
+
   // imagePath의 배열과 Handle에서 사용할 인덱스 state
   const [images, setImages] = useState<string[]>([""]);
   const [imagesSelect, setImagesSelect] = useState<number>(0);

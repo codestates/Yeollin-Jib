@@ -22,13 +22,17 @@ import {
 } from "./MainPage.style";
 import Loading from "../../../components/Loading/Loading";
 import { setSearch } from "../../../reducers/searchReducer";
+import { setUser } from "../../../reducers/userReducer";
+
 function MainPage() {
   const [postInfo, setPostInfo] = useState<any[]>([]);
   const [page, setPage] = useState<number>(1);
   const [postCount, setPostCount] = useState<number>();
   const [isShowCategory, setIsShowCategory] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { isLogin } = useSelector((state: RootState) => state.authReducer);
+  const { isLogin, accessToken } = useSelector(
+    (state: RootState) => state.authReducer
+  );
   const location: any = useLocation();
   const dispatch = useDispatch();
   const openCategory = () => {
@@ -38,6 +42,13 @@ function MainPage() {
   const valueHandler = (search: string) => {
     dispatch(setSearch(search));
   };
+
+  // isLogin이 트루면 user 정보를 요청
+  useEffect(() => {
+    if (isLogin) {
+      dispatch(setUser(accessToken));
+    }
+  }, [isLogin]);
 
   // 카테고리 선택 핸들
   const [mainCategories, setMainCategories] = useState(initMainCategories);
