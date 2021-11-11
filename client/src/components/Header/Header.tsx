@@ -46,11 +46,14 @@ function Header() {
       setSearchOption("title");
     } else if (option === "지역") {
       setSearchOption("address");
+    } else if (option === "category") {
+      setSearchOption("category");
     }
   };
   // 인풋 입력 후 엔터를 치면 검색 요청을 보냄
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && search.length >= 2) {
+      window.scrollTo({ top: 0, left: 0 });
       history.push({
         pathname: "/main",
         state: { isSearch: true, search, searchOption },
@@ -59,6 +62,10 @@ function Header() {
   };
 
   const valueHandler = (search: string) => {
+    dispatch(setSearch(search));
+  };
+  const redirectHandler = () => {
+    window.scrollTo({ top: 0, left: 0 });
     dispatch(setSearch(search));
   };
 
@@ -76,7 +83,7 @@ function Header() {
   return (
     // 상단바
     <HeaderItemContainer>
-      <Link to="/main" onClick={() => valueHandler("")}>
+      <Link to="/main" onClick={() => redirectHandler()}>
         <Logo>
           <div>
             <LogoImg src="./images/logo.svg" alt="LogoImg" />
@@ -98,15 +105,20 @@ function Header() {
           onChange={(e) => {
             valueHandler(e.target.value);
           }}
-          onKeyPress={(e) => handleKeyPress(e)}
+          onKeyDown={(e) => handleKeyPress(e)}
           value={search}
         />
         {search.length >= 2 ? (
           <Link
             to={{
               pathname: "/main",
-              state: { isSearch: true, search, searchOption },
+              state: {
+                isSearch: true,
+                search,
+                searchOption,
+              },
             }}
+            onClick={() => redirectHandler()}
           >
             <img src="./images/searchBtn.svg" alt="search" />
           </Link>
