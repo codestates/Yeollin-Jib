@@ -36,6 +36,9 @@ function MainPage() {
   );
   const location: any = useLocation();
   const dispatch = useDispatch();
+  dispatch(setSearch(""));
+  const [categoryId, setCategoryId] = useState<string>("");
+
   const openCategory = () => {
     setIsShowCategory(!isShowCategory);
   };
@@ -66,18 +69,12 @@ function MainPage() {
       }
     });
     setMainCategories(newMainCate);
-    valueHandler("");
   };
-  let select: string = "";
+
   const selectCategory = (id: string) => {
-    setPage(1);
-    select = id;
+    setCategoryId(id);
     CategorySelectHandle(id);
-    initPostData(`post/category?code=${id}&page=1`);
-    // 카테고리 검색 글 없을 시 로딩창 해제
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
+    window.scrollTo({ top: 0, left: 0 });
   };
 
   // 초기 게시글 호출
@@ -96,12 +93,13 @@ function MainPage() {
       if (result.data.message === undefined) {
         setPostInfo(result.data.postGet.rows);
         setPostCount(result.data.postGet.count);
-        setPage(page + 1);
+        setPage(2);
         setTimeout(() => {
           setIsLoading(false);
         }, 1500);
       } else if (result.data.message) {
         setPostInfo([]);
+        setPage(1);
         setPostCount(0);
       }
       setTimeout(() => {
@@ -113,21 +111,28 @@ function MainPage() {
   // 해당 컴포넌트가 마운트될 때 초기 게시글을 호출한다, 카테고리 셀렉트 상태를 초기화 한다
   useEffect(() => {
     if (location.state) {
-      if (location.state.isSearch !== undefined) {
+      if (
+        location.state.searchOption === "title" ||
+        location.state.searchOption === "address"
+      ) {
         setPage(1);
+        setCategoryId("");
         initPostData(
-          `post/search/condition?search=${location.state.search}&code=${location.state.searchOption}`
+          `post/search/condition?search=${location.state.search}&code=${location.state.searchOption}&page=1`
         );
-      } else {
-        setPage(1);
-        initPostData("post/page/1");
       }
     } else {
       setPage(1);
+      setCategoryId("");
       initPostData("post/page/1");
     }
     CategorySelectHandle("init");
-  }, []);
+  }, [location]);
+
+  useEffect(() => {
+    setPage(1);
+    initPostData(`post/category?code=${categoryId}&page=1`);
+  }, [categoryId]);
 
   const infinitePostData = async (endpoint: string) => {
     const result: any = await axios.get(
@@ -138,7 +143,6 @@ function MainPage() {
         },
       }
     );
-
     if (result !== undefined) {
       if (result.data.message === undefined) {
         setPostInfo(postInfo.concat(result.data.postGet.rows));
@@ -170,14 +174,18 @@ function MainPage() {
       Math.round(scrollTop + innerHeight) >= scrollHeight - 200 &&
       postCount !== undefined
     ) {
-      if (location.state) {
-        if (location.state.isSearch !== undefined && page - 1 < postCount / 8) {
+      if (categoryId !== "" && page - 1 < postCount / 8) {
+        infinitePostData(`post/category?code=${categoryId}&page=${page}`);
+      } else if (location.state) {
+        if (
+          (location.state.searchOption === "title" ||
+            location.state.searchOption === "address") &&
+          page - 1 < postCount / 8
+        ) {
           infinitePostData(
             `post/search/condition?search=${location.state.search}&code=${location.state.searchOption}&page=${page}`
           );
         }
-      } else if (select !== "") {
-        infinitePostData(`post/category?code=${select}&page=${page - 1}`);
       } else if (page - 1 < postCount / 8) {
         infinitePostData(`post/page/${page}`);
       }
