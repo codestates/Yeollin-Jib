@@ -13,20 +13,20 @@ const patch_category = async (req: Request, res: Response) => {
       return res.status(400).send({ message: "카테고리 ID가 없습니다." });
 
     const gory = categoryId.split(",");
-    for (let i = 0; i < categoryId.length; i++) {
+    for (let i = 0; i < gory.length; i++) {
       const find = await post_category.findOne({
-        where: { postId: postId, categoryId: gory },
+        where: { postId: postId, categoryId: gory[i] },
       });
 
       if (find!.Boolean === true)
         await post_category.update(
           { Boolean: false },
-          { where: { postId: postId, categoryId: gory } },
+          { where: { postId: postId, categoryId: gory[i] } },
         );
       else {
         await post_category.update(
           { Boolean: true },
-          { where: { postId: postId, categoryId: gory } },
+          { where: { postId: postId, categoryId: gory[i] } },
         );
       }
     }
