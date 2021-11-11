@@ -105,13 +105,16 @@ function MainPage() {
         initPostData(
           `post/search/condition?search=${location.state.search}&code=${location.state.searchOption}`
         );
+      } else {
+        setPage(1);
+        initPostData("post/page/1");
       }
     } else {
       setPage(1);
       initPostData("post/page/1");
     }
     CategorySelectHandle("init");
-  }, [location.state, select]);
+  }, []);
 
   const infinitePostData = async (endpoint: string) => {
     const result: any = await axios.get(

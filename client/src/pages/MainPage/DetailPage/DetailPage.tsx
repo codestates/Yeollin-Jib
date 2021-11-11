@@ -40,11 +40,12 @@ import KakaoMap from "../../../components/KakaoMap/KakaoMap";
 import DeletePost from "../../../components/Modals/DeletePost/DeletePost";
 import Timer from "../../../components/Timer/Timer";
 import PostComment from "../../../components/PostComment/PostComment";
-import { useHistory, useLocation } from "react-router";
+import { useLocation } from "react-router";
 import DetailCategories from "../../../components/DetailCategories/DetailCategories";
 import { initMainCategories } from "../Categories";
 import { Link } from "react-router-dom";
-import { setSearch } from "../../../reducers/searchReducer";
+import { isMineTrue, isMineFalse } from "../../../reducers/isMineReducer";
+
 interface User {
   email: string;
   imagePath: null | string;
@@ -72,15 +73,10 @@ interface PostDataType {
 
 function DetailPage() {
   const dispatch = useDispatch();
-  dispatch(setSearch(""));
-  const { id } = useSelector((state: RootState) => state.userReducer);
-  const { accessToken } = useSelector((state: RootState) => state.authReducer);
+  let { id } = useSelector((state: RootState) => state.userReducer);
+  let { accessToken } = useSelector((state: RootState) => state.authReducer);
+  let { isMine } = useSelector((state: RootState) => state.isMineReducer);
   let location: any = useLocation();
-  const history = useHistory();
-  if (location.state === undefined) {
-    history.go(-1);
-  }
-
   // 게시글 정보
   const [postData, setPostData] = useState<PostDataType>();
   const [commentData, setCommentData] = useState<any[]>();
@@ -99,8 +95,6 @@ function DetailPage() {
       time = `오전 ${dueDate[1].slice(0, 2)}시`;
     }
   }
-  // 내 게시글인지 확인
-  const [isMine, setIsMine] = useState<boolean>(true);
 
   // imagePath의 배열과 Handle에서 사용할 인덱스 state
   const [images, setImages] = useState<string[]>([""]);
@@ -158,25 +152,45 @@ function DetailPage() {
 
   const [categoryLink, setCategoryLink] = useState<any>({});
 
-  useEffect(() => {
-    // 페이지 마운트 시에 post 정보 요청
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/post/${location.state.postId}`, {
+  const initSet = async () => {
+    const result: any = await axios.get(
+      `${process.env.REACT_APP_API_URL}/post/${location.state.postId}`,
+      {
         headers: {
           "Content-Type": "application/json",
         },
-      })
-      .then((res: any) => {
-        setPostData(res.data.postGet);
-        setLikes(res.data.postLike);
-        setDueDate(res.data.postGet.dueDate.split(","));
-        setImages(res.data.postGet.imagePath.split(","));
-        if (res.data.postGet.userId === id) {
-          setIsMine(true);
-        }
-      });
+      }
+    );
+    if (result !== undefined) {
+      if (result.data.postGet.userId === id) {
+        dispatch(isMineTrue());
+      } else {
+        dispatch(isMineFalse());
+      }
+      setPostData(result.data.postGet);
+      setLikes(result.data.postLike);
+      setDueDate(result.data.postGet.dueDate.split(","));
+      setImages(result.data.postGet.imagePath.split(","));
+    }
+  };
+
+  useEffect(() => {
+    // 페이지 마운트 시에 post 정보 요청
+    initSet();
     // 페이지 마운트 시에 comment 정보 요청
     getComment(location.state.postId);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (postData !== undefined) {
+        if (postData.userId === id) {
+          dispatch(isMineTrue());
+        } else {
+          dispatch(isMineFalse());
+        }
+      }
+    };
   }, []);
 
   useEffect(() => {
@@ -204,6 +218,11 @@ function DetailPage() {
         }
       }
       setCategoryLink(newCategoryLink);
+      // if (postData.userId === id) {
+      //   dispatch(setIsMineTrue());
+      // } else {
+      //   dispatch(setIsMineFalse());
+      // }
     }
   }, [postData]);
 

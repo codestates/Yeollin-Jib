@@ -5,6 +5,7 @@ import authReducer from "./authReducer";
 import userReducer from "./userReducer";
 import myPageReducer from "./myPageReducer";
 import searchReducer from "./searchReducer";
+import isMineReducer from "./isMineReducer";
 const persistConfig = {
   key: "root",
   storage,
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
   userReducer,
   myPageReducer,
   searchReducer,
+  isMineReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

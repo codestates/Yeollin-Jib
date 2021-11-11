@@ -220,15 +220,6 @@ function CreatePostPage() {
           pathname: "/main",
         });
       }
-      const resetCategory = () => {
-        const newMainCategory = [...initMainCategories];
-        newMainCategory.forEach((mainCategory) => {
-          mainCategory.subCategories.forEach((subCategory) => {
-            subCategory.isSelect = false;
-            setMainCategories(newMainCategory);
-          });
-        });
-      };
     } else {
       setIsCompleted(false);
     }
@@ -248,7 +239,8 @@ function CreatePostPage() {
       initCategoryFunc();
     };
   }, []);
-  //  오늘 잘짜 구하기 dete 선택 제한
+
+  //  오늘 날짜 구하기 date 선택 제한
   const getToday = () => {
     const date = new Date();
     const year = date.getFullYear();
@@ -360,7 +352,7 @@ function CreatePostPage() {
                                 addSubCategoryHandle(idx + 1, subCategory.name)
                               }
                             >
-                              <CategoryIcon isCheck={subCategory.isSelect} />
+                              <CategoryIcon isCheck={!subCategory.isSelect} />
                               <span>{subCategory.name}</span>
                             </SubCategoryItem>
                           );
@@ -398,7 +390,7 @@ function CreatePostPage() {
                                 addSubCategoryHandle(idx + 1, subCategory.name)
                               }
                             >
-                              <CategoryIcon isCheck={subCategory.isSelect} />
+                              <CategoryIcon isCheck={!subCategory.isSelect} />
                               <span>{subCategory.name}</span>
                             </SubCategoryItem>
                           );
