@@ -416,12 +416,23 @@ function DetailPage() {
                       <div className="User_Email">{postData.user.email}</div>
                     </UserInfoBox>
                   </UserProfileBox>
-                  <ChatBox>
-                    <ChatIcon>
-                      <img src="/images/send.svg" alt="send"></img>
-                    </ChatIcon>
-                    <span>채팅하기</span>
-                  </ChatBox>
+                  {isLogin ? (
+                    <Link to="/preparation" style={{ textDecoration: "none" }}>
+                      <ChatBox>
+                        <ChatIcon>
+                          <img src="/images/send.svg" alt="send"></img>
+                        </ChatIcon>
+                        <span>채팅하기</span>
+                      </ChatBox>
+                    </Link>
+                  ) : (
+                    <ChatBox onClick={() => setIsOpened(true)}>
+                      <ChatIcon>
+                        <img src="/images/send.svg" alt="send"></img>
+                      </ChatIcon>
+                      <span>채팅하기</span>
+                    </ChatBox>
+                  )}
                 </ContentsUserBox>
                 <TextBox>
                   <div className="Create_Post_Date">
