@@ -75,9 +75,12 @@ interface PostDataType {
 function DetailPage() {
   const dispatch = useDispatch();
   let { id } = useSelector((state: RootState) => state.userReducer);
-  let { accessToken, isLogin } = useSelector(
+  const { isLogin, accessToken } = useSelector(
     (state: RootState) => state.authReducer
   );
+  if (!isLogin) {
+    id = 0;
+  }
   let { isMine } = useSelector((state: RootState) => state.isMineReducer);
   let location: any = useLocation();
   // 로그인이 필요합니다 모달창
@@ -89,8 +92,12 @@ function DetailPage() {
   const [isDeleteModal, setIsDeleteModal] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<string>("");
   const [delTargetId, setDelTargetId] = useState<number>(0);
-  const [likes, setLikes] = useState<string>();
+  const [likes, setLikes] = useState<number>(0);
   const [likepost, setLikepost] = useState<boolean>(false);
+  const { myStorage, nickname, imagePath } = useSelector(
+    (state: RootState) => state.userReducer
+  );
+
   let time;
   if (dueDate !== undefined) {
     time = dueDate[1].slice(0, 2);
@@ -158,9 +165,11 @@ function DetailPage() {
         setCommentData(res.data.data);
       });
   };
-
+  interface Storage {
+    userId: number;
+  }
   const [categoryLink, setCategoryLink] = useState<any>({});
-
+  const [storageList, setStorageList] = useState<Storage[]>([]);
   const initSet = async () => {
     const result: any = await axios.get(
       `${process.env.REACT_APP_API_URL}/post/${location.state.postId}`,
@@ -180,27 +189,29 @@ function DetailPage() {
       setLikes(result.data.postLike);
       setDueDate(result.data.postGet.dueDate.split(","));
       setImages(result.data.postGet.imagePath.split(","));
+      setStorageList(result.data.postGet.storages);
     }
   };
+
+  const [isMyStorage, setIsMyStorage] = useState<boolean>(false);
 
   useEffect(() => {
     // 페이지 마운트 시에 post 정보 요청
     initSet();
+
     // 페이지 마운트 시에 comment 정보 요청
     getComment(location.state.postId);
   }, []);
 
   useEffect(() => {
-    return () => {
-      if (postData !== undefined) {
-        if (postData.userId === id) {
-          dispatch(isMineTrue());
-        } else {
-          dispatch(isMineFalse());
+    if (storageList) {
+      storageList.map((storage) => {
+        if (storage.userId === id) {
+          setIsMyStorage(true);
         }
-      }
-    };
-  }, []);
+      });
+    }
+  }, [storageList]);
 
   useEffect(() => {
     let category1: string[] = [];
@@ -227,11 +238,6 @@ function DetailPage() {
         }
       }
       setCategoryLink(newCategoryLink);
-      // if (postData.userId === id) {
-      //   dispatch(setIsMineTrue());
-      // } else {
-      //   dispatch(setIsMineFalse());
-      // }
     }
   }, [postData]);
 
@@ -240,40 +246,6 @@ function DetailPage() {
     setDeleteTarget(target);
     setDelTargetId(commentId);
   };
-  const { myStorage, nickname, imagePath } = useSelector(
-    (state: RootState) => state.userReducer
-  );
-
-  // 내가 찜한 게시물의 정보를 담을 배열
-  const [storageInfo, setStorageInfo] = useState<any[]>([]);
-
-  // 내가  찜한 게시물를 받아오는 axios 요청
-  const getStorageData = async () => {
-    const result: any = await axios.get(
-      `${process.env.REACT_APP_API_URL}/storage`,
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      }
-    );
-
-    if (result !== undefined) {
-      setStorageInfo(result.data.postGet.rows);
-    }
-  };
-
-  // useEffect(() => {
-  //   if (postData !== undefined) {
-  //     storageInfo.map((el) => {
-  //       if (el.id === postData.id) {
-  //         setLikepost(true);
-  //       }
-  //     });
-  //   }
-  // }, [postData]);
 
   const likeHandle = () => {
     if (postData !== undefined) {
@@ -286,7 +258,10 @@ function DetailPage() {
         },
       })
         .then((res) => {
-          if (res.status === 200) {
+          if (res.status === 201) {
+            setIsMyStorage(true);
+            setLikes(likes + 1);
+          } else if (res.status === 200) {
             axios({
               method: "delete",
               url: `${process.env.REACT_APP_API_URL}/storage/${postData.id}`,
@@ -295,10 +270,10 @@ function DetailPage() {
                 "Content-Type": "application/json",
               },
             }).then((res) => {
-              setLikepost(false);
+              setIsMyStorage(false);
+              setLikes(likes - 1);
             });
           }
-          setLikepost(true);
         })
         .catch((err) => {
           console.log(err);
@@ -341,7 +316,7 @@ function DetailPage() {
             </TitleArea>
             <LikeAndCommentIconArea>
               <div onClick={() => likeHandle()}>
-                <LikeIcon isCheck={likepost} />
+                <LikeIcon isCheck={isMyStorage} />
               </div>
               <span>{likes}개</span>
               <img src={"./images/commentMark.svg"} alt="Comment_Mark" />

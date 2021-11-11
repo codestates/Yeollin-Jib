@@ -25,6 +25,10 @@ const get = async (req: Request, res: Response) => {
           required: false,
           attributes: ["categoryId"],
         },
+        {
+          model: storage,
+          attributes: ["userId"],
+        },
       ],
     });
 

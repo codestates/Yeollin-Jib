@@ -30,6 +30,7 @@ import {
   setMinusMyStorage,
 } from "../../reducers/userReducer";
 import NeedLogin from "../Modals/NeedLogin/NeedLogin";
+import { setUser } from "../../reducers/userReducer";
 
 interface Result {
   postInfo: any;
@@ -45,7 +46,16 @@ function PostCard({ postInfo, idx }: Result) {
   const { isLogin, accessToken } = useSelector(
     (state: RootState) => state.authReducer
   );
-  const { id } = useSelector((state: RootState) => state.userReducer);
+  let { id } = useSelector((state: RootState) => state.userReducer);
+
+  // isLogin이 트루면 user 정보를 요청
+  useEffect(() => {
+    if (isLogin) {
+      dispatch(setUser(accessToken));
+    } else {
+      id = 0;
+    }
+  }, [isLogin]);
 
   // 저장된 유저의 카테고리에서 중복 제거
   let ArrCategory: number[] = [];
@@ -78,11 +88,12 @@ function PostCard({ postInfo, idx }: Result) {
     postInfo.storages.map((user: any) => {
       if (user.userId === id) {
         setIsLike(true);
-      } else {
+      }
+      if (id === 0) {
         setIsLike(false);
       }
     });
-  }, []);
+  }, [isLogin]);
 
   const likeHandle = () => {
     if (isLogin) {
