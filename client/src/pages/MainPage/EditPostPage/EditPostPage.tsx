@@ -33,6 +33,8 @@ import {
   CancelBtn,
   Body,
   MainArea,
+  InvalidMessage,
+  PhotoContainer,
 } from "./EditPostPage.style";
 import { initMainCategories } from "../Categories";
 import { RootState } from "../../../reducers/rootReducer";
@@ -50,6 +52,9 @@ function EditPostPage() {
     history.go(-1);
   }
 
+  // 모든 값이 입력되어 있는지 확인
+  const [isCompleted, setIsCompleted] = useState<boolean>(true);
+
   // 저장된 토큰값을 가져옴
   const { accessToken } = useSelector((state: RootState) => state.authReducer);
 
@@ -58,6 +63,7 @@ function EditPostPage() {
 
   const TitleInputHandle = (value: string) => {
     setInputTitle(value);
+    setIsCompleted(true);
   };
 
   // 게시물 마감일자 State, Handle
@@ -69,6 +75,7 @@ function EditPostPage() {
 
   const ContentsInputHandle = (value: string) => {
     setInputContents(value);
+    setIsCompleted(true);
   };
 
   // 대분류 테이블 State, Handle
@@ -94,6 +101,7 @@ function EditPostPage() {
       }
     });
     setMainCategories(newMainCate);
+    setIsCompleted(true);
   };
 
   // 서브 체크박스 Handle
@@ -112,6 +120,7 @@ function EditPostPage() {
       });
     });
     setMainCategories(newMainCate);
+    setIsCompleted(true);
   };
 
   // 기존 imagePath
@@ -194,6 +203,7 @@ function EditPostPage() {
 
   const searchAddressHandle = (address: string) => {
     setAddressInput(address);
+    setIsCompleted(true);
   };
 
   const [addressCoordinate, setAddressCoordinate] = useState<number[]>([]);
@@ -206,37 +216,49 @@ function EditPostPage() {
   };
 
   const registerPost = async () => {
-    const formData = new FormData();
-    uploadFiles.forEach((file) => formData.append("image", file));
-    formData.append("imageDelete", imageDelete.join(","));
-    formData.append("imagePath", imagePath.join(","));
-    formData.append("title", inputTitle);
-    formData.append("contents", inputContents);
-    formData.append("address", addressInput);
-    formData.append("dueDate", `${inputDate},${inputTime}`);
-    formData.append("latitude", `${addressCoordinate[0]}`);
-    formData.append("longitude", `${addressCoordinate[1]}`);
-    formData.append("category1", submitCateHandle("main"));
-    formData.append("category2", submitCateHandle("sub"));
+    if (
+      inputTitle !== "" &&
+      inputContents !== "" &&
+      addressInput !== "" &&
+      inputDate !== "" &&
+      inputTime !== "" &&
+      submitCateHandle("main") !== undefined &&
+      submitCateHandle("sub") !== undefined
+    ) {
+      const formData = new FormData();
+      uploadFiles.forEach((file) => formData.append("image", file));
+      formData.append("imageDelete", imageDelete.join(","));
+      formData.append("imagePath", imagePath.join(","));
+      formData.append("title", inputTitle);
+      formData.append("contents", inputContents);
+      formData.append("address", addressInput);
+      formData.append("dueDate", `${inputDate},${inputTime}`);
+      formData.append("latitude", `${addressCoordinate[0]}`);
+      formData.append("longitude", `${addressCoordinate[1]}`);
+      formData.append("category1", submitCateHandle("main"));
+      formData.append("category2", submitCateHandle("sub"));
 
-    const result: AxiosResponse = await axios.patch(
-      `${process.env.REACT_APP_API_URL}/post/${location.state.postData.id}`,
-      formData,
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "multipart/form-data",
-        },
+      const result: AxiosResponse = await axios.patch(
+        `${process.env.REACT_APP_API_URL}/post/${location.state.postData.id}`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      if (result) {
+        history.push({
+          pathname: `/detail`,
+          state: {
+            postId: location.state.postData.id,
+            postInfo: location.state.postData,
+          },
+        });
       }
-    );
-    if (result) {
-      history.push({
-        pathname: `/detail`,
-        state: {
-          postId: location.state.postData.id,
-          postInfo: location.state.postData,
-        },
-      });
+    } else {
+      setIsCompleted(false);
     }
   };
 
@@ -248,6 +270,7 @@ function EditPostPage() {
     setInputDate(dueDate[0]);
     setInputTime(dueDate[1]);
     setInputContents(postData.contents);
+    setAddressInput(postData.address);
   };
 
   // 카테고리 초기화 1,7번탭 선택상태로 컴포넌트 랜더링
@@ -294,7 +317,7 @@ function EditPostPage() {
             <TitleArea>
               <div className="Title_Word">
                 <PencilIcon color="#2D2D2D" />
-                <span>{"제목을 작성해 주세요."}</span>
+                <span>{"제목을 작성해 주세요. (필수)"}</span>
               </div>
               <div className="Title_Input">
                 <InputTitle
@@ -309,7 +332,7 @@ function EditPostPage() {
             <DateArea>
               <div className="Date_Word">
                 <ClockIcon color="#2D2D2D" />
-                <span>{"마감 시간을 설정해 주세요."}</span>
+                <span>{"마감 시간을 설정해 주세요. (필수)"}</span>
               </div>
               <div className="Date_Input">
                 <DatePicker
@@ -331,7 +354,7 @@ function EditPostPage() {
           <PostContentsArea>
             <div className="Contents_Word">
               <PaperIcon color="#2D2D2D" />
-              <span>{"설명을 작성해 주세요."}</span>
+              <span>{"설명을 작성해 주세요. (필수)"}</span>
             </div>
             <PostContents
               value={inputContents}
@@ -343,7 +366,9 @@ function EditPostPage() {
           <PostCategoryArea>
             <div className="Check_Category_Word_Area">
               <CheckBoxIcon color="#2D2D2D" />
-              <span className="Category_Word">{"품목을 선택해 주세요."}</span>
+              <span className="Category_Word">
+                {"품목을 선택해 주세요. (필수)"}
+              </span>
             </div>
             <div className="Category_Container">
               <PostCategory>
@@ -431,7 +456,7 @@ function EditPostPage() {
               <CameraIcon color="#2D2D2D" />
               <span>{"사진을 등록해 주세요. (최대 5장)"}</span>
             </div>
-            <>
+            <PhotoContainer>
               {postImagePath.map((file: any, idx: any) => {
                 return (
                   <div
@@ -443,7 +468,7 @@ function EditPostPage() {
                       className="Delete"
                       onClick={() => deletePhotoHandle("delete", file)}
                     >
-                      x
+                      <img src="./images/delete.svg" alt="Delete" />
                     </div>
                     <PhotoUpload
                       key={`${file}+${idx}`}
@@ -470,7 +495,7 @@ function EditPostPage() {
                       className="Delete"
                       onClick={() => deletePhotoHandle("addFile", file.preview)}
                     >
-                      x
+                      <img src="./images/delete.svg" alt="Delete" />
                     </div>
                     <PhotoUpload
                       key={`${file.preview}+${idx}`}
@@ -492,24 +517,35 @@ function EditPostPage() {
               ) : (
                 <></>
               )}
-            </>
+            </PhotoContainer>
           </UploadPhotoArea>
 
           {/* 주소 입력 칸 ----------------------------------------------------*/}
           <AddressArea>
             <div className="Address_Word">
               <MapMarkIcon color="#2D2D2D" />
-              <span>{"주소를 검색해 주세요."}</span>
+              <span>{"주소를 검색해 주세요. (필수)"}</span>
             </div>
             <div className="Search_Address_Box">
               <InputAddress value={addressInput} readOnly />
               <SearchAddress searchAddressHandle={searchAddressHandle} />
             </div>
-            <KakaoMap
-              addressInput={addressInput}
-              searchCoordinateHandle={searchCoordinateHandle}
-            />
+            {addressInput ? (
+              <KakaoMap
+                addressInput={addressInput}
+                searchCoordinateHandle={searchCoordinateHandle}
+              />
+            ) : null}
           </AddressArea>
+          {/* axios 요청 메시지 ---------------------------------------------------*/}
+          <InvalidMessage>
+            {!isCompleted ? (
+              <>
+                <img src="./images/warning.svg" alt="warning" />
+                <div>필수 항목을 모두 입력해 주세요.</div>
+              </>
+            ) : null}
+          </InvalidMessage>
           {/* 등록 취소 버튼 ---------------------------------------------------*/}
           <SubmitArea>
             <SubmitBtn onClick={() => registerPost()}>수정</SubmitBtn>
