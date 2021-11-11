@@ -35,7 +35,7 @@ import {
 } from "./DetailPage.style";
 
 import { RootState } from "../../../reducers/rootReducer";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import KakaoMap from "../../../components/KakaoMap/KakaoMap";
 import DeletePost from "../../../components/Modals/DeletePost/DeletePost";
 import Timer from "../../../components/Timer/Timer";
@@ -44,7 +44,7 @@ import { useHistory, useLocation } from "react-router";
 import DetailCategories from "../../../components/DetailCategories/DetailCategories";
 import { initMainCategories } from "../Categories";
 import { Link } from "react-router-dom";
-
+import { setSearch } from "../../../reducers/searchReducer";
 interface User {
   email: string;
   imagePath: null | string;
@@ -66,6 +66,8 @@ interface PostDataType {
 }
 
 function DetailPage() {
+  const dispatch = useDispatch();
+  dispatch(setSearch(""));
   const { id } = useSelector((state: RootState) => state.userReducer);
   const { accessToken } = useSelector((state: RootState) => state.authReducer);
   let location: any = useLocation();

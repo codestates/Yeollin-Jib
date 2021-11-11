@@ -102,7 +102,6 @@ function CreatePostPage() {
 
   // 서브 체크박스 Handle
   const addSubCategoryHandle = (idx: number, name: string) => {
-    console.log(idx, name);
     const newMainCate = [...mainCategories];
     newMainCate.forEach((mainCategory) => {
       mainCategory.subCategories.forEach((subCategory) => {
@@ -163,9 +162,6 @@ function CreatePostPage() {
     const newSubmitMainCategory = submitMainCategory.join(",");
     const newSubmitSubCategory = submitSubCategory.join(",");
 
-    console.log("submitMain", newSubmitMainCategory);
-    console.log("submitSub", newSubmitSubCategory);
-
     if (name === "main") {
       return newSubmitMainCategory;
     }
@@ -208,7 +204,7 @@ function CreatePostPage() {
       formData.append("longitude", `${addressCoordinate[1]}`);
       formData.append("category1", submitCateHandle("main"));
       formData.append("category2", submitCateHandle("sub"));
-      console.log(addressCoordinate);
+
       const result: AxiosResponse = await axios.post(
         `${process.env.REACT_APP_API_URL}/post`,
         formData,

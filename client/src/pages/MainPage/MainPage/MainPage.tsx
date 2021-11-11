@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState, useCallback } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import PostCard from "../../../components/PostCard/PostCard";
 import { RootState } from "../../../reducers/rootReducer";
@@ -21,6 +21,7 @@ import {
   BlankPostCard,
 } from "./MainPage.style";
 import Loading from "../../../components/Loading/Loading";
+import { setSearch } from "../../../reducers/searchReducer";
 function MainPage() {
   const [postInfo, setPostInfo] = useState<any[]>([]);
   const [page, setPage] = useState<number>(1);
@@ -28,11 +29,15 @@ function MainPage() {
   const [isShowCategory, setIsShowCategory] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { isLogin } = useSelector((state: RootState) => state.authReducer);
-
+  const { search } = useSelector((state: RootState) => state.searchReducer);
   const location: any = useLocation();
-
+  const dispatch = useDispatch();
   const openCategory = () => {
     setIsShowCategory(!isShowCategory);
+  };
+
+  const valueHandler = (search: string) => {
+    dispatch(setSearch(search));
   };
 
   // 카테고리 선택 핸들
@@ -49,6 +54,7 @@ function MainPage() {
       }
     });
     setMainCategories(newMainCate);
+    valueHandler("");
   };
   let select: string = "";
   const selectCategory = (id: string) => {
@@ -56,6 +62,10 @@ function MainPage() {
     select = id;
     CategorySelectHandle(id);
     initPostData(`post/category?code=${id}&page=1`);
+    // 카테고리 검색 글 없을 시 로딩창 해제
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
   };
 
   // 초기 게시글 호출
@@ -208,6 +218,7 @@ function MainPage() {
               <Link
                 to={isLogin ? "/createpost" : "/login"}
                 style={{ textDecoration: "none", color: "#2d2d2d" }}
+                onClick={() => valueHandler("")}
               >
                 <CreatePostButton>
                   <span className="Redirect_Createpost">+</span>
