@@ -9,7 +9,7 @@ export const Body = styled.div`
   padding: 0 30px 0 30px;
 
   @media screen and (max-width: 37.5rem) {
-    padding: 0 5px 0 5px;
+    padding: 0 15px 0 15px;
   }
 `;
 
@@ -84,7 +84,7 @@ export const InputTitle = styled.input`
   padding: 0 17px 0 17px;
   margin-bottom: 1.4rem;
   margin-top: 11px;
-  transition: 0.5s all;
+  /* transition: 0.5s all; */
   :focus {
     border: 1px solid #2d2d2d;
   }
@@ -133,7 +133,7 @@ export const DatePicker = styled.input`
   height: 2.938rem;
   width: 100%;
   padding: 1px 11px 1px 11px;
-  transition: 0.5s all;
+  /* transition: 0.5s all; */
   border: 1px solid #fdfbfe;
   :focus {
     border: 1px solid #2d2d2d;
@@ -154,7 +154,7 @@ export const TimePicker = styled.input`
   width: 100%;
   border: 1px solid #fdfbfe;
   padding: 1px 11px 1px 11px;
-  transition: 0.5s all;
+  /* transition: 0.5s all; */
   :focus {
     border: 1px solid #2d2d2d;
   }
@@ -187,7 +187,7 @@ export const PostContents = styled.textarea`
   height: 146px;
   padding: 15px 17px 15px 17px;
   margin: 11px 0 1.4rem 0;
-  transition: 0.5s all;
+  /* transition: 0.5s all; */
   /* overflow-y: hidden; */
   resize: none;
   :focus {
@@ -288,15 +288,14 @@ interface SubCategorySelect {
 }
 
 export const SubCategoryItem = styled.span<SubCategorySelect>`
-  width: 150px;
+  width: 135px;
   height: 25px;
   line-height: 25px;
-  margin: 4px 0 4px 0;
+  margin: 4px 10% 4px 0;
   cursor: pointer;
   display: flex;
   align-items: center;
   font-family: "Gmarket Sans TTF";
-  font-weight: 100;
   color: ${(props) => (props.checked ? "#2d2d2d" : "#C2BFC3")};
   font-weight: ${(props) => (props.checked ? "300" : "100")};
   span {
@@ -310,15 +309,23 @@ export const SubCategoryItem = styled.span<SubCategorySelect>`
 export const UploadPhotoArea = styled.div`
   width: 100%;
   margin-top: 50px;
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
+
   .Upload_Word {
     display: flex;
     width: 100%;
     align-items: center;
     margin-left: 7px;
   }
+  span {
+    margin-left: 7px;
+  }
+`;
+
+export const PhotoContainer = styled.div`
+  display: grid;
+  grid-column-gap: 37px;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+
   .Photo_Container {
     position: relative;
     width: 217px;
@@ -338,18 +345,28 @@ export const UploadPhotoArea = styled.div`
   .Delete {
     width: 20px;
     height: 20px;
-    color: #e0dde1;
+    background-color: #fede8a;
+    border-radius: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
     position: absolute;
     font-size: 18px;
-    z-index: 4;
+    z-index: 3;
     cursor: pointer;
     right: 0;
     margin-top: 5px;
     margin-right: 5px;
     opacity: 0.95;
+    img {
+      width: 12px;
+    }
+  }
+
+  @media screen and (max-width: 37.5rem) {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
   }
 `;
 
@@ -400,7 +417,7 @@ export const InputAddress = styled.input`
   width: 100%;
   height: 47px;
   padding: 0 17px 0 17px;
-  transition: 0.5s all;
+  /* transition: 0.5s all; */
   :focus {
     border: 1px solid #2d2d2d;
   }
@@ -409,7 +426,7 @@ export const InputAddress = styled.input`
 export const SubmitArea = styled.div`
   height: 50px;
   width: 100%;
-  margin: 100px 0 369px 0;
+  margin: 10px 0 369px 0;
   display: flex;
   justify-content: center;
   @media screen and (max-width: 37.5rem) {
@@ -450,5 +467,33 @@ export const CancelBtn = styled.button`
   margin-left: 10px;
   :active {
     background: #f5f4f5;
+  }
+`;
+
+export const InvalidMessage = styled.div`
+  display: flex;
+  justify-content: center;
+  font-weight: 100;
+  font-size: 1rem;
+  color: #f44336;
+  margin: 50px 0 20px 0;
+  transition: 0.5s all;
+  height: 16px;
+
+  img {
+    margin-right: 3px;
+    padding-top: 2px;
+  }
+
+  @media screen and (max-width: 37.5rem) {
+    font-size: 0.8rem;
+    transition: 0.5s all;
+    margin: 5px 0 10px 0;
+
+    img {
+      width: 12px;
+      height: 12px;
+      padding-top: 1px;
+    }
   }
 `;
