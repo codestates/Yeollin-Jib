@@ -21,14 +21,13 @@ import { RootState } from "../../reducers/rootReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../reducers/userReducer";
 import { setTapName } from "../../reducers/myPageReducer";
+import { setSearch } from "../../reducers/searchReducer";
 import Logout from "../../components/Modals/Logout/Logout";
 function Header() {
   const dispatch = useDispatch();
   let history = useHistory();
   const ArrSearch: string[] = ["제목", "지역"];
-
-  // 검색어
-  const [value, setValue] = useState<string>("");
+  const { search } = useSelector((state: RootState) => state.searchReducer);
 
   // 검색 항목 선택
   const [searchOption, setSearchOption] = useState<string>("title");
@@ -51,12 +50,16 @@ function Header() {
   };
   // 인풋 입력 후 엔터를 치면 검색 요청을 보냄
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && value.length >= 2) {
+    if (e.key === "Enter" && search.length >= 2) {
       history.push({
         pathname: "/main",
-        state: { isSearch: true, value, searchOption },
+        state: { isSearch: true, search, searchOption },
       });
     }
+  };
+
+  const valueHandler = (search: string) => {
+    dispatch(setSearch(search));
   };
 
   // isLogin이 true일 때 유저 정보 요청
@@ -73,8 +76,8 @@ function Header() {
   return (
     // 상단바
     <HeaderItemContainer>
-      <Link to="/main">
-        <Logo onClick={() => setValue("")}>
+      <Link to="/main" onClick={() => valueHandler("")}>
+        <Logo>
           <div>
             <LogoImg src="./images/logo.svg" alt="LogoImg" />
             <LogoTitle src="./images/logoTitle.svg" alt="LogoTitle" />
@@ -93,16 +96,16 @@ function Header() {
         </SearchSelect>
         <input
           onChange={(e) => {
-            setValue(e.target.value);
+            valueHandler(e.target.value);
           }}
           onKeyPress={(e) => handleKeyPress(e)}
-          value={value}
+          value={search}
         />
-        {value.length >= 2 ? (
+        {search.length >= 2 ? (
           <Link
             to={{
               pathname: "/main",
-              state: { isSearch: true, value, searchOption },
+              state: { isSearch: true, search, searchOption },
             }}
           >
             <img src="./images/searchBtn.svg" alt="search" />
@@ -117,14 +120,14 @@ function Header() {
           alt="Hamburger"
           onClick={() => {
             setIsOpen(!isOpen);
-            setValue("");
+            valueHandler("");
           }}
         />
         {isOpened ? (
           <Logout
             setIsOpened={(bool: boolean) => {
               setIsOpened(bool);
-              setValue("");
+              valueHandler("");
             }}
           ></Logout>
         ) : null}
@@ -132,21 +135,23 @@ function Header() {
           <LoginLogoutBtn
             onClick={() => {
               setIsOpened(true);
-              setValue("");
+              valueHandler("");
             }}
           >
             로그아웃
           </LoginLogoutBtn>
         ) : (
           <Link to={isLogin ? "" : "/login"}>
-            <LoginLogoutBtn onClick={() => setValue("")}>로그인</LoginLogoutBtn>
+            <LoginLogoutBtn onClick={() => valueHandler("")}>
+              로그인
+            </LoginLogoutBtn>
           </Link>
         )}
         <Link to={isLogin ? "/profile" : "/signup"}>
           <SignupUserInfoBtn
             onClick={() => {
               getUserData();
-              setValue("");
+              valueHandler("");
             }}
           >
             {isLogin ? "내 정보" : "회원가입"}
@@ -163,7 +168,7 @@ function Header() {
                 alt="close"
                 onClick={() => {
                   setIsOpen(!isOpen);
-                  setValue("");
+                  valueHandler("");
                 }}
               />
               <MenuWrapper>
@@ -171,7 +176,7 @@ function Header() {
                   <Menu
                     onClick={() => {
                       setIsOpen(!isOpen);
-                      setValue("");
+                      valueHandler("");
                     }}
                   >
                     {isLogin ? "홈" : "로그인"}
@@ -184,7 +189,7 @@ function Header() {
                     onClick={() => {
                       getUserData();
                       setIsOpen(!isOpen);
-                      setValue("");
+                      valueHandler("");
                     }}
                   >
                     {isLogin ? "내 정보" : "회원가입"}
@@ -196,7 +201,7 @@ function Header() {
                   onClick={() => {
                     setIsOpen(!isOpen);
                     setIsOpened(!isOpened);
-                    setValue("");
+                    valueHandler("");
                   }}
                 >
                   {isLogin ? "로그아웃" : ""}

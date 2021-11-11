@@ -98,7 +98,6 @@ function EditPostPage() {
 
   // 서브 체크박스 Handle
   const addSubCategoryHandle = (idx: number, name: string) => {
-    console.log(idx, name);
     const newMainCate = [...mainCategories];
     newMainCate.forEach((mainCategory) => {
       mainCategory.subCategories.forEach((subCategory) => {

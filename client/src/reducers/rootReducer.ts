@@ -4,7 +4,7 @@ import storage from "redux-persist/lib/storage/session";
 import authReducer from "./authReducer";
 import userReducer from "./userReducer";
 import myPageReducer from "./myPageReducer";
-
+import searchReducer from "./searchReducer";
 const persistConfig = {
   key: "root",
   storage,
@@ -22,6 +22,7 @@ const rootReducer = combineReducers({
   authReducer: persistReducer(authReducerConfig, authReducer),
   userReducer,
   myPageReducer,
+  searchReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

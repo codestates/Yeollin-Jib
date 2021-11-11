@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState, useCallback } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import PostCard from "../../../components/PostCard/PostCard";
 import { RootState } from "../../../reducers/rootReducer";
@@ -21,6 +21,7 @@ import {
   BlankPostCard,
 } from "./MainPage.style";
 import Loading from "../../../components/Loading/Loading";
+import { setSearch } from "../../../reducers/searchReducer";
 function MainPage() {
   const [postInfo, setPostInfo] = useState<any[]>([]);
   const [page, setPage] = useState<number>(1);
@@ -28,11 +29,15 @@ function MainPage() {
   const [isShowCategory, setIsShowCategory] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { isLogin } = useSelector((state: RootState) => state.authReducer);
-
+  const { search } = useSelector((state: RootState) => state.searchReducer);
   const location: any = useLocation();
-
+  const dispatch = useDispatch();
   const openCategory = () => {
     setIsShowCategory(!isShowCategory);
+  };
+
+  const valueHandler = (search: string) => {
+    dispatch(setSearch(search));
   };
 
   // 카테고리 선택 핸들
@@ -49,6 +54,7 @@ function MainPage() {
       }
     });
     setMainCategories(newMainCate);
+    valueHandler("");
   };
   let select: string = "";
   const selectCategory = (id: string) => {
@@ -56,21 +62,23 @@ function MainPage() {
     select = id;
     CategorySelectHandle(id);
     initPostData(`post/category?code=${id}&page=1`);
+    // 카테고리 검색 글 없을 시 로딩창 해제
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
   };
 
   // 초기 게시글 호출
   const initPostData = async (endpoint: string) => {
     setIsLoading(true);
-    const result: any = await axios
-      .get(`${process.env.REACT_APP_API_URL}/${endpoint}`, {
+    const result: any = await axios.get(
+      `${process.env.REACT_APP_API_URL}/${endpoint}`,
+      {
         headers: {
           "Content-Type": "application/json",
         },
-      })
-      .catch((err) => {
-        setPostInfo([]);
-        setPostCount(0);
-      });
+      }
+    );
 
     if (result !== undefined) {
       if (result.data.message === undefined) {
@@ -80,6 +88,9 @@ function MainPage() {
         setTimeout(() => {
           setIsLoading(false);
         }, 1500);
+      } else if (result.data.message) {
+        setPostInfo([]);
+        setPostCount(0);
       }
       setTimeout(() => {
         setIsLoading(false);
@@ -93,7 +104,7 @@ function MainPage() {
       if (location.state.isSearch !== undefined) {
         setPage(1);
         initPostData(
-          `post/search/condition?search=${location.state.value}&code=${location.state.searchOption}`
+          `post/search/condition?search=${location.state.search}&code=${location.state.searchOption}`
         );
       }
     } else {
@@ -114,10 +125,18 @@ function MainPage() {
     );
 
     if (result !== undefined) {
-      setPostInfo(postInfo.concat(result.data.postGet.rows));
-      setPostCount(result.data.postGet.count);
-      setPage(page + 1);
+      if (result.data.message === undefined) {
+        setPostInfo(postInfo.concat(result.data.postGet.rows));
+        setPostCount(result.data.postGet.count);
+        setPage(page + 1);
+      }
+    } else if (result.data.message) {
+      setPostInfo([]);
+      setPostCount(0);
     }
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
   };
 
   // 무한스크롤 함수
@@ -139,7 +158,7 @@ function MainPage() {
       if (location.state) {
         if (location.state.isSearch !== undefined && page - 1 < postCount / 8) {
           infinitePostData(
-            `post/search/condition?search=${location.state.value}&code=${location.state.searchOption}&page=${page}`
+            `post/search/condition?search=${location.state.search}&code=${location.state.searchOption}&page=${page}`
           );
         }
       } else if (select !== "") {
@@ -208,6 +227,7 @@ function MainPage() {
               <Link
                 to={isLogin ? "/createpost" : "/login"}
                 style={{ textDecoration: "none", color: "#2d2d2d" }}
+                onClick={() => valueHandler("")}
               >
                 <CreatePostButton>
                   <span className="Redirect_Createpost">+</span>
