@@ -67,11 +67,12 @@ const patch = async (req: Request, res: Response) => {
           { imagePath: newImagePath },
           { where: { id: postId, userId: id } },
         );
+      } else {
+        await post.update(
+          { imagePath: imageJoin },
+          { where: { id: postId, userId: id } },
+        );
       }
-      await post.update(
-        { imagePath: imageJoin },
-        { where: { id: postId, userId: id } },
-      );
     }
 
     // image delete
