@@ -19,7 +19,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { setAuth, setSocialLogin } from "../../reducers/authReducer";
 import { Link, Redirect } from "react-router-dom";
 import queryString from "query-string";
-import Inspect from "../SignUpPage/Inspect";
 
 function LoginPage() {
   window.scrollTo({ top: 0, left: 0 });
@@ -27,17 +26,13 @@ function LoginPage() {
   const dispatch = useDispatch();
 
   // 스토어 값 가져오기
-  const { isLogin } = useSelector((state: RootState) => state.authReducer);
+  const { isLogin, isInValid } = useSelector(
+    (state: RootState) => state.authReducer
+  );
 
   // 이메일과 비밀번호 인풋값
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  // 입력받은 이메일과 비밀번호가 로그인이 가능한 지
-  const [isInValid, setIsInValid] = useState(false);
-
-  // 서버에 요청을 보낸 후 메시지
-  const [alert, setAlert] = useState("");
 
   // 이메일 값을 저장
   const setEmailData = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -49,14 +44,9 @@ function LoginPage() {
     setPassword(e.target.value);
   };
 
-  // 입력받은 이메일과 비밀번호를 올바른 양식인지 검사하여 dispatch로 setAuth에 서버에 로그인 요청
+  // dispatch로 setAuth에 서버에 로그인 요청
   const handleLoginBtn = (email: string, password: string) => {
-    if (Inspect(email, "email") && Inspect(password, "password")) {
-      dispatch(setAuth({ email: email, password: password }));
-    } else {
-      setAlert("이메일과 비밀번호를 확인해 주세요.");
-      setIsInValid(true);
-    }
+    dispatch(setAuth({ email: email, password: password }));
   };
 
   // 인풋 입력 후 엔터를 치면 로그인 요청을 보냄
@@ -122,7 +112,7 @@ function LoginPage() {
                   {isInValid ? (
                     <>
                       <img src="./images/warning.svg" alt="warning" />
-                      <div>{alert}</div>
+                      <div>이메일과 비밀번호를 확인해 주세요.</div>
                     </>
                   ) : null}
                 </InvalidMessage>
