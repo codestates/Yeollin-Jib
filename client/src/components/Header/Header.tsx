@@ -76,8 +76,8 @@ function Header() {
   return (
     // 상단바
     <HeaderItemContainer>
-      <Link to="/main">
-        <Logo onClick={() => valueHandler("")}>
+      <Link to="/main" onClick={() => valueHandler("")}>
+        <Logo>
           <div>
             <LogoImg src="./images/logo.svg" alt="LogoImg" />
             <LogoTitle src="./images/logoTitle.svg" alt="LogoTitle" />

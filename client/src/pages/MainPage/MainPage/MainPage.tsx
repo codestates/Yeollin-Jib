@@ -71,16 +71,14 @@ function MainPage() {
   // 초기 게시글 호출
   const initPostData = async (endpoint: string) => {
     setIsLoading(true);
-    const result: any = await axios
-      .get(`${process.env.REACT_APP_API_URL}/${endpoint}`, {
+    const result: any = await axios.get(
+      `${process.env.REACT_APP_API_URL}/${endpoint}`,
+      {
         headers: {
           "Content-Type": "application/json",
         },
-      })
-      .catch((err) => {
-        setPostInfo([]);
-        setPostCount(0);
-      });
+      }
+    );
 
     if (result !== undefined) {
       if (result.data.message === undefined) {
@@ -90,6 +88,9 @@ function MainPage() {
         setTimeout(() => {
           setIsLoading(false);
         }, 1500);
+      } else if (result.data.message) {
+        setPostInfo([]);
+        setPostCount(0);
       }
       setTimeout(() => {
         setIsLoading(false);
@@ -103,7 +104,7 @@ function MainPage() {
       if (location.state.isSearch !== undefined) {
         setPage(1);
         initPostData(
-          `post/search/condition?search=${location.state.value}&code=${location.state.searchOption}`
+          `post/search/condition?search=${location.state.search}&code=${location.state.searchOption}`
         );
       }
     } else {
@@ -124,10 +125,18 @@ function MainPage() {
     );
 
     if (result !== undefined) {
-      setPostInfo(postInfo.concat(result.data.postGet.rows));
-      setPostCount(result.data.postGet.count);
-      setPage(page + 1);
+      if (result.data.message === undefined) {
+        setPostInfo(postInfo.concat(result.data.postGet.rows));
+        setPostCount(result.data.postGet.count);
+        setPage(page + 1);
+      }
+    } else if (result.data.message) {
+      setPostInfo([]);
+      setPostCount(0);
     }
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
   };
 
   // 무한스크롤 함수
@@ -149,7 +158,7 @@ function MainPage() {
       if (location.state) {
         if (location.state.isSearch !== undefined && page - 1 < postCount / 8) {
           infinitePostData(
-            `post/search/condition?search=${location.state.value}&code=${location.state.searchOption}&page=${page}`
+            `post/search/condition?search=${location.state.search}&code=${location.state.searchOption}&page=${page}`
           );
         }
       } else if (select !== "") {
