@@ -30,6 +30,9 @@ function MainPage() {
 
   const location: any = useLocation();
 
+  // 내게시글 상태
+  const [isMine, setIsMine] = useState<boolean>();
+
   const openCategory = () => {
     setIsShowCategory(!isShowCategory);
   };
@@ -87,13 +90,16 @@ function MainPage() {
         initPostData(
           `post/search/condition?search=${location.state.value}&code=${location.state.searchOption}`
         );
+      } else {
+        setPage(1);
+        initPostData("post/page/1");
       }
     } else {
       setPage(1);
       initPostData("post/page/1");
     }
     CategorySelectHandle("init");
-  }, [location.state, select]);
+  }, []);
 
   const infinitePostData = async (endpoint: string) => {
     const result: any = await axios.get(
@@ -106,9 +112,11 @@ function MainPage() {
     );
 
     if (result !== undefined) {
-      setPostInfo(postInfo.concat(result.data.postGet.rows));
-      setPostCount(result.data.postGet.count);
-      setPage(page + 1);
+      if (result.data.message === undefined) {
+        setPostInfo(postInfo.concat(result.data.postGet.rows));
+        setPostCount(result.data.postGet.count);
+        setPage(page + 1);
+      }
     }
   };
 

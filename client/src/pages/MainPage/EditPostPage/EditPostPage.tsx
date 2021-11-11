@@ -506,12 +506,11 @@ function EditPostPage() {
               <InputAddress value={addressInput} readOnly />
               <SearchAddress searchAddressHandle={searchAddressHandle} />
             </div>
-            {addressInput ? (
-              <KakaoMap
-                addressInput={addressInput}
-                searchCoordinateHandle={searchCoordinateHandle}
-              />
-            ) : null}
+            <KakaoMap
+              addressInput={addressInput}
+              addressData={location.state.postData.address}
+              searchCoordinateHandle={searchCoordinateHandle}
+            />
           </AddressArea>
           {/* 등록 취소 버튼 ---------------------------------------------------*/}
           <SubmitArea>
