@@ -135,7 +135,7 @@ function EditPostPage() {
   const [uploadFiles, setUploadFiles] = useState<any[] | undefined[]>([]);
   const [postImagePath, setPostImagePath] = useState<string[]>(imagePath);
 
-  console.log("기존이미지", imagePath);
+  console.log("기존이미지", postImagePath);
   console.log("삭제할이미지", imageDelete);
   console.log("올릴사진", uploadFiles);
 
@@ -216,6 +216,7 @@ function EditPostPage() {
   };
 
   const registerPost = async () => {
+    window.scrollTo({ top: 0, left: 0 });
     if (
       inputTitle !== "" &&
       inputContents !== "" &&
@@ -228,7 +229,7 @@ function EditPostPage() {
       const formData = new FormData();
       uploadFiles.forEach((file) => formData.append("image", file));
       formData.append("imageDelete", imageDelete.join(","));
-      formData.append("imagePath", imagePath.join(","));
+      formData.append("imagePath", postImagePath.join(","));
       formData.append("title", inputTitle);
       formData.append("contents", inputContents);
       formData.append("address", addressInput);
@@ -470,11 +471,7 @@ function EditPostPage() {
                     >
                       <img src="./images/delete.svg" alt="Delete" />
                     </div>
-                    <PhotoUpload
-                      key={`${file}+${idx}`}
-                      photoPath={photoPath}
-                      arrPhoto={postImagePath}
-                    />
+
                     <img
                       className="Photo_Thumb"
                       src={`${process.env.REACT_APP_API_URL}${file.slice(6)}`}
@@ -497,11 +494,7 @@ function EditPostPage() {
                     >
                       <img src="./images/delete.svg" alt="Delete" />
                     </div>
-                    <PhotoUpload
-                      key={`${file.preview}+${idx}`}
-                      photoPath={photoPath}
-                      arrPhoto={uploadFiles}
-                    />
+
                     <img
                       className="Photo_Thumb"
                       src={file.preview}
@@ -512,7 +505,11 @@ function EditPostPage() {
               })}
               {postImagePath.length + uploadFiles.length < 5 ? (
                 <div className="Photo_Container">
-                  <PhotoUpload photoPath={photoPath} arrPhoto={uploadFiles} />
+                  <PhotoUpload
+                    photoPath={photoPath}
+                    arrPhoto={uploadFiles}
+                    postImagePath={postImagePath}
+                  />
                 </div>
               ) : (
                 <></>
