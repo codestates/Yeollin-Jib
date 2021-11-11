@@ -23,6 +23,7 @@ import {
 import Loading from "../../../components/Loading/Loading";
 import { setSearch } from "../../../reducers/searchReducer";
 import { setUser } from "../../../reducers/userReducer";
+import NeedLogin from "../../../components/Modals/NeedLogin/NeedLogin";
 
 function MainPage() {
   const [postInfo, setPostInfo] = useState<any[]>([]);
@@ -38,7 +39,8 @@ function MainPage() {
   const openCategory = () => {
     setIsShowCategory(!isShowCategory);
   };
-
+  // 로그인이 필요합니다 모달창
+  const [isOpened, setIsOpened] = useState<boolean>(false);
   const valueHandler = (search: string) => {
     dispatch(setSearch(search));
   };
@@ -194,6 +196,9 @@ function MainPage() {
 
   return (
     <Body>
+      {isOpened ? (
+        <NeedLogin setIsOpened={(bool: boolean) => setIsOpened(bool)} />
+      ) : null}
       <MainArea>
         {isLoading ? (
           <Loading></Loading>
@@ -237,15 +242,21 @@ function MainPage() {
                 </span>
               </PostBoardTitleBox>
               {/* 게시글 작성 버튼 ------------------------------------------------*/}
-              <Link
-                to={isLogin ? "/createpost" : "/login"}
-                style={{ textDecoration: "none", color: "#2d2d2d" }}
-                onClick={() => valueHandler("")}
-              >
-                <CreatePostButton>
+              {isLogin ? (
+                <Link
+                  to={"/createpost"}
+                  style={{ textDecoration: "none", color: "#2d2d2d" }}
+                  onClick={() => valueHandler("")}
+                >
+                  <CreatePostButton>
+                    <span className="Redirect_Createpost">+</span>
+                  </CreatePostButton>
+                </Link>
+              ) : (
+                <CreatePostButton onClick={() => setIsOpened(true)}>
                   <span className="Redirect_Createpost">+</span>
                 </CreatePostButton>
-              </Link>
+              )}
             </PostBoardTitleContainer>
             {/* 게시글 리스트 ----------------------------------------------------*/}
             <PostCardArea>
