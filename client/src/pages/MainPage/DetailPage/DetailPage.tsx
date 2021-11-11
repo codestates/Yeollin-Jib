@@ -387,7 +387,7 @@ function DetailPage() {
                   </UserProfileBox>
                   <ChatBox>
                     <ChatIcon>
-                      <img src="/images/send.svg"></img>
+                      <img src="/images/send.svg" alt="send"></img>
                     </ChatIcon>
                     <span>채팅하기</span>
                   </ChatBox>

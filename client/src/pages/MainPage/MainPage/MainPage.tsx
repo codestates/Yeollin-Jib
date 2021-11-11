@@ -29,7 +29,6 @@ function MainPage() {
   const [isShowCategory, setIsShowCategory] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { isLogin } = useSelector((state: RootState) => state.authReducer);
-  const { search } = useSelector((state: RootState) => state.searchReducer);
   const location: any = useLocation();
   const dispatch = useDispatch();
   const openCategory = () => {
