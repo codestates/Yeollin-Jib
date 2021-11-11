@@ -22,6 +22,8 @@ import queryString from "query-string";
 import Inspect from "../SignUpPage/Inspect";
 
 function LoginPage() {
+  window.scrollTo({ top: 0, left: 0 });
+
   const dispatch = useDispatch();
 
   // 스토어 값 가져오기

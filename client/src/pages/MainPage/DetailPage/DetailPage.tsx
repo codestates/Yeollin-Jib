@@ -45,6 +45,7 @@ import DetailCategories from "../../../components/DetailCategories/DetailCategor
 import { initMainCategories } from "../Categories";
 import { Link } from "react-router-dom";
 import { isMineTrue, isMineFalse } from "../../../reducers/isMineReducer";
+import NeedLogin from "../../../components/Modals/NeedLogin/NeedLogin";
 
 interface User {
   email: string;
@@ -74,9 +75,13 @@ interface PostDataType {
 function DetailPage() {
   const dispatch = useDispatch();
   let { id } = useSelector((state: RootState) => state.userReducer);
-  let { accessToken } = useSelector((state: RootState) => state.authReducer);
+  let { accessToken, isLogin } = useSelector(
+    (state: RootState) => state.authReducer
+  );
   let { isMine } = useSelector((state: RootState) => state.isMineReducer);
   let location: any = useLocation();
+  // 로그인이 필요합니다 모달창
+  const [isOpened, setIsOpened] = useState<boolean>(false);
   // 게시글 정보
   const [postData, setPostData] = useState<PostDataType>();
   const [commentData, setCommentData] = useState<any[]>();
@@ -117,24 +122,28 @@ function DetailPage() {
   };
 
   const submitComment = () => {
-    if (postData !== undefined) {
-      axios
-        .post(
-          `${process.env.REACT_APP_API_URL}/comment/${postData.id}`,
-          { contents: commentInput },
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-              "Content-Type": "application/json",
-            },
-          }
-        )
-        .then((res: any) => {
-          if (res.status === 200 && commentData !== undefined) {
-            setCommentData([...commentData, res.data.data]);
-            setCommentInput("");
-          }
-        });
+    if (isLogin) {
+      if (postData !== undefined) {
+        axios
+          .post(
+            `${process.env.REACT_APP_API_URL}/comment/${postData.id}`,
+            { contents: commentInput },
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+                "Content-Type": "application/json",
+              },
+            }
+          )
+          .then((res: any) => {
+            if (res.status === 200 && commentData !== undefined) {
+              setCommentData([...commentData, res.data.data]);
+              setCommentInput("");
+            }
+          });
+      }
+    } else {
+      setIsOpened(true);
     }
   };
 
@@ -299,6 +308,9 @@ function DetailPage() {
 
   return (
     <Body>
+      {isOpened ? (
+        <NeedLogin setIsOpened={(bool: boolean) => setIsOpened(bool)} />
+      ) : null}
       <MainArea>
         {postData !== undefined && commentData !== undefined ? (
           <DetailPageContainer>
@@ -404,12 +416,23 @@ function DetailPage() {
                       <div className="User_Email">{postData.user.email}</div>
                     </UserInfoBox>
                   </UserProfileBox>
-                  <ChatBox>
-                    <ChatIcon>
-                      <img src="/images/send.svg" alt="send"></img>
-                    </ChatIcon>
-                    <span>채팅하기</span>
-                  </ChatBox>
+                  {isLogin ? (
+                    <Link to="/preparation" style={{ textDecoration: "none" }}>
+                      <ChatBox>
+                        <ChatIcon>
+                          <img src="/images/send.svg" alt="send"></img>
+                        </ChatIcon>
+                        <span>채팅하기</span>
+                      </ChatBox>
+                    </Link>
+                  ) : (
+                    <ChatBox onClick={() => setIsOpened(true)}>
+                      <ChatIcon>
+                        <img src="/images/send.svg" alt="send"></img>
+                      </ChatIcon>
+                      <span>채팅하기</span>
+                    </ChatBox>
+                  )}
                 </ContentsUserBox>
                 <TextBox>
                   <div className="Create_Post_Date">
