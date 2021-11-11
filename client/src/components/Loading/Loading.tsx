@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { ModalBackground, Container, Image } from "./Loading.style";
+import { ModalBackground, Container, Image, Background } from "./Loading.style";
 
 const animationImages = [
   "Images/8.svg",
@@ -41,11 +41,13 @@ const App = () => {
   return (
     <ModalBackground>
       <Container>
-        <Image
-          src={animationImages[imageNumber]}
-          key={imageNumber}
-          alt="loading"
-        />
+        <Background>
+          <Image
+            src={animationImages[imageNumber]}
+            key={imageNumber}
+            alt="loading"
+          />
+        </Background>
       </Container>
     </ModalBackground>
   );

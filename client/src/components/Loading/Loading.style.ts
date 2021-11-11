@@ -9,9 +9,8 @@ export const Container = styled.div`
 `;
 
 export const Image = styled.img`
-  width: 316px;
-  height: 316px;
-  margin-left: 200px;
+  width: 120px;
+  margin-left: 60px;
   @media screen and (max-width: 37.5rem) {
   }
 `;
@@ -28,4 +27,14 @@ export const ModalBackground = styled.div`
   left: 50%;
   top: 50%;
   z-index: 999;
+`;
+
+export const Background = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #2d2d2d;
+  width: 120px;
+  height: 120px;
+  border-radius: 100px;
 `;
