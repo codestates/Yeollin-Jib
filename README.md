@@ -20,7 +20,7 @@
 처분하기 어려운 짐들은 새로운 장소로 떠나기 전에 `열린집`과 함께하세요!
 
 ## ⚙️ 사용 스택
-![기술 스택](https://user-images.githubusercontent.com/85698976/137167710-6a9ec57c-aaf0-41e4-a862-d9e8388eaec8.jpeg)
+<img width="830" alt="스크린샷 2021-11-12 18 14 09" src="https://user-images.githubusercontent.com/85698976/141441938-3d5047e7-de88-4bd5-925a-6cc53efbb5cf.png">
 
 
 ## TEAM: Codemon
