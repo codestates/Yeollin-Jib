@@ -409,39 +409,33 @@ function CreatePostPage() {
               <span>{"사진을 등록해 주세요. (최대 5장)"}</span>
             </div>
             <PhotoContainer>
-              {files[0] === undefined ? (
-                <>
-                  <div className="Photo_Container">
-                    <PhotoUpload photoPath={photoPath} arrPhoto={files} />
-                  </div>
-                </>
-              ) : (
-                files.map((file: any, idx: any) => {
-                  return (
+              {files.map((file: any, idx: any) => {
+                return (
+                  <div
+                    key={`${file.preview}+${idx}`}
+                    id={file.preview}
+                    className="Photo_Container"
+                  >
                     <div
-                      key={`${file.preview}+${idx}`}
-                      id={file.preview}
-                      className="Photo_Container"
+                      className="Delete"
+                      onClick={() => deletePhotoHandle(file.preview)}
                     >
-                      <div
-                        className="Delete"
-                        onClick={() => deletePhotoHandle(file.preview)}
-                      >
-                        <img src="./images/delete.svg" alt="Delete" />
-                      </div>
-                      <PhotoUpload
-                        key={`${file.preview}+${idx}`}
-                        photoPath={photoPath}
-                        arrPhoto={files}
-                      />
-                      <img
-                        className="Photo_Thumb"
-                        src={file.preview}
-                        alt="Upload_Photo"
-                      />
+                      <img src="./images/delete.svg" alt="Delete" />
                     </div>
-                  );
-                })
+                    <img
+                      className="Photo_Thumb"
+                      src={file.preview}
+                      alt="Upload_Photo"
+                    />
+                  </div>
+                );
+              })}
+              {files.length < 5 ? (
+                <div className="Photo_Container">
+                  <PhotoUpload photoPath={photoPath} />
+                </div>
+              ) : (
+                <></>
               )}
             </PhotoContainer>
           </UploadPhotoArea>

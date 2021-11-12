@@ -505,11 +505,7 @@ function EditPostPage() {
               })}
               {postImagePath.length + uploadFiles.length < 5 ? (
                 <div className="Photo_Container">
-                  <PhotoUpload
-                    photoPath={photoPath}
-                    arrPhoto={uploadFiles}
-                    postImagePath={postImagePath}
-                  />
+                  <PhotoUpload photoPath={photoPath} />
                 </div>
               ) : (
                 <></>
