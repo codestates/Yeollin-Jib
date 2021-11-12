@@ -44,7 +44,7 @@
 * Role : Team Member
 * Position : Back-End
 * Stack : `TypeScript`, `Node.js`, `Mysql`, `Sequelize`, `Express`, `AWS`
-* Works : Post, Post Storage, JWT 구현, Endpoint (전체적으로 담당), 배포 (https 구현), 카카오 소셜 로그인 구현
+* Works : Post, Post_Storage, Post_category, JWT 구현, 검색기능 구현, 무한스크롤 구현, Endpoint(전체 경로구현 및 담당), 배포(https 구현), 카카오 소셜 로그인 구현
 
 <img src = "https://user-images.githubusercontent.com/82765407/133204790-650f764c-ba17-4a79-b7d9-436f29b10e54.png" width="300px">
 <a href="https://github.com/choigicheol"><img src = "https://img.shields.io/badge/g__c0916-black?style=for-the-badge&logo=GitHub&logoColor=white"></a>
