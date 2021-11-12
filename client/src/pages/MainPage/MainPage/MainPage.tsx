@@ -131,6 +131,13 @@ function MainPage() {
 
   useEffect(() => {
     setPage(1);
+    setCategoryId("");
+    initPostData("post/page/1");
+    CategorySelectHandle("init");
+  }, []);
+
+  useEffect(() => {
+    setPage(1);
     initPostData(`post/category?code=${categoryId}&page=1`);
   }, [categoryId]);
 
