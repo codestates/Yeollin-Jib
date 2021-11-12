@@ -46,6 +46,10 @@ import { initMainCategories } from "../Categories";
 import { Link } from "react-router-dom";
 import { isMineTrue, isMineFalse } from "../../../reducers/isMineReducer";
 import NeedLogin from "../../../components/Modals/NeedLogin/NeedLogin";
+import {
+  setPlusMyStorage,
+  setMinusMyStorage,
+} from "../../../reducers/userReducer";
 
 interface User {
   email: string;
@@ -93,10 +97,6 @@ function DetailPage() {
   const [deleteTarget, setDeleteTarget] = useState<string>("");
   const [delTargetId, setDelTargetId] = useState<number>(0);
   const [likes, setLikes] = useState<number>(0);
-  const [likepost, setLikepost] = useState<boolean>(false);
-  const { myStorage, nickname, imagePath } = useSelector(
-    (state: RootState) => state.userReducer
-  );
 
   let time;
   if (dueDate !== undefined) {
@@ -260,6 +260,7 @@ function DetailPage() {
         .then((res) => {
           if (res.status === 201) {
             setIsMyStorage(true);
+            dispatch(setPlusMyStorage());
             setLikes(likes + 1);
           } else if (res.status === 200) {
             axios({
@@ -271,6 +272,7 @@ function DetailPage() {
               },
             }).then((res) => {
               setIsMyStorage(false);
+              dispatch(setMinusMyStorage());
               setLikes(likes - 1);
             });
           }
@@ -518,4 +520,3 @@ function DetailPage() {
 }
 
 export default DetailPage;
-

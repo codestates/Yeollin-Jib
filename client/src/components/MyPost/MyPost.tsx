@@ -1,14 +1,11 @@
 import { useState, useEffect } from "react";
 import { Container, CardContainer } from "./MyPost.style";
 import { RootState } from "../../reducers/rootReducer";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import axios from "axios";
 import PostCard from "../PostCard/PostCard";
-import { setUser } from "../../reducers/userReducer";
 
 function MyPost() {
-  const dispatch = useDispatch();
-
   // 스토어에 저장된 정보를 가져옴
   const { accessToken } = useSelector((state: RootState) => state.authReducer);
   const { id, myPost, nickname, imagePath } = useSelector(
