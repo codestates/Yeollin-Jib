@@ -30,7 +30,6 @@ import {
   setMinusMyStorage,
 } from "../../reducers/userReducer";
 import NeedLogin from "../Modals/NeedLogin/NeedLogin";
-import { setUser } from "../../reducers/userReducer";
 
 interface Result {
   postInfo: any;
@@ -51,7 +50,7 @@ function PostCard({ postInfo, idx }: Result) {
   if (!isLogin) {
     id = 0;
   }
-
+  console.log("postCard", id);
   // 저장된 유저의 카테고리에서 중복 제거
   let ArrCategory: number[] = [];
   postInfo.post_categories.map((category: any) => {
@@ -170,10 +169,8 @@ function PostCard({ postInfo, idx }: Result) {
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft(timerLeft));
 
   useEffect(() => {
-    setTimeout(() => {
-      setTimeLeft(calculateTimeLeft(timerLeft));
-    }, 1000);
-  });
+    setTimeLeft(calculateTimeLeft(timerLeft));
+  }, []);
 
   const scrollHandler = () => {
     window.scrollTo({ top: 0, left: 0 });

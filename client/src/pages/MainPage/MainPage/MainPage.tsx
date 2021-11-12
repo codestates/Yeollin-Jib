@@ -27,8 +27,8 @@ import NeedLogin from "../../../components/Modals/NeedLogin/NeedLogin";
 
 function MainPage() {
   const [postInfo, setPostInfo] = useState<any[]>([]);
-  const [page, setPage] = useState<number>(1);
-  const [postCount, setPostCount] = useState<number>();
+  const [page, setPage] = useState<number>(0);
+  const [postCount, setPostCount] = useState<number>(-1);
   const [isShowCategory, setIsShowCategory] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { isLogin, accessToken } = useSelector(
@@ -94,18 +94,15 @@ function MainPage() {
         setPostInfo(result.data.postGet.rows);
         setPostCount(result.data.postGet.count);
         setPage(2);
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 1500);
       } else if (result.data.message) {
         setPostInfo([]);
         setPage(1);
         setPostCount(0);
       }
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 1000);
     }
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1500);
   };
 
   // 해당 컴포넌트가 마운트될 때 초기 게시글을 호출한다, 카테고리 셀렉트 상태를 초기화 한다
@@ -144,7 +141,7 @@ function MainPage() {
       }
     );
     if (result !== undefined) {
-      if (result.data.message === undefined) {
+      if (result.data.message === undefined && postInfo !== undefined) {
         setPostInfo(postInfo.concat(result.data.postGet.rows));
         setPostCount(result.data.postGet.count);
         setPage(page + 1);
@@ -153,9 +150,6 @@ function MainPage() {
       setPostInfo([]);
       setPostCount(0);
     }
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
   };
 
   // 무한스크롤 함수
@@ -195,12 +189,14 @@ function MainPage() {
   // 스크롤이 발생할때마다 handleScroll 함수를 호출하도록 한다.
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, true);
+  }, [handleScroll]);
 
-    // 해당 컴포넌트가 언마운트 될때, 스크롤 이벤트를 제거한다.
+  useEffect(() => {
     return () => {
+      // 해당 컴포넌트가 언마운트 될때, 스크롤 이벤트를 제거한다.
       window.removeEventListener("scroll", handleScroll, true);
     };
-  }, [handleScroll]);
+  }, []);
 
   return (
     <Body>
@@ -268,7 +264,7 @@ function MainPage() {
             </PostBoardTitleContainer>
             {/* 게시글 리스트 ----------------------------------------------------*/}
             <PostCardArea>
-              {postInfo[0] === undefined ? (
+              {postInfo === undefined ? (
                 <BlankPostCard>
                   <span>검색 결과가</span>
                   <span> 없습니다</span>
