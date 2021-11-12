@@ -196,6 +196,7 @@ export const UserInfoBox = styled.div`
     width: 200px;
   }
   .User_Email {
+    font-size: 12px;
     width: 200px;
   }
   @media screen and (max-width: 950px) {
