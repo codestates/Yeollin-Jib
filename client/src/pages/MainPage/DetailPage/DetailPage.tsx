@@ -315,9 +315,15 @@ function DetailPage() {
               )}
             </TitleArea>
             <LikeAndCommentIconArea>
-              <div onClick={() => likeHandle()}>
-                <LikeIcon isCheck={isMyStorage} />
-              </div>
+              {isLogin ? (
+                <div onClick={() => likeHandle()}>
+                  <LikeIcon isCheck={isMyStorage} />
+                </div>
+              ) : (
+                <div onClick={() => setIsOpened(true)}>
+                  <LikeIcon isCheck={isMyStorage} />
+                </div>
+              )}
               <span>{likes}개</span>
               <img src={"./images/commentMark.svg"} alt="Comment_Mark" />
               <span>{commentData.length}개</span>
@@ -512,3 +518,4 @@ function DetailPage() {
 }
 
 export default DetailPage;
+

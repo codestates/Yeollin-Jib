@@ -64,14 +64,18 @@ export const TitleArea = styled.div`
 `;
 
 export const LikeAndCommentIconArea = styled.div`
-  height: 57px;
+  height: 20px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   font-weight: 100;
   padding-left: 28px;
+  margin-top: 10px;
   img {
-    width: 17px;
+    width: 18px;
     cursor: pointer;
+  }
+  svg {
+    margin-top: 1px;
   }
   span {
     margin: 0 18px 0 7px;
