@@ -48,14 +48,9 @@ function PostCard({ postInfo, idx }: Result) {
   );
   let { id } = useSelector((state: RootState) => state.userReducer);
 
-  // isLogin이 트루면 user 정보를 요청
-  useEffect(() => {
-    if (isLogin) {
-      dispatch(setUser(accessToken));
-    } else {
-      id = 0;
-    }
-  }, [isLogin]);
+  if (!isLogin) {
+    id = 0;
+  }
 
   // 저장된 유저의 카테고리에서 중복 제거
   let ArrCategory: number[] = [];
