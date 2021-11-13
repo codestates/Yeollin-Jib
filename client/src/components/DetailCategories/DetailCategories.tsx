@@ -47,7 +47,9 @@ function DetailCategories({ isMine, categoryLink }: IsMine) {
   };
 
   const selectCategory = (id: string, name: string) => {
-    addSubCategoryHandle(id, name);
+    if (isMine) {
+      addSubCategoryHandle(id, name);
+    }
   };
 
   // unmount 시 카테고리 isSelect 상태 초기화
@@ -79,7 +81,7 @@ function DetailCategories({ isMine, categoryLink }: IsMine) {
                         <div key={subCate.id}>
                           <CategoryIcon
                             isCheck={subCate.isSelect}
-                            isMine={false}
+                            isMine={isMine}
                           />
                           <SubCategoryName
                             isCheck={subCate.isSelect}

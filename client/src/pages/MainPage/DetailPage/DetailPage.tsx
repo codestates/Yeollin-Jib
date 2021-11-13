@@ -86,6 +86,7 @@ function DetailPage() {
     id = 0;
   }
   let { isMine } = useSelector((state: RootState) => state.isMineReducer);
+
   let location: any = useLocation();
   // 로그인이 필요합니다 모달창
   const [isOpened, setIsOpened] = useState<boolean>(false);
@@ -170,48 +171,29 @@ function DetailPage() {
   }
   const [categoryLink, setCategoryLink] = useState<any>({});
   const [storageList, setStorageList] = useState<Storage[]>([]);
+
   const initSet = async () => {
-    const result: any = await axios.get(
-      `${process.env.REACT_APP_API_URL}/post/${location.state.postId}`,
-      {
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/post/${location.state.postId}`, {
         headers: {
           "Content-Type": "application/json",
         },
-      }
-    );
-    if (result !== undefined) {
-      if (result.data.postGet.userId === id) {
-        dispatch(isMineTrue());
-      } else {
-        dispatch(isMineFalse());
-      }
-      setPostData(result.data.postGet);
-      setLikes(result.data.postLike);
-      setDueDate(result.data.postGet.dueDate.split(","));
-      setImages(result.data.postGet.imagePath.split(","));
-      setStorageList(result.data.postGet.storages);
-    }
-  };
-
-  const [isMyStorage, setIsMyStorage] = useState<boolean>(false);
-
-  useEffect(() => {
-    // 페이지 마운트 시에 post 정보 요청
-    initSet();
-
-    // 페이지 마운트 시에 comment 정보 요청
-    getComment(location.state.postId);
-  }, []);
-
-  useEffect(() => {
-    if (storageList) {
-      storageList.map((storage) => {
-        if (storage.userId === id) {
-          setIsMyStorage(true);
+      })
+      .then((res: any) => {
+        console.log(res);
+        console.log(id);
+        if (res.data.postGet.userId === id) {
+          dispatch(isMineTrue());
+        } else {
+          dispatch(isMineFalse());
         }
+        setPostData(res.data.postGet);
+        setLikes(res.data.postLike);
+        setDueDate(res.data.postGet.dueDate.split(","));
+        setImages(res.data.postGet.imagePath.split(","));
+        setStorageList(res.data.postGet.storages);
       });
-    }
-  }, [storageList]);
+  };
 
   useEffect(() => {
     let category1: string[] = [];
@@ -240,6 +222,26 @@ function DetailPage() {
       setCategoryLink(newCategoryLink);
     }
   }, [postData]);
+
+  const [isMyStorage, setIsMyStorage] = useState<boolean>(false);
+
+  useEffect(() => {
+    // 페이지 마운트 시에 post 정보 요청
+    initSet();
+
+    // 페이지 마운트 시에 comment 정보 요청
+    getComment(location.state.postId);
+  }, []);
+
+  useEffect(() => {
+    if (storageList) {
+      storageList.map((storage) => {
+        if (storage.userId === id) {
+          setIsMyStorage(true);
+        }
+      });
+    }
+  }, [storageList]);
 
   const deletePostHandle = (target: string, commentId: number): void => {
     setIsDeleteModal(!isDeleteModal);
