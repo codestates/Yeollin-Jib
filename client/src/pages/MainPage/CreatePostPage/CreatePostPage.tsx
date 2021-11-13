@@ -216,6 +216,7 @@ function CreatePostPage() {
         }
       );
       if (result) {
+        window.scrollTo({ top: 0, left: 0 });
         history.push({
           pathname: "/main",
         });

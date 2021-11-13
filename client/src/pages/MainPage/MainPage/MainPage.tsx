@@ -27,7 +27,7 @@ import NeedLogin from "../../../components/Modals/NeedLogin/NeedLogin";
 
 function MainPage() {
   const [postInfo, setPostInfo] = useState<any[]>([]);
-  const [page, setPage] = useState<number>(0);
+  const [page, setPage] = useState<number>(1);
   const [postCount, setPostCount] = useState<number>(-1);
   const [isShowCategory, setIsShowCategory] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -48,12 +48,12 @@ function MainPage() {
     dispatch(setSearch(search));
   };
 
-  // isLogin이 트루면 user 정보를 요청
-  useEffect(() => {
-    if (isLogin) {
-      dispatch(setUser(accessToken));
-    }
-  }, [isLogin]);
+  // // isLogin이 트루면 user 정보를 요청
+  // useEffect(() => {
+  //   if (isLogin) {
+  //     dispatch(setUser(accessToken));
+  //   }
+  // }, [isLogin]);
 
   // 카테고리 선택 핸들
   const [mainCategories, setMainCategories] = useState(initMainCategories);
@@ -96,7 +96,7 @@ function MainPage() {
         setPage(2);
       } else if (result.data.message) {
         setPostInfo([]);
-        setPage(1);
+        setPage(2);
         setPostCount(0);
       }
     }
@@ -112,29 +112,22 @@ function MainPage() {
         location.state.searchOption === "title" ||
         location.state.searchOption === "address"
       ) {
-        setPage(1);
-        setCategoryId("");
         initPostData(
           `post/search/condition?search=${location.state.search}&code=${location.state.searchOption}&page=1`
         );
       }
     } else {
-      setPage(1);
-      setCategoryId("");
       initPostData("post/page/1");
     }
     CategorySelectHandle("init");
   }, [location]);
 
   useEffect(() => {
-    setPage(1);
-    setCategoryId("");
     initPostData("post/page/1");
     CategorySelectHandle("init");
   }, []);
 
   useEffect(() => {
-    setPage(1);
     initPostData(`post/category?code=${categoryId}&page=1`);
   }, [categoryId]);
 
@@ -153,7 +146,7 @@ function MainPage() {
         setPostCount(result.data.postGet.count);
         setPage(page + 1);
       }
-    } else if (result.data.message) {
+    } else if (result.data.message !== undefined) {
       setPostInfo([]);
       setPostCount(0);
     }
@@ -271,7 +264,7 @@ function MainPage() {
             </PostBoardTitleContainer>
             {/* 게시글 리스트 ----------------------------------------------------*/}
             <PostCardArea>
-              {postInfo === undefined ? (
+              {postInfo[0] === undefined ? (
                 <BlankPostCard>
                   <span>검색 결과가</span>
                   <span> 없습니다</span>
