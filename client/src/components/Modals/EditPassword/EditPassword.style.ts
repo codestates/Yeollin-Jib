@@ -65,7 +65,7 @@ export const InputTitle = styled.div`
   font-size: 1rem;
   margin-bottom: 0.5rem;
   transition: 0.5s all;
-
+  font-family: "Gmarket Sans TTF";
   @media screen and (max-width: 37.5rem) {
     font-size: 0.8rem;
     transition: 0.5s all;
