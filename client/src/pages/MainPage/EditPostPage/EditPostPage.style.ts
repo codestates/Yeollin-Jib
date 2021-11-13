@@ -229,7 +229,7 @@ export const PostCategory = styled.div`
 `;
 
 export const MainCategoryBox = styled.div`
-  width: 129px;
+  width: 119px;
   min-height: 379px;
   background: #f7f7f8;
   border: 1px solid #e0dde1;
@@ -243,7 +243,7 @@ interface CategorySelect {
 }
 
 export const MainCategoryItem = styled.div<CategorySelect>`
-  width: 129px;
+  width: 119px;
   height: 43px;
   background: ${(props) => (props.isSelect ? "#FDFBFE" : "none")};
   border-top: ${(props) =>

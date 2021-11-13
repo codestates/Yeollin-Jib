@@ -14,7 +14,9 @@ export const Body = styled.div`
 `;
 
 export const MainArea = styled.main`
-  width: 78.75rem;
+  max-width: 78.75rem;
+  width: 100%;
+  background: linear-gradient(0deg, #fbfafc, #fbfafc);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -207,7 +209,7 @@ export const PostCategoryArea = styled.div`
   }
   .Category_Container {
     width: 100%;
-    min-height: 379px;
+    min-height: 375px;
     display: flex;
     justify-content: space-between;
     @media screen and (max-width: 1100px) {
@@ -228,7 +230,7 @@ export const PostCategory = styled.div`
 `;
 
 export const MainCategoryBox = styled.div`
-  width: 129px;
+  width: 119px;
   min-height: 379px;
   background: #f7f7f8;
   border: 1px solid #e0dde1;
@@ -242,7 +244,7 @@ interface CategorySelect {
 }
 
 export const MainCategoryItem = styled.div<CategorySelect>`
-  width: 129px;
+  width: 119px;
   height: 43px;
   background: ${(props) => (props.isSelect ? "#FDFBFE" : "none")};
   border-top: ${(props) =>
@@ -287,7 +289,7 @@ interface SubCategorySelect {
 }
 
 export const SubCategoryItem = styled.span<SubCategorySelect>`
-  width: 135px;
+  width: 130px;
   height: 25px;
   line-height: 25px;
   margin: 4px 10% 4px 0;
@@ -382,6 +384,7 @@ export const AddressArea = styled.div`
     display: flex;
     align-items: center;
     margin-top: 11px;
+    width: 100%;
     margin-bottom: 30px;
   }
   span {
