@@ -78,7 +78,7 @@ export const ButtonContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   @media screen and (max-width: 37.5rem) {
-    width: 145px;
+    width: 155px;
   }
 `;
 

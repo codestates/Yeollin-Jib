@@ -71,7 +71,7 @@ export const ButtonContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   @media screen and (max-width: 37.5rem) {
-    width: 136px;
+    width: 155px;
   }
 `;
 
@@ -90,7 +90,7 @@ export const GoToMainButton = styled.button`
     background: #3f3f3f;
   }
   @media screen and (max-width: 37.5rem) {
-    width: 65px;
+    width: 70px;
     height: 30px;
     font-size: 10px;
   }
@@ -111,7 +111,7 @@ export const GoToBeforeButton = styled.button`
     background: #f5f4f5;
   }
   @media screen and (max-width: 37.5rem) {
-    width: 65px;
+    width: 70px;
     height: 30px;
     font-size: 10px;
   }
