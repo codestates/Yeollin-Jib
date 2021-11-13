@@ -44,7 +44,8 @@
 * Role : Team Member
 * Position : Front-End
 * Stack : `TypeScript`, `Axios`, `Styled-components`, `React`, `React-hooks`, `Redux-toolkit`
-* Works : UI 디자인, 로그인, 회원가입, 모바일 햄버거바, 마이페이지(회원 정보 수정, 내가 쓴 게시글, 내가 쓴 댓글, 내가 찜한 게시글), 구글, 카카오 소셜 로그인 구현
+* Works : UI 디자인, 로그인, 회원가입, 모바일 햄버거바, 마이페이지(회원 정보 수정, 내가 쓴 게시글, 내가 쓴 댓글, 내가 찜한 게시글), 구글, 카카오 소셜 로그인 구현, Kakao Map(Marker, CustomOverlay, 
+카카오 맵 사이트 검색 연결)
 
 <img src = "https://user-images.githubusercontent.com/82765407/133204916-bd1c3735-a798-423e-bcca-421d5e83664d.png" width="300px">
 <a href="https://github.com/iysh321"><img src = "https://img.shields.io/badge/iysh321-black?style=for-the-badge&logo=GitHub&logoColor=white"></a>
@@ -62,7 +63,7 @@
 * Role : Team Member
 * Position : Front-End
 * Stack : `TypeScript`, `Axios`, `Styled-components`, `React`, `React-hooks`, `Redux-toolkit`
-* Works : 메인페이지 (게시글 CRUD, 댓글 CRUD), header, footer, 무한 스크롤
+* Works : 메인페이지 (게시글 CRUD, 댓글 CRUD), header, footer, 무한 스크롤, Kakao Map 렌더링
 
 <img src = "https://user-images.githubusercontent.com/82765407/133204932-ebec87d5-7694-4a8e-a423-233a62d037df.png" width="200px">
  <a href="https://github.com/suzyhwang"><img src = "https://img.shields.io/badge/suzyhwang-black?style=for-the-badge&logo=GitHub&logoColor=white"></a>
