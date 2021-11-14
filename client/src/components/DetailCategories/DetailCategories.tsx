@@ -1,9 +1,5 @@
 import { useEffect, useState } from "react";
 import {
-  initCategoryFunc,
-  initMainCategories,
-} from "../../pages/MainPage/Categories";
-import {
   CategoryBox,
   CategoryTitle,
   CategoryRow,
@@ -113,11 +109,11 @@ function DetailCategories({
   }, []);
 
   // unmount 시 카테고리 isSelect 상태 초기화
-  useEffect(() => {
-    return () => {
-      initCategoryFunc();
-    };
-  }, []);
+  // useEffect(() => {
+  //   return () => {
+  //     initCategoryFunc();
+  //   };
+  // }, []);
 
   return (
     <CategoryBox>

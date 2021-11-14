@@ -42,7 +42,7 @@ import Timer from "../../../components/Timer/Timer";
 import PostComment from "../../../components/PostComment/PostComment";
 import { useLocation } from "react-router";
 import DetailCategories from "../../../components/DetailCategories/DetailCategories";
-import { initMainCategories } from "../Categories";
+import { dbInitMainCategories } from "../Categories";
 import { Link } from "react-router-dom";
 import { isMineTrue, isMineFalse } from "../../../reducers/isMineReducer";
 import NeedLogin from "../../../components/Modals/NeedLogin/NeedLogin";
@@ -194,13 +194,13 @@ function DetailPage() {
         setStorageList(res.data.postGet.storages);
       });
   };
-  const [mainCategories, setMainCategories] = useState(initMainCategories);
+  const [mainCategories, setMainCategories] = useState(dbInitMainCategories);
   useEffect(() => {
     let category1: string[] = [];
     let category2: string[] = [];
     let categoryBoolean: boolean[] = [];
     if (postData !== undefined) {
-      initMainCategories.forEach((mainCategory) => {
+      mainCategories.forEach((mainCategory) => {
         mainCategory.subCategories.forEach((subCategory) => {
           postData.post_categories.forEach((userCategory: any) => {
             if (userCategory.categoryId === subCategory.id) {
