@@ -107,7 +107,7 @@ export const GoToBeforeButton = styled.button`
   border-radius: 5px;
   font-size: 16px;
   border: 1px solid #2d2d2d;
-  font-family: Gmarket Sans TTF;
+  font-family: "Gmarket Sans TTF";
   font-weight: 100;
   color: #2d2d2d;
   background: #ffffff;
