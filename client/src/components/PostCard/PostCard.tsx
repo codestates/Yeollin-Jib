@@ -50,7 +50,6 @@ function PostCard({ postInfo, idx }: Result) {
   if (!isLogin) {
     id = 0;
   }
-  console.log("postCard", id);
   // 저장된 유저의 카테고리에서 중복 제거
   let ArrCategory: number[] = [];
   postInfo.post_categories.map((category: any) => {

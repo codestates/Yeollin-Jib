@@ -18,7 +18,8 @@ export const Body = styled.div`
 `;
 
 export const MainArea = styled.main`
-  width: 78.75rem;
+  max-width: 78.75rem;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;

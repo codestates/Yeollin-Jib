@@ -18,7 +18,7 @@ const AddressBtn = styled.button`
   font-size: 1rem;
   color: white;
   height: 3rem;
-  width: 115px;
+
   margin-left: 0.5rem;
   cursor: pointer;
   transition: 0.5s font-size, height, width;
@@ -31,7 +31,6 @@ const AddressBtn = styled.button`
     font-size: 0.8rem;
     transition: 0.5s font-size, height, width;
     height: 2.6rem;
-    width: 115px;
   }
 `;
 
