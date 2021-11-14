@@ -6,7 +6,7 @@ export interface SubCateSelect {
 
 export const CategoryBox = styled.div`
   width: 100%;
-  height: 167px;
+  min-height: 167px;
   border: 1px solid #e0dde1;
   box-sizing: border-box;
   border-radius: 5px;
@@ -34,6 +34,7 @@ export const CategoryRow = styled.div`
   height: auto;
   margin-top: 13px;
   font-weight: 100;
+  align-items: center;
   @media screen and (max-width: 37.5rem) {
     font-size: 10px;
   }
@@ -41,11 +42,8 @@ export const CategoryRow = styled.div`
 
 export const MainCategory = styled.div`
   width: 180px;
-  height: 17px;
   @media screen and (max-width: 37.5rem) {
-  }
-  @media screen and (max-width: 375px) {
-    width: 250px;
+    width: 100px;
   }
 `;
 
@@ -53,11 +51,10 @@ export const SubCategory = styled.div`
   display: flex;
   height: 100%;
   width: 100%;
+  flex-wrap: wrap;
   div {
     display: flex;
     align-items: center;
-    width: 130px;
-    height: 17px;
     margin-left: 10px;
   }
   @media screen and (max-width: 37.5rem) {

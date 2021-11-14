@@ -194,10 +194,11 @@ function DetailPage() {
         setStorageList(res.data.postGet.storages);
       });
   };
-
+  const [mainCategories, setMainCategories] = useState(initMainCategories);
   useEffect(() => {
     let category1: string[] = [];
     let category2: string[] = [];
+    let categoryBoolean: boolean[] = [];
     if (postData !== undefined) {
       initMainCategories.forEach((mainCategory) => {
         mainCategory.subCategories.forEach((subCategory) => {
@@ -205,18 +206,23 @@ function DetailPage() {
             if (userCategory.categoryId === subCategory.id) {
               category1.push(mainCategory.id);
               category2.push(subCategory.name);
+              categoryBoolean.push(userCategory.Boolean);
             }
           });
         });
       });
+
       // 카테고리 세팅
       let newCategoryLink: any = {};
       for (let i = 0; i < category1.length; i++) {
+        const setCateAndBool: any = {};
+        setCateAndBool["cateId"] = category2[i];
+        setCateAndBool["cateBool"] = categoryBoolean[i];
         if (newCategoryLink[category1[i]] === undefined) {
           newCategoryLink[category1[i]] = [];
-          newCategoryLink[category1[i]].push(category2[i]);
+          newCategoryLink[category1[i]].push(setCateAndBool);
         } else {
-          newCategoryLink[category1[i]].push(category2[i]);
+          newCategoryLink[category1[i]].push(setCateAndBool);
         }
       }
       setCategoryLink(newCategoryLink);
@@ -231,7 +237,7 @@ function DetailPage() {
 
     // 페이지 마운트 시에 comment 정보 요청
     getComment(location.state.postId);
-  }, []);
+  }, [mainCategories]);
 
   useEffect(() => {
     if (storageList) {
@@ -447,7 +453,13 @@ function DetailPage() {
                   </span>
                 </DueDateBox>
                 {/* 카테고리 미리보기 컴포넌트----------------------------------------------------*/}
-                <DetailCategories categoryLink={categoryLink} isMine={isMine} />
+                <DetailCategories
+                  categoryLink={categoryLink}
+                  isMine={isMine}
+                  postId={postData.id}
+                  mainCategories={mainCategories}
+                  setMainCategories={setMainCategories}
+                />
               </ContentsBox>
             </PostContentsArea>
             {/* 카카오맵 ----------------------------------------------------*/}

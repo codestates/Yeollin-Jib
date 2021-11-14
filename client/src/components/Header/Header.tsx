@@ -46,10 +46,9 @@ function Header() {
       setSearchOption("title");
     } else if (option === "지역") {
       setSearchOption("address");
-    } else if (option === "category") {
-      setSearchOption("category");
     }
   };
+
   // 인풋 입력 후 엔터를 치면 검색 요청을 보냄
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && search.length >= 2) {
@@ -64,6 +63,7 @@ function Header() {
   const valueHandler = (search: string) => {
     dispatch(setSearch(search));
   };
+
   const redirectHandler = () => {
     window.scrollTo({ top: 0, left: 0 });
     dispatch(setSearch(search));

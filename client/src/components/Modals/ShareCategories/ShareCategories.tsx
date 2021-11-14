@@ -61,32 +61,33 @@ function ShareCategories({ isMine, showCategoryHandle, categoryLink }: IsMine) {
             <CategoryTitle>
               <span>품목</span>
             </CategoryTitle>
-            {mainCategories.map((mainCate) => {
+            {mainCategories.map((mainCate: any) => {
               if (categoryLink[mainCate.id] !== undefined) {
                 return (
-                  <CategoryRow>
+                  <CategoryRow key={mainCate.name}>
                     <MainCategory>{mainCate.name}</MainCategory>
                     <SubCategory>
-                      {mainCate.subCategories.map((subCate) => {
-                        if (categoryLink[mainCate.id].includes(subCate.name)) {
-                          return (
-                            <div className="Sub_Category_Box">
-                              <CategoryIcon
-                                isCheck={subCate.isSelect}
-                                isMine={isMine}
-                              />
-                              <SubCategoryName
-                                isCheck={subCate.isSelect}
-                                onClick={() =>
-                                  selectCategory(mainCate.id, subCate.name)
-                                }
-                                className="Sub_Item"
-                              >
-                                {subCate.name}
-                              </SubCategoryName>
-                            </div>
-                          );
-                        }
+                      {mainCate.subCategories.map((subCate: any) => {
+                        return categoryLink[mainCate.id].map(
+                          (cateBool: any) => {
+                            if (cateBool.cateId === subCate.name) {
+                              return (
+                                <div key={subCate.id}>
+                                  <CategoryIcon isCheck={subCate.isSelect} />
+                                  <SubCategoryName
+                                    isCheck={subCate.isSelect}
+                                    onClick={() =>
+                                      selectCategory(mainCate.id, subCate.name)
+                                    }
+                                    className="Sub_Item"
+                                  >
+                                    {subCate.name}
+                                  </SubCategoryName>
+                                </div>
+                              );
+                            }
+                          }
+                        );
                       })}
                     </SubCategory>
                   </CategoryRow>

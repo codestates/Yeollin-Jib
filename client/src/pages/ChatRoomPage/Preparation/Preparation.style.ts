@@ -74,12 +74,8 @@ export const DivContainer = styled.div`
 
 export const ButtonContainer = styled.div`
   display: flex;
-  width: 228px;
-  flex-direction: row;
-  justify-content: space-between;
-  @media screen and (max-width: 37.5rem) {
-    width: 155px;
-  }
+  width: 100%;
+  justify-content: center;
 `;
 
 export const GoToMainButton = styled.button`
@@ -89,6 +85,7 @@ export const GoToMainButton = styled.button`
   border-radius: 5px;
   font-size: 16px;
   font-weight: 100;
+  margin-right: 20px;
   color: #ffffff;
   font-family: Gmarket Sans TTF;
   border-style: none;
@@ -97,9 +94,10 @@ export const GoToMainButton = styled.button`
     background: #3f3f3f;
   }
   @media screen and (max-width: 37.5rem) {
-    width: 70px;
+    width: 75px;
     height: 30px;
     font-size: 10px;
+    margin-right: 10px;
   }
 `;
 
@@ -109,7 +107,7 @@ export const GoToBeforeButton = styled.button`
   border-radius: 5px;
   font-size: 16px;
   border: 1px solid #2d2d2d;
-  font-family: Gmarket Sans TTF;
+  font-family: "Gmarket Sans TTF";
   font-weight: 100;
   color: #2d2d2d;
   background: #ffffff;
@@ -118,7 +116,7 @@ export const GoToBeforeButton = styled.button`
     background: #f5f4f5;
   }
   @media screen and (max-width: 37.5rem) {
-    width: 70px;
+    width: 75px;
     height: 30px;
     font-size: 10px;
   }

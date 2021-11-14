@@ -28,7 +28,7 @@ import NeedLogin from "../../../components/Modals/NeedLogin/NeedLogin";
 function MainPage() {
   const [postInfo, setPostInfo] = useState<any[]>([]);
   const [page, setPage] = useState<number>(1);
-  const [postCount, setPostCount] = useState<number>(-1);
+  const [postCount, setPostCount] = useState<number>();
   const [isShowCategory, setIsShowCategory] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { isLogin, accessToken } = useSelector(
@@ -48,12 +48,12 @@ function MainPage() {
     dispatch(setSearch(search));
   };
 
-  // // isLogin이 트루면 user 정보를 요청
-  // useEffect(() => {
-  //   if (isLogin) {
-  //     dispatch(setUser(accessToken));
-  //   }
-  // }, [isLogin]);
+  // isLogin이 트루면 user 정보를 요청
+  useEffect(() => {
+    if (isLogin) {
+      dispatch(setUser(accessToken));
+    }
+  }, [isLogin]);
 
   // 카테고리 선택 핸들
   const [mainCategories, setMainCategories] = useState(initMainCategories);
@@ -94,15 +94,18 @@ function MainPage() {
         setPostInfo(result.data.postGet.rows);
         setPostCount(result.data.postGet.count);
         setPage(2);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 1500);
       } else if (result.data.message) {
         setPostInfo([]);
-        setPage(2);
+        setPage(1);
         setPostCount(0);
       }
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
     }
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1500);
   };
 
   // 해당 컴포넌트가 마운트될 때 초기 게시글을 호출한다, 카테고리 셀렉트 상태를 초기화 한다
@@ -112,22 +115,29 @@ function MainPage() {
         location.state.searchOption === "title" ||
         location.state.searchOption === "address"
       ) {
+        setPage(1);
+        setCategoryId("");
         initPostData(
           `post/search/condition?search=${location.state.search}&code=${location.state.searchOption}&page=1`
         );
       }
     } else {
+      setPage(1);
+      setCategoryId("");
       initPostData("post/page/1");
     }
     CategorySelectHandle("init");
   }, [location]);
 
   useEffect(() => {
+    setPage(1);
+    setCategoryId("");
     initPostData("post/page/1");
     CategorySelectHandle("init");
   }, []);
 
   useEffect(() => {
+    setPage(1);
     initPostData(`post/category?code=${categoryId}&page=1`);
   }, [categoryId]);
 
@@ -141,15 +151,18 @@ function MainPage() {
       }
     );
     if (result !== undefined) {
-      if (result.data.message === undefined && postInfo !== undefined) {
+      if (result.data.message === undefined) {
         setPostInfo(postInfo.concat(result.data.postGet.rows));
         setPostCount(result.data.postGet.count);
         setPage(page + 1);
       }
-    } else if (result.data.message !== undefined) {
+    } else if (result.data.message) {
       setPostInfo([]);
       setPostCount(0);
     }
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
   };
 
   // 무한스크롤 함수
@@ -189,14 +202,12 @@ function MainPage() {
   // 스크롤이 발생할때마다 handleScroll 함수를 호출하도록 한다.
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, true);
-  }, [handleScroll]);
 
-  useEffect(() => {
+    // 해당 컴포넌트가 언마운트 될때, 스크롤 이벤트를 제거한다.
     return () => {
-      // 해당 컴포넌트가 언마운트 될때, 스크롤 이벤트를 제거한다.
       window.removeEventListener("scroll", handleScroll, true);
     };
-  }, []);
+  }, [handleScroll]);
 
   return (
     <Body>

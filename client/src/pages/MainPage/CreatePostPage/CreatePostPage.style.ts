@@ -289,7 +289,7 @@ interface SubCategorySelect {
 }
 
 export const SubCategoryItem = styled.span<SubCategorySelect>`
-  width: 130px;
+  width: 150px;
   height: 25px;
   line-height: 25px;
   margin: 4px 10% 4px 0;
@@ -391,7 +391,7 @@ export const AddressArea = styled.div`
     margin-left: 7px;
   }
   button {
-    width: 97px;
+    width: 105px;
     height: 47px;
     background: #2d2d2d;
     border-radius: 5px;
@@ -481,17 +481,14 @@ export const InvalidMessage = styled.div`
   margin: 50px 0 20px 0;
   transition: 0.5s all;
   height: 16px;
-
   img {
     margin-right: 3px;
     padding-top: 2px;
   }
-
   @media screen and (max-width: 37.5rem) {
     font-size: 0.8rem;
     transition: 0.5s all;
     margin: 5px 0 10px 0;
-
     img {
       width: 12px;
       height: 12px;
