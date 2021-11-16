@@ -192,6 +192,7 @@ export const DeleteProfileImg = styled.div`
 export const InputContainer = styled.div`
   display: flex;
   align-items: center;
+  width: 100%;
   margin-top: 10px;
 
   @media screen and (max-width: 37.5rem) {
@@ -205,7 +206,6 @@ export const InputTitle = styled.div`
   font-family: "Gmarket Sans TTF";
   font-weight: 300;
   font-size: 1rem;
-
   div {
     margin-left: 5px;
   }
@@ -257,12 +257,10 @@ export const ValidationBtn = styled.button`
   :active {
     background: #3f3f3f;
   }
-
   @media screen and (max-width: 37.5rem) {
     font-size: 0.8rem;
     transition: 0.5s font-size, height, width;
     height: 2.6rem;
-    width: 115px;
   }
 `;
 
