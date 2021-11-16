@@ -180,8 +180,6 @@ function DetailPage() {
         },
       })
       .then((res: any) => {
-        console.log(res);
-        console.log(id);
         if (res.data.postGet.userId === id) {
           dispatch(isMineTrue());
         } else {
