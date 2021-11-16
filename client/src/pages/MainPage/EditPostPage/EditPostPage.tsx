@@ -134,11 +134,6 @@ function EditPostPage() {
   // 업로드 할 사진정보 state
   const [uploadFiles, setUploadFiles] = useState<any[] | undefined[]>([]);
   const [postImagePath, setPostImagePath] = useState<string[]>(imagePath);
-
-  console.log("기존이미지", postImagePath);
-  console.log("삭제할이미지", imageDelete);
-  console.log("올릴사진", uploadFiles);
-
   const photoPath = (file: any) => {
     let newFiles = [...uploadFiles];
     let newFileLen = newFiles.length;
@@ -266,7 +261,6 @@ function EditPostPage() {
   const EditPullDataHandle = (postData: any) => {
     let dueDate = postData.dueDate.split(",");
     let images = postData.imagePath.split(",");
-    console.log(postData);
     setInputTitle(postData.title);
     setInputDate(dueDate[0]);
     setInputTime(dueDate[1]);
