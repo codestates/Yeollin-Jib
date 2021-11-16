@@ -384,24 +384,10 @@ export const AddressArea = styled.div`
     align-items: center;
     margin-top: 11px;
     margin-bottom: 30px;
+    width: 100%;
   }
   span {
     margin-left: 7px;
-  }
-  button {
-    width: 97px;
-    height: 47px;
-    background: #2d2d2d;
-    border-radius: 5px;
-    border: none;
-    font-family: "Gmarket Sans TTF";
-    font-weight: 100;
-    color: #ffffff;
-    cursor: pointer;
-    margin-left: 10px;
-    :active {
-      background: #3f3f3f;
-    }
   }
 `;
 
@@ -415,11 +401,15 @@ export const InputAddress = styled.input`
   font-size: 1rem;
   color: #2d2d2d;
   width: 100%;
-  height: 47px;
+  height: 3rem;
   padding: 0 17px 0 17px;
+  box-sizing: border-box;
   /* transition: 0.5s all; */
   :focus {
     border: 1px solid #2d2d2d;
+  }
+  @media screen and (max-width: 37.5rem) {
+    height: 2.6rem;
   }
 `;
 

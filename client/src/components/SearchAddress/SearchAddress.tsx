@@ -18,7 +18,7 @@ const AddressBtn = styled.button`
   font-size: 1rem;
   color: white;
   height: 3rem;
-
+  width: 115px;
   margin-left: 0.5rem;
   cursor: pointer;
   transition: 0.5s font-size, height, width;
