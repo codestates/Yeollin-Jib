@@ -73,7 +73,7 @@
 * Role : Team Leader
 * Position : Full Stack (Back-End -> Front-End)
 * Stack : `TypeScript`, `Node.js`, `Mysql`, `Sequelize`, `Express`, `Axios`, `Styled-components`, `React`, `React-hooks`, `Redux-toolkit`
-* Works : User, Comment, Storage, Inquiry Endpoint 구현, 구글 소셜 로그인 구현, 랜딩페이지, 문의하기, 로딩중
+* Works : User, Comment, Storage, Inquiry Endpoint 구현, 구글 소셜 로그인 구현, 랜딩페이지, 문의하기, 로딩중, 타이머 컴포넌트, 404페이지 및 채팅방 준비중
 
 ## More Info
 
