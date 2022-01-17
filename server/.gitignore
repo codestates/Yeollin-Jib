@@ -1,5 +1,5 @@
 # dependencies
-/dist
+
 /node_modules
 # misc
 /public/uploads
