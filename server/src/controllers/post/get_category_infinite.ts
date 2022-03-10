@@ -22,7 +22,7 @@ const get_category_infinite = async (req: Request, res: Response) => {
 
     // 대분류 해당 코드 categoryNumbers 배열에 나눔
     const categoryGet = await category.findAll({
-      where: { category1: categoryNumber },
+      // where: { category1: categoryNumber },
     });
     for (let i = 0; i < categoryGet.length; i++) {
       categoryNumbers.push(categoryGet[i].id);

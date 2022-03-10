@@ -3,7 +3,7 @@ import user from "../../models/user";
 
 const email = async (req: Request, res: Response) => {
   try {
-    const { email } = req.query;
+    const email = req.query;
     // 로그인된 아이디 정보 찾기
     const result = await user.findOne({ where: { email: email } });
     // email 중복코드
