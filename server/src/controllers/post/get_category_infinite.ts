@@ -4,7 +4,6 @@ import post from "../../models/post";
 import post_category from "../../models/post_category";
 import category from "../../models/category";
 import storage from "../../models/storage";
-import accessToken from "../../middleware/accessToken";
 import Sequelize from "sequelize";
 const { or, and, gt, lt, overlap } = Sequelize.Op;
 
