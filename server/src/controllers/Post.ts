@@ -11,7 +11,7 @@ import * as fs from "fs";
 import Sequelize from "sequelize";
 const { or, and, gt, lt, like, overlap } = Sequelize.Op;
 
-class User {
+class Post {
   constructor() {}
 
   post_user = async (req: Request, res: Response) => {
