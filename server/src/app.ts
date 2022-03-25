@@ -1,9 +1,15 @@
 import express, { Request, Response, NextFunction, Application } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import * as dotenv from "dotenv";
-dotenv.config();
+import { AppDataSource } from "./data-source";
 const app = express();
+
+AppDataSource.initialize()
+  .then(async () => {
+    // here you can start to work with your database
+    console.log("📚 DB connect! TypeORM");
+  })
+  .catch((error) => console.log(error));
 
 const corsOption = {
   Headers: { "content-type": "application/json" },
