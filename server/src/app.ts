@@ -12,6 +12,7 @@ import "express-async-errors";
 // routers
 import userRouter from "./routers/user";
 import { UserController } from "./controllers/User";
+import * as userRepository from "./data/userData";
 
 import postRouter from "./routers/post";
 import { PostController } from "./controllers/Post";
@@ -49,7 +50,7 @@ app.use(
 );
 
 // routes
-app.use("/user", userRouter(new UserController()));
+app.use("/user", userRouter(new UserController(userRepository)));
 app.use("/post", postRouter(new PostController()));
 app.use("/storage", postStorageRouter(new PostStorageController()));
 app.use("/comment", commentRouter(new CommentsController()));
