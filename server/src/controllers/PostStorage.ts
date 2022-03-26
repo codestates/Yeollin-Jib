@@ -4,7 +4,7 @@ import storage from "../models/storage";
 import post from "../models/post";
 import post_category from "../models/post_category";
 
-class PostStorage {
+export class PostStorageController {
   constructor() {}
 
   post_like = async (req: Request, res: Response) => {

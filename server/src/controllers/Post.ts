@@ -11,7 +11,7 @@ import * as fs from "fs";
 import Sequelize from "sequelize";
 const { or, and, gt, lt, like, overlap } = Sequelize.Op;
 
-class Post {
+export class PostController {
   constructor() {}
 
   post_user = async (req: Request, res: Response) => {
@@ -439,7 +439,7 @@ class Post {
     }
   };
 
-  get_infinite = async (req: Request, res: Response) => {
+  get_page_infinite = async (req: Request, res: Response) => {
     try {
       const pageNum: any = req.params.id; // page Number
 

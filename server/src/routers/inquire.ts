@@ -1,7 +1,8 @@
 import express from "express";
-const inquireRouter = express.Router();
-import * as inquirecontroller from "../controllers/inquire/index";
+const router = express.Router();
 
-inquireRouter.post("/", inquirecontroller.post);
+export default function inquireRouter(inquireController: any) {
+  router.post("/", inquireController.post);
 
-export default inquireRouter;
+  return router;
+}

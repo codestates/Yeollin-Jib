@@ -11,7 +11,7 @@ import * as crypto from "crypto";
 import * as fs from "fs";
 import axios from "axios";
 
-class User {
+export class UserController {
   constructor() {}
 
   signup = async (req: Request, res: Response) => {
@@ -121,7 +121,7 @@ class User {
     }
   };
 
-  nick_name = async (req: Request, res: Response) => {
+  checkNickname = async (req: Request, res: Response) => {
     try {
       const nickname = req.query;
 
@@ -144,7 +144,7 @@ class User {
     }
   };
 
-  email = async (req: Request, res: Response) => {
+  checkEmail = async (req: Request, res: Response) => {
     try {
       const email = req.query;
       // 로그인된 아이디 정보 찾기
@@ -160,7 +160,7 @@ class User {
     }
   };
 
-  put = async (req: Request, res: Response) => {
+  putUser = async (req: Request, res: Response) => {
     const userId = req.cookies.id;
     try {
       const header = req.headers;
@@ -237,7 +237,7 @@ class User {
     }
   };
 
-  get = async (req: Request, res: Response) => {
+  getUser = async (req: Request, res: Response) => {
     const userId = req.cookies.id;
     try {
       const commentUser = await comment.findAll({
@@ -287,7 +287,7 @@ class User {
     }
   };
 
-  delete_ = async (req: Request, res: Response) => {
+  deleteUser = async (req: Request, res: Response) => {
     try {
       const header: object = req.headers;
 

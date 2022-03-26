@@ -1,5 +1,6 @@
 import "dotenv/config";
 import { sequelize } from "./models";
+import { AppDataSource } from "./data-source";
 import app from "./app";
 
 const PORT: number = parseInt(process.env.PORT as string, 10) || 80;
@@ -16,4 +17,11 @@ app.listen(PORT, async () => {
     .catch((e) => {
       console.log("TT : ", e);
     });
+
+  AppDataSource.initialize()
+    //typeORM
+    .then(async (connection) => {
+      console.log("📚 DB connect! TypeORM");
+    })
+    .catch((error) => console.log("📚 DB error!", error));
 });

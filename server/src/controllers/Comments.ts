@@ -3,7 +3,7 @@ import user from "../models/user";
 import post from "../models/post";
 import comment from "../models/comment";
 
-class Comments {
+export class CommentsController {
   constructor() {}
 
   post_c = async (req: Request, res: Response) => {

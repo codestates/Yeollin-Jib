@@ -1,18 +1,14 @@
 import express from "express";
-const poststorageRouter = express.Router();
-import * as poststoragecontroller from "../controllers/poststorage/index";
 import accessToken from "../middleware/accessToken";
 
-poststorageRouter.get("/", accessToken, poststoragecontroller.get_likes);
-poststorageRouter.delete(
-  "/:postId",
-  accessToken,
-  poststoragecontroller.delete_like,
-);
-poststorageRouter.post(
-  "/:postId",
-  accessToken,
-  poststoragecontroller.post_like,
-);
+const router = express.Router();
 
-export default poststorageRouter;
+export default function postStorageRouter(poststoragecontroller: any) {
+  router.get("/", accessToken, poststoragecontroller.get_likes);
+
+  router.delete("/:postId", accessToken, poststoragecontroller.delete_like);
+
+  router.post("/:postId", accessToken, poststoragecontroller.post_like);
+
+  return router;
+}
