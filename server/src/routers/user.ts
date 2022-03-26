@@ -1,53 +1,54 @@
 import express from "express";
 import accessToken from "../middleware/accessToken";
 import { upload } from "../middleware/multer";
+import { UserController } from "../controllers/User";
 
 const router = express.Router();
 
-export default function userRouter(userController: any) {
+export default function userRouter(UserController: UserController) {
   //회원가입
-  router.post("/signup", userController.signup);
+  router.post("/signup", UserController.signup);
 
   //일반 로그인
-  router.post("/login", userController.login);
+  router.post("/login", UserController.login);
 
   //로그아웃
-  router.post("/logout", userController.logout);
+  router.post("/logout", UserController.logout);
 
   //유저정보요청
-  router.get("/", accessToken, userController.getUser);
+  router.get("/", accessToken, UserController.getUser);
 
   //닉네임중복
-  router.get("/nickname", userController.checkNickname);
+  router.get("/nickname", UserController.checkNickname);
 
   //이메일중복
-  router.get("/email", userController.checkEmail);
+  router.get("/email", UserController.checkEmail);
 
   //유저프로필변경
   router.patch(
     "/",
     upload.single("imagePath"),
     accessToken,
-    userController.putUser,
+    UserController.putUser,
   );
 
   //유저사진삭제
-  router.delete("/photo", accessToken, userController.deletePhoto);
+  router.delete("/photo", accessToken, UserController.deletePhoto);
 
   //회원탈퇴
-  router.delete("/", accessToken, userController.deleteUser);
+  router.delete("/", accessToken, UserController.deleteUser);
 
   //구글 로그인 user/login/google
-  router.get("/login/google", userController.googleLogin);
+  router.get("/login/google", UserController.googleLogin);
 
   //구글 로그인 callback user/google/callback
-  router.get("/google/callback", userController.googleCallback);
+  router.get("/google/callback", UserController.googleCallback);
 
   //카카오 로그인 /user/login/kakao
-  router.get("/login/kakao", userController.kakaoLogin);
+  router.get("/login/kakao", UserController.kakaoLogin);
 
   //카카오 로그인 callback user/kakao/callback
-  router.get("/kakao/callback", userController.kakaoCallback);
+  router.get("/kakao/callback", UserController.kakaoCallback);
 
   return router;
 }
