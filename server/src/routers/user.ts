@@ -1,49 +1,53 @@
 import express from "express";
-const userRouter = express.Router();
-import * as usercontroller from "../controllers/user/index";
 import accessToken from "../middleware/accessToken";
 import { upload } from "../middleware/multer";
 
-//회원가입
-userRouter.post("/signup", usercontroller.signup);
+const router = express.Router();
 
-//일반 로그인
-userRouter.post("/login", usercontroller.login);
+export default function userRouter(userController: any) {
+  //회원가입
+  router.post("/signup", userController.signup);
 
-//구글 로그인 user/login/google
-userRouter.get("/login/google", usercontroller.googleLogin);
+  //일반 로그인
+  router.post("/login", userController.login);
 
-//구글 로그인 callback user/google/callback
-userRouter.get("/google/callback", usercontroller.googleCallback);
+  //로그아웃
+  router.post("/logout", userController.logout);
 
-//카카오 로그인 /user/login/kakao
-userRouter.get("/login/kakao", usercontroller.kakaoLogin);
+  //유저정보요청
+  router.get("/", accessToken, userController.getUser);
 
-//카카오 로그인 callback user/kakao/callback
-userRouter.get("/kakao/callback", usercontroller.kakaoCallback);
+  //닉네임중복
+  router.get("/nickname", userController.checkNickname);
 
-//로그아웃
-userRouter.post("/logout", usercontroller.logout);
+  //이메일중복
+  router.get("/email", userController.checkEmail);
 
-//유저정보요청
-userRouter.get("/", accessToken, usercontroller.get);
-//닉네임중복
-userRouter.get("/nickname", usercontroller.nick_name);
-//이메일중복
-userRouter.get("/email", usercontroller.email);
+  //유저프로필변경
+  router.patch(
+    "/",
+    upload.single("imagePath"),
+    accessToken,
+    userController.putUser,
+  );
 
-//유저프로필변경
-userRouter.patch(
-  "/",
-  upload.single("imagePath"),
-  accessToken,
-  usercontroller.put
-);
+  //유저사진삭제
+  router.delete("/photo", accessToken, userController.deletePhoto);
 
-//유저사진삭제
-userRouter.delete("/photo", accessToken, usercontroller.deletePhoto);
+  //회원탈퇴
+  router.delete("/", accessToken, userController.deleteUser);
 
-//회원탈퇴
-userRouter.delete("/", accessToken, usercontroller.delete_);
+  //구글 로그인 user/login/google
+  router.get("/login/google", userController.googleLogin);
 
-export default userRouter;
+  //구글 로그인 callback user/google/callback
+  router.get("/google/callback", userController.googleCallback);
+
+  //카카오 로그인 /user/login/kakao
+  router.get("/login/kakao", userController.kakaoLogin);
+
+  //카카오 로그인 callback user/kakao/callback
+  router.get("/kakao/callback", userController.kakaoCallback);
+
+  return router;
+}

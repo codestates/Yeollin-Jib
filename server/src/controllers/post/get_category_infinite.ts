@@ -4,7 +4,6 @@ import post from "../../models/post";
 import post_category from "../../models/post_category";
 import category from "../../models/category";
 import storage from "../../models/storage";
-import accessToken from "../../middleware/accessToken";
 import Sequelize from "sequelize";
 const { or, and, gt, lt, overlap } = Sequelize.Op;
 
@@ -22,7 +21,7 @@ const get_category_infinite = async (req: Request, res: Response) => {
 
     // 대분류 해당 코드 categoryNumbers 배열에 나눔
     const categoryGet = await category.findAll({
-      where: { category1: categoryNumber },
+      // where: { category1: categoryNumber },
     });
     for (let i = 0; i < categoryGet.length; i++) {
       categoryNumbers.push(categoryGet[i].id);

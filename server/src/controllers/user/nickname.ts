@@ -3,11 +3,14 @@ import user from "../../models/user";
 
 const nick_name = async (req: Request, res: Response) => {
   try {
-    const { nickname } = req.query;
+    const nickname = req.query;
 
     // 로그인된 아이디 정보 찾기
     const userByNick = await user.findOne({
-      where: { nickname: nickname || nickname!.toUpperCase() },
+      where: {
+        nickname: nickname,
+        // || nickname!.toUpperCase()
+      },
     });
 
     // nickname 중복코드
