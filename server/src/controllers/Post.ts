@@ -14,7 +14,8 @@ const { or, and, gt, lt, like, overlap } = Sequelize.Op;
 export class PostController {
   constructor() {}
 
-  post_user = async (req: Request, res: Response) => {
+  createPost = async (req: Request, res: Response) => {
+    console.log(req);
     const id = req.cookies.id;
     const image: any = req.files;
     const images = image.map((value: any) => {
@@ -34,6 +35,8 @@ export class PostController {
       category2,
     } = req.body;
 
+    // Multipul/form-data는 validator body의 값의 유효성검사가 안된다.
+    // (클라이언트에서 유효성 검사를 하기 때문에 아래코드는 안전장치)
     if (!title) return res.status(400).send({ message: "제목이 없습니다." });
     if (!contents) return res.status(400).send({ message: "내용이 없습니다." });
     if (!address) return res.status(400).send({ message: "주소가 없습니다." });
@@ -46,6 +49,7 @@ export class PostController {
     if (!category1 || !category2) {
       return res.status(400).send({ message: "선택한 카테고리가 없습니다." });
     }
+
     const postCreate = await post.create({
       userId: id,
       title: title,
@@ -77,7 +81,7 @@ export class PostController {
       .json({ postId: postId, message: "게시글이 생성되었습니다." });
   };
 
-  delete_ = async (req: Request, res: Response) => {
+  deletePost = async (req: Request, res: Response) => {
     const id = req.cookies.id; //유저 아이디
     const postId = req.params.id; //게시물 아이디
 
@@ -89,6 +93,31 @@ export class PostController {
       return res.status(404).json({ message: "삭제하려는 게시물이 없습니다." });
 
     res.status(201).json({ message: "게시물이 삭제되었습니다." });
+  };
+
+  patchCategory = async (req: Request, res: Response) => {
+    const { postId, categoryId } = req.body;
+    // 게시물이 없을때 리턴 추가
+    const gory = categoryId.split(",");
+    for (let i = 0; i < gory.length; i++) {
+      const find = await post_category.findOne({
+        where: { postId: postId, categoryId: gory[i] },
+      });
+
+      if (find!.Boolean === true)
+        await post_category.update(
+          { Boolean: false },
+          { where: { postId: postId, categoryId: gory[i] } },
+        );
+      else {
+        await post_category.update(
+          { Boolean: true },
+          { where: { postId: postId, categoryId: gory[i] } },
+        );
+      }
+    }
+
+    res.status(200).send({ message: "정보 수정이 완료되었습니다" });
   };
 
   patch = async (req: Request, res: Response) => {
@@ -195,69 +224,44 @@ export class PostController {
     res.status(200).json({ message: "정보 수정이 완료되었습니다" });
   };
 
-  patch_category = async (req: Request, res: Response) => {
-    const { postId, categoryId } = req.body;
+  get_page_infinite = async (req: Request, res: Response) => {
+    const pageNum: any = req.params.id; // page Number
 
-    if (!postId)
-      return res.status(400).send({ message: "게시물 ID가 없습니다." });
-    if (!categoryId)
-      return res.status(400).send({ message: "카테고리 ID가 없습니다." });
-
-    const gory = categoryId.split(",");
-    for (let i = 0; i < gory.length; i++) {
-      const find = await post_category.findOne({
-        where: { postId: postId, categoryId: gory[i] },
-      });
-
-      if (find!.Boolean === true)
-        await post_category.update(
-          { Boolean: false },
-          { where: { postId: postId, categoryId: gory[i] } },
-        );
-      else {
-        await post_category.update(
-          { Boolean: true },
-          { where: { postId: postId, categoryId: gory[i] } },
-        );
-      }
+    // offset 설정
+    let offset = 0;
+    if (pageNum > 1) {
+      offset = 8 * (pageNum - 1);
     }
 
-    res.status(200).send({ message: "정보 수정이 완료되었습니다" });
-  };
-
-  get = async (req: Request, res: Response) => {
-    //게시물 아이디
-    const post_id = req.params.id;
-
-    const postLike = await storage.findAll({
-      where: { postId: post_id },
-    });
-
-    const postGet = await post.findOne({
-      where: { id: post_id },
+    const postGet = await post.findAndCountAll({
+      attributes: ["id", "userId", "title", "address", "dueDate", "imagePath"],
+      order: [["id", "DESC"]],
+      limit: 8,
+      offset: offset,
+      distinct: true, //Don't count include
       include: [
         {
           model: user,
-          attributes: ["nickname", "email", "imagePath"],
-        },
-        {
-          model: post_category,
-          required: false,
-          attributes: ["categoryId", "Boolean"],
+          attributes: ["nickname", "imagePath"],
         },
         {
           model: storage,
           attributes: ["userId"],
         },
+        {
+          model: post_category,
+          attributes: ["categoryId"],
+        },
       ],
     });
 
-    if (!postGet)
+    if (postGet.rows.length === 0) {
       return res
-        .status(404)
-        .json({ message: "이미 삭제된 게시글이거나 없는 게시글 입니다." });
+        .status(200)
+        .send({ message: "더이상 조회할 게시물이 없습니다." });
+    }
 
-    res.status(200).json({ postLike: postLike.length, postGet: postGet });
+    return res.status(200).send({ postGet });
   };
 
   get_user_infinite = async (req: Request, res: Response) => {
@@ -299,6 +303,92 @@ export class PostController {
     }
 
     res.status(200).send({ postGet });
+  };
+
+  get_category_infinite = async (req: Request, res: Response) => {
+    const pageNum: any = req.query.page; // page Number
+    const categoryNumber = req.query.code;
+    let categoryNumbers = [];
+
+    // 무한스크롤 offset 설정
+    let offset = 0;
+    if (pageNum > 1) {
+      offset = 8 * (pageNum - 1);
+    }
+
+    // 대분류 해당 코드 categoryNumbers 배열에 나눔
+    const categoryGet = await category.findAll({
+      // where: { category1: categoryNumber },
+    });
+    for (let i = 0; i < categoryGet.length; i++) {
+      categoryNumbers.push(categoryGet[i].id);
+    }
+
+    // 카테고리 대분류
+    const postGet = await post.findAndCountAll({
+      attributes: ["id", "userId", "title", "address", "dueDate", "imagePath"],
+      order: [["id", "DESC"]],
+      limit: 8,
+      offset: offset,
+      distinct: true, //Don't count include
+      include: [
+        {
+          model: post_category,
+          attributes: ["postId", "categoryId", "Boolean"],
+          where: { categoryId: { [or]: categoryNumbers } },
+        },
+        {
+          model: user,
+          attributes: ["nickname", "imagePath"],
+        },
+        {
+          model: storage,
+          attributes: ["userId"],
+        },
+      ],
+    });
+
+    if (postGet.rows.length === 0) {
+      return res
+        .status(200)
+        .send({ message: "더이상 조회할 게시물이 없습니다." });
+    }
+    res.status(200).send({ postGet });
+  };
+
+  get = async (req: Request, res: Response) => {
+    //게시물 아이디
+    const post_id = req.params.id;
+
+    const postLike = await storage.findAll({
+      where: { postId: post_id },
+    });
+
+    const postGet = await post.findOne({
+      where: { id: post_id },
+      include: [
+        {
+          model: user,
+          attributes: ["nickname", "email", "imagePath"],
+        },
+        {
+          model: post_category,
+          required: false,
+          attributes: ["categoryId", "Boolean"],
+        },
+        {
+          model: storage,
+          attributes: ["userId"],
+        },
+      ],
+    });
+
+    if (!postGet)
+      return res
+        .status(404)
+        .json({ message: "이미 삭제된 게시글이거나 없는 게시글 입니다." });
+
+    res.status(200).json({ postLike: postLike.length, postGet: postGet });
   };
 
   get_search = async (req: Request, res: Response) => {
@@ -389,96 +479,5 @@ export class PostController {
       }
       return res.status(200).send({ postGet });
     }
-  };
-
-  get_page_infinite = async (req: Request, res: Response) => {
-    const pageNum: any = req.params.id; // page Number
-
-    // offset 설정
-    let offset = 0;
-    if (pageNum > 1) {
-      offset = 8 * (pageNum - 1);
-    }
-
-    const postGet = await post.findAndCountAll({
-      attributes: ["id", "userId", "title", "address", "dueDate", "imagePath"],
-      order: [["id", "DESC"]],
-      limit: 8,
-      offset: offset,
-      distinct: true, //Don't count include
-      include: [
-        {
-          model: user,
-          attributes: ["nickname", "imagePath"],
-        },
-        {
-          model: storage,
-          attributes: ["userId"],
-        },
-        {
-          model: post_category,
-          attributes: ["categoryId"],
-        },
-      ],
-    });
-
-    if (postGet.rows.length === 0) {
-      return res
-        .status(200)
-        .send({ message: "더이상 조회할 게시물이 없습니다." });
-    }
-
-    return res.status(200).send({ postGet });
-  };
-
-  get_category_infinite = async (req: Request, res: Response) => {
-    const pageNum: any = req.query.page; // page Number
-    const categoryNumber = req.query.code;
-    let categoryNumbers = [];
-
-    // 무한스크롤 offset 설정
-    let offset = 0;
-    if (pageNum > 1) {
-      offset = 8 * (pageNum - 1);
-    }
-
-    // 대분류 해당 코드 categoryNumbers 배열에 나눔
-    const categoryGet = await category.findAll({
-      // where: { category1: categoryNumber },
-    });
-    for (let i = 0; i < categoryGet.length; i++) {
-      categoryNumbers.push(categoryGet[i].id);
-    }
-
-    // 카테고리 대분류
-    const postGet = await post.findAndCountAll({
-      attributes: ["id", "userId", "title", "address", "dueDate", "imagePath"],
-      order: [["id", "DESC"]],
-      limit: 8,
-      offset: offset,
-      distinct: true, //Don't count include
-      include: [
-        {
-          model: post_category,
-          attributes: ["postId", "categoryId", "Boolean"],
-          where: { categoryId: { [or]: categoryNumbers } },
-        },
-        {
-          model: user,
-          attributes: ["nickname", "imagePath"],
-        },
-        {
-          model: storage,
-          attributes: ["userId"],
-        },
-      ],
-    });
-
-    if (postGet.rows.length === 0) {
-      return res
-        .status(200)
-        .send({ message: "더이상 조회할 게시물이 없습니다." });
-    }
-    res.status(200).send({ postGet });
   };
 }
