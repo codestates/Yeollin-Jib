@@ -2,7 +2,7 @@ import express from "express";
 import { InquireController } from "../controllers/Inquire";
 
 import { body } from "express-validator";
-import { validateError } from "../middleware/validator";
+import { validateError } from "../middleware/validatorError";
 
 const router = express.Router();
 

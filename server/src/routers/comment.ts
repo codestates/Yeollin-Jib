@@ -2,18 +2,10 @@ import express from "express";
 import { CommentsController } from "../controllers/Comments";
 import accessToken from "../middleware/accessToken";
 
-import { param } from "express-validator";
-import { validateError } from "../middleware/validator";
-
-const validaterPostId = [
-  param("postId")
-    .trim()
-    .notEmpty()
-    .withMessage("postId 정보가 없습니다.")
-    .isInt()
-    .withMessage("postId 번호를 입력해주세요."),
-  validateError,
-];
+import {
+  validaterParamPostId,
+  validaterParamCommentId,
+} from "../middleware/validator";
 
 const router = express.Router();
 
@@ -22,12 +14,12 @@ export default function commentRouter(CommentController: CommentsController) {
   router.get("/me", accessToken, CommentController.getComment);
 
   // 게시물 전체 댓글 받아오기
-  router.get("/:postId", validaterPostId, CommentController.getAllComment);
+  router.get("/:postId", validaterParamPostId, CommentController.getAllComment);
 
   // 댓글 쓰기
   router.post(
     "/:postId",
-    validaterPostId,
+    validaterParamPostId,
     accessToken,
     CommentController.postComment,
   );
@@ -35,7 +27,7 @@ export default function commentRouter(CommentController: CommentsController) {
   // 댓글 수정
   router.patch(
     "/:commentId",
-    validaterPostId,
+    validaterParamCommentId,
     accessToken,
     CommentController.patchComment,
   );
@@ -43,7 +35,7 @@ export default function commentRouter(CommentController: CommentsController) {
   // 댓글 삭제
   router.delete(
     "/:commentId",
-    validaterPostId,
+    validaterParamCommentId,
     accessToken,
     CommentController.deleteComment,
   );

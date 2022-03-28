@@ -83,7 +83,7 @@ export class PostController {
 
   deletePost = async (req: Request, res: Response) => {
     const id = req.cookies.id; //유저 아이디
-    const postId = req.params.id; //게시물 아이디
+    const postId = req.params; //게시물 아이디
 
     const postDelete = await post.destroy({ where: { id: postId } });
     await comment.destroy({ where: { postId } });
@@ -122,7 +122,7 @@ export class PostController {
 
   patch = async (req: Request, res: Response) => {
     const id = req.cookies.id; //유저아이디
-    const postId = req.params.id;
+    const postId = req.params;
 
     const image: any = req.files; //이미지 경로 추출 (,)
     const images = image.map((value: any) => {
@@ -225,7 +225,7 @@ export class PostController {
   };
 
   getAllPost = async (req: Request, res: Response) => {
-    const pageNum: any = req.params.id; // page Number
+    const pageNum: any = req.params; // page Number
 
     // offset 설정
     let offset = 0;
@@ -358,7 +358,7 @@ export class PostController {
 
   getPost = async (req: Request, res: Response) => {
     //게시물 아이디
-    const post_id = req.params.id;
+    const post_id = req.params;
 
     const postLike = await storage.findAll({
       where: { postId: post_id },
