@@ -2,7 +2,7 @@ import express from "express";
 import { InquireController } from "../controllers/Inquire";
 
 import { body } from "express-validator";
-import { validateError } from "../middleware/validator";
+import { validateError } from "../middleware/validatorError";
 
 const router = express.Router();
 
@@ -15,7 +15,7 @@ export default function inquireRouter(InquireController: InquireController) {
       body("contents").notEmpty().withMessage("문의 내용을 입력해 주세요"),
       validateError,
     ],
-    InquireController.post,
+    InquireController.sendInquire,
   );
 
   return router;

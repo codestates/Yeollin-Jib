@@ -83,7 +83,7 @@ export class PostController {
 
   deletePost = async (req: Request, res: Response) => {
     const id = req.cookies.id; //유저 아이디
-    const postId = req.params.id; //게시물 아이디
+    const postId = req.params; //게시물 아이디
 
     const postDelete = await post.destroy({ where: { id: postId } });
     await comment.destroy({ where: { postId } });
@@ -122,7 +122,7 @@ export class PostController {
 
   patch = async (req: Request, res: Response) => {
     const id = req.cookies.id; //유저아이디
-    const postId = req.params.id;
+    const postId = req.params;
 
     const image: any = req.files; //이미지 경로 추출 (,)
     const images = image.map((value: any) => {
@@ -224,8 +224,8 @@ export class PostController {
     res.status(200).json({ message: "정보 수정이 완료되었습니다" });
   };
 
-  get_page_infinite = async (req: Request, res: Response) => {
-    const pageNum: any = req.params.id; // page Number
+  getAllPost = async (req: Request, res: Response) => {
+    const pageNum: any = req.params; // page Number
 
     // offset 설정
     let offset = 0;
@@ -264,7 +264,7 @@ export class PostController {
     return res.status(200).send({ postGet });
   };
 
-  get_user_infinite = async (req: Request, res: Response) => {
+  getPostUser = async (req: Request, res: Response) => {
     const id = req.cookies.id; //유저아이디
     const pageNum: any = req.params; // page Number
 
@@ -305,7 +305,7 @@ export class PostController {
     res.status(200).send({ postGet });
   };
 
-  get_category_infinite = async (req: Request, res: Response) => {
+  getCategory = async (req: Request, res: Response) => {
     const pageNum: any = req.query.page; // page Number
     const categoryNumber = req.query.code;
     let categoryNumbers = [];
@@ -356,9 +356,9 @@ export class PostController {
     res.status(200).send({ postGet });
   };
 
-  get = async (req: Request, res: Response) => {
+  getPost = async (req: Request, res: Response) => {
     //게시물 아이디
-    const post_id = req.params.id;
+    const post_id = req.params;
 
     const postLike = await storage.findAll({
       where: { postId: post_id },
@@ -391,7 +391,7 @@ export class PostController {
     res.status(200).json({ postLike: postLike.length, postGet: postGet });
   };
 
-  get_search = async (req: Request, res: Response) => {
+  getSearchForPost = async (req: Request, res: Response) => {
     const pageNum: any = req.query.page; // page Number
     const code = req.query.code;
     const search = req.query.search;

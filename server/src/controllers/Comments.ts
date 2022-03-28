@@ -6,7 +6,7 @@ import comment from "../models/comment";
 export class CommentsController {
   constructor() {}
 
-  get_m = async (req: Request, res: Response) => {
+  getComment = async (req: Request, res: Response) => {
     const userId = req.cookies.id;
 
     await comment
@@ -36,7 +36,7 @@ export class CommentsController {
       });
   };
 
-  get = async (req: Request, res: Response) => {
+  getAllComment = async (req: Request, res: Response) => {
     const userId = req.cookies.id;
 
     await comment
@@ -66,7 +66,7 @@ export class CommentsController {
       });
   };
 
-  post_c = async (req: Request, res: Response) => {
+  postComment = async (req: Request, res: Response) => {
     const { postId } = req.params;
     const { contents } = req.body;
     const userId = req.cookies.id;
@@ -101,7 +101,7 @@ export class CommentsController {
       });
   };
 
-  patch_c = async (req: Request, res: Response) => {
+  patchComment = async (req: Request, res: Response) => {
     const { commentId } = req.params;
     const { contents } = req.body;
     const userId = req.cookies.id;
@@ -146,7 +146,7 @@ export class CommentsController {
     });
   };
 
-  delete_c = async (req: Request, res: Response) => {
+  deleteComment = async (req: Request, res: Response) => {
     const { commentId } = req.params;
     const userId = req.cookies.id;
 

@@ -4,7 +4,7 @@ import { upload } from "../middleware/multer";
 import { UserController } from "../controllers/User";
 
 import { body } from "express-validator";
-import { validateError } from "../middleware/validator";
+import { validateError } from "../middleware/validatorError";
 
 const router = express.Router();
 

@@ -5,7 +5,7 @@ import mailGun from "nodemailer-mailgun-transport";
 export class InquireController {
   constructor() {}
 
-  post = async (req: Request, res: Response) => {
+  sendInquire = async (req: Request, res: Response) => {
     const { email, title, contents } = req.body;
 
     const auth = {
