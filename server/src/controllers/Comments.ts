@@ -6,41 +6,6 @@ import comment from "../models/comment";
 export class CommentsController {
   constructor() {}
 
-  post_c = async (req: Request, res: Response) => {
-    const { postId } = req.params;
-    const { contents } = req.body;
-    const userId = req.cookies.id;
-
-    const userInfo: any = await user.findOne({
-      where: {
-        id: userId,
-      },
-      attributes: ["nickname", "imagePath"],
-    });
-    const payload = {
-      nickname: userInfo.nickname,
-      imagePath: userInfo.imagePath,
-    };
-    await comment
-      .create({
-        userId: userId, // 댓글을 작성한 유저 아이디 값
-        postId: parseInt(postId), // 게시글 아이디
-        contents, // 댓글 내용
-      })
-      .then((result: any) => {
-        let data = {
-          ...result.dataValues,
-          user: {
-            nickname: userInfo.nickname,
-            imagePath: userInfo.imagePath,
-          },
-        };
-        res.status(200).json({
-          data,
-        });
-      });
-  };
-
   get_m = async (req: Request, res: Response) => {
     const userId = req.cookies.id;
 
@@ -97,6 +62,41 @@ export class CommentsController {
         res.status(200).json({
           data,
           message: "내가 쓴 댓글이 성공적으로 조회되었습니다.",
+        });
+      });
+  };
+
+  post_c = async (req: Request, res: Response) => {
+    const { postId } = req.params;
+    const { contents } = req.body;
+    const userId = req.cookies.id;
+
+    const userInfo: any = await user.findOne({
+      where: {
+        id: userId,
+      },
+      attributes: ["nickname", "imagePath"],
+    });
+    const payload = {
+      nickname: userInfo.nickname,
+      imagePath: userInfo.imagePath,
+    };
+    await comment
+      .create({
+        userId: userId, // 댓글을 작성한 유저 아이디 값
+        postId: parseInt(postId), // 게시글 아이디
+        contents, // 댓글 내용
+      })
+      .then((result: any) => {
+        let data = {
+          ...result.dataValues,
+          user: {
+            nickname: userInfo.nickname,
+            imagePath: userInfo.imagePath,
+          },
+        };
+        res.status(200).json({
+          data,
         });
       });
   };

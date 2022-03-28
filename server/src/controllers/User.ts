@@ -23,24 +23,19 @@ export class UserController {
   signup = async (req: Request, res: Response) => {
     const { nickname, email, password } = req.body;
 
-    if (!nickname || !email || !password) {
-      return res.status(400).json({
-        message: `필수 항목이 모두 채워지지 않았습니다. 다시 한번 확인해주세요.`,
-      });
-    }
-    const salt = crypto.randomBytes(64).toString("hex");
-    const encryptedPassword = crypto
+    const salt: string = crypto.randomBytes(64).toString("hex");
+    const encryptedPassword: string = crypto
       .pbkdf2Sync(password, salt, 256, 64, "sha512")
       .toString("base64");
 
-    // user 생성
-    this.user.newCreateUser(nickname, email, salt, encryptedPassword);
-    const userId = this.user.newCreateUser(
+    const newUser = await this.user.newCreateUser(
       nickname,
       email,
       salt,
       encryptedPassword,
     );
+
+    const userId = newUser.id;
 
     return res.status(201).json({
       userId,
@@ -52,24 +47,12 @@ export class UserController {
 
   login = async (req: Request, res: Response) => {
     const { email, password } = req.body;
-    // 이메일, 비밀번호 중 하나라도 입력하지 않았을 경우
-    if (!email || !password) {
-      return res.status(417).json({
-        message: `필수 항목이 모두 채워지지않았습니다. 다시 한번 확인해주세요.`,
-      });
-    }
-    const findUser = await user.findOne({
-      where: { email: email },
-    });
+    const findUser = await this.user.findUser(email);
 
-    // 이메일이 없을 때
-    if (!findUser) {
-      return res.status(404).json({ message: `회원을 찾을수 없습니다.` });
-    }
-    const dbPassword = findUser.password;
-    const salt = findUser.salt;
+    const dbPassword = findUser!.password;
+    const salt = findUser!.salt;
 
-    const hashedPassword = crypto
+    const hashedPassword: string = crypto
       .pbkdf2Sync(password, salt, 256, 64, "sha512")
       .toString("base64");
 
@@ -78,10 +61,10 @@ export class UserController {
     }
 
     const payload = {
-      id: findUser.id,
-      email: findUser.email,
-      createdAt: findUser.createdAt,
-      updatedAt: findUser.updatedAt,
+      id: findUser!.id,
+      email: findUser!.email,
+      createdAt: findUser!.createdAt,
+      updatedAt: findUser!.updatedAt,
     };
 
     const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET, {
@@ -95,7 +78,7 @@ export class UserController {
       .status(200)
       .json({
         accessToken,
-        id: findUser.id,
+        id: findUser!.id,
         message: "로그인에 성공하였습니다.",
       })
       .cookie("refreshToken", refreshToken, {

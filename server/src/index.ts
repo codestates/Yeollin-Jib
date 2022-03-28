@@ -12,13 +12,13 @@ app.listen(PORT, async () => {
   await sequelize
     .authenticate()
     .then(async () => {
-      console.log("connection success");
+      console.log("📚 DB connect! Sequelize");
     })
     .catch((e) => {
       console.log("TT : ", e);
     });
 
-  AppDataSource.initialize()
+  await AppDataSource.initialize()
     //typeORM
     .then(async (connection) => {
       console.log("📚 DB connect! TypeORM");

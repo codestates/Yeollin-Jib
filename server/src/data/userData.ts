@@ -1,8 +1,8 @@
 import user from "../models/user";
 
-export async function newCreateUser(
-  nickname: string,
-  email: string,
+export async function newCreateUser<N, E>(
+  nickname: N,
+  email: E,
   salt: string,
   encryptedPassword: string,
 ) {
@@ -13,5 +13,11 @@ export async function newCreateUser(
     email,
     salt,
     password: encryptedPassword,
+  });
+}
+
+export async function findUser<E>(email: E) {
+  return await user.findOne({
+    where: { email: email },
   });
 }

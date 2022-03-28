@@ -7,6 +7,47 @@ import post_category from "../models/post_category";
 export class PostStorageController {
   constructor() {}
 
+  get_likes = async (req: Request, res: Response) => {
+    const id = req.cookies.id; //유저아이디
+    // const pageNum: any = req.params; // page Number
+
+    // let offset = 0;
+    // if (pageNum > 1) {
+    //   offset = 8 * (pageNum - 1);
+    // }
+
+    const postGet = await post.findAndCountAll({
+      attributes: ["id", "userId", "title", "address", "dueDate", "imagePath"],
+      order: [["id", "DESC"]],
+      //   limit: 8,
+      //   offset: offset,
+      distinct: true, //Don't count include
+      include: [
+        {
+          model: user,
+          attributes: ["nickname", "imagePath"],
+        },
+        {
+          model: storage,
+          attributes: ["userId"],
+          where: { userId: id },
+        },
+        {
+          model: post_category,
+          attributes: ["categoryId"],
+        },
+      ],
+    });
+
+    if (postGet.rows.length === 0) {
+      return res
+        .status(404)
+        .send({ message: "더이상 조회할 게시물이 없습니다." });
+    }
+
+    res.status(200).send({ postGet });
+  };
+
   post_like = async (req: Request, res: Response) => {
     const userId = req.cookies.id;
     const { postId } = req.params;
@@ -44,47 +85,6 @@ export class PostStorageController {
         .status(400)
         .send({ message: "회원 또는 포스트 아이디가 존재하지않습니다." });
     }
-  };
-
-  get_likes = async (req: Request, res: Response) => {
-    const id = req.cookies.id; //유저아이디
-    const pageNum: any = req.params; // page Number
-
-    let offset = 0;
-    if (pageNum > 1) {
-      offset = 8 * (pageNum - 1);
-    }
-
-    const postGet = await post.findAndCountAll({
-      attributes: ["id", "userId", "title", "address", "dueDate", "imagePath"],
-      order: [["id", "DESC"]],
-      //   limit: 8,
-      //   offset: offset,
-      distinct: true, //Don't count include
-      include: [
-        {
-          model: user,
-          attributes: ["nickname", "imagePath"],
-        },
-        {
-          model: storage,
-          attributes: ["userId"],
-          where: { userId: id },
-        },
-        {
-          model: post_category,
-          attributes: ["categoryId"],
-        },
-      ],
-    });
-
-    if (postGet.rows.length === 0) {
-      return res
-        .status(404)
-        .send({ message: "더이상 조회할 게시물이 없습니다." });
-    }
-
-    res.status(200).send({ postGet });
   };
 
   delete_like = async (req: Request, res: Response) => {
