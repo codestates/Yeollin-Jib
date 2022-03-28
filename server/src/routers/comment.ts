@@ -19,17 +19,17 @@ const router = express.Router();
 
 export default function commentRouter(CommentController: CommentsController) {
   // 내가 쓴 댓글 받아오기
-  router.get("/me", accessToken, CommentController.get_m);
+  router.get("/me", accessToken, CommentController.getComment);
 
   // 게시물 전체 댓글 받아오기
-  router.get("/:postId", validaterPostId, CommentController.get);
+  router.get("/:postId", validaterPostId, CommentController.getAllComment);
 
   // 댓글 쓰기
   router.post(
     "/:postId",
     validaterPostId,
     accessToken,
-    CommentController.post_c,
+    CommentController.postComment,
   );
 
   // 댓글 수정
@@ -37,7 +37,7 @@ export default function commentRouter(CommentController: CommentsController) {
     "/:commentId",
     validaterPostId,
     accessToken,
-    CommentController.patch_c,
+    CommentController.patchComment,
   );
 
   // 댓글 삭제
@@ -45,7 +45,7 @@ export default function commentRouter(CommentController: CommentsController) {
     "/:commentId",
     validaterPostId,
     accessToken,
-    CommentController.delete_c,
+    CommentController.deleteComment,
   );
 
   return router;

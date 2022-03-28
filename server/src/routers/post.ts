@@ -75,7 +75,7 @@ export default function postRouter(PostController: PostController) {
         .withMessage("postId 번호를 입력해주세요."),
       validateError,
     ],
-    PostController.get_page_infinite,
+    PostController.getAllPost,
   );
 
   // 유저가 작성한 게시물 리스트 조회 (내가 쓴 게시물)
@@ -92,7 +92,7 @@ export default function postRouter(PostController: PostController) {
       validateError,
     ],
     accessToken,
-    PostController.get_user_infinite,
+    PostController.getPostUser,
   );
 
   // 카테고리 리스트 조회
@@ -113,7 +113,7 @@ export default function postRouter(PostController: PostController) {
         .withMessage("code 번호를 입력해주세요."),
       validateError,
     ],
-    PostController.get_category_infinite,
+    PostController.getCategory,
   );
 
   // 게시물 조회(열람)
@@ -128,7 +128,7 @@ export default function postRouter(PostController: PostController) {
         .withMessage("postId 번호를 입력해주세요."),
       validateError,
     ],
-    PostController.get,
+    PostController.getPost,
   );
 
   // 게시물 검색 조회 기능 (제목, 주소)
@@ -145,7 +145,7 @@ export default function postRouter(PostController: PostController) {
       query("search").trim().notEmpty().withMessage("search 정보가 없습니다."),
       validateError,
     ],
-    PostController.get_search,
+    PostController.getSearchForPost,
   );
 
   return router;

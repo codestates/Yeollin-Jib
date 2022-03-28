@@ -15,7 +15,7 @@ export default function inquireRouter(InquireController: InquireController) {
       body("contents").notEmpty().withMessage("문의 내용을 입력해 주세요"),
       validateError,
     ],
-    InquireController.post,
+    InquireController.sendInquire,
   );
 
   return router;

@@ -7,7 +7,7 @@ import post_category from "../models/post_category";
 export class PostStorageController {
   constructor() {}
 
-  get_likes = async (req: Request, res: Response) => {
+  getLike = async (req: Request, res: Response) => {
     const id = req.cookies.id; //유저아이디
     // const pageNum: any = req.params; // page Number
 
@@ -48,7 +48,7 @@ export class PostStorageController {
     res.status(200).send({ postGet });
   };
 
-  post_like = async (req: Request, res: Response) => {
+  postLike = async (req: Request, res: Response) => {
     const userId = req.cookies.id;
     const { postId } = req.params;
     if (userId && postId) {
@@ -87,7 +87,7 @@ export class PostStorageController {
     }
   };
 
-  delete_like = async (req: Request, res: Response) => {
+  deleteLike = async (req: Request, res: Response) => {
     const { postId } = req.params;
     const userId = req.cookies.id;
 

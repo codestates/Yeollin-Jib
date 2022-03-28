@@ -224,7 +224,7 @@ export class PostController {
     res.status(200).json({ message: "정보 수정이 완료되었습니다" });
   };
 
-  get_page_infinite = async (req: Request, res: Response) => {
+  getAllPost = async (req: Request, res: Response) => {
     const pageNum: any = req.params.id; // page Number
 
     // offset 설정
@@ -264,7 +264,7 @@ export class PostController {
     return res.status(200).send({ postGet });
   };
 
-  get_user_infinite = async (req: Request, res: Response) => {
+  getPostUser = async (req: Request, res: Response) => {
     const id = req.cookies.id; //유저아이디
     const pageNum: any = req.params; // page Number
 
@@ -305,7 +305,7 @@ export class PostController {
     res.status(200).send({ postGet });
   };
 
-  get_category_infinite = async (req: Request, res: Response) => {
+  getCategory = async (req: Request, res: Response) => {
     const pageNum: any = req.query.page; // page Number
     const categoryNumber = req.query.code;
     let categoryNumbers = [];
@@ -356,7 +356,7 @@ export class PostController {
     res.status(200).send({ postGet });
   };
 
-  get = async (req: Request, res: Response) => {
+  getPost = async (req: Request, res: Response) => {
     //게시물 아이디
     const post_id = req.params.id;
 
@@ -391,7 +391,7 @@ export class PostController {
     res.status(200).json({ postLike: postLike.length, postGet: postGet });
   };
 
-  get_search = async (req: Request, res: Response) => {
+  getSearchForPost = async (req: Request, res: Response) => {
     const pageNum: any = req.query.page; // page Number
     const code = req.query.code;
     const search = req.query.search;
