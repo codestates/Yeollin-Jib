@@ -11,11 +11,12 @@ import { dbType } from "./index";
 class user extends Model {
   public dataValues!: {
     id: number;
-    email: string;
     nickname: string;
+    email: string;
+    password: string;
+    salt: string;
     userArea: string;
     imagePath: string;
-    password: string;
     loginType: boolean;
   };
   public readonly id!: number;

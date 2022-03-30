@@ -29,6 +29,13 @@ import { InquireController } from "./controllers/Inquire";
 import chattingRouter from "./routers/chatting";
 import { ChattingController } from "./controllers/Chatting";
 
+//module
+import { myContainer } from "./container/inversify.config";
+import * as crypto from "crypto";
+import * as fs from "fs";
+import * as axios from "axios";
+import jwt from "jsonwebtoken";
+
 const corsOption = {
   Headers: { "content-type": "application/json" },
   origin: true,
@@ -50,7 +57,10 @@ app.use(
 );
 
 // routes
-app.use("/user", userRouter(new UserController(userRepository)));
+app.use(
+  "/user",
+  userRouter(new UserController(myContainer, crypto, fs, axios, jwt)),
+);
 app.use("/post", postRouter(new PostController()));
 app.use("/storage", postStorageRouter(new PostStorageController()));
 app.use("/comment", commentRouter(new CommentsController()));
