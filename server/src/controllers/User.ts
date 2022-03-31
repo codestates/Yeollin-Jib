@@ -6,7 +6,6 @@ import storage from "../models/storage";
 import post from "../models/post";
 import post_category from "../models/post_category";
 
-import * as crypto from "crypto";
 import * as fs from "fs";
 import axios from "axios";
 const jwt = require("jsonwebtoken");
@@ -78,10 +77,9 @@ export class UserController {
     if (!findUser) {
       return res.status(404).json({ message: "존재하지 않는 유저 입니다." });
     }
-
     const dbPassword: string = findUser.password;
     const salt: string = findUser.salt;
-    const hashedPassword: string = crypto
+    const hashedPassword: string = this.crypto
       .pbkdf2Sync(password, salt, 256, 64, "sha512")
       .toString("base64");
 
@@ -100,19 +98,19 @@ export class UserController {
       expiresIn: "12h",
     });
     const refreshToken: string = jwt.sign(payload, process.env.REFRESH_SECRET, {
-      expiresIn: "50d",
+      expiresIn: "30d",
+    });
+    console.log(refreshToken);
+    res.cookie("refreshToken", refreshToken, {
+      // secure: true,
+      httpOnly: true,
     });
 
-    return res
-      .status(200)
-      .json({
-        accessToken,
-        id: findUser!.id,
-        message: "로그인에 성공하였습니다.",
-      })
-      .cookie("refreshToken", refreshToken, {
-        // secure: true,
-      });
+    return res.status(200).json({
+      accessToken,
+      id: findUser!.id,
+      message: "로그인에 성공하였습니다.",
+    });
   };
 
   logout = async (req: Request, res: Response) => {
@@ -167,8 +165,8 @@ export class UserController {
     }
 
     if (password) {
-      const salt: string = crypto.randomBytes(64).toString("hex");
-      const newEncryptedPassword: string = crypto
+      const salt: string = this.crypto.randomBytes(64).toString("hex");
+      const newEncryptedPassword: string = this.crypto
         .pbkdf2Sync(password, salt, 256, 64, "sha512")
         .toString("base64");
 
