@@ -69,7 +69,7 @@ export class PostController {
       const find = await category.findOne({
         where: { category1: gory1[i], category2: gory2[i] },
       });
-      console.log("----------", find);
+
       await post_category.create({ postId: postId, categoryId: find!.id });
     }
 

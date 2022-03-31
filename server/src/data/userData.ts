@@ -12,11 +12,11 @@ export class UserData {
   ) {
     // 일반 회원가입 시 - 로그인 타입 false, 소셜 로그인 시 - true
     return await user.create({
-      loginType: false,
       nickname,
       email,
       salt,
       password: encryptedPassword,
+      loginType: false,
     });
   }
 
@@ -91,5 +91,51 @@ export class UserData {
         where: { id: userId },
       },
     );
+  }
+
+  async updateImagePathNullByUserId<T>(userId: T) {
+    return await user.update(
+      { imagePath: null },
+      {
+        where: { id: userId },
+      },
+    );
+  }
+
+  async deleteUser<T>(userId: T) {
+    return await user.destroy({ where: { id: userId } });
+  }
+
+  async createGoogleUser(userInfo: any) {
+    return await user.findOrCreate({
+      where: {
+        email: userInfo.data.email,
+      },
+      defaults: {
+        nickname: userInfo.data.email.split("@")[0],
+        imagePath: userInfo.data.picture,
+        password: userInfo.data.id,
+        salt: userInfo.data.id,
+        loginType: true,
+      },
+    });
+  }
+
+  async createKaKaoUser(userInfo: any) {
+    return await user.findOrCreate({
+      where: {
+        email: userInfo.data.kakao_account.email,
+      },
+      defaults: {
+        nickname: userInfo.data.kakao_account.email.split("@")[0],
+        email: userInfo.data.kakao_account.account_email,
+        imagePath: userInfo.data.kakao_account.profile.is_default_image
+          ? null
+          : userInfo.data.kakao_account.profile.profile_image_url,
+        password: userInfo.data.id,
+        salt: userInfo.data.id,
+        loginType: true,
+      },
+    });
   }
 }
