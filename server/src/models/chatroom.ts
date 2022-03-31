@@ -1,4 +1,10 @@
-import { BelongsToManyAddAssociationMixin, BelongsToManyGetAssociationsMixin, BelongsToManyRemoveAssociationMixin, DataTypes, Model } from "sequelize";
+import {
+  BelongsToManyAddAssociationMixin,
+  BelongsToManyGetAssociationsMixin,
+  BelongsToManyRemoveAssociationMixin,
+  DataTypes,
+  Model,
+} from "sequelize";
 import { sequelize } from "./sequelize";
 import { dbType } from "./index";
 
@@ -12,9 +18,21 @@ class chatroom extends Model {
 
 chatroom.init(
   {
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+    },
     chattingId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: {
+        model: "user",
+        key: "id",
+      },
+      onUpdate: "CASCADE",
+      onDelete: "CASCADE",
     },
     delfalg: {
       type: DataTypes.BOOLEAN,
@@ -34,6 +52,14 @@ chatroom.init(
   },
 );
 
-export const associate = (db: dbType) => {};
+export const associate = (db: dbType) => {
+  db.post.belongsTo(db.user, {
+    foreignKey: "userId",
+    targetKey: "id",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+    hooks: true,
+  });
+};
 
 export default chatroom;

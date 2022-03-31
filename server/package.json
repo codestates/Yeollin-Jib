@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "tsc && node ./dist/index.js",
-    "table": "./node_modules/ts-node/dist/bin.js ./src/migrations/migration-all-table.ts",
-    "seed": "./node_modules/ts-node/dist/bin.js ./src/seeders/dummy.ts",
-    "tablejs": "./node_modules/ts-node/dist/bin.js ./dist/migrations/migration-all-table.js",
-    "seedjs": "./node_modules/ts-node/dist/bin.js ./dist/seeders/dummy.js",
+    "tableTS": "./node_modules/ts-node/dist/bin.js ./src/migrations/migration-all-table.ts",
+    "seedTS": "./node_modules/ts-node/dist/bin.js ./src/seeders/dummy.ts",
+    "tableJS": "./node_modules/ts-node/dist/bin.js ./dist/migrations/migration-all-table.js",
+    "seedJS": "./node_modules/ts-node/dist/bin.js ./dist/seeders/dummy.js",
     "dev": "npm run build:live",
     "build": "tsc -p .",
     "build:live": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts"

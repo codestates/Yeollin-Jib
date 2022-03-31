@@ -20,13 +20,31 @@ class comment extends Model {
 
 comment.init(
   {
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+    },
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: {
+        model: "user",
+        key: "id",
+      },
+      onUpdate: "CASCADE",
+      onDelete: "CASCADE",
     },
     postId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: {
+        model: "post",
+        key: "id",
+      },
+      onUpdate: "CASCADE",
+      onDelete: "CASCADE",
     },
     contents: {
       type: DataTypes.STRING,

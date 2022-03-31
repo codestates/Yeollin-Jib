@@ -18,13 +18,31 @@ class storage extends Model {
 
 storage.init(
   {
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+    },
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: {
+        model: "user",
+        key: "id",
+      },
+      onUpdate: "CASCADE",
+      onDelete: "CASCADE",
     },
     postId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: {
+        model: "post",
+        key: "id",
+      },
+      onUpdate: "CASCADE",
+      onDelete: "CASCADE",
     },
   },
 
@@ -37,7 +55,7 @@ storage.init(
     freezeTableName: true,
     timestamps: true,
     updatedAt: "updateTimestamp",
-  }
+  },
 );
 
 export const associate = (db: dbType) => {

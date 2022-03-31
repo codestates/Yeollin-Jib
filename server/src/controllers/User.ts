@@ -48,8 +48,8 @@ export class UserController {
     const { nickname, email, password } = req.body;
     const userRepository = this.container.get<UserData>(TYPES.userDB);
 
-    const salt: string = crypto.randomBytes(64).toString("hex");
-    const encryptedPassword: string = crypto
+    const salt: string = this.crypto.randomBytes(64).toString("hex");
+    const encryptedPassword: string = this.crypto
       .pbkdf2Sync(password, salt, 256, 64, "sha512")
       .toString("base64");
 
@@ -112,7 +112,6 @@ export class UserController {
       })
       .cookie("refreshToken", refreshToken, {
         // secure: true,
-        httpOnly: true,
       });
   };
 
@@ -214,13 +213,13 @@ export class UserController {
 
     const userInfo = await userRepository.findAllUserById(userId);
 
-    const allComment = await commentRepository.findAllCommentById(userId);
-    const allPost = await postRepository.findAllPostById(userId);
-    const allStorage = await storageRepository.findAllStorageById(userId);
-
     const { id, email, nickname, userArea, imagePath, loginType } =
       userInfo[0].dataValues;
     const data = { id, email, nickname, userArea, imagePath, loginType };
+
+    const allComment = await commentRepository.findAllCommentById(userId);
+    const allPost = await postRepository.findAllPostById(userId);
+    const allStorage = await storageRepository.findAllStorageById(userId);
 
     res.status(200).json({
       data,
@@ -242,6 +241,7 @@ export class UserController {
         attributes: ["id"],
       });
       // 내가 쓴 게시글의 id를 받아서 하나씩 다 지워주기
+
       let postId;
       if (findPostId) {
         for (let i = 0; i < findPostId.length; i++) {
@@ -254,11 +254,11 @@ export class UserController {
       await user.destroy({ where: { id: userId } });
       await comment.destroy({ where: { userId } });
       await storage.destroy({ where: { userId } });
-      await post.destroy({
-        where: {
-          userId,
-        },
-      });
+      // await post.destroy({
+      //   where: {
+      //     userId,
+      //   },
+      // });
 
       return res
         .status(200)

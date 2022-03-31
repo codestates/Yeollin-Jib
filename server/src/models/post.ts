@@ -33,8 +33,20 @@ class post extends Model {
 
 post.init(
   {
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+    },
     userId: {
       type: DataTypes.INTEGER,
+      references: {
+        model: "user",
+        key: "id",
+      },
+      onUpdate: "CASCADE",
+      onDelete: "CASCADE",
     },
     title: {
       type: DataTypes.STRING,
@@ -68,7 +80,7 @@ post.init(
     freezeTableName: true,
     timestamps: true,
     updatedAt: "updateTimestamp",
-  }
+  },
 );
 
 export const associate = (db: dbType) => {
@@ -77,6 +89,7 @@ export const associate = (db: dbType) => {
     targetKey: "id",
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
+    hooks: true,
   });
   db.post.hasMany(db.post_category, {
     foreignKey: "postId",
