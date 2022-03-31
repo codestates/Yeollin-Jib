@@ -20,20 +20,25 @@ let migrationAllTable = async () => {
     if (files) {
       files.forEach((el) => {
         // console.log(el.substr(el.indexOf('.')+1,12));
-        if (el.substr(el.indexOf(".") + 1, 12) === "create-table") {
+        if (el.slice(-3) === ".js" || el.slice(-3) === ".ts") {
           migrationFiles.push(el);
         }
       });
 
       migrationFiles.sort((a, b) => {
-        return Number(a.substr(0, a.indexOf("."))) - Number(b.substr(0, b.indexOf(".")));
+        return (
+          Number(a.substr(0, a.indexOf("."))) -
+          Number(b.substr(0, b.indexOf(".")))
+        );
       });
       console.log("migrationFiles : ", migrationFiles);
 
       for (let el of migrationFiles) {
         console.log("Migration File Name : ", el);
 
-        const { stdout, stderr } = await asyncExec(`./node_modules/.bin/ts-node "${__dirname}/create-table/${el}"`);
+        const { stdout, stderr } = await asyncExec(
+          `./node_modules/.bin/ts-node "${__dirname}/create-table/${el}"`,
+        );
         if (stdout) console.log(stdout);
         if (stderr) console.error("Std Err : ", stderr);
       }

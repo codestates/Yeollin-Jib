@@ -11,11 +11,12 @@ import { dbType } from "./index";
 class user extends Model {
   public dataValues!: {
     id: number;
-    email: string;
     nickname: string;
+    email: string;
+    password: string;
+    salt: string;
     userArea: string;
     imagePath: string;
-    password: string;
     loginType: boolean;
   };
   public readonly id!: number;
@@ -32,6 +33,12 @@ class user extends Model {
 
 user.init(
   {
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+    },
     nickname: {
       type: DataTypes.STRING,
       allowNull: false, // 필수
@@ -89,6 +96,12 @@ export const associate = (db: dbType) => {
     onUpdate: "CASCADE",
   });
   db.user.hasMany(db.storage, {
+    foreignKey: "userId",
+    sourceKey: "id",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  });
+  db.user.hasMany(db.chatroom, {
     foreignKey: "userId",
     sourceKey: "id",
     onDelete: "CASCADE",

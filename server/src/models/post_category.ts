@@ -24,13 +24,31 @@ class post_category extends Model {
 
 post_category.init(
   {
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+    },
     postId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: {
+        model: "post",
+        key: "id",
+      },
+      onUpdate: "CASCADE",
+      onDelete: "CASCADE",
     },
     categoryId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: {
+        model: "category",
+        key: "id",
+      },
+      onUpdate: "CASCADE",
+      onDelete: "CASCADE",
     },
     Boolean: {
       type: DataTypes.BOOLEAN,

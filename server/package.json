@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "tsc && node ./dist/index.js",
-    "table": "./node_modules/ts-node/dist/bin.js ./src/migrations/migration-all-table.ts",
-    "seed": "./node_modules/ts-node/dist/bin.js ./src/seeders/dummy.ts",
-    "tablejs": "./node_modules/ts-node/dist/bin.js ./dist/migrations/migration-all-table.js",
-    "seedjs": "./node_modules/ts-node/dist/bin.js ./dist/seeders/dummy.js",
+    "tableTS": "./node_modules/ts-node/dist/bin.js ./src/migrations/migration-all-table.ts",
+    "seedTS": "./node_modules/ts-node/dist/bin.js ./src/seeders/dummy.ts",
+    "tableJS": "./node_modules/ts-node/dist/bin.js ./dist/migrations/migration-all-table.js",
+    "seedJS": "./node_modules/ts-node/dist/bin.js ./dist/seeders/dummy.js",
     "dev": "npm run build:live",
     "build": "tsc -p .",
     "build:live": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts"
@@ -38,6 +38,7 @@
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
     "express-validator": "^6.14.0",
+    "inversify": "^6.0.1",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.33",

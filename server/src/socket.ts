@@ -1,6 +1,6 @@
 import app from "./app";
 import { Socket } from "socket.io/dist/socket";
-import socketChat from "./controllers/chatting/createChat";
+import { ChattingController } from "./controllers/Chatting";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -19,7 +19,7 @@ try {
     const projectChatIo = chatIo.nsp;
     app.set("chatIo", projectChatIo);
 
-    socketChat(socket);
+    // ChattingController(socket);
 
     socket.on("disconnect", function () {
       console.log("클라이언트 접속 종료");

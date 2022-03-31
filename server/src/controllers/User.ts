@@ -11,31 +11,56 @@ import * as fs from "fs";
 import axios from "axios";
 const jwt = require("jsonwebtoken");
 
-type userRepository = typeof import("../data/userData");
+type crypto = typeof import("crypto");
+type fs = typeof import("fs");
+type axios = typeof import("axios");
+type jwt = typeof import("jsonwebtoken");
+
+import { TYPES } from "../container/types";
+import { Container } from "inversify";
+import { UserData } from "../data/userData";
+import { PostData } from "../data/postData";
+import { StorageData } from "../data/storageData";
+import { CommentData } from "../data/commentData";
 
 export class UserController {
-  user: userRepository;
+  container: Container;
+  crypto: crypto;
+  fs: fs;
+  axios: axios;
+  jwt: jwt;
 
-  constructor(userRepository: userRepository) {
-    this.user = userRepository;
+  constructor(
+    myContainer: Container,
+    cryptoModule: crypto,
+    fsModule: fs,
+    axiosModule: axios,
+    jwtModule: jwt,
+  ) {
+    this.container = myContainer;
+    this.crypto = cryptoModule;
+    this.fs = fsModule;
+    this.axios = axiosModule;
+    this.jwt = jwtModule;
   }
 
   signup = async (req: Request, res: Response) => {
     const { nickname, email, password } = req.body;
+    const userRepository = this.container.get<UserData>(TYPES.userDB);
 
-    const salt: string = crypto.randomBytes(64).toString("hex");
-    const encryptedPassword: string = crypto
+    const salt: string = this.crypto.randomBytes(64).toString("hex");
+    const encryptedPassword: string = this.crypto
       .pbkdf2Sync(password, salt, 256, 64, "sha512")
       .toString("base64");
 
-    const newUser = await this.user.newCreateUser(
+    const newUser = await userRepository.newCreateUser(
       nickname,
       email,
       salt,
       encryptedPassword,
     );
 
-    const userId = newUser.id;
+    const userId: Number = newUser.id;
 
     return res.status(201).json({
       userId,
@@ -47,11 +72,15 @@ export class UserController {
 
   login = async (req: Request, res: Response) => {
     const { email, password } = req.body;
-    const findUser = await this.user.findUser(email);
+    const userRepository = this.container.get<UserData>(TYPES.userDB);
 
-    const dbPassword = findUser!.password;
-    const salt = findUser!.salt;
+    const findUser = await userRepository.findUserByEmail(email);
+    if (!findUser) {
+      return res.status(404).json({ message: "존재하지 않는 유저 입니다." });
+    }
 
+    const dbPassword: string = findUser.password;
+    const salt: string = findUser.salt;
     const hashedPassword: string = crypto
       .pbkdf2Sync(password, salt, 256, 64, "sha512")
       .toString("base64");
@@ -67,10 +96,10 @@ export class UserController {
       updatedAt: findUser!.updatedAt,
     };
 
-    const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET, {
+    const accessToken: string = jwt.sign(payload, process.env.ACCESS_SECRET, {
       expiresIn: "12h",
     });
-    const refreshToken = jwt.sign(payload, process.env.REFRESH_SECRET, {
+    const refreshToken: string = jwt.sign(payload, process.env.REFRESH_SECRET, {
       expiresIn: "50d",
     });
 
@@ -83,12 +112,12 @@ export class UserController {
       })
       .cookie("refreshToken", refreshToken, {
         // secure: true,
-        httpOnly: true,
       });
   };
 
   logout = async (req: Request, res: Response) => {
     const { authorization } = req.headers;
+
     if (!authorization && !req.cookies) {
       return res.status(401).json({ message: `이미 로그아웃 되었습니다.` });
     }
@@ -98,14 +127,10 @@ export class UserController {
 
   checkNickname = async (req: Request, res: Response) => {
     const nickname = req.query;
+    const userRepository = this.container.get<UserData>(TYPES.userDB);
 
     // 로그인된 아이디 정보 찾기
-    const userByNick = await user.findOne({
-      where: {
-        nickname: nickname,
-        //   || nickname!.toUpperCase()
-      },
-    });
+    const userByNick = await userRepository.findUserByNickname(nickname);
 
     // nickname 중복코드
     if (userByNick) {
@@ -116,128 +141,91 @@ export class UserController {
 
   checkEmail = async (req: Request, res: Response) => {
     const email = req.query;
-    // 로그인된 아이디 정보 찾기
-    const result = await user.findOne({ where: { email: email } });
-    // email 중복코드
+    const userRepository = this.container.get<UserData>(TYPES.userDB);
+    const result = await userRepository.findUserByEmail(email);
+
     if (result) {
       return res.status(200).json({ message: `이메일이 중복됩니다.` });
     }
+
     return res.status(200).json({ message: `사용할 수 있는 이메일입니다.` });
   };
 
   putUser = async (req: Request, res: Response) => {
     const userId = req.cookies.id;
-    const header = req.headers;
-    if (!header) {
-      return res.status(403).json({ message: "잘못된 요청입니다." });
-    } else {
-      const { nickname, password, userArea, imagePath } = req.body;
-      const imagePathReq: any = req.file;
-      const findUser: any = await user.findOne({
-        where: { id: userId },
-      });
-      console.log("req.file", req.file);
-      if (findUser) {
-        // 닉네임 변경
-        if (nickname) {
-          await user.update(
-            {
-              nickname: nickname,
-            },
-            { where: { id: userId } },
-          );
-        }
-        // 비밀번호 변경
-        if (password) {
-          const salt = crypto.randomBytes(64).toString("hex");
+    const { nickname, password, userArea } = req.body;
+    const imagePathReq = req.file;
+    const userRepository = this.container.get<UserData>(TYPES.userDB);
 
-          const newEncryptedPassword = crypto
-            .pbkdf2Sync(password, salt, 256, 64, "sha512")
-            .toString("base64");
-
-          await user.update(
-            {
-              salt: salt,
-              password: newEncryptedPassword,
-            },
-            { where: { id: userId } },
-          );
-        }
-        // 우리 동네 위치 정보 수정
-        if (userArea) {
-          await user.update(
-            {
-              userArea: userArea,
-            },
-            { where: { id: userId } },
-          );
-        }
-        // 프로필 사진 수정
-        if (imagePathReq) {
-          // 기존 파일 삭제
-          fs.unlink(
-            `${__dirname}/../../../public/uploads/${findUser.imagePath}`,
-            (err) => {
-              if (err) {
-                console.log("기존 파일 삭제 에러 입니다.", err.message);
-              }
-            },
-          );
-
-          // 새 파일 업로드
-          await user.update(
-            { imagePath: `${imagePathReq.filename}` },
-            {
-              where: { id: userId },
-            },
-          );
-        }
-      }
-      return res.status(200).json({ message: "정보 수정이 완료되었습니다" });
+    const findUser = await userRepository.findUserById(userId);
+    if (!findUser) {
+      return res.status(404).json({ message: "존재하지 않는 유저 입니다." });
     }
+
+    if (nickname) {
+      userRepository.updateUserNicknameByUserId(nickname, userId);
+    }
+
+    if (password) {
+      const salt: string = crypto.randomBytes(64).toString("hex");
+      const newEncryptedPassword: string = crypto
+        .pbkdf2Sync(password, salt, 256, 64, "sha512")
+        .toString("base64");
+
+      userRepository.updateUserPasswordByUserId(
+        salt,
+        newEncryptedPassword,
+        userId,
+      );
+    }
+
+    if (userArea) {
+      userRepository.updateUserAreaByUserId(userArea, userId);
+    }
+
+    if (imagePathReq) {
+      this.fs.unlink(
+        `${__dirname}/../../public/uploads/${findUser.imagePath}`,
+        (err) => {
+          if (err) {
+            console.log("기존 파일 삭제 에러 입니다.", err.message);
+          }
+        },
+      );
+
+      userRepository.updateUserPhotoByUserId(imagePathReq.filename, userId);
+    }
+
+    return res.status(200).json({ message: "정보 수정이 완료되었습니다" });
   };
 
   getUser = async (req: Request, res: Response) => {
     const userId = req.cookies.id;
+    const userRepository = this.container.get<UserData>(TYPES.userDB);
+    const commentRepository = this.container.get<CommentData>(TYPES.commentDB);
+    const postRepository = this.container.get<PostData>(TYPES.postDB);
+    const storageRepository = this.container.get<StorageData>(TYPES.storageDB);
 
-    const commentUser = await comment.findAll({
-      where: { userId },
-      attributes: ["id"],
-    });
-    const postUser = await post.findAll({
-      where: { userId },
-      attributes: ["id"],
-    });
-    const storageUser = await storage.findAll({
-      where: { userId },
-      attributes: ["id"],
-    });
-    const findUser = await user.findOne({
-      where: { id: userId },
-    });
+    const findUser = userRepository.findUserById(userId);
     if (!findUser) {
       return res.status(404).json({ message: "해당 유저를 찾을 수 없습니다." });
     }
-    const userInfo = await user.findAll({
-      where: { id: userId },
-      attributes: [
-        "id",
-        "email",
-        "nickname",
-        "userArea",
-        "imagePath",
-        "loginType",
-      ],
-    });
+
+    const userInfo = await userRepository.findAllUserById(userId);
 
     const { id, email, nickname, userArea, imagePath, loginType } =
       userInfo[0].dataValues;
     const data = { id, email, nickname, userArea, imagePath, loginType };
+
+    const allComment = await commentRepository.findAllCommentById(userId);
+    const allPost = await postRepository.findAllPostById(userId);
+    const allStorage = await storageRepository.findAllStorageById(userId);
+
     res.status(200).json({
       data,
-      myComment: commentUser.length,
-      myPost: postUser.length,
-      myStorage: storageUser.length,
+      myComment: allComment.length,
+      myPost: allPost.length,
+      myStorage: allStorage.length,
     });
   };
 
@@ -253,6 +241,7 @@ export class UserController {
         attributes: ["id"],
       });
       // 내가 쓴 게시글의 id를 받아서 하나씩 다 지워주기
+
       let postId;
       if (findPostId) {
         for (let i = 0; i < findPostId.length; i++) {
@@ -265,11 +254,11 @@ export class UserController {
       await user.destroy({ where: { id: userId } });
       await comment.destroy({ where: { userId } });
       await storage.destroy({ where: { userId } });
-      await post.destroy({
-        where: {
-          userId,
-        },
-      });
+      // await post.destroy({
+      //   where: {
+      //     userId,
+      //   },
+      // });
 
       return res
         .status(200)
