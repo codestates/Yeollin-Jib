@@ -4,7 +4,7 @@ import storage from "../models/storage";
 
 @injectable()
 export class StorageData {
-  async findAllStorageById<T>(userId: T) {
+  async findAllOnlyStorageIdByUserId<T>(userId: T) {
     return await storage.findAll({
       where: { userId },
       attributes: ["id"],

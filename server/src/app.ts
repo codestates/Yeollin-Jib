@@ -12,7 +12,6 @@ import "express-async-errors";
 // routers
 import userRouter from "./routers/user";
 import { UserController } from "./controllers/User";
-import * as userRepository from "./data/userData";
 
 import postRouter from "./routers/post";
 import { PostController } from "./controllers/Post";

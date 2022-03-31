@@ -67,6 +67,7 @@ user.init(
     },
     loginType: {
       type: DataTypes.BOOLEAN,
+      defaultValue: false,
     },
   },
 

@@ -1,40 +1,25 @@
 import { Request, Response } from "express";
-
-import user from "../models/user";
-import comment from "../models/comment";
-import storage from "../models/storage";
-import post from "../models/post";
-import post_category from "../models/post_category";
-
-import * as fs from "fs";
-import axios from "axios";
-const jwt = require("jsonwebtoken");
-
-type crypto = typeof import("crypto");
-type fs = typeof import("fs");
-type axios = typeof import("axios");
-type jwt = typeof import("jsonwebtoken");
-
 import { TYPES } from "../container/types";
 import { Container } from "inversify";
 import { UserData } from "../data/userData";
 import { PostData } from "../data/postData";
 import { StorageData } from "../data/storageData";
 import { CommentData } from "../data/commentData";
+const jwt = require("jsonwebtoken");
 
 export class UserController {
   container: Container;
-  crypto: crypto;
-  fs: fs;
-  axios: axios;
-  jwt: jwt;
+  crypto: typeof import("crypto");
+  fs: typeof import("fs");
+  axios: typeof import("axios");
+  jwt: typeof import("jsonwebtoken");
 
   constructor(
     myContainer: Container,
-    cryptoModule: crypto,
-    fsModule: fs,
-    axiosModule: axios,
-    jwtModule: jwt,
+    cryptoModule: typeof import("crypto"),
+    fsModule: typeof import("fs"),
+    axiosModule: typeof import("axios"),
+    jwtModule: typeof import("jsonwebtoken"),
   ) {
     this.container = myContainer;
     this.crypto = cryptoModule;
@@ -100,7 +85,7 @@ export class UserController {
     const refreshToken: string = jwt.sign(payload, process.env.REFRESH_SECRET, {
       expiresIn: "30d",
     });
-    console.log(refreshToken);
+
     res.cookie("refreshToken", refreshToken, {
       // secure: true,
       httpOnly: true,
@@ -150,10 +135,10 @@ export class UserController {
   };
 
   putUser = async (req: Request, res: Response) => {
-    const userId = req.cookies.id;
-    const { nickname, password, userArea } = req.body;
-    const imagePathReq = req.file;
     const userRepository = this.container.get<UserData>(TYPES.userDB);
+    const { nickname, password, userArea } = req.body;
+    const userId = req.cookies.id;
+    const reqImagePath = req.file;
 
     const findUser = await userRepository.findUserById(userId);
     if (!findUser) {
@@ -181,28 +166,29 @@ export class UserController {
       userRepository.updateUserAreaByUserId(userArea, userId);
     }
 
-    if (imagePathReq) {
-      this.fs.unlink(
-        `${__dirname}/../../public/uploads/${findUser.imagePath}`,
-        (err) => {
-          if (err) {
-            console.log("기존 파일 삭제 에러 입니다.", err.message);
-          }
-        },
-      );
-
-      userRepository.updateUserPhotoByUserId(imagePathReq.filename, userId);
+    if (reqImagePath) {
+      if (findUser.imagePath) {
+        this.fs.unlink(
+          `${__dirname}/../../public/uploads/${findUser.imagePath}`,
+          (err) => {
+            if (err) {
+              console.log("err: 기존파일삭제가 되지 않았습니다", err.message);
+            }
+          },
+        );
+      }
+      userRepository.updateUserPhotoByUserId(reqImagePath.filename, userId);
     }
 
     return res.status(200).json({ message: "정보 수정이 완료되었습니다" });
   };
 
   getUser = async (req: Request, res: Response) => {
-    const userId = req.cookies.id;
     const userRepository = this.container.get<UserData>(TYPES.userDB);
     const commentRepository = this.container.get<CommentData>(TYPES.commentDB);
     const postRepository = this.container.get<PostData>(TYPES.postDB);
     const storageRepository = this.container.get<StorageData>(TYPES.storageDB);
+    const userId = req.cookies.id;
 
     const findUser = userRepository.findUserById(userId);
     if (!findUser) {
@@ -215,9 +201,13 @@ export class UserController {
       userInfo[0].dataValues;
     const data = { id, email, nickname, userArea, imagePath, loginType };
 
-    const allComment = await commentRepository.findAllCommentById(userId);
-    const allPost = await postRepository.findAllPostById(userId);
-    const allStorage = await storageRepository.findAllStorageById(userId);
+    const allComment = await commentRepository.findAllOnlyCommentIdByUserId(
+      userId,
+    );
+    const allPost = await postRepository.findAllOnlyPostIdByUserId(userId);
+    const allStorage = await storageRepository.findAllOnlyStorageIdByUserId(
+      userId,
+    );
 
     res.status(200).json({
       data,
@@ -228,81 +218,57 @@ export class UserController {
   };
 
   deleteUser = async (req: Request, res: Response) => {
-    const header: object = req.headers;
+    const userRepository = this.container.get<UserData>(TYPES.userDB);
+    const postRepository = this.container.get<PostData>(TYPES.postDB);
+    const userId = req.cookies.id;
 
-    if (!header) {
-      return res.status(403).json({ message: "잘못된 요청입니다." });
-    } else {
-      const userId = req.cookies.id;
-      const findPostId: any = await post.findAll({
-        where: { userId },
-        attributes: ["id"],
-      });
-      // 내가 쓴 게시글의 id를 받아서 하나씩 다 지워주기
+    const deleteFindAllImagePath =
+      await postRepository.findAllOnlyPostImagePathByUserId(userId);
 
-      let postId;
-      if (findPostId) {
-        for (let i = 0; i < findPostId.length; i++) {
-          postId = findPostId[i].dataValues.id;
-          await comment.destroy({ where: { postId } });
-          await storage.destroy({ where: { postId } });
-          await post_category.destroy({ where: { postId } });
-        }
+    deleteFindAllImagePath.map((oneOfPost) => {
+      let imagePath = oneOfPost.imagePath;
+      if (imagePath) {
+        const arrayImagePath = imagePath.split(",");
+        arrayImagePath.map((value: string) => {
+          if (this.fs.existsSync(value)) {
+            this.fs.unlinkSync(value); // unlinkSync 파일 삭제
+          }
+        });
       }
-      await user.destroy({ where: { id: userId } });
-      await comment.destroy({ where: { userId } });
-      await storage.destroy({ where: { userId } });
-      // await post.destroy({
-      //   where: {
-      //     userId,
-      //   },
-      // });
+    });
+    // 프로필 사진은 삭제되지않아 deletePhoto 사용 또는 클래스 상속 필요
+    await userRepository.deleteUser(userId);
 
-      return res
-        .status(200)
-        .cookie("refreshToken", "")
-        .setHeader("authorization", "")
-        .json({ message: "회원탈퇴가 완료 되었습니다." });
-    }
+    return res
+      .status(200)
+      .cookie("refreshToken", "")
+      .setHeader("authorization", "")
+      .json({ message: "회원탈퇴가 완료 되었습니다." });
   };
 
   deletePhoto = async (req: Request, res: Response) => {
+    const userRepository = this.container.get<UserData>(TYPES.userDB);
     const userId = req.cookies.id;
 
-    const header = req.headers;
-    if (!header) {
-      return res.status(403).json({ message: "잘못된 요청입니다." });
-    } else {
-      const { imagePath } = req.body;
+    const findUser = await userRepository.findUserById(userId);
 
-      const findUser: any = await user.findOne({
-        where: { id: userId },
-      });
-
-      if (findUser) {
-        // body로 imagePath라는 키값이 들어오면 db값을 null로 바꾸는 방식
-        if (imagePath) {
-          // null값이 아닌 사진이 존재할 경우
-          if (findUser.imagePath !== null) {
-            // 기존 파일 삭제
-            fs.unlink(
-              `${__dirname}/../../../public/uploads/${findUser.imagePath}`,
-              (err) => {
-                if (err) {
-                  console.log("기존 파일 삭제 에러 입니다.", err.message);
-                }
-              },
-            );
-          }
-          // db에 있는 유저 테이블의 imagePath를 null로 변경
-          await user.update(
-            { imagePath: null },
-            {
-              where: { id: userId },
-            },
-          );
-        }
+    if (findUser) {
+      if (findUser.imagePath === null) {
+        return res
+          .status(200)
+          .json({ message: "이미 삭제 되었거나 존재하지않는 이미지 입니다." });
+      } else {
+        this.fs.unlink(
+          // 기존 파일 삭제
+          `${__dirname}/../../public/uploads/${findUser.imagePath}`,
+          (err) => {
+            if (err) {
+              console.log("err: 기존파일삭제가 되지 않았습니다", err.message);
+            }
+          },
+        );
       }
+      await userRepository.updateImagePathNullByUserId(userId);
       return res.status(200).json({ message: "사진 삭제가 완료되었습니다." });
     }
   };
@@ -315,10 +281,11 @@ export class UserController {
   };
 
   googleCallback = async (req: Request, res: Response) => {
+    const userRepository = this.container.get<UserData>(TYPES.userDB);
     const code = req.query.code;
 
     // 구글 자체 로그인
-    const result: any = await axios.post(
+    const result: any = await this.axios.default.post(
       `https://oauth2.googleapis.com/token?code=${code}&client_id=${process.env.GOOGLE_CLIENT_ID}&client_secret=${process.env.GOOGLE_CLIENT_SECRET}&redirect_uri=${process.env.CLIENT_REDIRECT_URL}&grant_type=authorization_code`,
     );
 
@@ -326,7 +293,7 @@ export class UserController {
     const GoogleRefreshToken = result.data.refresh_token;
 
     // 구글 로그인한 회원 정보 받기
-    const userInfo: any = await axios.get(
+    const userInfo: any = await this.axios.default.get(
       `https://www.googleapis.com/oauth2/v2/userinfo?access_token=${GoogleAccessToken}`,
       {
         headers: {
@@ -336,18 +303,7 @@ export class UserController {
     );
 
     // 구글 로그인한 회원 정보 중 email이 데이터베이스에 존재하는지 검사 후 없으면 새로 저장
-    const [findUser, exist] = await user.findOrCreate({
-      where: {
-        email: userInfo.data.email,
-      },
-      defaults: {
-        nickname: userInfo.data.email.split("@")[0],
-        imagePath: userInfo.data.picture,
-        password: userInfo.data.id,
-        salt: userInfo.data.id,
-        loginType: true,
-      },
-    });
+    const [findUser, exist] = await userRepository.createGoogleUser(userInfo);
 
     const payload = {
       id: findUser.id,
@@ -384,36 +340,27 @@ export class UserController {
   };
 
   kakaoCallback = async (req: Request, res: Response) => {
+    const userRepository = this.container.get<UserData>(TYPES.userDB);
     const code = req.query.code;
 
     // 카카오 로그인
-    const result: any = await axios.post(
+    const result: any = await this.axios.default.post(
       `https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${process.env.KAKAO_REST_API_KEY}&redirect_uri=${process.env.KAKAO_REDIRECT_URI}&code=${code}`,
     );
+    const KaKaoAccessToken = result.data.access_token;
 
     // 카카오 로그인한 유저 정보 받기
-    const userInfo: any = await axios.get(`https://kapi.kakao.com/v2/user/me`, {
-      headers: {
-        Authorization: `Bearer ${result.data.access_token}`,
+    const userInfo = await this.axios.default.get(
+      `https://kapi.kakao.com/v2/user/me`,
+      {
+        headers: {
+          Authorization: `Bearer ${KaKaoAccessToken}`,
+        },
       },
-    });
+    );
 
     // 카카오에서 유저 데이터를 받아와 email이 데이터베이스에 존재하는지 검사 후 없으면 새로 저장
-    const [findUser, exist] = await user.findOrCreate({
-      where: {
-        email: userInfo.data.kakao_account.email,
-      },
-      defaults: {
-        nickname: userInfo.data.kakao_account.email.split("@")[0],
-        email: userInfo.data.kakao_account.account_email,
-        imagePath: userInfo.data.kakao_account.profile.is_default_image
-          ? null
-          : userInfo.data.kakao_account.profile.profile_image_url,
-        password: userInfo.data.id,
-        salt: userInfo.data.id,
-        loginType: true,
-      },
-    });
+    const [findUser, exist] = await userRepository.createKaKaoUser(userInfo);
 
     const payload = {
       id: findUser.id,
