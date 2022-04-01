@@ -3,6 +3,7 @@
 /dist
 
 # misc
+/public/uploads
 .DS_Store
 .env
 .env.local

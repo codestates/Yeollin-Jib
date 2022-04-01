@@ -2,12 +2,11 @@ import { Request, Response, NextFunction } from "express";
 import user from "../models/user";
 import refreshToken from "./refreshToken";
 import * as dotenv from "dotenv";
-dotenv.config();
 const jwt = require("jsonwebtoken");
+dotenv.config();
 
 const accessToken = async (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;
-  console.log("token===============", req.headers);
 
   if (!authHeader) {
     return res

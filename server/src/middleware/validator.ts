@@ -22,3 +22,14 @@ export const validaterParamCommentId = [
     .withMessage("commentId 번호를 입력해주세요."),
   validateError,
 ];
+
+export const validaterParamPageNum = [
+  param("pageNum")
+    .trim()
+    .notEmpty()
+    .withMessage("pageNum 정보가 없습니다.")
+    .isInt()
+    .toInt()
+    .withMessage("pageNum 번호를 입력해주세요."),
+  validateError,
+];
