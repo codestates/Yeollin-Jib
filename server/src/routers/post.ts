@@ -3,14 +3,18 @@ import accessToken from "../middleware/accessToken";
 import { upload } from "../middleware/multer";
 import { PostController } from "../controllers/Post";
 
-import { body, query, param } from "express-validator";
+import { body, query, param, check } from "express-validator";
 import { validateError } from "../middleware/validatorError";
-import { validaterParamPostId } from "../middleware/validator";
+import {
+  validaterParamPageNum,
+  validaterParamPostId,
+} from "../middleware/validator";
 
 const router = express.Router();
 
 export default function postRouter(PostController: PostController) {
   // 게시물 업로드
+  // Multipul/form-data는 validator 작동하지 않음
   router.post(
     "/",
     accessToken,
@@ -48,12 +52,16 @@ export default function postRouter(PostController: PostController) {
   );
 
   // 게시물 리스트 조회
-  router.get("/page/:postId", validaterParamPostId, PostController.getAllPost);
+  router.get(
+    "/page/:pageNum",
+    validaterParamPageNum,
+    PostController.getAllPost,
+  );
 
   // 유저가 작성한 게시물 리스트 조회 (내가 쓴 게시물)
   router.get(
-    "/user/:postId",
-    validaterParamPostId,
+    "/user/:pageNum",
+    validaterParamPageNum,
     accessToken,
     PostController.getPostUser,
   );
@@ -79,9 +87,6 @@ export default function postRouter(PostController: PostController) {
     PostController.getCategory,
   );
 
-  // 게시물 조회(열람)
-  router.get("/:postId", validaterParamPostId, PostController.getPost);
-
   // 게시물 검색 조회 기능 (제목, 주소)
   router.get(
     "/search/condition",
@@ -98,6 +103,9 @@ export default function postRouter(PostController: PostController) {
     ],
     PostController.getSearchForPost,
   );
+
+  // 게시물 조회(열람)
+  router.get("/:postId", validaterParamPostId, PostController.getPost);
 
   return router;
 }

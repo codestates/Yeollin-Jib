@@ -11,7 +11,7 @@ export class UserData {
     encryptedPassword: string,
   ) {
     // 일반 회원가입 시 - 로그인 타입 false, 소셜 로그인 시 - true
-    return await user.create({
+    return user.create({
       nickname,
       email,
       salt,
@@ -21,17 +21,17 @@ export class UserData {
   }
 
   async findUserById<T>(userId: T) {
-    return await user.findOne({
+    return user.findOne({
       where: { id: userId },
     });
   }
 
   async findUserByEmail<T>(email: T) {
-    return await user.findOne({ where: { email: email } });
+    return user.findOne({ where: { email: email } });
   }
 
   async findUserByNickname<T>(nickname: T) {
-    return await user.findOne({
+    return user.findOne({
       where: {
         nickname: nickname,
       },
@@ -39,7 +39,7 @@ export class UserData {
   }
 
   async findAllUserById<T>(userId: T) {
-    return await user.findAll({
+    return user.findAll({
       where: { id: userId },
       attributes: [
         "id",
@@ -53,7 +53,7 @@ export class UserData {
   }
 
   async updateUserNicknameByUserId<T, R>(nickname: T, userId: R) {
-    return await user.update(
+    return user.update(
       {
         nickname: nickname,
       },
@@ -66,7 +66,7 @@ export class UserData {
     newEncryptedPassword: string,
     userId: T,
   ) {
-    return await user.update(
+    return user.update(
       {
         salt: salt,
         password: newEncryptedPassword,
@@ -76,7 +76,7 @@ export class UserData {
   }
 
   async updateUserAreaByUserId<T, R>(userArea: T, userId: R) {
-    return await user.update(
+    return user.update(
       {
         userArea: userArea,
       },
@@ -85,7 +85,7 @@ export class UserData {
   }
 
   async updateUserPhotoByUserId<T, R>(imagePath: T, userId: R) {
-    return await user.update(
+    return user.update(
       { imagePath: imagePath },
       {
         where: { id: userId },
@@ -94,7 +94,7 @@ export class UserData {
   }
 
   async updateImagePathNullByUserId<T>(userId: T) {
-    return await user.update(
+    return user.update(
       { imagePath: null },
       {
         where: { id: userId },
@@ -103,11 +103,11 @@ export class UserData {
   }
 
   async deleteUser<T>(userId: T) {
-    return await user.destroy({ where: { id: userId } });
+    return user.destroy({ where: { id: userId } });
   }
 
   async createGoogleUser(userInfo: any) {
-    return await user.findOrCreate({
+    return user.findOrCreate({
       where: {
         email: userInfo.data.email,
       },
@@ -122,7 +122,7 @@ export class UserData {
   }
 
   async createKaKaoUser(userInfo: any) {
-    return await user.findOrCreate({
+    return user.findOrCreate({
       where: {
         email: userInfo.data.kakao_account.email,
       },

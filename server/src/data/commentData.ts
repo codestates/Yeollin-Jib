@@ -5,7 +5,7 @@ import comment from "../models/comment";
 @injectable()
 export class CommentData {
   async findAllOnlyCommentIdByUserId<T>(userId: T) {
-    return await comment.findAll({
+    return comment.findAll({
       where: { userId },
       attributes: ["id"],
     });

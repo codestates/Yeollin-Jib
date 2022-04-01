@@ -60,7 +60,7 @@ app.use(
   "/user",
   userRouter(new UserController(myContainer, crypto, fs, axios, jwt)),
 );
-app.use("/post", postRouter(new PostController()));
+app.use("/post", postRouter(new PostController(myContainer, fs)));
 app.use("/storage", postStorageRouter(new PostStorageController()));
 app.use("/comment", commentRouter(new CommentsController()));
 app.use("/inquire", inquireRouter(new InquireController()));
