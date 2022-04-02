@@ -23,7 +23,7 @@ export class PostController {
     const categoryRepository = this.container.get<CategoryData>(
       TYPES.categoryDB,
     );
-    const userId = req.cookies.id;
+    const userId: number = req.cookies.id;
     const images: any = req.files;
     let imagesArray;
     let imagePaths;
@@ -79,8 +79,8 @@ export class PostController {
 
   deletePost = async (req: Request, res: Response) => {
     const postRepository = this.container.get<PostData>(TYPES.postDB);
-    const userId = req.cookies.id; //유저 아이디
-    const postId = req.params.postId; //게시물 아이디
+    const userId: number = req.cookies.id;
+    const postId: number = Number(req.params.postId);
 
     const postDelete = await postRepository.deletePostById(postId, userId);
     if (!postDelete) {
@@ -135,7 +135,7 @@ export class PostController {
     const categoryRepository = this.container.get<CategoryData>(
       TYPES.categoryDB,
     );
-    const userId = req.cookies.id;
+    const userId: number = req.cookies.id;
     const postId: string = req.params.postId;
     const images: any = req.files;
     let imagesArray;
@@ -229,11 +229,11 @@ export class PostController {
 
     if (postData.rows.length === 0) {
       return res
-        .status(200)
+        .status(404)
         .send({ message: "더 이상 조회할 게시물이 없습니다." });
     }
 
-    return res.status(200).send({ postData });
+    return res.status(200).send({ postGet: postData });
   };
 
   getPostUser = async (req: Request, res: Response) => {
@@ -246,15 +246,18 @@ export class PostController {
       offset = 8 * (pageNum - 1);
     }
 
-    const postData = await postRepository.findAllUserPostByUserId(userId);
+    const postData = await postRepository.findAllUserPostByUserIdAndOffset(
+      userId,
+      offset,
+    );
 
     if (postData.rows.length === 0) {
       return res
-        .status(200)
+        .status(404)
         .send({ message: "더 이상 조회할 게시물이 없습니다." });
     }
 
-    res.status(200).send({ postData });
+    res.status(200).send({ postGet: postData });
   };
 
   getCategory = async (req: Request, res: Response) => {
@@ -288,10 +291,10 @@ export class PostController {
 
     if (postData.rows.length === 0) {
       return res
-        .status(200)
+        .status(404)
         .send({ message: "더이상 조회할 게시물이 없습니다." });
     }
-    res.status(200).send({ postData });
+    res.status(200).send({ postGet: postData });
   };
 
   getSearchForPost = async (req: Request, res: Response) => {
@@ -315,12 +318,12 @@ export class PostController {
       );
     }
 
-    if (postData?.count === 0) {
+    if (postData?.rows.length === 0) {
       return res
-        .status(200)
+        .status(404)
         .send({ message: "더이상 조회할 게시물이 없습니다." });
     }
-    return res.status(200).send({ postData });
+    return res.status(200).send({ postGet: postData });
   };
 
   getPost = async (req: Request, res: Response) => {
@@ -333,12 +336,13 @@ export class PostController {
     );
     const postData = await postRepository.readPostByPostId(postId);
 
-    if (!postData)
+    if (!postData) {
       return res
         .status(404)
         .json({ message: "이미 삭제된 게시글이거나 없는 게시글 입니다." });
+    }
 
-    res
+    return res
       .status(200)
       .json({ postLike: postStorageData.length, postGet: postData });
   };
