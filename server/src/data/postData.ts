@@ -9,8 +9,8 @@ const { or, and, gt, lt, like, overlap } = Sequelize.Op;
 
 @injectable()
 export class PostData {
-  async createPost<T>(
-    userId: T,
+  async createPost(
+    userId: number,
     title: string,
     contents: string,
     imagePath: string,

@@ -23,7 +23,7 @@ export class PostController {
     const categoryRepository = this.container.get<CategoryData>(
       TYPES.categoryDB,
     );
-    const userId = req.cookies.id;
+    const userId: number = req.cookies.id;
     const images: any = req.files;
     let imagesArray;
     let imagePaths;
@@ -79,7 +79,7 @@ export class PostController {
 
   deletePost = async (req: Request, res: Response) => {
     const postRepository = this.container.get<PostData>(TYPES.postDB);
-    const userId = req.cookies.id;
+    const userId: number = req.cookies.id;
     const postId: number = Number(req.params.postId);
 
     const postDelete = await postRepository.deletePostById(postId, userId);
@@ -135,7 +135,7 @@ export class PostController {
     const categoryRepository = this.container.get<CategoryData>(
       TYPES.categoryDB,
     );
-    const userId = req.cookies.id;
+    const userId: number = req.cookies.id;
     const postId: string = req.params.postId;
     const images: any = req.files;
     let imagesArray;
@@ -336,12 +336,13 @@ export class PostController {
     );
     const postData = await postRepository.readPostByPostId(postId);
 
-    if (!postData)
+    if (!postData) {
       return res
         .status(404)
         .json({ message: "이미 삭제된 게시글이거나 없는 게시글 입니다." });
+    }
 
-    res
+    return res
       .status(200)
       .json({ postLike: postStorageData.length, postGet: postData });
   };
