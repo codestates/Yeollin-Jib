@@ -3,7 +3,7 @@ import accessToken from "../middleware/accessToken";
 import { upload } from "../middleware/multer";
 import { UserController } from "../controllers/User";
 
-import { body } from "express-validator";
+import { body, query } from "express-validator";
 import { validateError } from "../middleware/validatorError";
 
 const router = express.Router();
@@ -52,7 +52,7 @@ export default function userRouter(UserController: UserController) {
   router.get(
     "/nickname",
     [
-      body("nickname")
+      query("nickname")
         .notEmpty()
         .withMessage("이름을 입력해 주세요")
         .trim()
@@ -67,7 +67,7 @@ export default function userRouter(UserController: UserController) {
   router.get(
     "/email",
     [
-      body("email").isEmail().withMessage("이메일을 입력해주세요"),
+      query("email").isEmail().withMessage("이메일을 입력해주세요"),
       validateError,
     ],
     UserController.checkEmail,

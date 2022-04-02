@@ -28,12 +28,16 @@ import { InquireController } from "./controllers/Inquire";
 import chattingRouter from "./routers/chatting";
 import { ChattingController } from "./controllers/Chatting";
 
-//module
+//container(DB)
 import { myContainer } from "./container/inversify.config";
+
+//module
 import * as crypto from "crypto";
 import * as fs from "fs";
 import * as axios from "axios";
 import jwt from "jsonwebtoken";
+import nodemailer from "nodemailer";
+import mailGun from "nodemailer-mailgun-transport";
 
 const corsOption = {
   Headers: { "content-type": "application/json" },
@@ -62,9 +66,9 @@ app.use(
 );
 app.use("/post", postRouter(new PostController(myContainer, fs)));
 app.use("/storage", postStorageRouter(new PostStorageController(myContainer)));
-app.use("/comment", commentRouter(new CommentsController()));
-app.use("/inquire", inquireRouter(new InquireController()));
-app.use("/chatting", chattingRouter(new ChattingController()));
+app.use("/comment", commentRouter(new CommentsController(myContainer)));
+app.use("/inquire", inquireRouter(new InquireController(nodemailer, mailGun)));
+app.use("/chatting", chattingRouter(new ChattingController(myContainer)));
 
 app.get("/", (req: Request, res: Response, next: NextFunction) => {
   res.status(200).send("Hello world");
@@ -76,7 +80,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
 app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(error);
-  return res.status(500).json({ message: "서버 에러 입니다." });
+  return res.status(500).json({ message: "서버에러 입니다." });
 });
 
 export default app;

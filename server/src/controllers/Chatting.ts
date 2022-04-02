@@ -4,8 +4,14 @@ import chatroom from "../models/chatroom";
 import user from "../models/user";
 import chatting from "../models/chatting";
 
+import { Container } from "inversify";
+
 export class ChattingController {
-  constructor() {}
+  container: Container;
+
+  constructor(myContainer: Container) {
+    this.container = myContainer;
+  }
 
   //   // 방 입장
   //   socket.on("joinRoom", (room) => {

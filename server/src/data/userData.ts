@@ -20,7 +20,7 @@ export class UserData {
     });
   }
 
-  async findUserById<T>(userId: T) {
+  async findUserByUserId(userId: number) {
     return user.findOne({
       where: { id: userId },
     });
@@ -38,7 +38,7 @@ export class UserData {
     });
   }
 
-  async findAllUserById<T>(userId: T) {
+  async findAllUserById(userId: number) {
     return user.findAll({
       where: { id: userId },
       attributes: [

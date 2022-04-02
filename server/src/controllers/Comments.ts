@@ -3,31 +3,25 @@ import user from "../models/user";
 import post from "../models/post";
 import comment from "../models/comment";
 
+import { TYPES } from "../container/types";
+import { Container } from "inversify";
+import { UserData } from "../data/userData";
+import { PostData } from "../data/postData";
+import { CommentData } from "../data/commentData";
+
 export class CommentsController {
-  constructor() {}
+  container: Container;
 
-  getComment = async (req: Request, res: Response) => {
-    const userId = req.cookies.id;
+  constructor(myContainer: Container) {
+    this.container = myContainer;
+  }
 
-    await comment
-      .findAll({
-        attributes: {
-          exclude: ["createdAt", "updateTimestamp", "userId"],
-        },
-        include: [
-          {
-            model: user,
-            attributes: ["nickname"],
-          },
-          {
-            model: post,
-            attributes: ["title", "dueDate"],
-          },
-        ],
-        where: {
-          userId,
-        },
-      })
+  getUserComment = async (req: Request, res: Response) => {
+    const commentRepository = this.container.get<CommentData>(TYPES.commentDB);
+    const userId: number = Number(req.cookies.id);
+
+    commentRepository
+      .findAllUserCommentByUserId(userId)
       .then((data: object) => {
         res.status(200).json({
           data,
@@ -36,130 +30,105 @@ export class CommentsController {
       });
   };
 
-  getAllComment = async (req: Request, res: Response) => {
-    const userId = req.cookies.id;
+  getPostComment = async (req: Request, res: Response) => {
+    const commentRepository = this.container.get<CommentData>(TYPES.commentDB);
+    const userId: number = Number(req.cookies.id);
+    const postId: number = Number(req.params.postId);
 
-    await comment
-      .findAll({
-        attributes: {
-          exclude: ["createdAt", "updateTimestamp", "userId"],
-        },
-        include: [
-          {
-            model: user,
-            attributes: ["nickname"],
-          },
-          {
-            model: post,
-            attributes: ["title", "dueDate"],
-          },
-        ],
-        where: {
-          userId,
-        },
-      })
+    commentRepository
+      .findAllPostCommentByPostId(postId)
       .then((data: object) => {
         res.status(200).json({
           data,
-          message: "내가 쓴 댓글이 성공적으로 조회되었습니다.",
+          message: "게시글의 모든댓글들을 성공적으로 조회했습니다.",
         });
       });
   };
 
   postComment = async (req: Request, res: Response) => {
-    const { postId } = req.params;
+    const userRepository = this.container.get<UserData>(TYPES.userDB);
+    const commentRepository = this.container.get<CommentData>(TYPES.commentDB);
+    const postId: number = Number(req.params.postId);
+    const userId: number = Number(req.cookies.id);
     const { contents } = req.body;
-    const userId = req.cookies.id;
 
-    const userInfo: any = await user.findOne({
-      where: {
-        id: userId,
-      },
-      attributes: ["nickname", "imagePath"],
-    });
-    const payload = {
-      nickname: userInfo.nickname,
-      imagePath: userInfo.imagePath,
-    };
-    await comment
-      .create({
-        userId: userId, // 댓글을 작성한 유저 아이디 값
-        postId: parseInt(postId), // 게시글 아이디
-        contents, // 댓글 내용
-      })
-      .then((result: any) => {
-        let data = {
-          ...result.dataValues,
-          user: {
-            nickname: userInfo.nickname,
-            imagePath: userInfo.imagePath,
-          },
-        };
-        res.status(200).json({
-          data,
-        });
+    const userInfo = await userRepository.findUserByUserId(userId);
+
+    const data = await commentRepository.createCommentByUserIdPostId(
+      userId,
+      postId,
+      contents,
+    );
+
+    Promise.all([userInfo, data]).then(() => {
+      return res.status(200).json({
+        data,
+        user: {
+          nickname: userInfo!.nickname,
+          imagePath: userInfo!.imagePath,
+        },
       });
+    });
   };
 
   patchComment = async (req: Request, res: Response) => {
-    const { commentId } = req.params;
+    const userRepository = this.container.get<UserData>(TYPES.userDB);
+    const commentRepository = this.container.get<CommentData>(TYPES.commentDB);
+    const userId: number = Number(req.cookies.id);
+    const commentId: number = Number(req.params.commentId);
     const { contents } = req.body;
-    const userId = req.cookies.id;
 
-    const userInfo: any = await user.findOne({
-      where: {
-        id: userId,
-      },
-      attributes: ["nickname"],
-    });
-
-    const commentInfo: any = await comment.findOne({
-      where: {
-        id: commentId,
-      },
-    });
-
-    await comment.update(
-      {
-        contents,
-      },
-      {
-        where: { id: commentId },
-      },
+    const userInfo = await userRepository.findUserByUserId(userId);
+    const commentInfo = await commentRepository.findCommentByCommentIdAndUserId(
+      commentId,
+      userId,
     );
+    if (!commentInfo) {
+      return res.status(404).json({
+        message: "이미 삭제 되었거나 존재하지 않는 댓글입니다.",
+      });
+    }
 
-    const userload = {
-      nickname: userInfo.nickname,
-    };
+    const updateComment = await commentRepository.updateCommentByCommentId(
+      contents,
+      commentId,
+    );
 
     const payload = {
       id: commentId,
       userId: userId,
-      postId: commentInfo.postId,
+      postId: commentInfo!.postId,
       contents,
     };
 
-    return res.status(200).json({
-      comment: payload,
-      nickname: userload,
-      message: "댓글이 성공적으로 수정되었습니다.",
+    Promise.all([userInfo, commentInfo, updateComment]).then(() => {
+      return res.status(200).json({
+        comment: payload,
+        nickname: userInfo!.nickname,
+        message: "댓글이 성공적으로 수정되었습니다.",
+      });
     });
   };
 
   deleteComment = async (req: Request, res: Response) => {
-    const { commentId } = req.params;
-    const userId = req.cookies.id;
+    const commentRepository = this.container.get<CommentData>(TYPES.commentDB);
+    const commentId: number = Number(req.params.commentId);
+    const userId: number = Number(req.cookies.id);
 
-    if (userId) {
-      const commentInfo: any = await comment.findOne({
-        where: { id: commentId },
+    const commentInfo = await commentRepository.findCommentByCommentIdAndUserId(
+      commentId,
+      userId,
+    );
+
+    if (!commentInfo) {
+      return res.status(404).json({
+        message: "이미 삭제 되었거나 존재하지 않는 댓글입니다.",
       });
-      await commentInfo.destroy({});
-      return res
-        .status(200)
-        .json({ message: "댓글이 성공적으로 삭제되었습니다." });
-    } else {
-      return res.status(403).json({ message: "삭제할 권한이 없습니다." });
     }
+
+    commentRepository.deleteCommentsByCommentIdAndUserId(commentId, userId);
+    return res
+      .status(200)
+      .json({ message: "댓글이 성공적으로 삭제되었습니다." });
   };
 }

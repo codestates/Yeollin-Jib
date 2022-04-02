@@ -11,10 +11,14 @@ const router = express.Router();
 
 export default function commentRouter(CommentController: CommentsController) {
   // 내가 쓴 댓글 받아오기
-  router.get("/me", accessToken, CommentController.getComment);
+  router.get("/me", accessToken, CommentController.getUserComment);
 
-  // 게시물 전체 댓글 받아오기
-  router.get("/:postId", validaterParamPostId, CommentController.getAllComment);
+  // 게시물의 전체 댓글 받아오기
+  router.get(
+    "/:postId",
+    validaterParamPostId,
+    CommentController.getPostComment,
+  );
 
   // 댓글 쓰기
   router.post(
