@@ -9,20 +9,20 @@ const router = express.Router();
 export default function postStorageRouter(
   PostStorageController: PostStorageController,
 ) {
-  router.get("/", accessToken, PostStorageController.getLike);
+  router.get("/", accessToken, PostStorageController.getStroage);
 
   router.post(
     "/:postId",
     validaterParamPostId,
     accessToken,
-    PostStorageController.postLike,
+    PostStorageController.postStorage,
   );
 
   router.delete(
     "/:postId",
     validaterParamPostId,
     accessToken,
-    PostStorageController.deleteLike,
+    PostStorageController.deleteStorage,
   );
   return router;
 }

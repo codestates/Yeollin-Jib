@@ -9,7 +9,33 @@ const { or, and, gt, lt, like, overlap } = Sequelize.Op;
 
 @injectable()
 export class PostData {
-  async findPostByPostId<T>(postId: T) {
+  async createPost<T>(
+    userId: T,
+    title: string,
+    contents: string,
+    imagePath: string,
+    address: string,
+    dueDate: string,
+    latitude: string,
+    longitude: string,
+  ) {
+    return post.create({
+      userId: userId,
+      title: title,
+      contents: contents,
+      imagePath: imagePath,
+      address: address,
+      dueDate: dueDate,
+      latitude: latitude,
+      longitude: longitude,
+    });
+  }
+
+  async deletePostById(postId: number, userId: number) {
+    return post.destroy({ where: { id: postId, userId: userId } });
+  }
+
+  async findPostByPostId(postId: number) {
     return post.findOne({
       where: { id: postId },
     });
@@ -53,9 +79,11 @@ export class PostData {
     });
   }
 
-  async findAllUserPostByUserId(userId: number) {
+  async findAllUserPostByUserIdAndOffset(userId: number, offset: number) {
     return post.findAndCountAll({
       attributes: ["id", "userId", "title", "address", "dueDate", "imagePath"],
+      limit: 8,
+      offset: offset,
       order: [["id", "DESC"]],
       distinct: true,
       where: { userId: userId },
@@ -67,6 +95,29 @@ export class PostData {
         {
           model: storage,
           attributes: ["userId"],
+        },
+        {
+          model: post_category,
+          attributes: ["categoryId"],
+        },
+      ],
+    });
+  }
+
+  async findAllPostStorageByUserId(userId: number) {
+    return post.findAndCountAll({
+      attributes: ["id", "userId", "title", "address", "dueDate", "imagePath"],
+      order: [["id", "DESC"]],
+      distinct: true, //Don't count include
+      include: [
+        {
+          model: user,
+          attributes: ["nickname", "imagePath"],
+        },
+        {
+          model: storage,
+          attributes: ["userId"],
+          where: { userId: userId },
         },
         {
           model: post_category,
@@ -94,28 +145,6 @@ export class PostData {
           attributes: ["userId"],
         },
       ],
-    });
-  }
-
-  async createPost<T>(
-    userId: T,
-    title: string,
-    contents: string,
-    imagePath: string,
-    address: string,
-    dueDate: string,
-    latitude: string,
-    longitude: string,
-  ) {
-    return post.create({
-      userId: userId,
-      title: title,
-      contents: contents,
-      imagePath: imagePath,
-      address: address,
-      dueDate: dueDate,
-      latitude: latitude,
-      longitude: longitude,
     });
   }
 
@@ -202,10 +231,6 @@ export class PostData {
         },
       ],
     });
-  }
-
-  async deletePostById<T, R>(postId: T, userId: R) {
-    return post.destroy({ where: { id: postId, userId: userId } });
   }
 
   async updatePostTitle<T, R>(title: string, postId: T, userId: R) {

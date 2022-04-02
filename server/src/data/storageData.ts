@@ -16,4 +16,29 @@ export class StorageData {
       where: { postId: postId },
     });
   }
+
+  async createOrFindStroage(postId: number, userId: number) {
+    return storage.findOrCreate({
+      where: {
+        postId,
+        userId,
+      },
+      defaults: {
+        postId,
+        userId,
+      },
+    });
+  }
+
+  async findStorageByPostAndUserId(postId: number, userId: number) {
+    return storage.findOne({
+      where: { userId, postId },
+    });
+  }
+
+  async deleteStorageByPostAndUserId(postId: number, userId: number) {
+    return storage.destroy({
+      where: { userId, postId },
+    });
+  }
 }
