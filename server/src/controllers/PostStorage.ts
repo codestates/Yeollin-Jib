@@ -1,14 +1,8 @@
 import { Request, Response } from "express";
-import user from "../models/user";
-import storage from "../models/storage";
-import post from "../models/post";
-import post_category from "../models/post_category";
 
 import { TYPES } from "../container/types";
 import { Container } from "inversify";
 import { PostData } from "../data/postData";
-import { PostCategoryData } from "../data/postCategoryData";
-import { CategoryData } from "../data/categoryData";
 import { StorageData } from "../data/storageData";
 
 export class PostStorageController {

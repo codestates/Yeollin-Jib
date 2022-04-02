@@ -1,9 +1,14 @@
 import { Request, Response } from "express";
-import nodemailer from "nodemailer";
-import mailGun from "nodemailer-mailgun-transport";
 
 export class InquireController {
-  constructor() {}
+  nodemailer: typeof import("nodemailer");
+  mailGun: typeof import("nodemailer-mailgun-transport");
+  constructor(
+    nodemailer: typeof import("nodemailer"),
+    mailGun: typeof import("nodemailer-mailgun-transport"),
+  ) {
+    (this.nodemailer = nodemailer), (this.mailGun = mailGun);
+  }
 
   sendInquire = async (req: Request, res: Response) => {
     const { email, title, contents } = req.body;
@@ -15,7 +20,7 @@ export class InquireController {
       },
     };
 
-    const transporter = nodemailer.createTransport(mailGun(auth));
+    const transporter = this.nodemailer.createTransport(this.mailGun(auth));
 
     const mailOptions = {
       from: email,

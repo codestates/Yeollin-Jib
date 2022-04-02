@@ -123,7 +123,7 @@ export class UserController {
   };
 
   checkEmail = async (req: Request, res: Response) => {
-    const email = req.query;
+    const email = req.query.email;
     const userRepository = this.container.get<UserData>(TYPES.userDB);
     const result = await userRepository.findUserByEmail(email);
 
@@ -137,10 +137,10 @@ export class UserController {
   putUser = async (req: Request, res: Response) => {
     const userRepository = this.container.get<UserData>(TYPES.userDB);
     const { nickname, password, userArea } = req.body;
-    const userId = req.cookies.id;
+    const userId: number = Number(req.cookies.id);
     const reqImagePath = req.file;
 
-    const findUser = await userRepository.findUserById(userId);
+    const findUser = await userRepository.findUserByUserId(userId);
     if (!findUser) {
       return res.status(404).json({ message: "존재하지 않는 유저 입니다." });
     }
@@ -188,9 +188,9 @@ export class UserController {
     const commentRepository = this.container.get<CommentData>(TYPES.commentDB);
     const postRepository = this.container.get<PostData>(TYPES.postDB);
     const storageRepository = this.container.get<StorageData>(TYPES.storageDB);
-    const userId = req.cookies.id;
+    const userId: number = Number(req.cookies.id);
 
-    const findUser = userRepository.findUserById(userId);
+    const findUser = userRepository.findUserByUserId(userId);
     if (!findUser) {
       return res.status(404).json({ message: "해당 유저를 찾을 수 없습니다." });
     }
@@ -248,9 +248,9 @@ export class UserController {
 
   deletePhoto = async (req: Request, res: Response) => {
     const userRepository = this.container.get<UserData>(TYPES.userDB);
-    const userId = req.cookies.id;
+    const userId: number = Number(req.cookies.id);
 
-    const findUser = await userRepository.findUserById(userId);
+    const findUser = await userRepository.findUserByUserId(userId);
 
     if (findUser) {
       if (findUser.imagePath === null) {
