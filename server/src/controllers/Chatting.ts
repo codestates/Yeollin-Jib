@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-// import { Socket } from "socket.io/dist/socket";
-import chatroom from "../models/chatroom";
-import user from "../models/user";
-import chatting from "../models/chatting";
+import { getSocketIO } from "../connection/socket";
 
 import { Container } from "inversify";
+import { TYPES } from "../container/types";
+import { UserData } from "../data/userData";
+import { ChattingData } from "../data/chattingData";
 
 export class ChattingController {
   container: Container;
@@ -12,6 +12,18 @@ export class ChattingController {
   constructor(myContainer: Container) {
     this.container = myContainer;
   }
+
+  createTweet = async (req: Request, res: Response) => {
+    const chattingRepository = this.container.get<ChattingData>(
+      TYPES.chattingDB,
+    );
+    const userId: number = Number(req.cookies.id);
+    const { contents } = req.body;
+
+    const tweet = await chattingRepository.createChat(userId, contents);
+    getSocketIO().emit("tweets", tweet);
+    return res.status(201).json(tweet);
+  };
 
   //   // 방 입장
   //   socket.on("joinRoom", (room) => {

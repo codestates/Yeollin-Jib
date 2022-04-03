@@ -5,4 +5,5 @@ export const TYPES = {
   categoryDB: Symbol.for("categoryDB"),
   commentDB: Symbol.for("commentDB"),
   storageDB: Symbol.for("StorageDB"),
+  chattingDB: Symbol.for("chattingDB"),
 };

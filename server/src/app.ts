@@ -41,7 +41,7 @@ import mailGun from "nodemailer-mailgun-transport";
 
 const corsOption = {
   Headers: { "content-type": "application/json" },
-  origin: true,
+  origin: "*",
   credentials: true,
   method: ["post", "get", "put", "patch", "delete", "options"],
 };
