@@ -6,7 +6,7 @@ import post_category, {
 import comment, { associate as associatecomment } from "./comment";
 import category, { associate as associatecategory } from "./category";
 import storage, { associate as associatestorage } from "./storage";
-import chatroom, { associate as associatechatroom } from "./chatroom";
+import chatting, { associate as associatechatting } from "./chatting";
 
 export * from "./sequelize";
 const db = {
@@ -16,7 +16,7 @@ const db = {
   comment,
   category,
   storage,
-  chatroom,
+  chatting,
 };
 export type dbType = typeof db;
 
@@ -26,4 +26,4 @@ associatepost_category(db);
 associatecomment(db);
 associatecategory(db);
 associatestorage(db);
-associatechatroom(db);
+associatechatting(db);

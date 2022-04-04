@@ -102,7 +102,7 @@ export const associate = (db: dbType) => {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   });
-  db.user.hasMany(db.chatroom, {
+  db.user.hasMany(db.chatting, {
     foreignKey: "userId",
     sourceKey: "id",
     onDelete: "CASCADE",

@@ -26,6 +26,12 @@ chatting.init(
     },
     userId: {
       type: DataTypes.INTEGER,
+      references: {
+        model: "user",
+        key: "id",
+      },
+      onUpdate: "CASCADE",
+      onDelete: "CASCADE",
       allowNull: false,
     },
     contents: {
@@ -46,6 +52,14 @@ chatting.init(
   },
 );
 
-export const associate = (db: dbType) => {};
+export const associate = (db: dbType) => {
+  db.chatting.belongsTo(db.user, {
+    foreignKey: "userId",
+    targetKey: "id",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+    hooks: true,
+  });
+};
 
 export default chatting;
