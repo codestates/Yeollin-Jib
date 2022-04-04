@@ -2,14 +2,15 @@ import "dotenv/config";
 import { sequelize } from "./models";
 import { AppDataSource } from "./data-source";
 import app from "./app";
-import { initSocket } from "./connection/socket";
+import { Socket } from "./connection/socket";
+import { Server } from "http";
 
 const PORT: number = parseInt(process.env.PORT as string, 10) || 80;
 const HOST: string = process.env.HOST || "localhost";
 
-const server = app.listen(PORT, async () => {
+const server: Server = app.listen(PORT, async () => {
   console.log(`Server Listening on ${PORT}`);
-  //sequelize-db 연결 테스트
+  //sequelize
   await sequelize
     .authenticate()
     .then(async () => {
@@ -27,4 +28,4 @@ const server = app.listen(PORT, async () => {
     .catch((error) => console.log("📚 DB error!", error));
 });
 
-initSocket(server);
+Socket.initSocket(server);

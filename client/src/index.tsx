@@ -5,16 +5,14 @@ import { Provider } from "react-redux";
 import { persistor, store } from "./store/store";
 import { PersistGate } from "redux-persist/integration/react";
 import "./index.css";
-import socket from "socket.io-client";
+// socket client
+// import Socket from "./network/socket";
+// import ChatService from "./network/chatting";
 
-const baseURL = process.env.REACT_APP_API_URL!;
-const soketIO = socket(baseURL);
-soketIO.on("connect_error", (error) => {
-  console.log("socket error", error);
-});
-soketIO.on("connection", (message) => {
-  console.log("socket message", message);
-});
+// const baseURL = process.env.REACT_APP_API_URL!;
+// const accessToken = "";
+// const socketClient: Socket = new Socket(baseURL, accessToken);
+// const Service = new ChatService(httpClient, accessToken, socketClient);
 
 ReactDOM.render(
   <React.StrictMode>

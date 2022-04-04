@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { getSocketIO } from "../connection/socket";
+import { Socket } from "../connection/socket";
 
 import { Container } from "inversify";
 import { TYPES } from "../container/types";
@@ -13,7 +13,7 @@ export class ChattingController {
     this.container = myContainer;
   }
 
-  createTweet = async (req: Request, res: Response) => {
+  createChat = async (req: Request, res: Response) => {
     const chattingRepository = this.container.get<ChattingData>(
       TYPES.chattingDB,
     );
@@ -21,7 +21,7 @@ export class ChattingController {
     const { contents } = req.body;
 
     const tweet = await chattingRepository.createChat(userId, contents);
-    getSocketIO().emit("tweets", tweet);
+    Socket.getSocketIO().emit("tweets", tweet);
     return res.status(201).json(tweet);
   };
 
