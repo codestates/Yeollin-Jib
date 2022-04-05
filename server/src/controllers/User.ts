@@ -28,7 +28,7 @@ export class UserController {
     this.jwt = jwtModule;
   }
 
-  signup = async (req: Request, res: Response) => {
+  signup = async (req: Request, res: Response): Promise<void> => {
     const { nickname, email, password } = req.body;
     const userRepository = this.container.get<UserData>(TYPES.userDB);
 
@@ -46,7 +46,7 @@ export class UserController {
 
     const userId: Number = newUser.id;
 
-    return res.status(201).json({
+    res.status(201).json({
       userId,
       nickname,
       email,
@@ -54,22 +54,24 @@ export class UserController {
     });
   };
 
-  login = async (req: Request, res: Response) => {
+  login = async (req: Request, res: Response): Promise<void> => {
     const { email, password } = req.body;
     const userRepository = this.container.get<UserData>(TYPES.userDB);
 
     const findUser = await userRepository.findUserByEmail(email);
     if (!findUser) {
-      return res.status(404).json({ message: "존재하지 않는 유저 입니다." });
+      res.status(404).json({ message: "존재하지 않는 유저 입니다." });
+      return;
     }
-    const dbPassword: string = findUser.password;
-    const salt: string = findUser.salt;
+    const dbPassword: string = findUser!.password;
+    const salt: string = findUser!.salt;
     const hashedPassword: string = this.crypto
       .pbkdf2Sync(password, salt, 256, 64, "sha512")
       .toString("base64");
 
     if (hashedPassword !== dbPassword) {
-      return res.status(403).json({ message: "잘못된 비밀번호입니다." });
+      res.status(403).json({ message: "잘못된 비밀번호입니다." });
+      return;
     }
 
     const payload = {
@@ -91,25 +93,26 @@ export class UserController {
       httpOnly: true,
     });
 
-    return res.status(200).json({
+    res.status(200).json({
       accessToken,
       id: findUser!.id,
       message: "로그인에 성공하였습니다.",
     });
   };
 
-  logout = async (req: Request, res: Response) => {
+  logout = async (req: Request, res: Response): Promise<void> => {
     const { authorization } = req.headers;
 
     if (!authorization && !req.cookies) {
-      return res.status(401).json({ message: `이미 로그아웃 되었습니다.` });
+      res.status(401).json({ message: `이미 로그아웃 되었습니다.` });
+      return;
     }
     res.clearCookie("refreshToken");
-    return res.status(200).json({ message: `로그아웃 되었습니다.` });
+    res.status(200).json({ message: `로그아웃 되었습니다.` });
   };
 
-  checkNickname = async (req: Request, res: Response) => {
-    const nickname = req.query;
+  checkNickname = async (req: Request, res: Response): Promise<void> => {
+    const nickname = String(req.query.email);
     const userRepository = this.container.get<UserData>(TYPES.userDB);
 
     // 로그인된 아이디 정보 찾기
@@ -117,24 +120,26 @@ export class UserController {
 
     // nickname 중복코드
     if (userByNick) {
-      return res.status(200).json({ message: `닉네임이 중복됩니다.` });
+      res.status(200).json({ message: `닉네임이 중복됩니다.` });
+      return;
     }
-    return res.status(200).json({ message: `사용할 수 있는 닉네임입니다.` });
+    res.status(200).json({ message: `사용할 수 있는 닉네임입니다.` });
   };
 
-  checkEmail = async (req: Request, res: Response) => {
-    const email = req.query.email;
+  checkEmail = async (req: Request, res: Response): Promise<void> => {
+    const email: string = String(req.query.email);
     const userRepository = this.container.get<UserData>(TYPES.userDB);
     const result = await userRepository.findUserByEmail(email);
 
     if (result) {
-      return res.status(200).json({ message: `이메일이 중복됩니다.` });
+      res.status(200).json({ message: `이메일이 중복됩니다.` });
+      return;
     }
 
-    return res.status(200).json({ message: `사용할 수 있는 이메일입니다.` });
+    res.status(200).json({ message: `사용할 수 있는 이메일입니다.` });
   };
 
-  putUser = async (req: Request, res: Response) => {
+  putUser = async (req: Request, res: Response): Promise<void> => {
     const userRepository = this.container.get<UserData>(TYPES.userDB);
     const { nickname, password, userArea } = req.body;
     const userId: number = Number(req.cookies.id);
@@ -142,7 +147,8 @@ export class UserController {
 
     const findUser = await userRepository.findUserByUserId(userId);
     if (!findUser) {
-      return res.status(404).json({ message: "존재하지 않는 유저 입니다." });
+      res.status(404).json({ message: "존재하지 않는 유저 입니다." });
+      return;
     }
 
     if (nickname) {
@@ -180,10 +186,10 @@ export class UserController {
       userRepository.updateUserPhotoByUserId(reqImagePath.filename, userId);
     }
 
-    return res.status(200).json({ message: "정보 수정이 완료되었습니다" });
+    res.status(200).json({ message: "정보 수정이 완료되었습니다" });
   };
 
-  getUser = async (req: Request, res: Response) => {
+  getUser = async (req: Request, res: Response): Promise<void> => {
     const userRepository = this.container.get<UserData>(TYPES.userDB);
     const commentRepository = this.container.get<CommentData>(TYPES.commentDB);
     const postRepository = this.container.get<PostData>(TYPES.postDB);
@@ -192,7 +198,8 @@ export class UserController {
 
     const findUser = userRepository.findUserByUserId(userId);
     if (!findUser) {
-      return res.status(404).json({ message: "해당 유저를 찾을 수 없습니다." });
+      res.status(404).json({ message: "해당 유저를 찾을 수 없습니다." });
+      return;
     }
 
     const userInfo = await userRepository.findAllUserById(userId);
@@ -217,7 +224,7 @@ export class UserController {
     });
   };
 
-  deleteUser = async (req: Request, res: Response) => {
+  deleteUser = async (req: Request, res: Response): Promise<void> => {
     const userRepository = this.container.get<UserData>(TYPES.userDB);
     const postRepository = this.container.get<PostData>(TYPES.postDB);
     const userId = req.cookies.id;
@@ -239,14 +246,14 @@ export class UserController {
     // 프로필 사진은 삭제되지않아 deletePhoto 사용 또는 클래스 상속 필요
     await userRepository.deleteUser(userId);
 
-    return res
+    res
       .status(200)
       .cookie("refreshToken", "")
       .setHeader("authorization", "")
       .json({ message: "회원탈퇴가 완료 되었습니다." });
   };
 
-  deletePhoto = async (req: Request, res: Response) => {
+  deletePhoto = async (req: Request, res: Response): Promise<void> => {
     const userRepository = this.container.get<UserData>(TYPES.userDB);
     const userId: number = Number(req.cookies.id);
 
@@ -254,9 +261,10 @@ export class UserController {
 
     if (findUser) {
       if (findUser.imagePath === null) {
-        return res
+        res
           .status(200)
           .json({ message: "이미 삭제 되었거나 존재하지않는 이미지 입니다." });
+        return;
       } else {
         this.fs.unlink(
           // 기존 파일 삭제
@@ -269,18 +277,18 @@ export class UserController {
         );
       }
       await userRepository.updateImagePathNullByUserId(userId);
-      return res.status(200).json({ message: "사진 삭제가 완료되었습니다." });
+      res.status(200).json({ message: "사진 삭제가 완료되었습니다." });
     }
   };
 
-  googleLogin = async (req: Request, res: Response) => {
+  googleLogin = async (req: Request, res: Response): Promise<void> => {
     // 로그인 - OAuth 방식: google
-    return res.redirect(
+    res.redirect(
       `https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.profile&access_type=offline&response_type=code&state=state_parameter_passthrough_value&redirect_uri=${process.env.CLIENT_REDIRECT_URL}&client_id=${process.env.GOOGLE_CLIENT_ID}`,
     );
   };
 
-  googleCallback = async (req: Request, res: Response) => {
+  googleCallback = async (req: Request, res: Response): Promise<void> => {
     const userRepository = this.container.get<UserData>(TYPES.userDB);
     const code = req.query.code;
 
@@ -332,14 +340,14 @@ export class UserController {
     res.redirect(`${process.env.ORIGIN}/login?access_token=${realQuery}`);
   };
 
-  kakaoLogin = async (req: Request, res: Response) => {
+  kakaoLogin = async (req: Request, res: Response): Promise<void> => {
     // 로그인 버튼
-    return res.redirect(
+    res.redirect(
       `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.KAKAO_REST_API_KEY}&redirect_uri=${process.env.KAKAO_REDIRECT_URI}&&response_type=code`,
     );
   };
 
-  kakaoCallback = async (req: Request, res: Response) => {
+  kakaoCallback = async (req: Request, res: Response): Promise<void> => {
     const userRepository = this.container.get<UserData>(TYPES.userDB);
     const code = req.query.code;
 

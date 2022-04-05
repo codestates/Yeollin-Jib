@@ -7,6 +7,11 @@ import post_category from "../models/post_category";
 import Sequelize from "sequelize";
 const { or, and, gt, lt, like, overlap } = Sequelize.Op;
 
+type getPostData = {
+  rows: post[];
+  count: number;
+};
+
 @injectable()
 export class PostData {
   async createPost(
@@ -18,7 +23,7 @@ export class PostData {
     dueDate: string,
     latitude: string,
     longitude: string,
-  ) {
+  ): Promise<post> {
     return post.create({
       userId: userId,
       title: title,
@@ -31,31 +36,27 @@ export class PostData {
     });
   }
 
-  async deletePostById(postId: number, userId: number) {
-    return post.destroy({ where: { id: postId, userId: userId } });
-  }
-
-  async findPostByPostId(postId: number) {
+  async findPostByPostId(postId: number): Promise<post | null> {
     return post.findOne({
       where: { id: postId },
     });
   }
 
-  async findAllOnlyPostIdByUserId<T>(userId: T) {
+  async findAllOnlyPostIdByUserId(userId: number): Promise<post[]> {
     return post.findAll({
       where: { userId },
       attributes: ["id"],
     });
   }
 
-  async findAllOnlyPostImagePathByUserId<T>(userId: T) {
+  async findAllOnlyPostImagePathByUserId(userId: number): Promise<post[]> {
     return post.findAll({
       where: { userId: userId },
       attributes: ["imagePath"],
     });
   }
 
-  async findAllEgithPostsByOffset(offset: number) {
+  async findAllEgithPostsByOffset(offset: number): Promise<getPostData> {
     return post.findAndCountAll({
       attributes: ["id", "userId", "title", "address", "dueDate", "imagePath"],
       order: [["id", "DESC"]],
@@ -79,7 +80,10 @@ export class PostData {
     });
   }
 
-  async findAllUserPostByUserIdAndOffset(userId: number, offset: number) {
+  async findAllUserPostByUserIdAndOffset(
+    userId: number,
+    offset: number,
+  ): Promise<getPostData> {
     return post.findAndCountAll({
       attributes: ["id", "userId", "title", "address", "dueDate", "imagePath"],
       limit: 8,
@@ -104,7 +108,7 @@ export class PostData {
     });
   }
 
-  async findAllPostStorageByUserId(userId: number) {
+  async findAllPostStorageByUserId(userId: number): Promise<getPostData> {
     return post.findAndCountAll({
       attributes: ["id", "userId", "title", "address", "dueDate", "imagePath"],
       order: [["id", "DESC"]],
@@ -127,31 +131,10 @@ export class PostData {
     });
   }
 
-  async readPostByPostId(postId: number) {
-    return post.findOne({
-      where: { id: postId },
-      include: [
-        {
-          model: user,
-          attributes: ["nickname", "email", "imagePath"],
-        },
-        {
-          model: post_category,
-          required: false,
-          attributes: ["categoryId", "Boolean"],
-        },
-        {
-          model: storage,
-          attributes: ["userId"],
-        },
-      ],
-    });
-  }
-
   async findAllPostByCategoryAndOffset(
     offset: number,
     categoryNumbers: number[],
-  ) {
+  ): Promise<getPostData> {
     return post.findAndCountAll({
       attributes: ["id", "userId", "title", "address", "dueDate", "imagePath"],
       order: [["id", "DESC"]],
@@ -176,7 +159,10 @@ export class PostData {
     });
   }
 
-  async findAllPostByTitleSearch(offset: number, search: string) {
+  async findAllPostByTitleSearch(
+    offset: number,
+    search: string,
+  ): Promise<getPostData> {
     return post.findAndCountAll({
       attributes: ["id", "userId", "title", "address", "dueDate", "imagePath"],
       order: [["id", "DESC"]],
@@ -205,7 +191,10 @@ export class PostData {
     });
   }
 
-  async findAllPostByAddressSearch(offset: number, search: string) {
+  async findAllPostByAddressSearch(
+    offset: number,
+    search: string,
+  ): Promise<getPostData> {
     return post.findAndCountAll({
       order: [["id", "DESC"]],
       limit: 8,
@@ -233,50 +222,92 @@ export class PostData {
     });
   }
 
-  async updatePostTitle<T, R>(title: string, postId: T, userId: R) {
-    return post.update(
-      { title: title },
-      { where: { id: postId, userId: userId } },
-    );
+  async readPostByPostId(postId: number): Promise<post | null> {
+    return post.findOne({
+      where: { id: postId },
+      include: [
+        {
+          model: user,
+          attributes: ["nickname", "email", "imagePath"],
+        },
+        {
+          model: post_category,
+          required: false,
+          attributes: ["categoryId", "Boolean"],
+        },
+        {
+          model: storage,
+          attributes: ["userId"],
+        },
+      ],
+    });
   }
 
-  async updatePostContents<T, R>(contents: string, postId: T, userId: R) {
-    return post.update(
+  async updatePostTitle(
+    title: string,
+    postId: number,
+    userId: number,
+  ): Promise<void> {
+    post.update({ title: title }, { where: { id: postId, userId: userId } });
+  }
+
+  async updatePostContents(
+    contents: string,
+    postId: number,
+    userId: number,
+  ): Promise<void> {
+    post.update(
       { contents: contents },
       { where: { id: postId, userId: userId } },
     );
   }
 
-  async updatePostAddress<T, R>(address: string, postId: T, userId: R) {
-    return post.update(
+  async updatePostAddress(
+    address: string,
+    postId: number,
+    userId: number,
+  ): Promise<void> {
+    post.update(
       { address: address },
       { where: { id: postId, userId: userId } },
     );
   }
 
-  async updatePostDudate<T, R>(dueDate: string, postId: T, userId: R) {
-    return post.update(
+  async updatePostDudate(
+    dueDate: string,
+    postId: number,
+    userId: number,
+  ): Promise<void> {
+    post.update(
       { dueDate: dueDate },
       { where: { id: postId, userId: userId } },
     );
   }
 
-  async updatePostCoordinate<T, R>(
+  async updatePostCoordinate(
     latitude: string,
     longitude: string,
-    postId: T,
-    userId: R,
-  ) {
-    return post.update(
+    postId: number,
+    userId: number,
+  ): Promise<void> {
+    post.update(
       { latitude: latitude, longitude: longitude },
       { where: { id: postId, userId: userId } },
     );
   }
 
-  async updatePostAddImage<T, R>(imagePath: string, postId: T, userId: R) {
-    return post.update(
+  async updatePostAddImage(
+    imagePath: string,
+    postId: number,
+    userId: number,
+  ): Promise<void> {
+    post.update(
       { imagePath: imagePath },
       { where: { id: postId, userId: userId } },
     );
+  }
+
+  async deletePostById(postId: number, userId: number): Promise<number> {
+    return post.destroy({ where: { id: postId, userId: userId } });
   }
 }

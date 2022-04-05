@@ -3,12 +3,13 @@ import "reflect-metadata";
 import comment from "../models/comment";
 import post from "../models/post";
 import user from "../models/user";
-import storage from "../models/storage";
-import post_category from "../models/post_category";
 
 @injectable()
 export class CommentData {
-  async findCommentByCommentIdAndUserId(commentId: number, userId: number) {
+  async findCommentByCommentIdAndUserId(
+    commentId: number,
+    userId: number,
+  ): Promise<comment | null> {
     return comment.findOne({
       where: {
         id: commentId,
@@ -17,14 +18,14 @@ export class CommentData {
     });
   }
 
-  async findAllOnlyCommentIdByUserId<T>(userId: T) {
+  async findAllOnlyCommentIdByUserId(userId: number): Promise<comment[]> {
     return comment.findAll({
       where: { userId },
       attributes: ["id"],
     });
   }
 
-  async findAllUserCommentByUserId(userId: number) {
+  async findAllUserCommentByUserId(userId: number): Promise<comment[]> {
     return comment.findAll({
       attributes: {
         exclude: ["createdAt", "updateTimestamp", "userId"],
@@ -45,7 +46,7 @@ export class CommentData {
     });
   }
 
-  async findAllPostCommentByPostId(postId: number) {
+  async findAllPostCommentByPostId(postId: number): Promise<comment[]> {
     return comment.findAll({
       attributes: {
         exclude: ["createdAt", "updateTimestamp", "userId"],
@@ -70,7 +71,7 @@ export class CommentData {
     userId: number,
     postId: number,
     contents: string,
-  ) {
+  ): Promise<comment> {
     return comment.create({
       userId: userId, // 댓글을 작성한 유저 아이디 값
       postId: postId, // 게시글 아이디
@@ -78,8 +79,11 @@ export class CommentData {
     });
   }
 
-  async updateCommentByCommentId(contents: string, commentId: number) {
-    return comment.update(
+  async updateCommentByCommentId(
+    contents: string,
+    commentId: number,
+  ): Promise<void> {
+    comment.update(
       {
         contents,
       },
@@ -89,8 +93,11 @@ export class CommentData {
     );
   }
 
-  async deleteCommentsByCommentIdAndUserId(commentId: number, userId: number) {
-    return comment.destroy({
+  async deleteCommentsByCommentIdAndUserId(
+    commentId: number,
+    userId: number,
+  ): Promise<void> {
+    comment.destroy({
       where: {
         id: commentId,
         userId: userId,

@@ -1,9 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { Socket } from "../connection/socket";
-
 import { Container } from "inversify";
 import { TYPES } from "../container/types";
-import { UserData } from "../data/userData";
 import { ChattingData } from "../data/chattingData";
 
 export class ChattingController {
@@ -13,7 +11,7 @@ export class ChattingController {
     this.container = myContainer;
   }
 
-  createChat = async (req: Request, res: Response) => {
+  createChat = async (req: Request, res: Response): Promise<void> => {
     const chattingRepository = this.container.get<ChattingData>(
       TYPES.chattingDB,
     );
@@ -25,10 +23,10 @@ export class ChattingController {
     const chatData = await chattingRepository.getChatById(chatId);
 
     Socket.getSocketIO().emit("chatting", chatData);
-    return res.status(201).json(chatData);
+    res.status(201).json(chatData);
   };
 
-  getChats = async (req: Request, res: Response) => {
+  getChats = async (req: Request, res: Response): Promise<void> => {
     const chattingRepository = this.container.get<ChattingData>(
       TYPES.chattingDB,
     );
@@ -39,7 +37,7 @@ export class ChattingController {
     res.status(200).json(data);
   };
 
-  getChat = async (req: Request, res: Response) => {
+  getChat = async (req: Request, res: Response): Promise<void> => {
     const chattingRepository = this.container.get<ChattingData>(
       TYPES.chattingDB,
     );
@@ -48,6 +46,7 @@ export class ChattingController {
     const chat = await chattingRepository.getChatById(id);
     if (chat) {
       res.status(200).json(chat);
+      return;
     } else {
       res
         .status(404)
@@ -55,7 +54,11 @@ export class ChattingController {
     }
   };
 
-  updateChat = async (req: Request, res: Response, next: NextFunction) => {
+  updateChat = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> => {
     const chattingRepository = this.container.get<ChattingData>(
       TYPES.chattingDB,
     );
@@ -65,18 +68,24 @@ export class ChattingController {
 
     const chat = await chattingRepository.getChatById(id);
     if (!chat) {
-      return res
+      res
         .status(404)
         .json({ message: `id: ${id} 는 존재하지 않는 메시지 입니다.` });
+      return;
     }
     if (chat.userId !== userId) {
-      return res.sendStatus(403);
+      res.sendStatus(403).json({ message: `user가 일치하지 않습니다.` });
+      return;
     }
-    const updated = await chattingRepository.updateChatById(id, contents);
-    return res.status(200).json(updated);
+    chattingRepository.updateChatById(id, contents);
+    res.status(200).json({ message: `메세지가 수정되었습니다.` });
   };
 
-  deleteChat = async (req: Request, res: Response, next: NextFunction) => {
+  deleteChat = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> => {
     const chattingRepository = this.container.get<ChattingData>(
       TYPES.chattingDB,
     );
@@ -85,13 +94,15 @@ export class ChattingController {
 
     const chat = await chattingRepository.getChatById(id);
     if (!chat) {
-      return res.status(404).json({ message: `Tweet not found: ${id}` });
+      res.status(404).json({ message: `Tweet not found: ${id}` });
+      return;
     }
     if (chat.userId !== userId) {
-      return res.sendStatus(403);
+      res.sendStatus(403).json({ message: `user가 일치하지 않습니다.` });
+      return;
     }
-    await chattingRepository.deleteChatById(id);
-    return res.sendStatus(204);
+    chattingRepository.deleteChatById(id);
+    res.sendStatus(204);
   };
 }
 
