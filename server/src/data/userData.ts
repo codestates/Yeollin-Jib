@@ -9,7 +9,7 @@ export class UserData {
     email: string,
     salt: string,
     encryptedPassword: string,
-  ) {
+  ): Promise<user> {
     // 일반 회원가입 시 - 로그인 타입 false, 소셜 로그인 시 - true
     return user.create({
       nickname,
@@ -20,17 +20,17 @@ export class UserData {
     });
   }
 
-  async findUserByUserId(userId: number) {
+  async findUserByUserId(userId: number): Promise<user | null> {
     return user.findOne({
       where: { id: userId },
     });
   }
 
-  async findUserByEmail<T>(email: T) {
+  async findUserByEmail(email: string): Promise<user | null> {
     return user.findOne({ where: { email: email } });
   }
 
-  async findUserByNickname<T>(nickname: T) {
+  async findUserByNickname(nickname: string): Promise<user | null> {
     return user.findOne({
       where: {
         nickname: nickname,
@@ -38,7 +38,7 @@ export class UserData {
     });
   }
 
-  async findAllUserById(userId: number) {
+  async findAllUserById(userId: number): Promise<user[]> {
     return user.findAll({
       where: { id: userId },
       attributes: [
@@ -52,8 +52,11 @@ export class UserData {
     });
   }
 
-  async updateUserNicknameByUserId<T, R>(nickname: T, userId: R) {
-    return user.update(
+  async updateUserNicknameByUserId(
+    nickname: string,
+    userId: number,
+  ): Promise<void> {
+    user.update(
       {
         nickname: nickname,
       },
@@ -61,12 +64,12 @@ export class UserData {
     );
   }
 
-  async updateUserPasswordByUserId<T>(
+  async updateUserPasswordByUserId(
     salt: string,
     newEncryptedPassword: string,
-    userId: T,
-  ) {
-    return user.update(
+    userId: number,
+  ): Promise<void> {
+    user.update(
       {
         salt: salt,
         password: newEncryptedPassword,
@@ -75,8 +78,11 @@ export class UserData {
     );
   }
 
-  async updateUserAreaByUserId<T, R>(userArea: T, userId: R) {
-    return user.update(
+  async updateUserAreaByUserId(
+    userArea: string,
+    userId: number,
+  ): Promise<void> {
+    user.update(
       {
         userArea: userArea,
       },
@@ -84,8 +90,11 @@ export class UserData {
     );
   }
 
-  async updateUserPhotoByUserId<T, R>(imagePath: T, userId: R) {
-    return user.update(
+  async updateUserPhotoByUserId(
+    imagePath: string,
+    userId: number,
+  ): Promise<void> {
+    user.update(
       { imagePath: imagePath },
       {
         where: { id: userId },
@@ -93,8 +102,8 @@ export class UserData {
     );
   }
 
-  async updateImagePathNullByUserId<T>(userId: T) {
-    return user.update(
+  async updateImagePathNullByUserId(userId: number): Promise<void> {
+    user.update(
       { imagePath: null },
       {
         where: { id: userId },
@@ -102,11 +111,11 @@ export class UserData {
     );
   }
 
-  async deleteUser<T>(userId: T) {
-    return user.destroy({ where: { id: userId } });
+  async deleteUser(userId: number): Promise<void> {
+    user.destroy({ where: { id: userId } });
   }
 
-  async createGoogleUser(userInfo: any) {
+  async createGoogleUser(userInfo: any): Promise<[user, boolean]> {
     return user.findOrCreate({
       where: {
         email: userInfo.data.email,
@@ -121,7 +130,7 @@ export class UserData {
     });
   }
 
-  async createKaKaoUser(userInfo: any) {
+  async createKaKaoUser(userInfo: any): Promise<[user, boolean]> {
     return user.findOrCreate({
       where: {
         email: userInfo.data.kakao_account.email,

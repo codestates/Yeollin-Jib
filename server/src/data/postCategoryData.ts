@@ -4,36 +4,45 @@ import post_category from "../models/post_category";
 
 @injectable()
 export class PostCategoryData {
-  async createPostCategory<T, R>(postId: T, categoryId: R) {
+  async createPostCategory(postId: number, categoryId: number): Promise<void> {
+    post_category.create({
+      postId: postId,
+      categoryId: categoryId,
+    });
+  }
+
+  async findPostCategory(
+    postId: number,
+    categoryId: number,
+  ): Promise<post_category> {
     return post_category.create({
       postId: postId,
       categoryId: categoryId,
     });
   }
 
-  async findPostCategory<T, R>(postId: T, categoryId: R) {
-    return post_category.create({
-      postId: postId,
-      categoryId: categoryId,
-    });
-  }
-
-  async updateFalsePostCategory<T, R>(postId: T, categoryId: R) {
-    return post_category.update(
+  async updateFalsePostCategory(
+    postId: number,
+    categoryId: number,
+  ): Promise<void> {
+    post_category.update(
       { Boolean: false },
       { where: { postId: postId, categoryId: categoryId } },
     );
   }
 
-  async updateTruePostCategory<T, R>(postId: T, categoryId: R) {
-    return post_category.update(
+  async updateTruePostCategory(
+    postId: number,
+    categoryId: number,
+  ): Promise<void> {
+    post_category.update(
       { Boolean: true },
       { where: { postId: postId, categoryId: categoryId } },
     );
   }
 
-  async deletePostCategoryByPostId<T>(postId: T) {
-    return post_category.destroy({
+  async deletePostCategoryByPostId(postId: number): Promise<void> {
+    post_category.destroy({
       where: { postId: postId },
     });
   }

@@ -10,7 +10,7 @@ export class InquireController {
     (this.nodemailer = nodemailer), (this.mailGun = mailGun);
   }
 
-  sendInquire = async (req: Request, res: Response) => {
+  sendInquire = async (req: Request, res: Response): Promise<void> => {
     const { email, title, contents } = req.body;
 
     const auth = {
@@ -32,7 +32,8 @@ export class InquireController {
     transporter.sendMail(mailOptions, (err, data) => {
       if (err) {
         console.log(err);
-        return res.status(501).json({ message: "서버에러 입니다." });
+        res.status(501).json({ message: "서버에러 입니다." });
+        return;
       }
       res.status(200).json({
         data,

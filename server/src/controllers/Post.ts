@@ -15,7 +15,7 @@ export class PostController {
     this.fs = fsModule;
   }
 
-  createPost = async (req: Request, res: Response) => {
+  createPost = async (req: Request, res: Response): Promise<void> => {
     const postRepository = this.container.get<PostData>(TYPES.postDB);
     const postCategoryRepository = this.container.get<PostCategoryData>(
       TYPES.postCategoryDB,
@@ -56,9 +56,10 @@ export class PostController {
       latitude,
       longitude,
     );
-    if (!postCreate)
-      return res.status(400).send({ message: "게시글이 생성되지 않았습니다." });
-
+    if (!postCreate) {
+      res.status(400).send({ message: "게시글이 생성되지 않았습니다." });
+      return;
+    }
     const postId = postCreate.id;
     const arrayCategory1: number[] = category1.split(",");
     const arrayCategory2: number[] = category2.split(",");
@@ -72,25 +73,26 @@ export class PostController {
       postCategoryRepository.createPostCategory(postId, findCategoryId!.id);
     }
 
-    return res
+    res
       .status(201)
       .json({ postId: postId, message: "게시글이 생성되었습니다." });
   };
 
-  deletePost = async (req: Request, res: Response) => {
+  deletePost = async (req: Request, res: Response): Promise<void> => {
     const postRepository = this.container.get<PostData>(TYPES.postDB);
     const userId: number = req.cookies.id;
     const postId: number = Number(req.params.postId);
 
     const postDelete = await postRepository.deletePostById(postId, userId);
     if (!postDelete) {
-      return res.status(404).json({ message: "삭제하려는 게시물이 없습니다." });
+      res.status(404).json({ message: "삭제하려는 게시물이 없습니다." });
+      return;
     }
 
-    return res.status(201).json({ message: "게시물이 삭제되었습니다." });
+    res.status(201).json({ message: "게시물이 삭제되었습니다." });
   };
 
-  patchCategory = async (req: Request, res: Response) => {
+  patchCategory = async (req: Request, res: Response): Promise<void> => {
     const postRepository = this.container.get<PostData>(TYPES.postDB);
     const postCategoryRepository = this.container.get<PostCategoryData>(
       TYPES.postCategoryDB,
@@ -98,9 +100,10 @@ export class PostController {
     const { postId, categoryId } = req.body;
 
     if (!(await postRepository.findPostByPostId(postId))) {
-      return res
+      res
         .status(404)
         .send({ message: "카테고리를 변경하려는 게시물이 없습니다." });
+      return;
     }
 
     const arrayCategoryId = categoryId.split(",");
@@ -127,7 +130,7 @@ export class PostController {
     res.status(200).send({ message: "정보 수정이 완료되었습니다" });
   };
 
-  patch = async (req: Request, res: Response) => {
+  patch = async (req: Request, res: Response): Promise<void> => {
     const postRepository = this.container.get<PostData>(TYPES.postDB);
     const postCategoryRepository = this.container.get<PostCategoryData>(
       TYPES.postCategoryDB,
@@ -136,7 +139,7 @@ export class PostController {
       TYPES.categoryDB,
     );
     const userId: number = req.cookies.id;
-    const postId: string = req.params.postId;
+    const postId: number = Number(req.params.postId);
     const images: any = req.files;
     let imagesArray;
     let addImagePath;
@@ -216,7 +219,7 @@ export class PostController {
     res.status(200).json({ message: "정보 수정이 완료되었습니다" });
   };
 
-  getAllPost = async (req: Request, res: Response) => {
+  getAllPost = async (req: Request, res: Response): Promise<void> => {
     const postRepository = this.container.get<PostData>(TYPES.postDB);
     const pageNum: number = Number(req.params.pageNum);
 
@@ -228,15 +231,14 @@ export class PostController {
     const postData = await postRepository.findAllEgithPostsByOffset(offset);
 
     if (postData.rows.length === 0) {
-      return res
-        .status(404)
-        .send({ message: "더 이상 조회할 게시물이 없습니다." });
+      res.status(404).send({ message: "더 이상 조회할 게시물이 없습니다." });
+      return;
     }
 
-    return res.status(200).send({ postGet: postData });
+    res.status(200).send({ postGet: postData });
   };
 
-  getPostUser = async (req: Request, res: Response) => {
+  getPostUser = async (req: Request, res: Response): Promise<void> => {
     const postRepository = this.container.get<PostData>(TYPES.postDB);
     const userId: number = req.cookies.id;
     const pageNum: number = Number(req.params.pageNum);
@@ -252,15 +254,14 @@ export class PostController {
     );
 
     if (postData.rows.length === 0) {
-      return res
-        .status(404)
-        .send({ message: "더 이상 조회할 게시물이 없습니다." });
+      res.status(404).send({ message: "더 이상 조회할 게시물이 없습니다." });
+      return;
     }
 
     res.status(200).send({ postGet: postData });
   };
 
-  getCategory = async (req: Request, res: Response) => {
+  getCategory = async (req: Request, res: Response): Promise<void> => {
     const postRepository = this.container.get<PostData>(TYPES.postDB);
     const categoryRepository = this.container.get<CategoryData>(
       TYPES.categoryDB,
@@ -290,14 +291,13 @@ export class PostController {
     );
 
     if (postData.rows.length === 0) {
-      return res
-        .status(404)
-        .send({ message: "더이상 조회할 게시물이 없습니다." });
+      res.status(404).send({ message: "더이상 조회할 게시물이 없습니다." });
+      return;
     }
     res.status(200).send({ postGet: postData });
   };
 
-  getSearchForPost = async (req: Request, res: Response) => {
+  getSearchForPost = async (req: Request, res: Response): Promise<void> => {
     const postRepository = this.container.get<PostData>(TYPES.postDB);
     const pageNum: number = Number(req.query.page);
     const code = req.query.code; //title or address
@@ -319,14 +319,13 @@ export class PostController {
     }
 
     if (postData?.rows.length === 0) {
-      return res
-        .status(404)
-        .send({ message: "더이상 조회할 게시물이 없습니다." });
+      res.status(404).send({ message: "더이상 조회할 게시물이 없습니다." });
+      return;
     }
-    return res.status(200).send({ postGet: postData });
+    res.status(200).send({ postGet: postData });
   };
 
-  getPost = async (req: Request, res: Response) => {
+  getPost = async (req: Request, res: Response): Promise<void> => {
     const postRepository = this.container.get<PostData>(TYPES.postDB);
     const storageRepository = this.container.get<StorageData>(TYPES.storageDB);
     const postId: number = Number(req.params.postId);
@@ -337,12 +336,13 @@ export class PostController {
     const postData = await postRepository.readPostByPostId(postId);
 
     if (!postData) {
-      return res
+      res
         .status(404)
         .json({ message: "이미 삭제된 게시글이거나 없는 게시글 입니다." });
+      return;
     }
 
-    return res
+    res
       .status(200)
       .json({ postLike: postStorageData.length, postGet: postData });
   };

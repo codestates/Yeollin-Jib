@@ -1,8 +1,4 @@
 import { Request, Response } from "express";
-import user from "../models/user";
-import post from "../models/post";
-import comment from "../models/comment";
-
 import { TYPES } from "../container/types";
 import { Container } from "inversify";
 import { UserData } from "../data/userData";
@@ -16,7 +12,7 @@ export class CommentsController {
     this.container = myContainer;
   }
 
-  getUserComment = async (req: Request, res: Response) => {
+  getUserComment = async (req: Request, res: Response): Promise<void> => {
     const commentRepository = this.container.get<CommentData>(TYPES.commentDB);
     const userId: number = Number(req.cookies.id);
 
@@ -30,7 +26,7 @@ export class CommentsController {
       });
   };
 
-  getPostComment = async (req: Request, res: Response) => {
+  getPostComment = async (req: Request, res: Response): Promise<void> => {
     const commentRepository = this.container.get<CommentData>(TYPES.commentDB);
     const userId: number = Number(req.cookies.id);
     const postId: number = Number(req.params.postId);
@@ -45,12 +41,18 @@ export class CommentsController {
       });
   };
 
-  postComment = async (req: Request, res: Response) => {
+  postComment = async (req: Request, res: Response): Promise<void> => {
     const userRepository = this.container.get<UserData>(TYPES.userDB);
+    const postRepository = this.container.get<PostData>(TYPES.postDB);
     const commentRepository = this.container.get<CommentData>(TYPES.commentDB);
     const postId: number = Number(req.params.postId);
     const userId: number = Number(req.cookies.id);
     const { contents } = req.body;
+
+    if (!(await postRepository.findPostByPostId(postId))) {
+      res.status(404).json({ message: "게시물이 없습니다." });
+      return;
+    }
 
     const userInfo = await userRepository.findUserByUserId(userId);
 
@@ -61,7 +63,7 @@ export class CommentsController {
     );
 
     Promise.all([userInfo, data]).then(() => {
-      return res.status(200).json({
+      res.status(200).json({
         data,
         user: {
           nickname: userInfo!.nickname,
@@ -71,7 +73,7 @@ export class CommentsController {
     });
   };
 
-  patchComment = async (req: Request, res: Response) => {
+  patchComment = async (req: Request, res: Response): Promise<void> => {
     const userRepository = this.container.get<UserData>(TYPES.userDB);
     const commentRepository = this.container.get<CommentData>(TYPES.commentDB);
     const userId: number = Number(req.cookies.id);
@@ -84,9 +86,10 @@ export class CommentsController {
       userId,
     );
     if (!commentInfo) {
-      return res.status(404).json({
+      res.status(404).json({
         message: "이미 삭제 되었거나 존재하지 않는 댓글입니다.",
       });
+      return;
     }
 
     const updateComment = await commentRepository.updateCommentByCommentId(
@@ -102,7 +105,7 @@ export class CommentsController {
     };
 
     Promise.all([userInfo, commentInfo, updateComment]).then(() => {
-      return res.status(200).json({
+      res.status(200).json({
         comment: payload,
         nickname: userInfo!.nickname,
         message: "댓글이 성공적으로 수정되었습니다.",
@@ -110,7 +113,7 @@ export class CommentsController {
     });
   };
 
-  deleteComment = async (req: Request, res: Response) => {
+  deleteComment = async (req: Request, res: Response): Promise<void> => {
     const commentRepository = this.container.get<CommentData>(TYPES.commentDB);
     const commentId: number = Number(req.params.commentId);
     const userId: number = Number(req.cookies.id);
@@ -121,14 +124,13 @@ export class CommentsController {
     );
 
     if (!commentInfo) {
-      return res.status(404).json({
+      res.status(404).json({
         message: "이미 삭제 되었거나 존재하지 않는 댓글입니다.",
       });
+      return;
     }
 
     commentRepository.deleteCommentsByCommentIdAndUserId(commentId, userId);
-    return res
-      .status(200)
-      .json({ message: "댓글이 성공적으로 삭제되었습니다." });
+    res.status(200).json({ message: "댓글이 성공적으로 삭제되었습니다." });
   };
 }
