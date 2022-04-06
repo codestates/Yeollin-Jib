@@ -1,0 +1,21 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.myContainer = void 0;
+const inversify_1 = require("inversify");
+const userData_1 = require("../data/userData");
+const postData_1 = require("../data/postData");
+const postCategoryData_1 = require("../data/postCategoryData");
+const categoryData_1 = require("../data/categoryData");
+const storageData_1 = require("../data/storageData");
+const commentData_1 = require("../data/commentData");
+const chattingData_1 = require("../data/chattingData");
+const types_1 = require("./types");
+exports.myContainer = new inversify_1.Container();
+exports.myContainer.bind(types_1.TYPES.userDB).to(userData_1.UserData);
+exports.myContainer.bind(types_1.TYPES.postDB).to(postData_1.PostData);
+exports.myContainer.bind(types_1.TYPES.postCategoryDB).to(postCategoryData_1.PostCategoryData);
+exports.myContainer.bind(types_1.TYPES.categoryDB).to(categoryData_1.CategoryData);
+exports.myContainer.bind(types_1.TYPES.commentDB).to(commentData_1.CommentData);
+exports.myContainer.bind(types_1.TYPES.storageDB).to(storageData_1.StorageData);
+exports.myContainer.bind(types_1.TYPES.chattingDB).to(chattingData_1.ChattingData);
+//# sourceMappingURL=inversify.config.js.map

@@ -1,7 +1,7 @@
 # dependencies
 /node_modules
-/dist
 /coverage
+
 # misc
 /public/uploads
 .DS_Store
