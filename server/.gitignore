@@ -1,11 +1,12 @@
 # dependencies
 /node_modules
 /dist
-
+/coverage
 # misc
 /public/uploads
 .DS_Store
 .env
+.env.test
 .env.local
 .env.development.local
 .env.test.local
